@@ -6,6 +6,8 @@ import json
 import time
 import hashlib
 import datetime
+import uuid
+import zipfile
 from typing import List, Dict, Tuple, Optional, Any
 
 import fitz  # PyMuPDF
@@ -658,7 +660,10 @@ if FASTAPI_AVAILABLE:
         .badge-valid { background: rgba(16, 185, 129, 0.2); color: var(--success); padding: 2px 8px; border-radius: 4px; font-size: 0.8rem; }
         .badge-invalid { background: rgba(239, 68, 68, 0.2); color: var(--danger); padding: 2px 8px; border-radius: 4px; font-size: 0.8rem; }
 
-        .hidden { display: none; }
+        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); z-index: 100; display: flex; justify-content: center; align-items: center; }
+        .modal-content { background: var(--card); padding: 2rem; border-radius: 12px; max-width: 600px; width: 100%; border: 1px solid var(--border); box-shadow: 0 10px 25px rgba(0,0,0,0.5); }
+
+        .hidden { display: none !important; }
     </style>
 </head>
 <body>
@@ -709,19 +714,31 @@ if FASTAPI_AVAILABLE:
                 <div class="drop-zone" id="drop-zone" onclick="document.getElementById('file-input').click()">
                     <div style="font-size: 2.5rem; margin-bottom: 0.5rem;">📁</div>
                     <div style="font-weight: 600; font-size: 1.1rem;">Click or Drag & Drop Document Here</div>
-                    <div style="color: var(--muted); font-size: 0.85rem; margin-top: 6px;">Supports .pdf, .docx, .png, .jpg, .txt, .csv</div>
-                    <input type="file" id="file-input" class="hidden" onchange="handleFileSelect(event)">
+                    <div style="color: var(--muted); font-size: 0.85rem; margin-top: 6px;">Supports .pdf, .docx, .png, .jpg, .txt (Batch processing enabled)</div>
+                    <input type="file" id="file-input" class="hidden" multiple onchange="handleFileSelect(event)">
                 </div>
 
                 <div id="doc-results" class="results-box hidden">
                     <div style="display: flex; justify-content: space-between; align-items: center;">
                         <h3 style="color: #fff; font-size: 1.1rem;">Sanitization Complete</h3>
-                        <a id="download-link" class="btn btn-success" download>⬇️ Download Redacted Document</a>
                     </div>
                     <div style="margin-top: 1rem;">
-                        <p style="color: var(--muted); font-size: 0.9rem;">Entities Found & Masked:</p>
-                        <div id="entity-tags-container" style="margin-top: 0.5rem;"></div>
+                        <p style="color: var(--muted); font-size: 0.9rem;">Batch Processing Summary:</p>
+                        <div id="entity-tags-container" style="margin-top: 0.5rem; max-height: 200px; overflow-y: auto;"></div>
                     </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- REVIEW MODAL -->
+        <div id="review-modal" class="modal-overlay hidden">
+            <div class="modal-content">
+                <h2>Interactive Review</h2>
+                <p class="subtitle" style="margin-bottom: 1rem;">Please review the redaction summary before downloading the sanitized batch.</p>
+                <div id="review-summary" style="background: var(--bg); padding: 1rem; border-radius: 8px; max-height: 250px; overflow-y: auto; margin-bottom: 1.5rem;"></div>
+                <div style="display: flex; justify-content: space-between;">
+                    <button class="btn" style="background: var(--border);" onclick="document.getElementById('review-modal').classList.add('hidden')">Cancel & Discard</button>
+                    <a id="modal-download-link" class="btn btn-success" download onclick="document.getElementById('review-modal').classList.add('hidden')">✓ Approve & Download Secure .zip</a>
                 </div>
             </div>
         </div>
@@ -781,19 +798,21 @@ if FASTAPI_AVAILABLE:
         }
 
         async function handleFileSelect(e) {
-            const file = e.target.files[0];
-            if (!file) return;
+            const files = e.target.files;
+            if (!files.length) return;
 
             const profile = document.getElementById('doc-profile').value;
             const strategy = document.getElementById('doc-strategy').value;
 
             const formData = new FormData();
-            formData.append('file', file);
+            for (let i = 0; i < files.length; i++) {
+                formData.append('files', files[i]);
+            }
             formData.append('profile', profile);
             formData.append('strategy', strategy);
 
             const dropZone = document.getElementById('drop-zone');
-            dropZone.innerHTML = '<div style="font-size: 2.5rem;">⏳</div><div>Processing & Redacting Document...</div>';
+            dropZone.innerHTML = '<div style="font-size: 2.5rem;">⏳</div><div>Batch Processing & Redacting...</div>';
 
             try {
                 const res = await fetch('/sanitize/document', { method: 'POST', body: formData });
@@ -801,21 +820,35 @@ if FASTAPI_AVAILABLE:
 
                 dropZone.innerHTML = '<div style="font-size: 2.5rem;">📁</div><div style="font-weight:600;">Click or Drag & Drop Document Here</div>';
 
-                document.getElementById('doc-results').classList.remove('hidden');
-                document.getElementById('download-link').href = data.download_url;
-
+                // Setup modal content
+                const reviewSummary = document.getElementById('review-summary');
                 const tagsDiv = document.getElementById('entity-tags-container');
+                reviewSummary.innerHTML = '';
                 tagsDiv.innerHTML = '';
-                if (data.entities && data.entities.length > 0) {
-                    data.entities.forEach(ent => {
-                        const tag = document.createElement('span');
-                        tag.className = 'entity-tag';
-                        tag.innerText = ent[1] + ': ' + ent[0];
-                        tagsDiv.appendChild(tag);
-                    });
-                } else {
-                    tagsDiv.innerHTML = '<span style="color:var(--muted); font-size:0.9rem;">No PII/PHI entities detected. Document layout clean.</span>';
-                }
+                
+                document.getElementById('doc-results').classList.remove('hidden');
+                document.getElementById('modal-download-link').href = data.download_url;
+
+                let summaryHtml = '';
+                
+                data.results.forEach(resItem => {
+                    let tagsHtml = `<div style="margin-bottom: 1rem;"><strong style="color: #fff;">${resItem.file_name}</strong><br>`;
+                    if (resItem.entities && resItem.entities.length > 0) {
+                        resItem.entities.forEach(ent => {
+                            const tagStr = `<span class="entity-tag">${ent[1]}: ${ent[0]}</span>`;
+                            tagsHtml += tagStr;
+                            tagsDiv.innerHTML += tagStr; // Also show on main page
+                        });
+                    } else {
+                        tagsHtml += '<span style="color:var(--muted); font-size:0.9rem;">No PII/PHI detected.</span>';
+                    }
+                    tagsHtml += `</div>`;
+                    summaryHtml += tagsHtml;
+                });
+                
+                reviewSummary.innerHTML = summaryHtml;
+                document.getElementById('review-modal').classList.remove('hidden');
+
             } catch (err) {
                 alert('Sanitization failed: ' + err);
                 dropZone.innerHTML = '<div style="font-size: 2.5rem;">📁</div><div style="font-weight:600;">Click or Drag & Drop Document Here</div>';
@@ -931,7 +964,7 @@ if FASTAPI_AVAILABLE:
 
     @app.post("/sanitize/document")
     async def sanitize_document(
-        file: UploadFile = File(...),
+        files: List[UploadFile] = File(...),
         profile: Optional[str] = Form(None),
         strategy: Optional[str] = Form("redact")
     ):
@@ -940,61 +973,73 @@ if FASTAPI_AVAILABLE:
 
         temp_dir = "temp_uploads"
         os.makedirs(temp_dir, exist_ok=True)
+        session_id = str(uuid.uuid4())
+        session_dir = os.path.join(temp_dir, session_id)
+        os.makedirs(session_dir, exist_ok=True)
 
-        input_filename = file.filename
-        input_path = os.path.join(temp_dir, f"raw_{input_filename}")
-        
-        # Read bytes
-        content_bytes = await file.read()
-        with open(input_path, "wb") as f:
-            f.write(content_bytes)
+        results = []
+        zip_path = os.path.join(temp_dir, f"PrivGuard_Sanitized_{session_id[:8]}.zip")
 
-        ext = os.path.splitext(input_filename)[1].lower()
-        base_name = os.path.splitext(input_filename)[0]
-        out_filename = f"redacted_{base_name}{ext}"
-        output_path = os.path.join(temp_dir, out_filename)
+        with zipfile.ZipFile(zip_path, 'w', zipfile.ZIP_DEFLATED) as zipf:
+            for file in files:
+                input_filename = file.filename
+                input_path = os.path.join(session_dir, f"raw_{input_filename}")
+                
+                content_bytes = await file.read()
+                with open(input_path, "wb") as f:
+                    f.write(content_bytes)
 
-        extracted_text = extract_document_text(input_path)
-        pii_entities = detect_pii(extracted_text, prof)
+                ext = os.path.splitext(input_filename)[1].lower()
+                base_name = os.path.splitext(input_filename)[0]
+                out_filename = f"redacted_{base_name}{ext}"
+                output_path = os.path.join(session_dir, out_filename)
 
-        faces_count = 0
-        success = False
+                extracted_text = extract_document_text(input_path)
+                pii_entities = detect_pii(extracted_text, prof)
 
-        if ext == ".pdf":
-            success = redact_pdf_document(input_path, output_path, pii_entities, strat)
-        elif ext in [".png", ".jpg", ".jpeg", ".bmp", ".tiff"]:
-            pii_entities, faces_count = redact_image_document(input_path, output_path, prof, strat)
-            success = True
-        elif ext in [".docx", ".doc"]:
-            success = redact_docx_document(input_path, output_path, pii_entities, strat)
-        else:
-            success = redact_txt_document(input_path, output_path, pii_entities, strat)
+                faces_count = 0
+                success = False
 
-        output_bytes = b""
-        if success and os.path.exists(output_path):
-            with open(output_path, "rb") as f:
-                output_bytes = f.read()
+                if ext == ".pdf":
+                    success = redact_pdf_document(input_path, output_path, pii_entities, strat)
+                elif ext in [".png", ".jpg", ".jpeg", ".bmp", ".tiff"]:
+                    pii_entities, faces_count = redact_image_document(input_path, output_path, prof, strat)
+                    success = True
+                elif ext in [".docx", ".doc"]:
+                    success = redact_docx_document(input_path, output_path, pii_entities, strat)
+                else:
+                    success = redact_txt_document(input_path, output_path, pii_entities, strat)
 
-        # Record transaction to cryptographic audit ledger
-        ledger_instance.record_transaction(
-            file_name=input_filename,
-            file_type=ext.replace(".", ""),
-            profile=prof,
-            strategy=strat,
-            pii_entities=pii_entities,
-            input_bytes=content_bytes,
-            output_bytes=output_bytes
-        )
+                output_bytes = b""
+                if success and os.path.exists(output_path):
+                    with open(output_path, "rb") as f:
+                        output_bytes = f.read()
+                    # Add to zip
+                    zipf.write(output_path, out_filename)
+
+                # Record transaction to cryptographic audit ledger
+                ledger_instance.record_transaction(
+                    file_name=input_filename,
+                    file_type=ext.replace(".", ""),
+                    profile=prof,
+                    strategy=strat,
+                    pii_entities=pii_entities,
+                    input_bytes=content_bytes,
+                    output_bytes=output_bytes
+                )
+
+                results.append({
+                    "file_name": input_filename,
+                    "entities_found": len(pii_entities),
+                    "entities": pii_entities
+                })
 
         return JSONResponse({
             "status": "success",
-            "file_name": input_filename,
             "profile_used": prof,
             "strategy_used": strat,
-            "entities_found": len(pii_entities),
-            "faces_redacted": faces_count,
-            "entities": pii_entities,
-            "download_url": f"/download/{out_filename}"
+            "results": results,
+            "download_url": f"/download/batch/{os.path.basename(zip_path)}"
         })
 
     @app.get("/download/{filename}")
@@ -1003,6 +1048,13 @@ if FASTAPI_AVAILABLE:
         if os.path.exists(path):
             return FileResponse(path, filename=filename)
         raise HTTPException(status_code=404, detail="Redacted document not found.")
+
+    @app.get("/download/batch/{filename}")
+    def download_batch(filename: str):
+        path = os.path.join("temp_uploads", filename)
+        if os.path.exists(path):
+            return FileResponse(path, filename=filename, media_type="application/zip")
+        raise HTTPException(status_code=404, detail="Batch zip file not found.")
 
 # ==========================================
 # CLI INTERFACE
