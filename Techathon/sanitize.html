@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PrivacyGuard AI - Sanitize Document</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        mono: ['ui-monospace', 'SFMono-Regular', 'Menlo', 'Monaco', 'Consolas', "Liberation Mono", "Courier New", 'monospace'],
+                    },
+                    colors: {
+                        primary: '#6366f1',
+                        secondary: '#8b5cf6',
+                        background: '#f8fafc',
+                        surface: '#ffffff',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            background-color: #f8fafc;
+        }
+        .gradient-text {
+            background: linear-gradient(to right, #4f46e5, #7c3aed);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .gradient-bg {
+            background: linear-gradient(to right, #6366f1, #8b5cf6);
+        }
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 6px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background-color: #cbd5e1;
+            border-radius: 20px;
+        }
+        .highlight-red {
+            background-color: #fee2e2;
+            color: #991b1b;
+            padding: 0 4px;
+            border-radius: 4px;
+        }
+        .highlight-green {
+            background-color: #dcfce7;
+            color: #166534;
+            padding: 0 4px;
+            border-radius: 4px;
+            font-weight: 500;
+        }
+    </style>
+</head>
+<body class="text-slate-800 font-sans flex h-screen overflow-hidden">
+
+    <!-- Sidebar -->
+    <aside class="w-64 bg-white border-r border-slate-200 flex flex-col h-full shrink-0">
+        <!-- Logo -->
+        <div class="p-6 flex items-center gap-3">
+            <div class="w-10 h-10 rounded-lg gradient-bg flex items-center justify-center text-white shadow-lg">
+                <i class="fa-solid fa-shield-halved text-xl"></i>
+            </div>
+            <div>
+                <h1 class="font-bold text-lg leading-tight">PrivacyGuard AI</h1>
+                <p class="text-xs text-slate-500">Medical Data Protection</p>
+            </div>
+        </div>
+
+        <!-- Navigation -->
+        <nav class="flex-1 px-4 space-y-1 overflow-y-auto">
+            <a href="index.html" class="flex items-center gap-3 px-4 py-3 rounded-xl text-slate-600 hover:bg-slate-50 hover:text-slate-900 transition-colors">
+                <i class="fa-solid fa-house w-5 text-center"></i>
+                Dashboard
+            </a>
+            <!-- Active State -->
+            <a href="sanitize.html" class="flex items-center gap-3 px-4 py-3 rounded-xl bg-indigo-50 text-indigo-600 font-medium">
+                <i class="fa-solid fa-shield-virus w-5 text-center"></i>
+                Sanitize Document
+            </a>
+            <a href="history.html" class="flex items-center gap-3 px-4 py-3 rounded-xl text-slate-600 hover:bg-slate-50 hover:text-slate-900 transition-colors">
+                <i class="fa-regular fa-clock w-5 text-center"></i>
+                History
+            </a>
+            <a href="audit_logs.html" class="flex items-center gap-3 px-4 py-3 rounded-xl text-slate-600 hover:bg-slate-50 hover:text-slate-900 transition-colors">
+                <i class="fa-solid fa-clipboard-list w-5 text-center"></i>
+                Audit Logs
+            </a>
+            <a href="reports.html" class="flex items-center gap-3 px-4 py-3 rounded-xl text-slate-600 hover:bg-slate-50 hover:text-slate-900 transition-colors">
+                <i class="fa-solid fa-chart-pie w-5 text-center"></i>
+                Reports
+            </a>
+            <a href="api_access.html" class="flex items-center gap-3 px-4 py-3 rounded-xl text-slate-600 hover:bg-slate-50 hover:text-slate-900 transition-colors">
+                <i class="fa-solid fa-code w-5 text-center"></i>
+                API Access
+            </a>
+            <a href="settings.html" class="flex items-center gap-3 px-4 py-3 rounded-xl text-slate-600 hover:bg-slate-50 hover:text-slate-900 transition-colors">
+                <i class="fa-solid fa-gear w-5 text-center"></i>
+                Settings
+            </a>
+        </nav>
+
+        <!-- Sidebar Footer Cards -->
+        <div class="p-4 space-y-4">
+            <div class="bg-indigo-50/50 rounded-2xl p-4 relative overflow-hidden">
+                <div class="absolute top-0 right-0 -mr-4 -mt-4 w-16 h-16 bg-indigo-100 rounded-full opacity-50 blur-xl"></div>
+                <div class="w-10 h-10 rounded-xl gradient-bg flex items-center justify-center text-white mb-3 shadow-md">
+                    <i class="fa-solid fa-shield-check"></i>
+                </div>
+                <h3 class="font-semibold text-sm mb-1">Your Data is Safe</h3>
+                <p class="text-xs text-slate-500 mb-3">We ensure end-to-end security and never store your documents.</p>
+                <a href="#" class="text-xs text-indigo-600 font-medium flex items-center gap-1">Learn more <i class="fa-solid fa-arrow-right"></i></a>
+            </div>
+
+            <div class="bg-emerald-50 rounded-xl p-3 flex items-center gap-2 border border-emerald-100">
+                <i class="fa-regular fa-circle-check text-emerald-500"></i>
+                <span class="text-xs font-medium text-emerald-700">Secure Connection</span>
+            </div>
+        </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="flex-1 flex flex-col h-full overflow-y-auto p-6 md:p-8">
+        
+        <!-- Header -->
+        <header class="flex justify-between items-start mb-6">
+            <div class="flex items-center gap-3">
+                <div class="w-8 h-8 rounded-full bg-indigo-100 text-indigo-600 flex items-center justify-center">
+                    <i class="fa-solid fa-shield-virus"></i>
+                </div>
+                <div>
+                    <h2 class="text-2xl font-bold text-slate-900 leading-tight">Sanitize Document</h2>
+                    <p class="text-sm text-slate-500 mt-0.5">Remove or mask sensitive information from your documents</p>
+                </div>
+            </div>
+            <div class="flex items-center gap-3">
+                <button class="flex items-center gap-2 px-4 py-2 bg-white border border-slate-200 rounded-lg text-sm font-medium hover:bg-slate-50">
+                    <i class="fa-regular fa-sun"></i> Light
+                </button>
+                <button class="relative p-2 bg-white border border-slate-200 rounded-lg text-slate-600 hover:bg-slate-50 w-10 h-10 flex items-center justify-center">
+                    <i class="fa-regular fa-bell"></i>
+                    <span class="absolute top-1 right-1 w-2.5 h-2.5 bg-red-500 rounded-full border-2 border-white"></span>
+                </button>
+                <button class="flex items-center gap-2 px-4 py-2 bg-indigo-600 text-white rounded-lg text-sm font-medium hover:bg-indigo-700 shadow-sm">
+                    <i class="fa-solid fa-download"></i> Export Report
+                </button>
+            </div>
+        </header>
+
+        <!-- Top Section (Upload & Options) -->
+        <div class="flex gap-6 mb-6">
+            
+            <!-- Drag & Drop Area -->
+            <div class="flex-1 bg-white rounded-2xl border border-dashed border-slate-300 flex flex-col items-center justify-center py-12 px-6 shadow-sm hover:bg-slate-50/50 transition-colors">
+                <div class="w-16 h-16 bg-indigo-50 rounded-full flex items-center justify-center text-indigo-500 mb-4">
+                    <i class="fa-solid fa-cloud-arrow-up text-3xl"></i>
+                </div>
+                <h3 class="text-lg font-semibold text-slate-800 mb-1">Drag & Drop your file here</h3>
+                <p class="text-sm text-slate-500 mb-6">Supports PDF, PNG, JPG up to 50MB</p>
+                <button class="px-6 py-2.5 bg-indigo-600 text-white rounded-lg font-medium shadow-sm hover:bg-indigo-700 flex items-center gap-2 mb-4">
+                    <i class="fa-regular fa-folder-open"></i> Browse Files
+                </button>
+                <button class="text-sm text-slate-500 hover:text-slate-700 font-medium flex items-center gap-1.5">
+                    Or paste image <i class="fa-regular fa-clipboard"></i>
+                </button>
+            </div>
+
+            <!-- Sanitization Options -->
+            <div class="w-80 bg-white rounded-2xl border border-slate-200 shadow-sm p-5 flex flex-col">
+                <div class="flex items-center gap-2 mb-5">
+                    <i class="fa-solid fa-gear text-slate-400"></i>
+                    <h3 class="font-bold text-slate-800 text-sm">Sanitization Options</h3>
+                </div>
+
+                <div class="mb-5">
+                    <h4 class="text-xs font-semibold text-slate-500 mb-3">Masking Strategy</h4>
+                    <div class="flex gap-2">
+                        <label class="flex-1 flex items-center gap-2 px-3 py-2 bg-indigo-50 border border-indigo-200 rounded-lg cursor-pointer">
+                            <input type="radio" name="masking" checked class="text-indigo-600 focus:ring-indigo-500 w-3.5 h-3.5">
+                            <span class="text-xs font-medium text-indigo-700">Redact</span>
+                        </label>
+                        <label class="flex-1 flex items-center gap-2 px-3 py-2 bg-white border border-slate-200 rounded-lg cursor-pointer hover:bg-slate-50">
+                            <input type="radio" name="masking" class="text-indigo-600 focus:ring-indigo-500 w-3.5 h-3.5">
+                            <span class="text-xs font-medium text-slate-600">Blur</span>
+                        </label>
+                        <label class="flex-1 flex items-center gap-2 px-3 py-2 bg-white border border-slate-200 rounded-lg cursor-pointer hover:bg-slate-50">
+                            <input type="radio" name="masking" class="text-indigo-600 focus:ring-indigo-500 w-3.5 h-3.5">
+                            <span class="text-xs font-medium text-slate-600">Anonymize</span>
+                        </label>
+                    </div>
+                </div>
+
+                <div class="mb-6 flex-1">
+                    <h4 class="text-xs font-semibold text-slate-500 mb-3">Detection Categories</h4>
+                    <div class="grid grid-cols-2 gap-y-3 gap-x-2">
+                        <label class="flex items-center gap-2 cursor-pointer">
+                            <input type="checkbox" checked class="rounded text-indigo-600 focus:ring-indigo-500 w-3.5 h-3.5 border-slate-300">
+                            <span class="text-xs text-slate-700">Personal Identifiers</span>
+                        </label>
+                        <label class="flex items-center gap-2 cursor-pointer">
+                            <input type="checkbox" checked class="rounded text-indigo-600 focus:ring-indigo-500 w-3.5 h-3.5 border-slate-300">
+                            <span class="text-xs text-slate-700">Medical Information</span>
+                        </label>
+                        <label class="flex items-center gap-2 cursor-pointer">
+                            <input type="checkbox" checked class="rounded text-indigo-600 focus:ring-indigo-500 w-3.5 h-3.5 border-slate-300">
+                            <span class="text-xs text-slate-700">Addresses</span>
+                        </label>
+                        <label class="flex items-center gap-2 cursor-pointer">
+                            <input type="checkbox" checked class="rounded text-indigo-600 focus:ring-indigo-500 w-3.5 h-3.5 border-slate-300">
+                            <span class="text-xs text-slate-700">Insurance Details</span>
+                        </label>
+                        <label class="flex items-center gap-2 cursor-pointer">
+                            <input type="checkbox" checked class="rounded text-indigo-600 focus:ring-indigo-500 w-3.5 h-3.5 border-slate-300">
+                            <span class="text-xs text-slate-700">Contact Information</span>
+                        </label>
+                        <label class="flex items-center gap-2 cursor-pointer">
+                            <input type="checkbox" checked class="rounded text-indigo-600 focus:ring-indigo-500 w-3.5 h-3.5 border-slate-300">
+                            <span class="text-xs text-slate-700">Financial Information</span>
+                        </label>
+                    </div>
+                </div>
+
+                <button class="w-full gradient-bg text-white py-2.5 rounded-lg font-semibold text-sm shadow-md flex items-center justify-center gap-2 hover:opacity-90 transition-opacity">
+                    <i class="fa-solid fa-shield-halved"></i> Sanitize Document
+                </button>
+            </div>
+        </div>
+
+        <!-- Document Preview Section -->
+        <div class="flex gap-4 items-stretch mb-6 flex-1 min-h-[400px]">
+            
+            <!-- Original Document -->
+            <div class="flex-1 bg-white rounded-2xl border border-slate-200 shadow-sm flex flex-col">
+                <div class="px-4 py-3 border-b border-slate-100 flex justify-between items-center bg-slate-50/50 rounded-t-2xl">
+                    <div class="flex items-center gap-2">
+                        <i class="fa-regular fa-file-lines text-red-400"></i>
+                        <h3 class="font-semibold text-slate-800 text-sm">Original Document</h3>
+                    </div>
+                    <button class="text-xs font-medium text-indigo-600 hover:text-indigo-700 flex items-center gap-1">
+                        <i class="fa-solid fa-download"></i> Download
+                    </button>
+                </div>
+                
+                <div class="flex-1 p-6 overflow-y-auto custom-scrollbar font-mono text-xs leading-relaxed text-slate-400 italic flex items-center justify-center">
+                    No document loaded
+                </div>
+
+                <div class="px-4 py-2.5 border-t border-slate-100 bg-slate-50/50 rounded-b-2xl flex justify-between items-center">
+                    <div class="flex items-center gap-1">
+                        <button class="w-6 h-6 rounded flex items-center justify-center text-slate-400 hover:bg-slate-200"><i class="fa-solid fa-chevron-left text-xs"></i></button>
+                        <span class="text-xs text-slate-600 font-medium px-2">1 / 2</span>
+                        <button class="w-6 h-6 rounded flex items-center justify-center text-slate-600 hover:bg-slate-200"><i class="fa-solid fa-chevron-right text-xs"></i></button>
+                    </div>
+                    <div class="flex items-center gap-1">
+                        <button class="w-6 h-6 rounded flex items-center justify-center text-slate-600 hover:bg-slate-200"><i class="fa-solid fa-minus text-xs"></i></button>
+                        <span class="text-xs text-slate-600 font-medium px-2">100%</span>
+                        <button class="w-6 h-6 rounded flex items-center justify-center text-slate-600 hover:bg-slate-200"><i class="fa-solid fa-plus text-xs"></i></button>
+                        <div class="w-px h-4 bg-slate-300 mx-1"></div>
+                        <button class="w-6 h-6 rounded flex items-center justify-center text-slate-600 hover:bg-slate-200"><i class="fa-solid fa-expand text-xs"></i></button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Arrow Indicator -->
+            <div class="flex items-center justify-center">
+                <div class="w-8 h-8 rounded-full bg-indigo-50 text-indigo-500 flex items-center justify-center border border-indigo-100 shadow-sm">
+                    <i class="fa-solid fa-arrow-right"></i>
+                </div>
+            </div>
+
+            <!-- Sanitized Document -->
+            <div class="flex-1 bg-white rounded-2xl border border-slate-200 shadow-sm flex flex-col">
+                <div class="px-4 py-3 border-b border-slate-100 flex justify-between items-center bg-slate-50/50 rounded-t-2xl">
+                    <div class="flex items-center gap-2">
+                        <i class="fa-regular fa-shield-check text-emerald-500"></i>
+                        <h3 class="font-semibold text-slate-800 text-sm">Sanitized Document (Redacted)</h3>
+                    </div>
+                    <button class="text-xs font-medium text-indigo-600 hover:text-indigo-700 flex items-center gap-1">
+                        <i class="fa-solid fa-download"></i> Download
+                    </button>
+                </div>
+                
+                <div class="flex-1 p-6 overflow-y-auto custom-scrollbar font-mono text-xs leading-relaxed text-slate-400 italic flex items-center justify-center">
+                    No document loaded
+                </div>
+Phone: <span class="highlight-green">[REDACTED]</span>
+Email: <span class="highlight-green">[REDACTED]</span>
+SSN: <span class="highlight-green">[REDACTED]</span>
+
+Insurance Information:
+Provider: Blue Shield of Washington
+Member ID: <span class="highlight-green">[REDACTED]</span>
+Group Number: 584120
+Plan: Blue Shield Platinum 90 PPO
+
+<span class="text-purple-600">Medical Details:</span>
+Primary Diagnosis: Systemic Lupus Erythematosus
+ICD-10 Code: M32.9
+Date of Diagnosis: January 5, 2025
+                </div>
+
+                <div class="px-4 py-2.5 border-t border-slate-100 bg-slate-50/50 rounded-b-2xl flex justify-between items-center">
+                    <div class="flex items-center gap-1">
+                        <button class="w-6 h-6 rounded flex items-center justify-center text-slate-400 hover:bg-slate-200"><i class="fa-solid fa-chevron-left text-xs"></i></button>
+                        <span class="text-xs text-slate-600 font-medium px-2">1 / 2</span>
+                        <button class="w-6 h-6 rounded flex items-center justify-center text-slate-600 hover:bg-slate-200"><i class="fa-solid fa-chevron-right text-xs"></i></button>
+                    </div>
+                    <div class="flex items-center gap-1">
+                        <button class="w-6 h-6 rounded flex items-center justify-center text-slate-600 hover:bg-slate-200"><i class="fa-solid fa-minus text-xs"></i></button>
+                        <span class="text-xs text-slate-600 font-medium px-2">100%</span>
+                        <button class="w-6 h-6 rounded flex items-center justify-center text-slate-600 hover:bg-slate-200"><i class="fa-solid fa-plus text-xs"></i></button>
+                        <div class="w-px h-4 bg-slate-300 mx-1"></div>
+                        <button class="w-6 h-6 rounded flex items-center justify-center text-slate-600 hover:bg-slate-200"><i class="fa-solid fa-expand text-xs"></i></button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sanitization Summary -->
+            <div class="w-64 bg-white rounded-2xl border border-slate-200 shadow-sm p-4 flex flex-col">
+                <div class="flex items-center gap-2 mb-4">
+                    <i class="fa-solid fa-chart-simple text-indigo-500"></i>
+                    <h3 class="font-bold text-slate-800 text-sm">Sanitization Summary</h3>
+                </div>
+
+                <!-- Donut Chart Mockup -->
+                <div class="flex justify-center mb-6 mt-2 relative">
+                    <svg width="120" height="120" viewBox="0 0 120 120">
+                        <circle cx="60" cy="60" r="50" fill="none" stroke="#f1f5f9" stroke-width="12"></circle>
+                        <circle cx="60" cy="60" r="50" fill="none" stroke="#6366f1" stroke-width="12" stroke-dasharray="250 314" stroke-linecap="round" transform="rotate(-90 60 60)"></circle>
+                    </svg>
+                    <div class="absolute inset-0 flex flex-col items-center justify-center">
+                        <span class="text-2xl font-bold text-slate-800 leading-none">0</span>
+                        <span class="text-[10px] text-slate-500 mt-1 text-center leading-tight">Items<br>Redacted</span>
+                    </div>
+                </div>
+
+                <div class="space-y-3 flex-1">
+                    <div class="flex justify-between items-center text-xs">
+                        <span class="text-slate-700 flex items-center gap-2"><i class="fa-regular fa-user w-4 text-red-400"></i> Personal Identifiers</span>
+                        <span class="font-semibold text-slate-600">8</span>
+                    </div>
+                    <div class="flex justify-between items-center text-xs">
+                        <span class="text-slate-700 flex items-center gap-2"><i class="fa-solid fa-location-dot w-4 text-red-400"></i> Addresses</span>
+                        <span class="font-semibold text-slate-600">3</span>
+                    </div>
+                    <div class="flex justify-between items-center text-xs">
+                        <span class="text-slate-700 flex items-center gap-2"><i class="fa-solid fa-phone w-4 text-sky-400"></i> Contact Information</span>
+                        <span class="font-semibold text-slate-600">5</span>
+                    </div>
+                    <div class="flex justify-between items-center text-xs">
+                        <span class="text-slate-700 flex items-center gap-2"><i class="fa-solid fa-notes-medical w-4 text-indigo-400"></i> Medical Information</span>
+                        <span class="font-semibold text-slate-600">0</span>
+                    </div>
+                    <div class="flex justify-between items-center text-xs">
+                        <span class="text-slate-700 flex items-center gap-2"><i class="fa-solid fa-umbrella w-4 text-amber-400"></i> Insurance Details</span>
+                        <span class="font-semibold text-slate-600">2</span>
+                    </div>
+                    <div class="flex justify-between items-center text-xs">
+                        <span class="text-slate-700 flex items-center gap-2"><i class="fa-solid fa-coins w-4 text-amber-500"></i> Financial Information</span>
+                        <span class="font-semibold text-slate-600">1</span>
+                    </div>
+                </div>
+
+                <!-- Status Banner -->
+                <div class="mt-4 bg-emerald-50 rounded-xl p-3 border border-emerald-100">
+                    <div class="flex items-center gap-2 mb-1">
+                        <i class="fa-regular fa-circle-check text-emerald-500"></i>
+                        <span class="text-xs font-semibold text-emerald-700">Status</span>
+                    </div>
+                    <p class="text-xs font-medium text-emerald-600 mb-1">Sanitization Complete</p>
+                    <p class="text-[10px] text-emerald-600/80 leading-relaxed">All sensitive information has been successfully protected.</p>
+                </div>
+            </div>
+
+        </div>
+        
+        <!-- Footer Notification -->
+        <div class="bg-indigo-50/50 border border-indigo-100 rounded-xl p-3 flex items-center gap-3">
+            <i class="fa-solid fa-shield-check text-indigo-500"></i>
+            <span class="text-xs font-medium text-slate-600">Your document is processed securely. We do not store or share your files.</span>
+        </div>
+
+    </main>
+
+</body>
+</html>

@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PrivacyGuard AI - API Access</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        mono: ['ui-monospace', 'SFMono-Regular', 'Menlo', 'Monaco', 'Consolas', "Liberation Mono", "Courier New", 'monospace'],
+                    },
+                    colors: {
+                        primary: '#6366f1',
+                        secondary: '#8b5cf6',
+                        background: '#f8fafc',
+                        surface: '#ffffff',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            background-color: #f8fafc;
+        }
+        .gradient-text {
+            background: linear-gradient(to right, #4f46e5, #7c3aed);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .gradient-bg {
+            background: linear-gradient(to right, #6366f1, #8b5cf6);
+        }
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 6px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background-color: #cbd5e1;
+            border-radius: 20px;
+        }
+        .chart-area {
+            background: linear-gradient(to bottom, rgba(99, 102, 241, 0.2), rgba(99, 102, 241, 0));
+        }
+    </style>
+</head>
+<body class="text-slate-800 font-sans flex h-screen overflow-hidden">
+
+    <!-- Sidebar -->
+    <aside class="w-64 bg-white border-r border-slate-200 flex flex-col h-full shrink-0">
+        <!-- Logo -->
+        <div class="p-6 flex items-center gap-3">
+            <div class="w-10 h-10 rounded-lg gradient-bg flex items-center justify-center text-white shadow-lg">
+                <i class="fa-solid fa-shield-halved text-xl"></i>
+            </div>
+            <div>
+                <h1 class="font-bold text-lg leading-tight">PrivacyGuard AI</h1>
+                <p class="text-xs text-slate-500">Medical Data Protection</p>
+            </div>
+        </div>
+
+        <!-- Navigation -->
+        <nav class="flex-1 px-4 space-y-1 overflow-y-auto">
+            <a href="index.html" class="flex items-center gap-3 px-4 py-3 rounded-xl text-slate-600 hover:bg-slate-50 hover:text-slate-900 transition-colors">
+                <i class="fa-solid fa-house w-5 text-center"></i>
+                Dashboard
+            </a>
+            <a href="sanitize.html" class="flex items-center gap-3 px-4 py-3 rounded-xl text-slate-600 hover:bg-slate-50 hover:text-slate-900 transition-colors">
+                <i class="fa-solid fa-shield-virus w-5 text-center"></i>
+                Sanitize Document
+            </a>
+            <a href="history.html" class="flex items-center gap-3 px-4 py-3 rounded-xl text-slate-600 hover:bg-slate-50 hover:text-slate-900 transition-colors">
+                <i class="fa-regular fa-clock w-5 text-center"></i>
+                History
+            </a>
+            <a href="audit_logs.html" class="flex items-center gap-3 px-4 py-3 rounded-xl text-slate-600 hover:bg-slate-50 hover:text-slate-900 transition-colors">
+                <i class="fa-solid fa-clipboard-list w-5 text-center"></i>
+                Audit Logs
+            </a>
+            <a href="reports.html" class="flex items-center gap-3 px-4 py-3 rounded-xl text-slate-600 hover:bg-slate-50 hover:text-slate-900 transition-colors">
+                <i class="fa-solid fa-chart-pie w-5 text-center"></i>
+                Reports
+            </a>
+            <!-- Active State -->
+            <a href="api_access.html" class="flex items-center gap-3 px-4 py-3 rounded-xl bg-indigo-50 text-indigo-600 font-medium">
+                <i class="fa-solid fa-code w-5 text-center"></i>
+                API Access
+            </a>
+            <a href="settings.html" class="flex items-center gap-3 px-4 py-3 rounded-xl text-slate-600 hover:bg-slate-50 hover:text-slate-900 transition-colors">
+                <i class="fa-solid fa-gear w-5 text-center"></i>
+                Settings
+            </a>
+        </nav>
+
+        <!-- Sidebar Footer Cards (Updated for API Access) -->
+        <div class="p-4 space-y-4">
+            <div class="bg-indigo-50/50 rounded-2xl p-4 relative overflow-hidden">
+                <div class="absolute top-0 right-0 -mr-4 -mt-4 w-16 h-16 bg-indigo-100 rounded-full opacity-50 blur-xl"></div>
+                <div class="w-10 h-10 rounded-xl gradient-bg flex items-center justify-center text-white mb-3 shadow-md">
+                    <i class="fa-solid fa-code"></i>
+                </div>
+                <h3 class="font-semibold text-sm mb-1">Developer Access</h3>
+                <p class="text-xs text-slate-500 mb-3">Secure API access to integrate document sanitization into your applications.</p>
+                <a href="#" class="text-xs text-indigo-600 font-medium flex items-center gap-1">View API Documentation <i class="fa-solid fa-arrow-right"></i></a>
+            </div>
+
+            <div class="bg-emerald-50 rounded-xl p-3 flex items-center gap-2 border border-emerald-100">
+                <i class="fa-regular fa-circle-check text-emerald-500 shrink-0"></i>
+                <div>
+                    <span class="text-xs font-medium text-emerald-700 block leading-tight">Secure Connection</span>
+                    <span class="text-[10px] text-emerald-600/80 block leading-tight">All API requests are encrypted</span>
+                </div>
+            </div>
+        </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="flex-1 flex flex-col h-full overflow-y-auto p-6 md:p-8">
+        
+        <!-- Header -->
+        <header class="flex justify-between items-start mb-6">
+            <div class="flex items-center gap-3">
+                <div class="w-8 h-8 rounded-full bg-indigo-100 text-indigo-600 flex items-center justify-center">
+                    <i class="fa-solid fa-code"></i>
+                </div>
+                <div>
+                    <h2 class="text-2xl font-bold text-slate-900 leading-tight">API Access</h2>
+                    <p class="text-sm text-slate-500 mt-0.5">Manage your API keys and access to PrivacyGuard AI services</p>
+                </div>
+            </div>
+            <div class="flex items-center gap-3">
+                <button class="flex items-center gap-2 px-4 py-2 bg-white border border-slate-200 rounded-lg text-sm font-medium hover:bg-slate-50">
+                    <i class="fa-regular fa-sun"></i> Light
+                </button>
+                <button class="relative p-2 bg-white border border-slate-200 rounded-lg text-slate-600 hover:bg-slate-50 w-10 h-10 flex items-center justify-center">
+                    <i class="fa-regular fa-bell"></i>
+                    <span class="absolute top-1 right-1 w-2.5 h-2.5 bg-red-500 rounded-full border-2 border-white"></span>
+                </button>
+                <button class="flex items-center gap-2 px-4 py-2 bg-indigo-600 text-white rounded-lg text-sm font-medium hover:bg-indigo-700 shadow-sm">
+                    <i class="fa-solid fa-download"></i> Export Report
+                </button>
+            </div>
+        </header>
+
+        <!-- Top Stats Row -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+            <!-- Total API Keys -->
+            <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm flex items-center gap-4">
+                <div class="w-12 h-12 rounded-xl bg-purple-50 text-purple-600 flex items-center justify-center text-xl shrink-0">
+                    <i class="fa-solid fa-key"></i>
+                </div>
+                <div>
+                    <div class="text-xs font-medium text-slate-500 mb-0.5">Total API Keys</div>
+                    <div class="text-xl font-bold text-slate-800">2</div>
+                    <div class="text-[10px] text-slate-500 font-medium mt-1">Manage your API keys</div>
+                </div>
+            </div>
+
+            <!-- Requests This Month -->
+            <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm flex items-center justify-between relative overflow-hidden">
+                <div class="flex items-center gap-4 z-10">
+                    <div class="w-12 h-12 rounded-xl bg-emerald-50 text-emerald-500 flex items-center justify-center text-xl shrink-0">
+                        <i class="fa-regular fa-shield-check"></i>
+                    </div>
+                    <div>
+                        <div class="text-xs font-medium text-slate-500 mb-0.5">Requests This Month</div>
+                        <div class="text-xl font-bold text-slate-800">0</div>
+                        <div class="text-[10px] text-emerald-500 font-medium mt-1 flex items-center gap-1">
+                            <i class="fa-solid fa-arrow-up"></i> 18.2% vs last month
+                        </div>
+                    </div>
+                </div>
+                <div class="w-20 h-10 z-0">
+                    <svg viewBox="0 0 100 40" class="w-full h-full">
+                        <path d="M0,35 Q15,30 25,35 T50,25 T75,20 T100,5" fill="none" stroke="#10b981" stroke-width="2" stroke-linecap="round"/>
+                        
+                                
+                                
+                                
+                                
+                                
+                                
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Recent API Activity -->
+                <div class="bg-white rounded-2xl border border-slate-200 shadow-sm p-5">
+                    <h3 class="font-bold text-slate-800 text-sm mb-4">Recent API Activity</h3>
+                    
+                    <div class="overflow-x-auto mb-4">
+                        <table class="w-full text-left">
+                            <thead>
+                                <tr class="text-[10px] font-semibold text-slate-500 uppercase tracking-wider border-b border-slate-100">
+                                    <th class="pb-3 pr-4">Timestamp</th>
+                                    <th class="pb-3 px-4">Endpoint</th>
+                                    <th class="pb-3 px-4 text-center">Method</th>
+                                    <th class="pb-3 px-4 text-center">Status</th>
+                                    <th class="pb-3 px-4 text-center">Response Time</th>
+                                    <th class="pb-3 pl-4">IP Address</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-slate-100 text-sm">
+                        <tr>
+                            <td colspan="10" class="px-6 py-8 text-center text-slate-500">
+                                No data available
+                            </td>
+                        </tr>
+                    </tbody>
+                        </table>
+                    </div>
+                    <a href="#" class="text-xs font-semibold text-indigo-600 hover:text-indigo-700 flex items-center gap-1">View all activity <i class="fa-solid fa-arrow-right"></i></a>
+                </div>
+
+            </div>
+
+            <!-- Right Column (Quick Access & Endpoints) -->
+            <div class="w-full xl:w-[340px] flex flex-col gap-6 shrink-0">
+                
+                <!-- Quick Access -->
+                <div class="bg-white rounded-2xl border border-slate-200 shadow-sm p-5">
+                    <h3 class="font-bold text-slate-800 text-sm mb-4">Quick Access</h3>
+                    <div class="space-y-4">
+                        
+                        <a href="#" class="flex items-center gap-3 p-2 -mx-2 rounded-lg hover:bg-slate-50 transition-colors group">
+                            <div class="w-9 h-9 rounded-lg bg-purple-50 text-purple-500 flex items-center justify-center shrink-0">
+                                <i class="fa-regular fa-file-lines"></i>
+                            </div>
+                            <div class="flex-1">
+                                <div class="text-sm font-semibold text-slate-800">API Documentation</div>
+                                <div class="text-[11px] text-slate-500">View full API reference</div>
+                            </div>
+                            <i class="fa-solid fa-arrow-up-right-from-square text-[10px] text-slate-400 group-hover:text-indigo-500"></i>
+                        </a>
+
+                        <a href="#" class="flex items-center gap-3 p-2 -mx-2 rounded-lg hover:bg-slate-50 transition-colors group">
+                            <div class="w-9 h-9 rounded-lg bg-blue-50 text-blue-500 flex items-center justify-center shrink-0">
+                                <i class="fa-solid fa-code"></i>
+                            </div>
+                            <div class="flex-1">
+                                <div class="text-sm font-semibold text-slate-800">Code Examples</div>
+                                <div class="text-[11px] text-slate-500">See integration examples</div>
+                            </div>
+                            <i class="fa-solid fa-arrow-up-right-from-square text-[10px] text-slate-400 group-hover:text-indigo-500"></i>
+                        </a>
+
+                        <a href="#" class="flex items-center gap-3 p-2 -mx-2 rounded-lg hover:bg-slate-50 transition-colors group">
+                            <div class="w-9 h-9 rounded-lg bg-orange-50 text-orange-500 flex items-center justify-center shrink-0">
+                                <i class="fa-solid fa-rocket"></i>
+                            </div>
+                            <div class="flex-1">
+                                <div class="text-sm font-semibold text-slate-800">Postman Collection</div>
+                                <div class="text-[11px] text-slate-500">Download Postman collection</div>
+                            </div>
+                            <i class="fa-solid fa-arrow-up-right-from-square text-[10px] text-slate-400 group-hover:text-indigo-500"></i>
+                        </a>
+
+                        <a href="#" class="flex items-center gap-3 p-2 -mx-2 rounded-lg hover:bg-slate-50 transition-colors group">
+                            <div class="w-9 h-9 rounded-lg bg-emerald-50 text-emerald-500 flex items-center justify-center shrink-0">
+                                <i class="fa-regular fa-circle-check"></i>
+                            </div>
+                            <div class="flex-1">
+                                <div class="text-sm font-semibold text-slate-800">API Status</div>
+                                <div class="text-[11px] text-slate-500">View current API status</div>
+                            </div>
+                            <i class="fa-solid fa-arrow-up-right-from-square text-[10px] text-slate-400 group-hover:text-indigo-500"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <!-- Endpoint Information -->
+                <div class="bg-white rounded-2xl border border-slate-200 shadow-sm p-5">
+                    <div class="flex items-center gap-2 mb-5">
+                        <i class="fa-solid fa-code text-indigo-500"></i>
+                        <h3 class="font-bold text-slate-800 text-sm">Endpoint Information</h3>
+                    </div>
+
+                    <div class="space-y-4">
+                        <div>
+                            <div class="text-xs font-semibold text-slate-700 mb-1">Base URL</div>
+                            <div class="bg-slate-50 border border-slate-100 rounded-lg p-2.5 text-xs font-mono text-indigo-600 break-all">
+                                https://api.privacyguard.ai/v1
+                            </div>
+                        </div>
+
+                        <div>
+                            <div class="text-xs font-semibold text-slate-700 mb-1">Authentication</div>
+                            <div class="text-xs text-purple-600 font-mono">Bearer Token (API Key)</div>
+                        </div>
+
+                        <div>
+                            <div class="text-xs font-semibold text-slate-700 mb-1">Rate Limits</div>
+                            <div class="text-xs text-slate-600"><span class="font-semibold text-indigo-600">1,000</span> requests per minute</div>
+                        </div>
+
+                        <div>
+                            <div class="text-xs font-semibold text-slate-700 mb-2">Supported Formats</div>
+                            <div class="flex flex-wrap gap-2">
+                                <span class="px-2 py-1 bg-purple-50 text-purple-600 rounded text-[10px] font-mono font-bold">JSON</span>
+                                <span class="px-2 py-1 bg-purple-50 text-purple-600 rounded text-[10px] font-mono font-bold">multipart/form-data</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+    </main>
+
+</body>
+</html>
