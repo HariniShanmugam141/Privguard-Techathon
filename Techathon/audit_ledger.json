@@ -1,0 +1,61 @@
+[
+  {
+    "index": 0,
+    "timestamp": "2026-08-23T17:42:37.239992Z",
+    "file_name": "GENESIS_BLOCK",
+    "file_type": "system",
+    "compliance_profile": "SYSTEM",
+    "masking_strategy": "SYSTEM",
+    "pii_found_count": 0,
+    "entities_summary": {},
+    "input_file_hash": "0000000000000000000000000000000000000000000000000000000000000000",
+    "output_file_hash": "0000000000000000000000000000000000000000000000000000000000000000",
+    "previous_hash": "0000000000000000000000000000000000000000000000000000000000000000",
+    "block_hash": "3e76d84af522183c8cbcbf83a6feb90651d2c6bcdd9c66d5f3597812200e0f3f"
+  },
+  {
+    "index": 1,
+    "timestamp": "2026-08-23T17:42:39.779681Z",
+    "file_name": "Emily_Dawson.pdf",
+    "file_type": "pdf",
+    "compliance_profile": "HIPAA",
+    "masking_strategy": "redact",
+    "pii_found_count": 32,
+    "entities_summary": {
+      "SSN": 1,
+      "EMAIL": 1,
+      "PHONE": 2,
+      "DOB": 2,
+      "MEMBER_ID": 1,
+      "GROUP_NUMBER": 1,
+      "POLICY_ID": 1,
+      "PAYER_ID": 1,
+      "NPI_ID": 1,
+      "ADDRESS": 1,
+      "CITY_STATE_ZIP": 1,
+      "NAME": 8,
+      "FACILITY": 10,
+      "LOCATION": 1
+    },
+    "input_file_hash": "993edabc579355af85f7abcbf0a5463fbd06e5826bb63fac0fa62214d1ec9204",
+    "output_file_hash": "429c10701c913cc32d8ea782b3a21803684e4869e49d684973fba324c134f081",
+    "previous_hash": "3e76d84af522183c8cbcbf83a6feb90651d2c6bcdd9c66d5f3597812200e0f3f",
+    "block_hash": "e5f479805faf012ee600757234cf791fb968cd130d33719b369c94a850063ad9"
+  },
+  {
+    "index": 2,
+    "timestamp": "2026-08-23T17:42:44.076926Z",
+    "file_name": "id_card.jpg",
+    "file_type": "jpg",
+    "compliance_profile": "HIPAA",
+    "masking_strategy": "redact",
+    "pii_found_count": 1,
+    "entities_summary": {
+      "NAME": 1
+    },
+    "input_file_hash": "c03d8ea9d8ceaa4864fb75318b5b265025cbd3faf25069c475b58938b35a2593",
+    "output_file_hash": "317bda9589b43b876bd33a3d82690e8e4c8af2a963106fe96a78a90d2ec7dc0f",
+    "previous_hash": "e5f479805faf012ee600757234cf791fb968cd130d33719b369c94a850063ad9",
+    "block_hash": "1e25e170204979bc8786ed1095d1365383428896b6cbfdb84944dbffb0bb252d"
+  }
+]
