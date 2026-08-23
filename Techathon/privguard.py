@@ -523,421 +523,18 @@ if FASTAPI_AVAILABLE:
 
     active_profile = DEFAULT_PROFILE
 
-    # DASHBOARD HTML PAGE
-    DASHBOARD_HTML = """<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PrivGuard - Local Compliance & Document Redaction Proxy</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <style>
-        :root {
-            --bg: #0b0f19;
-            --card: #151c2c;
-            --accent: #4f46e5;
-            --accent-hover: #4338ca;
-            --success: #10b981;
-            --danger: #ef4444;
-            --text: #f3f4f6;
-            --muted: #9ca3af;
-            --border: #232d42;
-        }
-
-        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Inter', sans-serif; }
-
-        body {
-            background-color: var(--bg);
-            color: var(--text);
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-        }
-
-        header {
-            background-color: var(--card);
-            border-bottom: 1px solid var(--border);
-            padding: 1.2rem 2rem;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-        }
-
-        .logo-group { display: flex; align-items: center; gap: 12px; }
-        .logo-icon {
-            background: linear-gradient(135deg, #6366f1, #a855f7);
-            width: 38px; height: 38px; border-radius: 10px;
-            display: flex; align-items: center; justify-content: center;
-            font-weight: 700; font-size: 1.2rem; color: #fff;
-        }
-
-        .logo-text { font-size: 1.4rem; font-weight: 700; background: linear-gradient(90deg, #fff, #94a3b8); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-
-        .status-badge {
-            background-color: rgba(16, 185, 129, 0.15);
-            color: var(--success);
-            border: 1px solid var(--success);
-            padding: 0.3rem 0.8rem; border-radius: 20px;
-            font-size: 0.85rem; font-weight: 600; display: flex; align-items: center; gap: 6px;
-        }
-
-        .status-dot { width: 8px; height: 8px; background-color: var(--success); border-radius: 50%; display: inline-block; }
-
-        .nav-tabs {
-            display: flex; gap: 10px; padding: 1rem 2rem;
-            background: rgba(21, 28, 44, 0.5); border-bottom: 1px solid var(--border);
-        }
-
-        .tab-btn {
-            background: none; border: none; color: var(--muted);
-            padding: 0.6rem 1.2rem; font-size: 0.95rem; font-weight: 500;
-            border-radius: 8px; cursor: pointer; transition: all 0.2s;
-        }
-
-        .tab-btn:hover { color: var(--text); background: var(--border); }
-        .tab-btn.active { color: #fff; background: var(--accent); font-weight: 600; }
-
-        main { flex: 1; padding: 2rem; max-width: 1400px; margin: 0 auto; width: 100%; }
-
-        .section-card {
-            background-color: var(--card); border: 1px solid var(--border);
-            border-radius: 14px; padding: 1.8rem; margin-bottom: 2rem;
-            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.3);
-        }
-
-        h2 { font-size: 1.3rem; margin-bottom: 0.5rem; font-weight: 600; color: #fff; }
-        p.subtitle { color: var(--muted); font-size: 0.9rem; margin-bottom: 1.5rem; }
-
-        .controls-grid {
-            display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-bottom: 1.5rem;
-        }
-
-        .form-group { display: flex; flex-direction: column; gap: 6px; }
-        label { font-size: 0.85rem; font-weight: 600; color: var(--muted); }
-
-        select, input[type="text"] {
-            background: var(--bg); border: 1px solid var(--border);
-            color: var(--text); padding: 0.7rem 1rem; border-radius: 8px;
-            font-size: 0.95rem; outline: none; transition: border 0.2s;
-        }
-        select:focus, input:focus { border-color: var(--accent); }
-
-        .drop-zone {
-            border: 2px dashed var(--border); border-radius: 12px;
-            padding: 3rem 2rem; text-align: center; cursor: pointer;
-            transition: all 0.2s; background: rgba(11, 15, 25, 0.4);
-        }
-
-        .drop-zone:hover { border-color: var(--accent); background: rgba(79, 70, 229, 0.05); }
-
-        .btn {
-            background: var(--accent); color: #fff; border: none;
-            padding: 0.8rem 1.5rem; border-radius: 8px; font-weight: 600;
-            font-size: 0.95rem; cursor: pointer; transition: background 0.2s;
-            display: inline-flex; align-items: center; gap: 8px;
-        }
-
-        .btn:hover { background: var(--accent-hover); }
-        .btn-success { background: var(--success); }
-        .btn-success:hover { background: #059669; }
-
-        .results-box {
-            background: var(--bg); border: 1px solid var(--border);
-            border-radius: 10px; padding: 1.2rem; margin-top: 1.5rem;
-        }
-
-        .entity-tag {
-            display: inline-block; background: rgba(239, 68, 68, 0.15);
-            color: #fca5a5; border: 1px solid rgba(239, 68, 68, 0.3);
-            padding: 0.2rem 0.6rem; border-radius: 6px; font-size: 0.8rem; margin: 4px;
-        }
-
-        .table-wrapper { overflow-x: auto; margin-top: 1rem; }
-        table { width: 100%; border-collapse: collapse; text-align: left; font-size: 0.9rem; }
-        th, td { padding: 0.8rem 1rem; border-bottom: 1px solid var(--border); }
-        th { color: var(--muted); font-weight: 600; background: rgba(11, 15, 25, 0.5); }
-
-        .badge-valid { background: rgba(16, 185, 129, 0.2); color: var(--success); padding: 2px 8px; border-radius: 4px; font-size: 0.8rem; }
-        .badge-invalid { background: rgba(239, 68, 68, 0.2); color: var(--danger); padding: 2px 8px; border-radius: 4px; font-size: 0.8rem; }
-
-        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); z-index: 100; display: flex; justify-content: center; align-items: center; }
-        .modal-content { background: var(--card); padding: 2rem; border-radius: 12px; max-width: 600px; width: 100%; border: 1px solid var(--border); box-shadow: 0 10px 25px rgba(0,0,0,0.5); }
-
-        .hidden { display: none !important; }
-    </style>
-</head>
-<body>
-    <header>
-        <div class="logo-group">
-            <div class="logo-icon">P</div>
-            <div class="logo-text">PrivGuard Middleware</div>
-        </div>
-        <div class="status-badge">
-            <span class="status-dot"></span>
-            100% Local Compliance Active
-        </div>
-    </header>
-
-    <div class="nav-tabs">
-        <button class="tab-btn active" onclick="switchTab('doc-tab')">📄 Document Redaction & Sanitization</button>
-        <button class="tab-btn" onclick="switchTab('profiles-tab')">🛡️ Compliance Profiles</button>
-        <button class="tab-btn" onclick="switchTab('ledger-tab')">🔐 Cryptographic Audit Ledger</button>
-    </div>
-
-    <main>
-        <!-- DOCUMENT SANITIZER TAB -->
-        <div id="doc-tab" class="tab-content">
-            <div class="section-card">
-                <h2>Multi-Format Document Redaction</h2>
-                <p class="subtitle">Upload PDF, DOCX, PNG, JPG, or TXT documents. PrivGuard will redact PII/PHI while preserving document layout.</p>
-
-                <div class="controls-grid">
-                    <div class="form-group">
-                        <label>Compliance Profile</label>
-                        <select id="doc-profile">
-                            <option value="HIPAA" selected>HIPAA (Healthcare & PHI focus)</option>
-                            <option value="GDPR">GDPR (Personal Identifiers)</option>
-                            <option value="PCI-DSS">PCI-DSS (Payment & Financial Data)</option>
-                            <option value="CUSTOM">CUSTOM (Full Entity Scan)</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label>Masking Strategy</label>
-                        <select id="doc-strategy">
-                            <option value="redact" selected>Redact (Solid Black Overlay / Replace)</option>
-                            <option value="hash">Hash (SHA-256 Hashes)</option>
-                            <option value="anonymize">Anonymize (Synthetic Pseudonyms)</option>
-                        </select>
-                    </div>
-                </div>
-
-                <div class="drop-zone" id="drop-zone" onclick="document.getElementById('file-input').click()">
-                    <div style="font-size: 2.5rem; margin-bottom: 0.5rem;">📁</div>
-                    <div style="font-weight: 600; font-size: 1.1rem;">Click or Drag & Drop Document Here</div>
-                    <div style="color: var(--muted); font-size: 0.85rem; margin-top: 6px;">Supports .pdf, .docx, .png, .jpg, .txt (Batch processing enabled)</div>
-                    <input type="file" id="file-input" class="hidden" multiple onchange="handleFileSelect(event)">
-                </div>
-
-                <div id="doc-results" class="results-box hidden">
-                    <div style="display: flex; justify-content: space-between; align-items: center;">
-                        <h3 style="color: #fff; font-size: 1.1rem;">Sanitization Complete</h3>
-                    </div>
-                    <div style="margin-top: 1rem;">
-                        <p style="color: var(--muted); font-size: 0.9rem;">Batch Processing Summary:</p>
-                        <div id="entity-tags-container" style="margin-top: 0.5rem; max-height: 200px; overflow-y: auto;"></div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- REVIEW MODAL -->
-        <div id="review-modal" class="modal-overlay hidden">
-            <div class="modal-content">
-                <h2>Interactive Review</h2>
-                <p class="subtitle" style="margin-bottom: 1rem;">Please review the redaction summary before downloading the sanitized batch.</p>
-                <div id="review-summary" style="background: var(--bg); padding: 1rem; border-radius: 8px; max-height: 250px; overflow-y: auto; margin-bottom: 1.5rem;"></div>
-                <div style="display: flex; justify-content: space-between;">
-                    <button class="btn" style="background: var(--border);" onclick="document.getElementById('review-modal').classList.add('hidden')">Cancel & Discard</button>
-                    <a id="modal-download-link" class="btn btn-success" download onclick="document.getElementById('review-modal').classList.add('hidden')">✓ Approve & Download Secure .zip</a>
-                </div>
-            </div>
-        </div>
-
-        <!-- PROFILES TAB -->
-        <div id="profiles-tab" class="tab-content hidden">
-            <div class="section-card">
-                <h2>Compliance Profile Management</h2>
-                <p class="subtitle">Select and hot-swap active compliance policy enforcement.</p>
-                
-                <div id="profiles-container" class="controls-grid"></div>
-            </div>
-        </div>
-
-        <!-- LEDGER TAB -->
-        <div id="ledger-tab" class="tab-content hidden">
-            <div class="section-card">
-                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
-                    <div>
-                        <h2>Cryptographic Audit Ledger</h2>
-                        <p class="subtitle">SHA-256 hash-chained immutable audit trail.</p>
-                    </div>
-                    <button class="btn" onclick="verifyLedger()">🔍 Verify Ledger Chain Integrity</button>
-                </div>
-
-                <div id="verification-result" class="hidden" style="padding: 1rem; border-radius: 8px; margin-bottom: 1rem;"></div>
-
-                <div class="table-wrapper">
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>#</th>
-                                <th>Timestamp</th>
-                                <th>File Name</th>
-                                <th>Profile</th>
-                                <th>Strategy</th>
-                                <th>Entities Found</th>
-                                <th>Block Hash</th>
-                            </tr>
-                        </thead>
-                        <tbody id="ledger-body"></tbody>
-                    </table>
-                </div>
-            </div>
-        </div>
-    </main>
-
-    <script>
-        function switchTab(tabId) {
-            document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
-            document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
-            document.getElementById(tabId).classList.remove('hidden');
-            event.target.classList.add('active');
-
-            if (tabId === 'ledger-tab') loadLedger();
-            if (tabId === 'profiles-tab') loadProfiles();
-        }
-
-        async function handleFileSelect(e) {
-            const files = e.target.files;
-            if (!files.length) return;
-
-            const profile = document.getElementById('doc-profile').value;
-            const strategy = document.getElementById('doc-strategy').value;
-
-            const formData = new FormData();
-            for (let i = 0; i < files.length; i++) {
-                formData.append('files', files[i]);
-            }
-            formData.append('profile', profile);
-            formData.append('strategy', strategy);
-
-            const dropZone = document.getElementById('drop-zone');
-            dropZone.innerHTML = '<div style="font-size: 2.5rem;">⏳</div><div>Batch Processing & Redacting...</div>';
-
-            try {
-                const res = await fetch('/sanitize/document', { method: 'POST', body: formData });
-                const data = await res.json();
-
-                dropZone.innerHTML = '<div style="font-size: 2.5rem;">📁</div><div style="font-weight:600;">Click or Drag & Drop Document Here</div>';
-
-                // Setup modal content
-                const reviewSummary = document.getElementById('review-summary');
-                const tagsDiv = document.getElementById('entity-tags-container');
-                reviewSummary.innerHTML = '';
-                tagsDiv.innerHTML = '';
-                
-                document.getElementById('doc-results').classList.remove('hidden');
-                document.getElementById('modal-download-link').href = data.download_url;
-
-                let summaryHtml = '';
-                
-                data.results.forEach(resItem => {
-                    let tagsHtml = `<div style="margin-bottom: 1rem;"><strong style="color: #fff;">${resItem.file_name}</strong><br>`;
-                    if (resItem.entities && resItem.entities.length > 0) {
-                        resItem.entities.forEach(ent => {
-                            const tagStr = `<span class="entity-tag">${ent[1]}: ${ent[0]}</span>`;
-                            tagsHtml += tagStr;
-                            tagsDiv.innerHTML += tagStr; // Also show on main page
-                        });
-                    } else {
-                        tagsHtml += '<span style="color:var(--muted); font-size:0.9rem;">No PII/PHI detected.</span>';
-                    }
-                    tagsHtml += `</div>`;
-                    summaryHtml += tagsHtml;
-                });
-                
-                reviewSummary.innerHTML = summaryHtml;
-                document.getElementById('review-modal').classList.remove('hidden');
-
-            } catch (err) {
-                alert('Sanitization failed: ' + err);
-                dropZone.innerHTML = '<div style="font-size: 2.5rem;">📁</div><div style="font-weight:600;">Click or Drag & Drop Document Here</div>';
-            }
-        }
-
-        async function loadProfiles() {
-            const res = await fetch('/profiles');
-            const data = await res.json();
-            const container = document.getElementById('profiles-container');
-            container.innerHTML = '';
-
-            for (const [key, val] of Object.entries(data.profiles)) {
-                const isCurrent = key === data.active_profile;
-                const card = document.createElement('div');
-                card.style.background = 'var(--bg)';
-                card.style.border = isCurrent ? '2px solid var(--accent)' : '1px solid var(--border)';
-                card.style.padding = '1.2rem';
-                card.style.borderRadius = '10px';
-
-                card.innerHTML = `
-                    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:0.5rem;">
-                        <h3 style="color:#fff;">${key}</h3>
-                        ${isCurrent ? '<span class="badge-valid">ACTIVE</span>' : ''}
-                    </div>
-                    <p style="color:var(--muted); font-size:0.85rem; margin-bottom:1rem;">${val.description}</p>
-                    <button class="btn" style="width:100%; justify-content:center;" onclick="switchProfile('${key}')">Activate ${key}</button>
-                `;
-                container.appendChild(card);
-            }
-        }
-
-        async function switchProfile(prof) {
-            await fetch('/profiles/switch', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ profile: prof })
-            });
-            loadProfiles();
-        }
-
-        async function loadLedger() {
-            const res = await fetch('/ledger');
-            const blocks = await res.json();
-            const tbody = document.getElementById('ledger-body');
-            tbody.innerHTML = '';
-
-            blocks.forEach(b => {
-                const tr = document.createElement('tr');
-                tr.innerHTML = `
-                    <td>${b.index}</td>
-                    <td>${b.timestamp.split('T')[0]} ${b.timestamp.split('T')[1].substring(0,5)}</td>
-                    <td>${b.file_name}</td>
-                    <td>${b.compliance_profile}</td>
-                    <td>${b.masking_strategy}</td>
-                    <td>${b.pii_found_count}</td>
-                    <td style="font-family:monospace; font-size:0.8rem; color:var(--muted);">${b.block_hash.substring(0, 16)}...</td>
-                `;
-                tbody.appendChild(tr);
-            });
-        }
-
-        async function verifyLedger() {
-            const res = await fetch('/ledger/verify', { method: 'POST' });
-            const data = await res.json();
-            const div = document.getElementById('verification-result');
-            div.classList.remove('hidden');
-
-            if (data.is_valid) {
-                div.style.background = 'rgba(16, 185, 129, 0.15)';
-                div.style.border = '1px solid var(--success)';
-                div.style.color = 'var(--success)';
-                div.innerHTML = '<strong>✓ Hash-Chain Verified:</strong> ' + data.message;
-            } else {
-                div.style.background = 'rgba(239, 68, 68, 0.15)';
-                div.style.border = '1px solid var(--danger)';
-                div.style.color = 'var(--danger)';
-                div.innerHTML = '<strong>❌ Tamper Warning:</strong> ' + data.message;
-            }
-        }
-    </script>
-</body>
-</html>
-"""
-
     @app.get("/", response_class=HTMLResponse)
     @app.get("/dashboard", response_class=HTMLResponse)
     def serve_dashboard():
-        return HTMLResponse(content=DASHBOARD_HTML)
+        return FileResponse("index.html")
+        
+    @app.get("/{filename}.html")
+    def serve_html_pages(filename: str):
+        filepath = f"{filename}.html"
+        import os
+        if os.path.exists(filepath):
+            return FileResponse(filepath)
+        raise HTTPException(status_code=404, detail="Page not found")
 
     @app.get("/profiles")
     def get_profiles():
@@ -974,8 +571,7 @@ if FASTAPI_AVAILABLE:
         temp_dir = "temp_uploads"
         os.makedirs(temp_dir, exist_ok=True)
         session_id = str(uuid.uuid4())
-        session_dir = os.path.join(temp_dir, session_id)
-        os.makedirs(session_dir, exist_ok=True)
+        
 
         results = []
         zip_path = os.path.join(temp_dir, f"PrivGuard_Sanitized_{session_id[:8]}.zip")
@@ -983,7 +579,8 @@ if FASTAPI_AVAILABLE:
         with zipfile.ZipFile(zip_path, 'w', zipfile.ZIP_DEFLATED) as zipf:
             for file in files:
                 input_filename = file.filename
-                input_path = os.path.join(session_dir, f"raw_{input_filename}")
+                input_filename_safe = f"{session_id[:8]}_{input_filename}"
+                input_path = os.path.join(temp_dir, f"raw_{input_filename_safe}")
                 
                 content_bytes = await file.read()
                 with open(input_path, "wb") as f:
@@ -992,7 +589,8 @@ if FASTAPI_AVAILABLE:
                 ext = os.path.splitext(input_filename)[1].lower()
                 base_name = os.path.splitext(input_filename)[0]
                 out_filename = f"redacted_{base_name}{ext}"
-                output_path = os.path.join(session_dir, out_filename)
+                out_filename = f"{session_id[:8]}_redacted_{base_name}{ext}"
+                output_path = os.path.join(temp_dir, out_filename)
 
                 extracted_text = extract_document_text(input_path)
                 pii_entities = detect_pii(extracted_text, prof)
@@ -1031,7 +629,9 @@ if FASTAPI_AVAILABLE:
                 results.append({
                     "file_name": input_filename,
                     "entities_found": len(pii_entities),
-                    "entities": pii_entities
+                    "entities": pii_entities,
+                    "raw_url": f"/download/raw_{input_filename_safe}",
+                    "redacted_url": f"/download/{out_filename}"
                 })
 
         return JSONResponse({
@@ -1041,6 +641,14 @@ if FASTAPI_AVAILABLE:
             "results": results,
             "download_url": f"/download/batch/{os.path.basename(zip_path)}"
         })
+
+    
+    @app.get("/preview/{filename}")
+    def preview_file(filename: str):
+        path = os.path.join("temp_uploads", filename)
+        if os.path.exists(path):
+            return FileResponse(path, content_disposition_type="inline")
+        raise HTTPException(status_code=404, detail="Document not found.")
 
     @app.get("/download/{filename}")
     def download_file(filename: str):
@@ -1151,3 +759,4 @@ def run_cli(argv: List[str]):
 
 if __name__ == "__main__":
     sys.exit(run_cli(sys.argv))
+
