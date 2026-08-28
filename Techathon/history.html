@@ -1,261 +1,121 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PrivacyGuard AI - History</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    fontFamily: {
-                        sans: ['Inter', 'sans-serif'],
-                        mono: ['ui-monospace', 'SFMono-Regular', 'Menlo', 'Monaco', 'Consolas', "Liberation Mono", "Courier New", 'monospace'],
-                    },
-                    colors: {
-                        primary: '#6366f1',
-                        secondary: '#8b5cf6',
-                        background: '#f8fafc',
-                        surface: '#ffffff',
-                    }
-                }
-            }
-        }
-    </script>
-    <style>
-        body {
-            background-color: #f8fafc;
-        }
-        .gradient-text {
-            background: linear-gradient(to right, #4f46e5, #7c3aed);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-        .gradient-bg {
-            background: linear-gradient(to right, #6366f1, #8b5cf6);
-        }
-        .custom-scrollbar::-webkit-scrollbar {
-            width: 6px;
-        }
-        .custom-scrollbar::-webkit-scrollbar-track {
-            background: transparent;
-        }
-        .custom-scrollbar::-webkit-scrollbar-thumb {
-            background-color: #cbd5e1;
-            border-radius: 20px;
-        }
-    </style>
-</head>
-<body class="text-slate-800 font-sans flex h-screen overflow-hidden">
-
-    <!-- Sidebar -->
-    <aside class="w-64 bg-white border-r border-slate-200 flex flex-col h-full shrink-0">
-        <!-- Logo -->
-        <div class="p-6 flex items-center gap-3">
-            <div class="w-10 h-10 rounded-lg gradient-bg flex items-center justify-center text-white shadow-lg">
-                <i class="fa-solid fa-shield-halved text-xl"></i>
-            </div>
-            <div>
-                <h1 class="font-bold text-lg leading-tight">PrivacyGuard AI</h1>
-                <p class="text-xs text-slate-500">Medical Data Protection</p>
-            </div>
-        </div>
-
-        <!-- Navigation -->
-        <nav class="flex-1 px-4 space-y-1 overflow-y-auto">
-            <a href="index.html" class="flex items-center gap-3 px-4 py-3 rounded-xl text-slate-600 hover:bg-slate-50 hover:text-slate-900 transition-colors">
-                <i class="fa-solid fa-house w-5 text-center"></i>
-                Dashboard
-            </a>
-            <a href="sanitize.html" class="flex items-center gap-3 px-4 py-3 rounded-xl text-slate-600 hover:bg-slate-50 hover:text-slate-900 transition-colors">
-                <i class="fa-solid fa-shield-virus w-5 text-center"></i>
-                Sanitize Document
-            </a>
-            <!-- Active State -->
-            <a href="history.html" class="flex items-center gap-3 px-4 py-3 rounded-xl bg-indigo-50 text-indigo-600 font-medium">
-                <i class="fa-regular fa-clock w-5 text-center"></i>
-                History
-            </a>
-            <a href="audit_logs.html" class="flex items-center gap-3 px-4 py-3 rounded-xl text-slate-600 hover:bg-slate-50 hover:text-slate-900 transition-colors">
-                <i class="fa-solid fa-clipboard-list w-5 text-center"></i>
-                Audit Logs
-            </a>
-            <a href="reports.html" class="flex items-center gap-3 px-4 py-3 rounded-xl text-slate-600 hover:bg-slate-50 hover:text-slate-900 transition-colors">
-                <i class="fa-solid fa-chart-pie w-5 text-center"></i>
-                Reports
-            </a>
-            <a href="api_access.html" class="flex items-center gap-3 px-4 py-3 rounded-xl text-slate-600 hover:bg-slate-50 hover:text-slate-900 transition-colors">
-                <i class="fa-solid fa-code w-5 text-center"></i>
-                API Access
-            </a>
-            <a href="settings.html" class="flex items-center gap-3 px-4 py-3 rounded-xl text-slate-600 hover:bg-slate-50 hover:text-slate-900 transition-colors">
-                <i class="fa-solid fa-gear w-5 text-center"></i>
-                Settings
-            </a>
-        </nav>
-
-        <!-- Sidebar Footer Cards -->
-        <div class="p-4 space-y-4">
-            <div class="bg-indigo-50/50 rounded-2xl p-4 relative overflow-hidden">
-                <div class="absolute top-0 right-0 -mr-4 -mt-4 w-16 h-16 bg-indigo-100 rounded-full opacity-50 blur-xl"></div>
-                <div class="w-10 h-10 rounded-xl gradient-bg flex items-center justify-center text-white mb-3 shadow-md">
-                    <i class="fa-solid fa-shield-check"></i>
-                </div>
-                <h3 class="font-semibold text-sm mb-1">Your Data is Safe</h3>
-                <p class="text-xs text-slate-500 mb-3">We ensure end-to-end security and never store your documents.</p>
-                <a href="#" class="text-xs text-indigo-600 font-medium flex items-center gap-1">Learn more <i class="fa-solid fa-arrow-right"></i></a>
-            </div>
-
-            <div class="bg-emerald-50 rounded-xl p-3 flex items-center gap-2 border border-emerald-100">
-                <i class="fa-regular fa-circle-check text-emerald-500"></i>
-                <span class="text-xs font-medium text-emerald-700">Secure Connection</span>
-            </div>
-        </div>
-    </aside>
-
-    <!-- Main Content -->
-    <main class="flex-1 flex flex-col h-full overflow-y-auto p-6 md:p-8">
-        
-        <!-- Header -->
-        <header class="flex justify-between items-start mb-6">
-            <div class="flex items-center gap-3">
-                <div class="w-8 h-8 rounded-full bg-indigo-100 text-indigo-600 flex items-center justify-center">
-                    <i class="fa-regular fa-clock"></i>
-                </div>
-                <div>
-                    <h2 class="text-2xl font-bold text-slate-900 leading-tight">History</h2>
-                    <p class="text-sm text-slate-500 mt-0.5">View and manage your previously sanitized documents</p>
-                </div>
-            </div>
-            <div class="flex items-center gap-3">
-                <button class="flex items-center gap-2 px-4 py-2 bg-white border border-slate-200 rounded-lg text-sm font-medium hover:bg-slate-50">
-                    <i class="fa-regular fa-sun"></i> Light
-                </button>
-                <button class="relative p-2 bg-white border border-slate-200 rounded-lg text-slate-600 hover:bg-slate-50 w-10 h-10 flex items-center justify-center">
-                    <i class="fa-regular fa-bell"></i>
-                    <span class="absolute top-1 right-1 w-2.5 h-2.5 bg-red-500 rounded-full border-2 border-white"></span>
-                </button>
-                <button class="flex items-center gap-2 px-4 py-2 bg-indigo-600 text-white rounded-lg text-sm font-medium hover:bg-indigo-700 shadow-sm">
-                    <i class="fa-solid fa-download"></i> Export Report
-                </button>
-            </div>
-        </header>
-
-        <!-- Top Stats Row -->
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-6">
-            <!-- Total Documents -->
-            <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm flex items-center gap-4">
-                <div class="w-12 h-12 rounded-xl bg-purple-50 text-purple-600 flex items-center justify-center text-xl">
-                    <i class="fa-regular fa-file-lines"></i>
-                </div>
-                <div>
-                    <div class="text-2xl font-bold text-slate-800">0</div>
-                    <div class="text-xs font-medium text-slate-600 mt-0.5">Total Documents</div>
-                    <div class="text-[10px] text-purple-600 font-medium mt-1">All time</div>
-                </div>
-            </div>
-
-            <!-- Sanitized Documents -->
-            <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm flex items-center gap-4">
-                <div class="w-12 h-12 rounded-xl bg-emerald-50 text-emerald-500 flex items-center justify-center text-xl">
-                    <i class="fa-regular fa-shield-check"></i>
-                </div>
-                <div>
-                    <div class="text-2xl font-bold text-slate-800">0</div>
-                    <div class="text-xs font-medium text-slate-600 mt-0.5">Sanitized Documents</div>
-                    <div class="text-[10px] text-emerald-600 font-medium mt-1">96.1% Success Rate</div>
-                </div>
-            </div>
-
-            <!-- Viewed Documents -->
-            <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm flex items-center gap-4">
-                <div class="w-12 h-12 rounded-xl bg-blue-50 text-blue-500 flex items-center justify-center text-xl">
-                    <i class="fa-regular fa-eye"></i>
-                </div>
-                <div>
-                    <div class="text-2xl font-bold text-slate-800">0</div>
-                    <div class="text-xs font-medium text-slate-600 mt-0.5">Viewed Documents</div>
-                    <div class="text-[10px] text-blue-600 font-medium mt-1">This month</div>
-                </div>
-            </div>
-
-            <!-- Deleted Documents -->
-            <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm flex items-center gap-4">
-                <div class="w-12 h-12 rounded-xl bg-red-50 text-red-500 flex items-center justify-center text-xl">
-                    <i class="fa-regular fa-trash-can"></i>
-                </div>
-                <div>
-                    <div class="text-2xl font-bold text-slate-800">0</div>
-                    <div class="text-xs font-medium text-slate-600 mt-0.5">Deleted Documents</div>
-                    <div class="text-[10px] text-red-500 font-medium mt-1">This month</div>
-                </div>
-            </div>
-        </div>
-
-        <!-- History Table Section -->
-        <div class="bg-white rounded-2xl border border-slate-200 shadow-sm flex-1 flex flex-col overflow-hidden">
-            
-            <!-- Filters Bar -->
-            <div class="p-4 border-b border-slate-100 flex flex-wrap gap-4 items-center justify-between">
-                <div class="relative w-80">
-                    <i class="fa-solid fa-magnifying-glass absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-sm"></i>
-                    <input type="text" placeholder="Search by file name or type..." class="w-full pl-9 pr-4 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 placeholder-slate-400">
-                </div>
-                <div class="flex items-center gap-3">
-                    <button class="px-3 py-2 bg-white border border-slate-200 rounded-lg text-sm font-medium text-slate-600 hover:bg-slate-50 flex items-center gap-2">
-                        <i class="fa-regular fa-calendar text-slate-400"></i> All Time <i class="fa-solid fa-chevron-down text-xs ml-1 text-slate-400"></i>
-                    </button>
-                    <button class="px-3 py-2 bg-white border border-slate-200 rounded-lg text-sm font-medium text-slate-600 hover:bg-slate-50 flex items-center gap-2">
-                        <i class="fa-solid fa-filter text-slate-400"></i> All Status <i class="fa-solid fa-chevron-down text-xs ml-1 text-slate-400"></i>
-                    </button>
-                    <button class="px-3 py-2 bg-white border border-slate-200 rounded-lg text-sm font-medium text-slate-600 hover:bg-slate-50 flex items-center gap-2">
-                        <i class="fa-solid fa-eraser text-slate-400"></i> Clear Filters
-                    </button>
-                </div>
-            </div>
-
-            <!-- Table -->
-            <div class="overflow-x-auto flex-1">
-                <table class="w-full text-left border-collapse">
-                    <thead>
-                        <tr class="bg-slate-50/50 border-b border-slate-100 text-xs font-semibold text-slate-500 uppercase tracking-wider">
-                            <th class="px-6 py-4">Document Name</th>
-                            <th class="px-6 py-4 text-center">Type</th>
-                            <th class="px-6 py-4 text-center">Pages</th>
-                            <th class="px-6 py-4 text-center">Sanitization Strategy</th>
-                            <th class="px-6 py-4 text-center">Status</th>
-                            <th class="px-6 py-4">Date & Time</th>
-                            <th class="px-6 py-4 text-center">Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody class="divide-y divide-slate-100 text-sm">
-                        <tr>
-                            <td colspan="10" class="px-6 py-8 text-center text-slate-500">
-                                No data available
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-
-            <!-- Pagination Footer -->
-            <div class="p-4 border-t border-slate-100 flex items-center justify-between bg-white mt-auto">
-                <div class="text-xs text-slate-500">
-                    Showing 0 to 0 of 0 results
-                </div>
-                <div class="flex items-center gap-1">
-                    <button class="w-8 h-8 flex items-center justify-center rounded-lg border border-slate-200 text-slate-400 cursor-not-allowed"><i class="fa-solid fa-chevron-left text-xs"></i></button>
-                    <button class="w-8 h-8 flex items-center justify-center rounded-lg border border-slate-200 text-slate-400 cursor-not-allowed">1</button>
-                    <button class="w-8 h-8 flex items-center justify-center rounded-lg border border-slate-200 text-slate-400 cursor-not-allowed"><i class="fa-solid fa-chevron-right text-xs"></i></button>
-                </div>
-            </div>
-
-        </div>
-
-    </main>
-
-</body>
-</html>
+﻿<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>PrivacyGuard AI - History</title><script src="https://cdn.tailwindcss.com"></script><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"><script>tailwind.config={theme:{extend:{fontFamily:{sans:["Inter","sans-serif"]},colors:{primary:"#6366f1",secondary:"#8b5cf6"}}}}</script><style>body{background-color:#f8fafc;}.gradient-bg{background:linear-gradient(to right,#6366f1,#8b5cf6);}.custom-scrollbar::-webkit-scrollbar{width:6px;}.custom-scrollbar::-webkit-scrollbar-track{background:transparent;}.custom-scrollbar::-webkit-scrollbar-thumb{background-color:#cbd5e1;border-radius:20px;}.stat-card{transition:all .2s ease;cursor:pointer;}.stat-card:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(0,0,0,.08);}.stat-card.ring-active{box-shadow:0 0 0 2px #6366f1;}tr.row-anim{animation:fadeIn .25s ease;}@keyframes fadeIn{from{opacity:0;transform:translateY(-4px)}to{opacity:1;transform:none}}.badge{display:inline-flex;align-items:center;gap:4px;padding:2px 10px;border-radius:999px;font-size:11px;font-weight:600;}.toast-box{position:fixed;bottom:24px;right:24px;z-index:9999;min-width:260px;background:white;border:1px solid #e2e8f0;border-radius:12px;padding:14px 18px;box-shadow:0 8px 30px rgba(0,0,0,.12);display:none;align-items:center;gap:12px;}.dd-panel{display:none;position:absolute;z-index:200;top:calc(100% + 6px);min-width:180px;background:white;border:1px solid #e2e8f0;border-radius:12px;box-shadow:0 8px 24px rgba(0,0,0,.1);padding:6px;}.dd-panel.open{display:block;}.dd-item{padding:8px 12px;border-radius:8px;font-size:13px;cursor:pointer;display:flex;align-items:center;gap:8px;}.dd-item:hover{background:#f8fafc;}.dd-item.sel{background:#eff6ff;color:#4f46e5;font-weight:600;}.modal-wrap{display:none;position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:1000;align-items:center;justify-content:center;}.modal-wrap.open{display:flex;}.pulse{animation:pulse 1.8s infinite;}@keyframes pulse{0%,100%{opacity:1}50%{opacity:.45}}</style></head>
+<body class="text-slate-800 font-sans flex h-screen overflow-hidden"><aside class="w-64 bg-white border-r border-slate-200 flex flex-col h-full shrink-0"><div class="p-6 flex items-center gap-3"><div class="w-10 h-10 rounded-lg gradient-bg flex items-center justify-center text-white shadow-lg"><i class="fa-solid fa-shield-halved text-xl"></i></div><div><h1 class="font-bold text-lg leading-tight">PrivacyGuard AI</h1><p class="text-xs text-slate-500">Medical Data Protection</p></div></div><nav class="flex-1 px-4 space-y-1 overflow-y-auto custom-scrollbar"><a href="index.html" class="flex items-center gap-3 px-4 py-3 rounded-xl text-slate-600 hover:bg-slate-50 hover:text-slate-900 transition-colors"><i class="fa-solid fa-house w-5 text-center"></i> Dashboard</a><a href="sanitize.html" class="flex items-center gap-3 px-4 py-3 rounded-xl text-slate-600 hover:bg-slate-50 hover:text-slate-900 transition-colors"><i class="fa-solid fa-shield-virus w-5 text-center"></i> Sanitize Document</a><a href="history.html" class="flex items-center gap-3 px-4 py-3 rounded-xl bg-indigo-50 text-indigo-600 font-medium"><i class="fa-regular fa-clock w-5 text-center"></i> History</a><a href="audit_logs.html" class="flex items-center gap-3 px-4 py-3 rounded-xl text-slate-600 hover:bg-slate-50 hover:text-slate-900 transition-colors"><i class="fa-solid fa-clipboard-list w-5 text-center"></i> Audit Logs</a><a href="reports.html" class="flex items-center gap-3 px-4 py-3 rounded-xl text-slate-600 hover:bg-slate-50 hover:text-slate-900 transition-colors"><i class="fa-solid fa-chart-pie w-5 text-center"></i> Reports</a><a href="api_access.html" class="flex items-center gap-3 px-4 py-3 rounded-xl text-slate-600 hover:bg-slate-50 hover:text-slate-900 transition-colors"><i class="fa-solid fa-code w-5 text-center"></i> API Access</a><a href="settings.html" class="flex items-center gap-3 px-4 py-3 rounded-xl text-slate-600 hover:bg-slate-50 hover:text-slate-900 transition-colors"><i class="fa-solid fa-gear w-5 text-center"></i> Settings</a></nav><div class="p-4 space-y-4"><div class="bg-indigo-50/50 rounded-2xl p-4 relative overflow-hidden"><div class="absolute top-0 right-0 -mr-4 -mt-4 w-16 h-16 bg-indigo-100 rounded-full opacity-50 blur-xl"></div><div class="w-10 h-10 rounded-xl gradient-bg flex items-center justify-center text-white mb-3 shadow-md"><i class="fa-solid fa-shield-check"></i></div><h3 class="font-semibold text-sm mb-1">Your Data is Safe</h3><p class="text-xs text-slate-500 mb-3">We ensure end-to-end security and never store your documents.</p><a href="#" class="text-xs text-indigo-600 font-medium flex items-center gap-1">Learn more <i class="fa-solid fa-arrow-right"></i></a></div><div class="bg-emerald-50 rounded-xl p-3 flex items-center gap-2 border border-emerald-100"><i class="fa-regular fa-circle-check text-emerald-500"></i><span class="text-xs font-medium text-emerald-700">Secure Connection</span></div></div></aside>
+<main class="flex-1 flex flex-col h-full overflow-y-auto custom-scrollbar p-6 md:p-8"><header class="flex justify-between items-center mb-6"><div class="flex items-center gap-3"><div class="w-8 h-8 rounded-full bg-indigo-100 text-indigo-600 flex items-center justify-center"><i class="fa-regular fa-clock"></i></div><div><h2 class="text-2xl font-bold text-slate-900 leading-tight">History</h2><p class="text-sm text-slate-500 mt-0.5">View and manage your previously sanitized documents</p></div></div><div class="flex items-center gap-3"><button onclick="loadAll()" title="Refresh" class="p-2 bg-white border border-slate-200 rounded-lg text-slate-600 hover:bg-slate-50 w-10 h-10 flex items-center justify-center"><i id="ri" class="fa-solid fa-rotate-right"></i></button><button onclick="exportCSV()" class="flex items-center gap-2 px-4 py-2 bg-indigo-600 text-white rounded-lg text-sm font-medium hover:bg-indigo-700 shadow-sm"><i class="fa-solid fa-download"></i> Export Report</button></div></header>
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5 mb-6"><div id="card-total" onclick="filterCard('all')" class="stat-card bg-white p-5 rounded-2xl border border-slate-200 shadow-sm flex items-center gap-4"><div class="w-12 h-12 rounded-xl bg-purple-50 text-purple-600 flex items-center justify-center text-xl"><i class="fa-regular fa-file-lines"></i></div><div><div id="st-total" class="text-2xl font-bold text-slate-800 pulse">--</div><div class="text-xs font-medium text-slate-600 mt-0.5">Total Documents</div><div class="text-[10px] text-purple-600 font-medium mt-1">All time</div></div></div><div id="card-sanitized" onclick="filterCard('sanitized')" class="stat-card bg-white p-5 rounded-2xl border border-slate-200 shadow-sm flex items-center gap-4"><div class="w-12 h-12 rounded-xl bg-emerald-50 text-emerald-500 flex items-center justify-center text-xl"><i class="fa-solid fa-shield-halved"></i></div><div><div id="st-sanitized" class="text-2xl font-bold text-slate-800 pulse">--</div><div class="text-xs font-medium text-slate-600 mt-0.5">Sanitized Documents</div><div id="st-rate" class="text-[10px] text-emerald-600 font-medium mt-1">-- Success Rate</div></div></div><div id="card-viewed" onclick="filterCard('viewed')" class="stat-card bg-white p-5 rounded-2xl border border-slate-200 shadow-sm flex items-center gap-4"><div class="w-12 h-12 rounded-xl bg-blue-50 text-blue-500 flex items-center justify-center text-xl"><i class="fa-regular fa-eye"></i></div><div><div id="st-viewed" class="text-2xl font-bold text-slate-800 pulse">--</div><div class="text-xs font-medium text-slate-600 mt-0.5">Viewed Documents</div><div id="st-viewed-mo" class="text-[10px] text-blue-600 font-medium mt-1">-- this month</div></div></div><div id="card-deleted" onclick="filterCard('deleted')" class="stat-card bg-white p-5 rounded-2xl border border-slate-200 shadow-sm flex items-center gap-4"><div class="w-12 h-12 rounded-xl bg-red-50 text-red-500 flex items-center justify-center text-xl"><i class="fa-regular fa-trash-can"></i></div><div><div id="st-deleted" class="text-2xl font-bold text-slate-800 pulse">--</div><div class="text-xs font-medium text-slate-600 mt-0.5">Deleted Documents</div><div id="st-deleted-mo" class="text-[10px] text-red-500 font-medium mt-1">-- this month</div></div></div></div>
+<div class="bg-white rounded-2xl border border-slate-200 shadow-sm flex flex-col overflow-hidden flex-1"><div class="p-4 border-b border-slate-100 flex flex-wrap gap-3 items-center justify-between"><div class="relative w-72"><i class="fa-solid fa-magnifying-glass absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-sm"></i><input id="search" type="text" placeholder="Search by file name or type..." class="w-full pl-9 pr-4 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 placeholder-slate-400" oninput="debounce()"></div><div class="flex items-center gap-3 flex-wrap"><div class="relative"><button onclick="toggleDd('dd-time')" class="px-3 py-2 bg-white border border-slate-200 rounded-lg text-sm font-medium text-slate-600 hover:bg-slate-50 flex items-center gap-2"><i class="fa-regular fa-calendar text-slate-400"></i><span id="lbl-time">All Time</span><i class="fa-solid fa-chevron-down text-xs text-slate-400"></i></button><div id="dd-time" class="dd-panel"><div class="dd-item sel" onclick="setTime('all','All Time',this)"><i class="fa-solid fa-infinity w-4"></i> All Time</div><div class="dd-item" onclick="setTime('today','Today',this)"><i class="fa-regular fa-sun w-4"></i> Today</div><div class="dd-item" onclick="setTime('week','This Week',this)"><i class="fa-solid fa-calendar-week w-4"></i> This Week</div><div class="dd-item" onclick="setTime('month','This Month',this)"><i class="fa-regular fa-calendar w-4"></i> This Month</div></div></div><div class="relative"><button onclick="toggleDd('dd-status')" class="px-3 py-2 bg-white border border-slate-200 rounded-lg text-sm font-medium text-slate-600 hover:bg-slate-50 flex items-center gap-2"><i class="fa-solid fa-filter text-slate-400"></i><span id="lbl-status">All Status</span><i class="fa-solid fa-chevron-down text-xs text-slate-400"></i></button><div id="dd-status" class="dd-panel"><div class="dd-item sel" onclick="setStatus(null,'All Status',this)"><i class="fa-solid fa-layer-group w-4"></i> All Status</div><div class="dd-item" onclick="setStatus('sanitized','Sanitized',this)"><i class="fa-solid fa-shield-halved text-emerald-500 w-4"></i> Sanitized</div><div class="dd-item" onclick="setStatus('viewed','Viewed',this)"><i class="fa-regular fa-eye text-blue-500 w-4"></i> Viewed</div><div class="dd-item" onclick="setStatus('deleted','Deleted',this)"><i class="fa-regular fa-trash-can text-red-400 w-4"></i> Deleted</div></div></div><div class="relative"><button onclick="toggleDd('dd-type')" class="px-3 py-2 bg-white border border-slate-200 rounded-lg text-sm font-medium text-slate-600 hover:bg-slate-50 flex items-center gap-2"><i class="fa-regular fa-file text-slate-400"></i><span id="lbl-type">All Types</span><i class="fa-solid fa-chevron-down text-xs text-slate-400"></i></button><div id="dd-type" class="dd-panel"><div class="dd-item sel" onclick="setType('all','All Types',this)"><i class="fa-solid fa-layer-group w-4"></i> All Types</div><div class="dd-item" onclick="setType('pdf','PDF',this)"><i class="fa-regular fa-file-pdf text-red-400 w-4"></i> PDF</div><div class="dd-item" onclick="setType('jpg','JPG',this)"><i class="fa-regular fa-image text-sky-400 w-4"></i> JPG / Image</div><div class="dd-item" onclick="setType('png','PNG',this)"><i class="fa-regular fa-image text-purple-400 w-4"></i> PNG</div><div class="dd-item" onclick="setType('docx','DOCX',this)"><i class="fa-regular fa-file-word text-blue-500 w-4"></i> DOCX</div><div class="dd-item" onclick="setType('txt','TXT',this)"><i class="fa-regular fa-file-lines text-slate-400 w-4"></i> TXT</div></div></div><button onclick="clearFilters()" class="px-3 py-2 bg-white border border-slate-200 rounded-lg text-sm font-medium text-slate-600 hover:bg-slate-50 flex items-center gap-2"><i class="fa-solid fa-eraser text-slate-400"></i> Clear Filters</button><button id="btn-bulk" onclick="bulkDelete()" style="display:none" class="px-3 py-2 bg-red-50 border border-red-200 rounded-lg text-sm font-medium text-red-600 hover:bg-red-100 flex items-center gap-2"><i class="fa-regular fa-trash-can"></i> Delete (<span id="sel-cnt">0</span>)</button></div></div>
+<div class="overflow-x-auto flex-1"><table class="w-full text-left border-collapse"><thead><tr class="bg-slate-50/50 border-b border-slate-100 text-xs font-semibold text-slate-500 uppercase tracking-wider"><th class="px-4 py-4"><input type="checkbox" id="chk-all" onchange="toggleAll()" class="rounded border-slate-300 text-indigo-600 focus:ring-indigo-500"></th><th class="px-4 py-4">Document Name</th><th class="px-4 py-4 text-center">Type</th><th class="px-4 py-4 text-center">PII Found</th><th class="px-4 py-4 text-center">Strategy</th><th class="px-4 py-4 text-center">Profile</th><th class="px-4 py-4 text-center">Status</th><th class="px-4 py-4">Date &amp; Time</th><th class="px-4 py-4 text-center">Actions</th></tr></thead><tbody id="tbody" class="divide-y divide-slate-100 text-sm"><tr><td colspan="9" class="px-6 py-12 text-center text-indigo-400"><i class="fa-solid fa-spinner fa-spin text-2xl mb-3 block"></i>Loading history...</td></tr></tbody></table></div>
+<div class="p-4 border-t border-slate-100 flex items-center justify-between bg-white"><div class="text-xs text-slate-500" id="pg-info">Showing 0 to 0 of 0 results</div><div class="flex items-center gap-1" id="pg-btns"></div></div></div></main>
+<div id="modal" class="modal-wrap" onclick="if(event.target===this)closeModal()"><div class="bg-white rounded-2xl shadow-2xl w-full max-w-lg mx-4 overflow-hidden"><div class="px-6 py-4 border-b border-slate-100 flex justify-between items-center gradient-bg"><h3 class="font-bold text-white text-lg flex items-center gap-2"><i class="fa-solid fa-file-shield"></i> Document Details</h3><button onclick="closeModal()" class="text-white/80 hover:text-white"><i class="fa-solid fa-xmark text-xl"></i></button></div><div id="modal-body" class="p-6 space-y-4 overflow-y-auto max-h-[70vh] custom-scrollbar"></div></div></div>
+<div id="toast" class="toast-box"><i id="toast-icon" class="fa-solid fa-circle-check text-emerald-500 text-lg"></i><span id="toast-msg" class="text-sm font-medium text-slate-700"></span></div>
+<script>
+const S={page:1,perPage:10,totalPages:1,total:0,search:"",status:null,fileType:"all",timeRange:"all",selected:new Set(),records:[]};
+let _st=null;
+document.addEventListener("DOMContentLoaded",()=>{
+    loadAll();
+    document.addEventListener("click",e=>{
+        if(!e.target.closest("[onclick*='toggleDd']")&&!e.target.closest(".dd-panel"))
+            document.querySelectorAll(".dd-panel.open").forEach(d=>d.classList.remove("open"));
+    });
+});
+async function loadAll(){spin(true);await Promise.all([loadStats(),loadRecords()]);spin(false);}
+async function loadStats(){
+    try{
+        const d=await(await fetch("/history/stats")).json();
+        anim("st-total",d.total_documents);anim("st-sanitized",d.sanitized_documents);
+        anim("st-viewed",d.viewed_documents);anim("st-deleted",d.deleted_documents);
+        document.getElementById("st-rate").textContent=d.success_rate+"% Success Rate";
+        document.getElementById("st-viewed-mo").textContent=d.viewed_this_month+" this month";
+        document.getElementById("st-deleted-mo").textContent=d.deleted_this_month+" this month";
+        document.querySelectorAll(".pulse").forEach(e=>e.classList.remove("pulse"));
+    }catch(e){console.error(e);}
+}
+function anim(id,target){
+    const el=document.getElementById(id);if(!el)return;
+    const from=parseInt(el.textContent)||0,t0=performance.now();
+    const run=now=>{const p=Math.min((now-t0)/500,1),e=p<.5?2*p*p:-1+(4-2*p)*p;
+        el.textContent=Math.round(from+(target-from)*e);if(p<1)requestAnimationFrame(run);};
+    requestAnimationFrame(run);
+}
+async function loadRecords(){
+    const p=new URLSearchParams({page:S.page,per_page:S.perPage});
+    if(S.search)p.set("search",S.search);if(S.status)p.set("status",S.status);
+    if(S.fileType!=="all")p.set("file_type",S.fileType);if(S.timeRange!=="all")p.set("time_range",S.timeRange);
+    try{
+        const d=await(await fetch("/history/records?"+p)).json();
+        S.records=d.records;S.total=d.total;S.totalPages=d.total_pages;
+        renderTable(d.records);renderPg(d.page,d.total_pages,d.total);
+    }catch{
+        document.getElementById("tbody").innerHTML="<tr><td colspan='9' class='px-6 py-10 text-center text-red-400'><i class='fa-solid fa-triangle-exclamation text-2xl mb-2 block'></i>Failed to load. Is the server running?</td></tr>";
+    }
+}
+function renderTable(recs){
+    const tb=document.getElementById("tbody");
+    if(!recs||!recs.length){
+        tb.innerHTML="<tr><td colspan='9' class='px-6 py-14 text-center'><div class='flex flex-col items-center gap-3 text-slate-400'><div class='w-16 h-16 rounded-2xl bg-slate-100 flex items-center justify-center text-3xl'><i class='fa-regular fa-folder-open'></i></div><div class='text-sm font-medium'>No records found</div><div class='text-xs'>Adjust filters or sanitize a new document</div><a href='sanitize.html' class='mt-1 px-4 py-2 bg-indigo-600 text-white text-xs font-medium rounded-lg hover:bg-indigo-700'>Sanitize Document</a></div></td></tr>";
+        syncAll();return;
+    }
+    tb.innerHTML=recs.map(mkRow).join("");syncAll();
+}
+function mkRow(r){
+    const ti=ticon(r.file_type),dt=fmtDate(r.timestamp);
+    const pc=r.pii_found_count>20?"text-red-600 font-bold":r.pii_found_count>5?"text-orange-500 font-semibold":"text-slate-700";
+    const stB=r.deleted?"<span class='badge' style='background:#fef2f2;color:#dc2626;border:1px solid #fecaca'><i class='fa-regular fa-trash-can'></i> Deleted</span>":"<span class='badge' style='background:#ecfdf5;color:#059669;border:1px solid #a7f3d0'><i class='fa-solid fa-check'></i> Sanitized</span>";
+    const vdot=r.viewed?"<span class='w-1.5 h-1.5 rounded-full bg-blue-400 inline-block mr-1 mb-0.5' title='Viewed'></span>":"";
+    const act=r.deleted
+        ?"<button onclick=\"restoreRec('"+r.id+"')\" title='Restore' class='w-8 h-8 flex items-center justify-center rounded-lg hover:bg-emerald-50 text-emerald-500'><i class='fa-solid fa-rotate-left'></i></button>"
+        :"<button onclick=\"viewRec('"+r.id+"')\" title='View Details' class='w-8 h-8 flex items-center justify-center rounded-lg hover:bg-indigo-50 text-indigo-500'><i class='fa-regular fa-eye'></i></button><button onclick=\"deleteRec('"+r.id+"')\" title='Delete' class='w-8 h-8 flex items-center justify-center rounded-lg hover:bg-red-50 text-slate-400 hover:text-red-500'><i class='fa-regular fa-trash-can'></i></button>";
+    return "<tr class='row-anim hover:bg-slate-50/60 "+(S.selected.has(r.id)?"bg-indigo-50/30":"")+"'><td class='px-4 py-3'><input type='checkbox' "+(S.selected.has(r.id)?"checked":"")+" onchange=\"toggleSel('"+r.id+"',this)\" class='rounded border-slate-300 text-indigo-600'></td><td class='px-4 py-3'><div class='flex items-center gap-3'><div class='w-9 h-9 rounded-xl "+ti.bg+" flex items-center justify-center text-sm'><i class='"+ti.icon+" "+ti.color+"'></i></div><div><div class='font-medium text-slate-800'>"+vdot+esc(r.file_name)+"</div><div class='text-xs text-slate-400 font-mono'>#"+r.index+"</div></div></div></td><td class='px-4 py-3 text-center'><span class='text-xs font-bold text-slate-500 bg-slate-100 px-2 py-0.5 rounded uppercase'>"+esc(r.file_type)+"</span></td><td class='px-4 py-3 text-center'><span class='"+pc+" text-sm'>"+r.pii_found_count+"</span></td><td class='px-4 py-3 text-center'>"+stratB(r.masking_strategy)+"</td><td class='px-4 py-3 text-center'>"+profB(r.compliance_profile)+"</td><td class='px-4 py-3 text-center'>"+stB+"</td><td class='px-4 py-3'><div class='text-sm text-slate-700'>"+dt.date+"</div><div class='text-xs text-slate-400'>"+dt.time+"</div></td><td class='px-4 py-3'><div class='flex items-center justify-center gap-1'>"+act+"</div></td></tr>";
+}
+async function viewRec(id){
+    await fetch("/history/view/"+id,{method:"POST"});
+    const r=S.records.find(x=>x.id===id);if(r){r.viewed=true;showModal(r);}
+    loadStats();
+}
+function showModal(r){
+    const dt=fmtDate(r.timestamp),ti=ticon(r.file_type);
+    const ents=Object.entries(r.entities_summary||{}).map(([k,v])=>"<div class='flex justify-between py-1.5 border-b border-slate-50 last:border-0'><span class='text-sm text-slate-600 flex items-center gap-2'><i class='fa-solid fa-tag text-indigo-300 text-xs'></i>"+k+"</span><span class='text-sm font-semibold text-indigo-600 bg-indigo-50 px-2 py-0.5 rounded'>"+v+"</span></div>").join("");
+    document.getElementById("modal-body").innerHTML="<div class='flex items-center gap-4 pb-4 border-b border-slate-100'><div class='w-14 h-14 rounded-2xl "+ti.bg+" flex items-center justify-center text-2xl'><i class='"+ti.icon+" "+ti.color+"'></i></div><div><div class='font-bold text-slate-800 text-lg'>"+esc(r.file_name)+"</div><div class='text-sm text-slate-500'>"+dt.date+" at "+dt.time+"</div></div></div><div class='grid grid-cols-2 gap-3'>"+ir("Block","#"+r.index)+ir("Type",r.file_type.toUpperCase())+ir("Profile",r.compliance_profile)+ir("Strategy",r.masking_strategy)+ir("PII Found",r.pii_found_count+" fields")+ir("Status",r.deleted?"Deleted":"Sanitized")+"</div>"+(ents?"<div><h4 class='font-semibold text-slate-700 text-sm mb-2'><i class='fa-solid fa-tags text-indigo-400 mr-1'></i>Detected Entities</h4><div class='bg-slate-50 rounded-xl p-3 divide-y divide-slate-100'>"+ents+"</div></div>":"")+"<div><div class='text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2'>Cryptographic Hashes</div>"+hr("Input Hash",r.input_file_hash)+hr("Output Hash",r.output_file_hash)+hr("Block Hash",r.block_hash)+"</div>";
+    document.getElementById("modal").classList.add("open");
+}
+function ir(l,v){return "<div class='bg-slate-50 rounded-xl p-3'><div class='text-xs text-slate-400 font-medium mb-0.5'>"+l+"</div><div class='text-sm font-semibold text-slate-700'>"+v+"</div></div>";}
+function hr(l,h){return "<div class='bg-slate-50 rounded-xl p-3 mb-2'><div class='text-xs text-slate-400 font-medium mb-1'>"+l+"</div><div class='text-xs font-mono text-slate-500 break-all'>"+h+"</div></div>";}
+function closeModal(){document.getElementById("modal").classList.remove("open");}
+async function deleteRec(id){
+    if(!confirm("Remove this entry from history? The audit ledger is preserved."))return;
+    await fetch("/history/delete/"+id,{method:"DELETE"});
+    S.selected.delete(id);toast("Document removed from history.","warning");loadAll();
+}
+async function restoreRec(id){await fetch("/history/restore/"+id,{method:"POST"});toast("Document restored.","success");loadAll();}
+async function bulkDelete(){
+    const ids=[...S.selected];if(!ids.length)return;
+    if(!confirm("Delete "+ids.length+" document(s)?"))return;
+    await fetch("/history/bulk-delete",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({ids})});
+    S.selected.clear();toast(ids.length+" deleted.","warning");loadAll();
+}
+function exportCSV(){const p=new URLSearchParams();if(S.status)p.set("status",S.status);if(S.timeRange!=="all")p.set("time_range",S.timeRange);const a=document.createElement("a");a.href="/history/export/csv?"+p;a.download="privguard_history.csv";document.body.appendChild(a);a.click();document.body.removeChild(a);toast("CSV export started.","success");}
+function debounce(){clearTimeout(_st);_st=setTimeout(()=>{S.search=document.getElementById("search").value.trim();S.page=1;loadRecords();},350);}
+function setTime(v,l,el){S.timeRange=v;S.page=1;document.getElementById("lbl-time").textContent=l;sel("dd-time",el);toggleDd("dd-time");loadRecords();}
+function setStatus(v,l,el){S.status=v;S.page=1;document.getElementById("lbl-status").textContent=l;sel("dd-status",el);toggleDd("dd-status");loadRecords();hlCard(v);}
+function setType(v,l,el){S.fileType=v;S.page=1;document.getElementById("lbl-type").textContent=l;sel("dd-type",el);toggleDd("dd-type");loadRecords();}
+function sel(ddId,el){document.querySelectorAll("#"+ddId+" .dd-item").forEach(x=>x.classList.remove("sel"));el.classList.add("sel");}
+function clearFilters(){S.search="";S.status=null;S.fileType="all";S.timeRange="all";S.page=1;document.getElementById("search").value="";document.getElementById("lbl-time").textContent="All Time";document.getElementById("lbl-status").textContent="All Status";document.getElementById("lbl-type").textContent="All Types";document.querySelectorAll(".dd-panel").forEach(p=>{p.querySelectorAll(".dd-item").forEach((el,i)=>{if(i===0)el.classList.add("sel");else el.classList.remove("sel");});});hlCard(null);loadRecords();}
+function filterCard(type){const v=type==="all"?null:type,l=type==="all"?"All Status":type.charAt(0).toUpperCase()+type.slice(1);S.status=v;S.page=1;document.getElementById("lbl-status").textContent=l;hlCard(v);loadRecords();}
+function hlCard(s){["card-total","card-sanitized","card-viewed","card-deleted"].forEach(id=>document.getElementById(id).classList.remove("ring-active"));const m={null:"card-total",sanitized:"card-sanitized",viewed:"card-viewed",deleted:"card-deleted"};const el=document.getElementById(m[s]||"card-total");if(el)el.classList.add("ring-active");}
+function toggleSel(id,cb){cb.checked?S.selected.add(id):S.selected.delete(id);syncAll();syncBulk();}
+function toggleAll(){const cb=document.getElementById("chk-all");S.records.forEach(r=>cb.checked?S.selected.add(r.id):S.selected.delete(r.id));renderTable(S.records);syncBulk();}
+function syncAll(){const cb=document.getElementById("chk-all");if(!cb)return;const ids=S.records.map(r=>r.id);cb.checked=ids.length>0&&ids.every(id=>S.selected.has(id));cb.indeterminate=!cb.checked&&ids.some(id=>S.selected.has(id));}
+function syncBulk(){document.getElementById("btn-bulk").style.display=S.selected.size>0?"":"none";document.getElementById("sel-cnt").textContent=S.selected.size;}
+function renderPg(page,total,count){const pp=S.perPage,s=count===0?0:(page-1)*pp+1,e=Math.min(page*pp,count);document.getElementById("pg-info").textContent="Showing "+s+" to "+e+" of "+count+" results";const pages=total<=7?Array.from({length:total},(_,i)=>i+1):buildPgs(page,total);let html=pgB(page-1,page<=1,"<i class='fa-solid fa-chevron-left text-xs'></i>");pages.forEach(p=>{if(p==="...")html+="<span class='w-8 h-8 flex items-center justify-center text-slate-400 text-xs'>...</span>";else html+=pgB(p,false,p,p===page);});html+=pgB(page+1,page>=total,"<i class='fa-solid fa-chevron-right text-xs'></i>");document.getElementById("pg-btns").innerHTML=html;}
+function pgB(target,disabled,label,active=false){const base="w-8 h-8 flex items-center justify-center rounded-lg border text-xs font-medium";const cls=active?"border-indigo-500 bg-indigo-600 text-white":disabled?"border-slate-200 text-slate-300 cursor-not-allowed":"border-slate-200 text-slate-600 hover:bg-slate-50";return "<button "+(disabled?"disabled":("onclick='goPage("+target+")'"))+" class='"+base+" "+cls+"'>"+label+"</button>";}
+function buildPgs(cur,total){const p=[1];if(cur>3)p.push("...");for(let i=Math.max(2,cur-1);i<=Math.min(total-1,cur+1);i++)p.push(i);if(cur<total-2)p.push("...");p.push(total);return p;}
+function goPage(p){if(p<1||p>S.totalPages)return;S.page=p;loadRecords();}
+function toggleDd(id){const el=document.getElementById(id),was=el.classList.contains("open");document.querySelectorAll(".dd-panel.open").forEach(d=>d.classList.remove("open"));if(!was)el.classList.add("open");}
+function spin(on){document.getElementById("ri").classList.toggle("fa-spin",on);}
+function ticon(t){const m={pdf:{icon:"fa-regular fa-file-pdf",color:"text-red-500",bg:"bg-red-50"},jpg:{icon:"fa-regular fa-image",color:"text-sky-500",bg:"bg-sky-50"},jpeg:{icon:"fa-regular fa-image",color:"text-sky-500",bg:"bg-sky-50"},png:{icon:"fa-regular fa-image",color:"text-purple-500",bg:"bg-purple-50"},docx:{icon:"fa-regular fa-file-word",color:"text-blue-600",bg:"bg-blue-50"},doc:{icon:"fa-regular fa-file-word",color:"text-blue-600",bg:"bg-blue-50"},txt:{icon:"fa-regular fa-file-lines",color:"text-slate-500",bg:"bg-slate-100"}};return m[t?.toLowerCase()]||{icon:"fa-regular fa-file",color:"text-slate-500",bg:"bg-slate-100"};}
+function stratB(s){const m={redact:"<span class='badge' style='background:#0f172a;color:#f1f5f9;border:1px solid #334155'><i class='fa-solid fa-ban text-xs'></i> Redact</span>",hash:"<span class='badge' style='background:#fffbeb;color:#d97706;border:1px solid #fde68a'><i class='fa-solid fa-hashtag text-xs'></i> Hash</span>",anonymize:"<span class='badge' style='background:#f0f9ff;color:#0284c7;border:1px solid #bae6fd'><i class='fa-solid fa-mask text-xs'></i> Anonymize</span>"};return m[s?.toLowerCase()]||"<span class='badge'>"+esc(s)+"</span>";}
+function profB(p){const m={HIPAA:"background:#f0fdf4;color:#15803d;border:1px solid #bbf7d0",GDPR:"background:#eff6ff;color:#1d4ed8;border:1px solid #bfdbfe","PCI-DSS":"background:#fff7ed;color:#c2410c;border:1px solid #fed7aa",CUSTOM:"background:#faf5ff;color:#7c3aed;border:1px solid #ddd6fe"};const s=m[p?.toUpperCase()]||"";return "<span class='badge' style='"+s+"'>"+esc(p)+"</span>";}
+function fmtDate(iso){try{const d=new Date(iso);return{date:d.toLocaleDateString("en-US",{year:"numeric",month:"short",day:"2-digit"}),time:d.toLocaleTimeString("en-US",{hour:"2-digit",minute:"2-digit",hour12:true})}}catch{return{date:iso,time:""};}}
+function esc(str){const d=document.createElement("div");d.appendChild(document.createTextNode(str||""));return d.innerHTML;}
+let _tt=null;
+function toast(msg,type="success"){const el=document.getElementById("toast"),icon=document.getElementById("toast-icon");document.getElementById("toast-msg").textContent=msg;const m={success:{c:"text-emerald-500",i:"fa-circle-check"},warning:{c:"text-orange-400",i:"fa-triangle-exclamation"},error:{c:"text-red-500",i:"fa-circle-xmark"}};const t=m[type]||m.success;icon.className="fa-solid "+t.i+" "+t.c+" text-lg";el.style.display="flex";clearTimeout(_tt);_tt=setTimeout(()=>{el.style.opacity="0";el.style.transition="opacity .3s";setTimeout(()=>{el.style.display="none";el.style.opacity="1";el.style.transition="";},300);},3200);}
+</script></body></html>

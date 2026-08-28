@@ -1,12 +1,17 @@
-# Python
+﻿# Temp uploads and sanitized output files
+temp_uploads/
+*.zip
+
+# Python cache
 __pycache__/
 *.pyc
-venv/
-.env
+*.pyo
+*.pyd
 
-# Ignore generated files
-redacted_*
-report.txt
+# Virtual environments
+venv/
+.venv/
+env/
 
 # OS files
 .DS_Store

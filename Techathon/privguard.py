@@ -523,18 +523,73 @@ if FASTAPI_AVAILABLE:
 
     active_profile = DEFAULT_PROFILE
 
+    # ==========================================
+    # HISTORY STATE MANAGER
+    # ==========================================
+
+    HISTORY_STATE_FILE = "history_state.json"
+
+    def load_history_state() -> Dict[str, Any]:
+        if os.path.exists(HISTORY_STATE_FILE):
+            try:
+                with open(HISTORY_STATE_FILE, "r", encoding="utf-8") as f:
+                    return json.load(f)
+            except Exception:
+                pass
+        return {"viewed": [], "deleted": []}
+
+    def save_history_state(state: Dict[str, Any]):
+        with open(HISTORY_STATE_FILE, "w", encoding="utf-8") as f:
+            json.dump(state, f, indent=2)
+
+    def get_document_records() -> List[Dict[str, Any]]:
+        state = load_history_state()
+        viewed_set = set(state.get("viewed", []))
+        deleted_set = set(state.get("deleted", []))
+        blocks = ledger_instance.get_all_blocks()
+        records = []
+        for block in blocks:
+            if block.get("file_name") == "GENESIS_BLOCK":
+                continue
+            uid = str(block["index"])
+            records.append({
+                "id": uid,
+                "index": block["index"],
+                "file_name": block["file_name"],
+                "file_type": block["file_type"],
+                "compliance_profile": block["compliance_profile"],
+                "masking_strategy": block["masking_strategy"],
+                "pii_found_count": block["pii_found_count"],
+                "entities_summary": block.get("entities_summary", {}),
+                "timestamp": block["timestamp"],
+                "input_file_hash": block["input_file_hash"],
+                "output_file_hash": block["output_file_hash"],
+                "block_hash": block["block_hash"],
+                "viewed": uid in viewed_set,
+                "deleted": uid in deleted_set,
+                "status": "deleted" if uid in deleted_set else "sanitized",
+            })
+        return records
+
+    # ==========================================
+    # HTML SERVING ROUTES
+    # ==========================================
+
     @app.get("/", response_class=HTMLResponse)
     @app.get("/dashboard", response_class=HTMLResponse)
     def serve_dashboard():
         return FileResponse("index.html")
-        
+
     @app.get("/{filename}.html")
     def serve_html_pages(filename: str):
         filepath = f"{filename}.html"
-        import os
         if os.path.exists(filepath):
             return FileResponse(filepath)
         raise HTTPException(status_code=404, detail="Page not found")
+
+    # ==========================================
+    # PROFILE ROUTES
+    # ==========================================
 
     @app.get("/profiles")
     def get_profiles():
@@ -550,6 +605,10 @@ if FASTAPI_AVAILABLE:
             return {"status": "success", "active_profile": active_profile}
         raise HTTPException(status_code=400, detail="Invalid compliance profile name.")
 
+    # ==========================================
+    # LEDGER ROUTES
+    # ==========================================
+
     @app.get("/ledger")
     def get_ledger():
         return ledger_instance.get_all_blocks()
@@ -558,6 +617,351 @@ if FASTAPI_AVAILABLE:
     def verify_ledger():
         is_valid, msg, details = ledger_instance.verify_integrity()
         return {"is_valid": is_valid, "message": msg, "details": details}
+
+    # ==========================================
+    # AUDIT LOG ROUTES
+    # ==========================================
+
+    @app.get("/audit/stats")
+    def get_audit_stats():
+        blocks = ledger_instance.get_all_blocks()
+        real_blocks = [b for b in blocks if b.get("file_name") != "GENESIS_BLOCK"]
+        total = len(real_blocks)
+        # All ledger entries are successful sanitizations
+        successful = total
+        failed = 0
+        # Count unique compliance profiles used as a proxy for "active users / roles"
+        profiles_used = len(set(b.get("compliance_profile", "") for b in real_blocks))
+        success_rate = 100.0 if total > 0 else 0.0
+        failure_rate = 0.0
+        return {
+            "total_activities": total,
+            "successful_actions": successful,
+            "failed_actions": failed,
+            "active_users": max(1, profiles_used) if total > 0 else 0,
+            "success_rate": success_rate,
+            "failure_rate": failure_rate,
+        }
+
+    @app.get("/audit/logs")
+    def get_audit_logs(
+        search: str = "",
+        time_range: str = "all",
+        action: str = "all",
+        page: int = 1,
+        per_page: int = 15,
+    ):
+        blocks = ledger_instance.get_all_blocks()
+        real_blocks = [b for b in blocks if b.get("file_name") != "GENESIS_BLOCK"]
+        now = datetime.datetime.utcnow()
+
+        logs = []
+        for b in real_blocks:
+            ts_raw = b.get("timestamp", "")
+            try:
+                ts_dt = datetime.datetime.fromisoformat(ts_raw.replace("Z", "+00:00")).replace(tzinfo=None)
+            except Exception:
+                ts_dt = now
+            logs.append({
+                "id": str(b["index"]),
+                "timestamp": ts_raw,
+                "timestamp_dt": ts_dt,
+                "user": "PrivGuard System",
+                "action": "Document Sanitized",
+                "details": f"{b.get('file_name','')} | {b.get('compliance_profile','')} | {b.get('masking_strategy','')} | {b.get('pii_found_count',0)} PII fields",
+                "file_name": b.get("file_name", ""),
+                "file_type": b.get("file_type", ""),
+                "compliance_profile": b.get("compliance_profile", ""),
+                "masking_strategy": b.get("masking_strategy", ""),
+                "pii_found_count": b.get("pii_found_count", 0),
+                "ip_address": "127.0.0.1",
+                "status": "success",
+                "block_hash": b.get("block_hash", "")[-12:],
+                "block_index": b["index"],
+            })
+
+        # Time filter
+        if time_range == "today":
+            logs = [l for l in logs if l["timestamp_dt"].date() == now.date()]
+        elif time_range == "week":
+            week_ago = now - datetime.timedelta(days=7)
+            logs = [l for l in logs if l["timestamp_dt"] >= week_ago]
+        elif time_range == "month":
+            month_start = now.replace(day=1, hour=0, minute=0, second=0, microsecond=0)
+            logs = [l for l in logs if l["timestamp_dt"] >= month_start]
+
+        # Action filter
+        if action and action != "all":
+            logs = [l for l in logs if action.lower() in l["action"].lower()]
+
+        # Search filter
+        if search:
+            sl = search.lower()
+            logs = [l for l in logs if sl in l["file_name"].lower() or sl in l["compliance_profile"].lower() or sl in l["masking_strategy"].lower() or sl in l["ip_address"].lower() or sl in l["action"].lower()]
+
+        # Sort newest first
+        logs.sort(key=lambda x: x["timestamp_dt"], reverse=True)
+
+        total = len(logs)
+        total_pages = max(1, (total + per_page - 1) // per_page)
+        page = max(1, min(page, total_pages))
+        start = (page - 1) * per_page
+        sliced = logs[start: start + per_page]
+
+        # Remove datetime object before returning
+        for l in sliced:
+            del l["timestamp_dt"]
+
+        return {"logs": sliced, "total": total, "page": page, "total_pages": total_pages, "per_page": per_page}
+
+    # ==========================================
+    # REPORTS ROUTES
+    # ==========================================
+
+    @app.get("/reports/summary")
+    def get_reports_summary():
+        blocks = ledger_instance.get_all_blocks()
+        real_blocks = [b for b in blocks if b.get("file_name") != "GENESIS_BLOCK"]
+        state = load_history_state()
+        viewed_set = set(state.get("viewed", []))
+        deleted_set = set(state.get("deleted", []))
+
+        total = len(real_blocks)
+        sanitized = sum(1 for b in real_blocks if str(b["index"]) not in deleted_set)
+        viewed = len(viewed_set)
+        deleted = len(deleted_set)
+        success_rate = round(sanitized / total * 100, 1) if total > 0 else 0.0
+
+        # Breakdown by profile
+        by_profile = {}
+        by_strategy = {}
+        by_type = {}
+        total_pii = 0
+
+        for b in real_blocks:
+            p = b.get("compliance_profile", "UNKNOWN")
+            s = b.get("masking_strategy", "UNKNOWN")
+            t = b.get("file_type", "unknown").lower()
+            pii = b.get("pii_found_count", 0)
+            total_pii += pii
+            by_profile[p] = by_profile.get(p, 0) + 1
+            by_strategy[s] = by_strategy.get(s, 0) + 1
+            by_type[t] = by_type.get(t, 0) + 1
+
+        avg_pii = round(total_pii / total, 1) if total > 0 else 0
+
+        return {
+            "total_documents": total,
+            "sanitized_documents": sanitized,
+            "viewed_documents": viewed,
+            "deleted_documents": deleted,
+            "failed_documents": 0,
+            "success_rate": success_rate,
+            "avg_pii_per_doc": avg_pii,
+            "total_pii_found": total_pii,
+            "by_profile": by_profile,
+            "by_strategy": by_strategy,
+            "by_type": by_type,
+        }
+
+    @app.get("/reports/top-documents")
+    def get_top_documents(page: int = 1, per_page: int = 8):
+        blocks = ledger_instance.get_all_blocks()
+        real_blocks = [b for b in blocks if b.get("file_name") != "GENESIS_BLOCK"]
+        real_blocks.sort(key=lambda b: b.get("timestamp", ""), reverse=True)
+        total = len(real_blocks)
+        total_pages = max(1, (total + per_page - 1) // per_page)
+        page = max(1, min(page, total_pages))
+        sliced = real_blocks[(page-1)*per_page: page*per_page]
+        docs = []
+        for b in sliced:
+            docs.append({
+                "index": b["index"],
+                "file_name": b.get("file_name", ""),
+                "file_type": b.get("file_type", ""),
+                "compliance_profile": b.get("compliance_profile", ""),
+                "masking_strategy": b.get("masking_strategy", ""),
+                "pii_found_count": b.get("pii_found_count", 0),
+                "timestamp": b.get("timestamp", ""),
+                "status": "sanitized",
+            })
+        return {"documents": docs, "total": total, "page": page, "total_pages": total_pages}
+
+    # ==========================================
+    # HISTORY ROUTES
+    # ==========================================
+
+    @app.get("/history/stats")
+    def get_history_stats():
+        records = get_document_records()
+        state = load_history_state()
+        viewed_set = set(state.get("viewed", []))
+        deleted_set = set(state.get("deleted", []))
+        now = datetime.datetime.utcnow()
+        month_start = now.replace(day=1, hour=0, minute=0, second=0, microsecond=0)
+        total = len(records)
+        sanitized = sum(1 for r in records if r["status"] == "sanitized")
+        deleted = len(deleted_set)
+        viewed = len(viewed_set)
+        viewed_this_month = 0
+        deleted_this_month = 0
+        for r in records:
+            try:
+                ts = datetime.datetime.fromisoformat(r["timestamp"].replace("Z", "+00:00")).replace(tzinfo=None)
+            except Exception:
+                continue
+            if ts >= month_start:
+                if r["id"] in viewed_set:
+                    viewed_this_month += 1
+                if r["id"] in deleted_set:
+                    deleted_this_month += 1
+        success_rate = round((sanitized / total * 100), 1) if total > 0 else 0.0
+        return {
+            "total_documents": total,
+            "sanitized_documents": sanitized,
+            "viewed_documents": viewed,
+            "deleted_documents": deleted,
+            "viewed_this_month": viewed_this_month,
+            "deleted_this_month": deleted_this_month,
+            "success_rate": success_rate,
+        }
+
+    @app.get("/history/records")
+    def get_history_records(
+        search: Optional[str] = Query(None),
+        status: Optional[str] = Query(None),
+        file_type: Optional[str] = Query(None),
+        time_range: Optional[str] = Query(None),
+        page: int = Query(1, ge=1),
+        per_page: int = Query(10, ge=1, le=100),
+    ):
+        records = get_document_records()
+        if status == "deleted":
+            records = [r for r in records if r["deleted"]]
+        elif status == "sanitized":
+            records = [r for r in records if not r["deleted"]]
+        elif status == "viewed":
+            records = [r for r in records if r["viewed"] and not r["deleted"]]
+        else:
+            records = [r for r in records if not r["deleted"]]
+        if search:
+            q = search.lower()
+            records = [r for r in records if q in r["file_name"].lower() or q in r["file_type"].lower()]
+        if file_type and file_type != "all":
+            records = [r for r in records if r["file_type"].lower() == file_type.lower()]
+        now = datetime.datetime.utcnow()
+        if time_range == "today":
+            cutoff = now.replace(hour=0, minute=0, second=0, microsecond=0)
+        elif time_range == "week":
+            cutoff = now - datetime.timedelta(days=7)
+        elif time_range == "month":
+            cutoff = now.replace(day=1, hour=0, minute=0, second=0, microsecond=0)
+        else:
+            cutoff = None
+        if cutoff:
+            filtered = []
+            for r in records:
+                try:
+                    ts = datetime.datetime.fromisoformat(r["timestamp"].replace("Z", "+00:00")).replace(tzinfo=None)
+                    if ts >= cutoff:
+                        filtered.append(r)
+                except Exception:
+                    filtered.append(r)
+            records = filtered
+        records = sorted(records, key=lambda r: r["timestamp"], reverse=True)
+        total = len(records)
+        start = (page - 1) * per_page
+        end = start + per_page
+        page_records = records[start:end]
+        return {
+            "total": total,
+            "page": page,
+            "per_page": per_page,
+            "total_pages": max(1, (total + per_page - 1) // per_page),
+            "records": page_records,
+        }
+
+    @app.post("/history/view/{record_id}")
+    def mark_viewed(record_id: str):
+        state = load_history_state()
+        if record_id not in state["viewed"]:
+            state["viewed"].append(record_id)
+            save_history_state(state)
+        return {"status": "ok", "id": record_id, "viewed": True}
+
+    @app.delete("/history/delete/{record_id}")
+    def delete_record(record_id: str):
+        state = load_history_state()
+        if record_id not in state["deleted"]:
+            state["deleted"].append(record_id)
+            save_history_state(state)
+        return {"status": "deleted", "id": record_id}
+
+    @app.post("/history/bulk-delete")
+    def bulk_delete_records(data: Dict[str, Any]):
+        ids = data.get("ids", [])
+        state = load_history_state()
+        for rid in ids:
+            if rid not in state["deleted"]:
+                state["deleted"].append(rid)
+        save_history_state(state)
+        return {"status": "deleted", "count": len(ids)}
+
+    @app.post("/history/restore/{record_id}")
+    def restore_record(record_id: str):
+        state = load_history_state()
+        state["deleted"] = [d for d in state["deleted"] if d != record_id]
+        save_history_state(state)
+        return {"status": "restored", "id": record_id}
+
+    @app.get("/history/export/csv")
+    def export_history_csv(
+        status: Optional[str] = Query(None),
+        time_range: Optional[str] = Query(None),
+    ):
+        import csv, io as _io
+        records = get_document_records()
+        if status == "deleted":
+            records = [r for r in records if r["deleted"]]
+        else:
+            records = [r for r in records if not r["deleted"]]
+        now = datetime.datetime.utcnow()
+        if time_range == "today":
+            cutoff = now.replace(hour=0, minute=0, second=0, microsecond=0)
+        elif time_range == "week":
+            cutoff = now - datetime.timedelta(days=7)
+        elif time_range == "month":
+            cutoff = now.replace(day=1, hour=0, minute=0, second=0, microsecond=0)
+        else:
+            cutoff = None
+        if cutoff:
+            filtered = []
+            for r in records:
+                try:
+                    ts = datetime.datetime.fromisoformat(r["timestamp"].replace("Z", "+00:00")).replace(tzinfo=None)
+                    if ts >= cutoff:
+                        filtered.append(r)
+                except Exception:
+                    filtered.append(r)
+            records = filtered
+        output = _io.StringIO()
+        writer = csv.writer(output)
+        writer.writerow(["#", "File Name", "Type", "Profile", "Strategy", "PII Found", "Status", "Viewed", "Timestamp", "Block Hash"])
+        for r in sorted(records, key=lambda x: x["timestamp"], reverse=True):
+            writer.writerow([
+                r["index"], r["file_name"], r["file_type"].upper(),
+                r["compliance_profile"], r["masking_strategy"],
+                r["pii_found_count"], r["status"].capitalize(),
+                "Yes" if r["viewed"] else "No", r["timestamp"],
+                r["block_hash"][:16] + "...",
+            ])
+        from fastapi.responses import StreamingResponse
+        output.seek(0)
+        return StreamingResponse(
+            iter([output.getvalue()]),
+            media_type="text/csv",
+            headers={"Content-Disposition": f"attachment; filename=privguard_history_{now.strftime('%Y%m%d_%H%M%S')}.csv"}
+        )
 
     @app.post("/sanitize/document")
     async def sanitize_document(

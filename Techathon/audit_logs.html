@@ -1,264 +1,158 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PrivacyGuard AI - Audit Logs</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    fontFamily: {
-                        sans: ['Inter', 'sans-serif'],
-                        mono: ['ui-monospace', 'SFMono-Regular', 'Menlo', 'Monaco', 'Consolas', "Liberation Mono", "Courier New", 'monospace'],
-                    },
-                    colors: {
-                        primary: '#6366f1',
-                        secondary: '#8b5cf6',
-                        background: '#f8fafc',
-                        surface: '#ffffff',
-                    }
-                }
-            }
-        }
-    </script>
-    <style>
-        body {
-            background-color: #f8fafc;
-        }
-        .gradient-text {
-            background: linear-gradient(to right, #4f46e5, #7c3aed);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-        .gradient-bg {
-            background: linear-gradient(to right, #6366f1, #8b5cf6);
-        }
-        .custom-scrollbar::-webkit-scrollbar {
-            width: 6px;
-        }
-        .custom-scrollbar::-webkit-scrollbar-track {
-            background: transparent;
-        }
-        .custom-scrollbar::-webkit-scrollbar-thumb {
-            background-color: #cbd5e1;
-            border-radius: 20px;
-        }
-    </style>
-</head>
+﻿<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>PrivacyGuard AI - Audit Logs</title><script src="https://cdn.tailwindcss.com"></script><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"><script>tailwind.config={theme:{extend:{fontFamily:{sans:["Inter","sans-serif"],mono:["ui-monospace","SFMono-Regular","Menlo","Monaco","Consolas","monospace"]},colors:{primary:"#6366f1",secondary:"#8b5cf6"}}}}</script><style>
+body{background-color:#f8fafc;}.gradient-bg{background:linear-gradient(to right,#6366f1,#8b5cf6);}.custom-scrollbar::-webkit-scrollbar{width:6px;}.custom-scrollbar::-webkit-scrollbar-track{background:transparent;}.custom-scrollbar::-webkit-scrollbar-thumb{background-color:#cbd5e1;border-radius:20px;}
+.dd-panel{display:none;position:absolute;z-index:200;top:calc(100% + 6px);min-width:180px;background:white;border:1px solid #e2e8f0;border-radius:12px;box-shadow:0 8px 24px rgba(0,0,0,.1);padding:6px;}.dd-panel.open{display:block;}
+.dd-item{padding:8px 12px;border-radius:8px;font-size:13px;cursor:pointer;display:flex;align-items:center;gap:8px;}.dd-item:hover{background:#f8fafc;}.dd-item.sel{background:#eff6ff;color:#4f46e5;font-weight:600;}
+.modal-wrap{display:none;position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:1000;align-items:center;justify-content:center;}.modal-wrap.open{display:flex;}
+.toast-box{position:fixed;bottom:24px;right:24px;z-index:9999;min-width:260px;background:white;border:1px solid #e2e8f0;border-radius:12px;padding:14px 18px;box-shadow:0 8px 30px rgba(0,0,0,.12);display:none;align-items:center;gap:12px;}
+.stat-card{transition:all .2s;}.stat-card:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(0,0,0,.08);}
+.pulse{animation:pulse 1.8s infinite;}@keyframes pulse{0%,100%{opacity:1}50%{opacity:.45}}
+tr.row-in{animation:fadeIn .2s ease;}@keyframes fadeIn{from{opacity:0;transform:translateY(-4px)}to{opacity:1;transform:none}}
+</style></head>
 <body class="text-slate-800 font-sans flex h-screen overflow-hidden">
-
-    <!-- Sidebar -->
-    <aside class="w-64 bg-white border-r border-slate-200 flex flex-col h-full shrink-0">
-        <!-- Logo -->
-        <div class="p-6 flex items-center gap-3">
-            <div class="w-10 h-10 rounded-lg gradient-bg flex items-center justify-center text-white shadow-lg">
-                <i class="fa-solid fa-shield-halved text-xl"></i>
-            </div>
-            <div>
-                <h1 class="font-bold text-lg leading-tight">PrivacyGuard AI</h1>
-                <p class="text-xs text-slate-500">Medical Data Protection</p>
-            </div>
-        </div>
-
-        <!-- Navigation -->
-        <nav class="flex-1 px-4 space-y-1 overflow-y-auto">
-            <a href="index.html" class="flex items-center gap-3 px-4 py-3 rounded-xl text-slate-600 hover:bg-slate-50 hover:text-slate-900 transition-colors">
-                <i class="fa-solid fa-house w-5 text-center"></i>
-                Dashboard
-            </a>
-            <a href="sanitize.html" class="flex items-center gap-3 px-4 py-3 rounded-xl text-slate-600 hover:bg-slate-50 hover:text-slate-900 transition-colors">
-                <i class="fa-solid fa-shield-virus w-5 text-center"></i>
-                Sanitize Document
-            </a>
-            <a href="history.html" class="flex items-center gap-3 px-4 py-3 rounded-xl text-slate-600 hover:bg-slate-50 hover:text-slate-900 transition-colors">
-                <i class="fa-regular fa-clock w-5 text-center"></i>
-                History
-            </a>
-            <!-- Active State -->
-            <a href="audit_logs.html" class="flex items-center gap-3 px-4 py-3 rounded-xl bg-indigo-50 text-indigo-600 font-medium">
-                <i class="fa-solid fa-clipboard-list w-5 text-center"></i>
-                Audit Logs
-            </a>
-            <a href="reports.html" class="flex items-center gap-3 px-4 py-3 rounded-xl text-slate-600 hover:bg-slate-50 hover:text-slate-900 transition-colors">
-                <i class="fa-solid fa-chart-pie w-5 text-center"></i>
-                Reports
-            </a>
-            <a href="api_access.html" class="flex items-center gap-3 px-4 py-3 rounded-xl text-slate-600 hover:bg-slate-50 hover:text-slate-900 transition-colors">
-                <i class="fa-solid fa-code w-5 text-center"></i>
-                API Access
-            </a>
-            <a href="settings.html" class="flex items-center gap-3 px-4 py-3 rounded-xl text-slate-600 hover:bg-slate-50 hover:text-slate-900 transition-colors">
-                <i class="fa-solid fa-gear w-5 text-center"></i>
-                Settings
-            </a>
-        </nav>
-
-        <!-- Sidebar Footer Cards -->
-        <div class="p-4 space-y-4">
-            <div class="bg-indigo-50/50 rounded-2xl p-4 relative overflow-hidden">
-                <div class="absolute top-0 right-0 -mr-4 -mt-4 w-16 h-16 bg-indigo-100 rounded-full opacity-50 blur-xl"></div>
-                <div class="w-10 h-10 rounded-xl gradient-bg flex items-center justify-center text-white mb-3 shadow-md">
-                    <i class="fa-solid fa-shield-check"></i>
-                </div>
-                <h3 class="font-semibold text-sm mb-1">Your Data is Safe</h3>
-                <p class="text-xs text-slate-500 mb-3">We ensure end-to-end security and never store your documents.</p>
-                <a href="#" class="text-xs text-indigo-600 font-medium flex items-center gap-1">Learn more <i class="fa-solid fa-arrow-right"></i></a>
-            </div>
-
-            <div class="bg-emerald-50 rounded-xl p-3 flex items-center gap-2 border border-emerald-100">
-                <i class="fa-regular fa-circle-check text-emerald-500"></i>
-                <span class="text-xs font-medium text-emerald-700">Secure Connection</span>
-            </div>
-        </div>
-    </aside>
-
-    <!-- Main Content -->
-    <main class="flex-1 flex flex-col h-full overflow-y-auto p-6 md:p-8">
-        
-        <!-- Header -->
-        <header class="flex justify-between items-start mb-6">
-            <div class="flex items-center gap-3">
-                <div class="w-8 h-8 rounded-full bg-indigo-100 text-indigo-600 flex items-center justify-center">
-                    <i class="fa-solid fa-clipboard-list"></i>
-                </div>
-                <div>
-                    <h2 class="text-2xl font-bold text-slate-900 leading-tight">Audit Logs</h2>
-                    <p class="text-sm text-slate-500 mt-0.5">Track all activities and actions performed in your account</p>
-                </div>
-            </div>
-            <div class="flex items-center gap-3">
-                <button class="flex items-center gap-2 px-4 py-2 bg-white border border-slate-200 rounded-lg text-sm font-medium hover:bg-slate-50">
-                    <i class="fa-regular fa-sun"></i> Light
-                </button>
-                <button class="relative p-2 bg-white border border-slate-200 rounded-lg text-slate-600 hover:bg-slate-50 w-10 h-10 flex items-center justify-center">
-                    <i class="fa-regular fa-bell"></i>
-                    <span class="absolute top-1 right-1 w-2.5 h-2.5 bg-red-500 rounded-full border-2 border-white"></span>
-                </button>
-                <button class="flex items-center gap-2 px-4 py-2 bg-indigo-600 text-white rounded-lg text-sm font-medium hover:bg-indigo-700 shadow-sm">
-                    <i class="fa-solid fa-download"></i> Export Report
-                </button>
-            </div>
-        </header>
-
-        <!-- Top Stats Row -->
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-6">
-            <!-- Total Activities -->
-            <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm flex items-center gap-4">
-                <div class="w-12 h-12 rounded-xl bg-purple-50 text-purple-600 flex items-center justify-center text-xl">
-                    <i class="fa-regular fa-file-lines"></i>
-                </div>
-                <div>
-                    <div class="text-2xl font-bold text-slate-800">0</div>
-                    <div class="text-xs font-medium text-slate-600 mt-0.5">Total Activities</div>
-                    <div class="text-[10px] text-purple-600 font-medium mt-1">All time</div>
-                </div>
-            </div>
-
-            <!-- Successful Actions -->
-            <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm flex items-center gap-4">
-                <div class="w-12 h-12 rounded-xl bg-emerald-50 text-emerald-500 flex items-center justify-center text-xl">
-                    <i class="fa-regular fa-shield-check"></i>
-                </div>
-                <div>
-                    <div class="text-2xl font-bold text-slate-800">0</div>
-                    <div class="text-xs font-medium text-slate-600 mt-0.5">Successful Actions</div>
-                    <div class="text-[10px] text-emerald-600 font-medium mt-1">96.1% success rate</div>
-                </div>
-            </div>
-
-            <!-- Failed Actions -->
-            <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm flex items-center gap-4">
-                <div class="w-12 h-12 rounded-xl bg-amber-50 text-amber-500 flex items-center justify-center text-xl">
-                    <i class="fa-solid fa-triangle-exclamation"></i>
-                </div>
-                <div>
-                    <div class="text-2xl font-bold text-slate-800">0</div>
-                    <div class="text-xs font-medium text-slate-600 mt-0.5">Failed Actions</div>
-                    <div class="text-[10px] text-amber-500 font-medium mt-1">3.4% failure rate</div>
-                </div>
-            </div>
-
-            <!-- Active Users -->
-            <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm flex items-center gap-4">
-                <div class="w-12 h-12 rounded-xl bg-blue-50 text-blue-500 flex items-center justify-center text-xl">
-                    <i class="fa-regular fa-user"></i>
-                </div>
-                <div>
-                    <div class="text-2xl font-bold text-slate-800">0</div>
-                    <div class="text-xs font-medium text-slate-600 mt-0.5">Active Users</div>
-                    <div class="text-[10px] text-blue-500 font-medium mt-1">All time</div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Audit Logs Table Section -->
-        <div class="bg-white rounded-2xl border border-slate-200 shadow-sm flex-1 flex flex-col overflow-hidden">
-            
-            <!-- Filters Bar -->
-            <div class="p-4 border-b border-slate-100 flex flex-wrap gap-4 items-center justify-between">
-                <div class="relative w-80">
-                    <i class="fa-solid fa-magnifying-glass absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-sm"></i>
-                    <input type="text" placeholder="Search by user, action or IP address..." class="w-full pl-9 pr-4 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 placeholder-slate-400">
-                </div>
-                <div class="flex items-center gap-3">
-                    <button class="px-3 py-2 bg-white border border-slate-200 rounded-lg text-sm font-medium text-slate-600 hover:bg-slate-50 flex items-center gap-2">
-                        <i class="fa-regular fa-calendar text-slate-400"></i> All Time <i class="fa-solid fa-chevron-down text-xs ml-1 text-slate-400"></i>
-                    </button>
-                    <button class="px-3 py-2 bg-white border border-slate-200 rounded-lg text-sm font-medium text-slate-600 hover:bg-slate-50 flex items-center gap-2">
-                        <i class="fa-regular fa-user text-slate-400"></i> All Users <i class="fa-solid fa-chevron-down text-xs ml-1 text-slate-400"></i>
-                    </button>
-                    <button class="px-3 py-2 bg-white border border-slate-200 rounded-lg text-sm font-medium text-slate-600 hover:bg-slate-50 flex items-center gap-2">
-                        <i class="fa-solid fa-bars-staggered text-slate-400"></i> All Actions <i class="fa-solid fa-chevron-down text-xs ml-1 text-slate-400"></i>
-                    </button>
-                    <button class="px-3 py-2 bg-white border border-slate-200 rounded-lg text-sm font-medium text-slate-600 hover:bg-slate-50 flex items-center gap-2">
-                        <i class="fa-solid fa-eraser text-slate-400"></i> Clear Filters
-                    </button>
-                </div>
-            </div>
-
-            <!-- Table -->
-            <div class="overflow-x-auto flex-1">
-                <table class="w-full text-left border-collapse">
-                    <thead>
-                        <tr class="bg-slate-50/50 border-b border-slate-100 text-xs font-semibold text-slate-500 uppercase tracking-wider">
-                            <th class="px-6 py-4 flex items-center gap-1">TIMESTAMP <i class="fa-solid fa-arrow-up-arrow-down text-[10px]"></i></th>
-                            <th class="px-6 py-4">USER</th>
-                            <th class="px-6 py-4">ACTION</th>
-                            <th class="px-6 py-4">DETAILS</th>
-                            <th class="px-6 py-4">IP ADDRESS</th>
-                            <th class="px-6 py-4 text-center">STATUS</th>
-                            <th class="px-4 py-4 w-12"></th>
-                        </tr>
-                    </thead>
-                    <tbody class="divide-y divide-slate-100 text-sm">
-                        <tr>
-                            <td colspan="10" class="px-6 py-8 text-center text-slate-500">
-                                No data available
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-
-            <!-- Pagination Footer -->
-            <div class="p-4 border-t border-slate-100 flex items-center justify-between bg-white mt-auto">
-                <div class="text-xs text-slate-500">
-                    Showing 0 to 0 of 0 activities
-                </div>
-                <div class="flex items-center gap-1">
-                    <button class="w-8 h-8 flex items-center justify-center rounded-lg border border-slate-200 text-slate-400 cursor-not-allowed"><i class="fa-solid fa-chevron-left text-xs"></i></button>
-                    <button class="w-8 h-8 flex items-center justify-center rounded-lg border border-slate-200 text-slate-400 cursor-not-allowed">1</button>
-                    <button class="w-8 h-8 flex items-center justify-center rounded-lg border border-slate-200 text-slate-400 cursor-not-allowed"><i class="fa-solid fa-chevron-right text-xs"></i></button>
-                </div>
-            </div>
-
-        </div>
-
-    </main>
-
-</body>
-</html>
+<aside class="w-64 bg-white border-r border-slate-200 flex flex-col h-full shrink-0">
+  <div class="p-6 flex items-center gap-3"><div class="w-10 h-10 rounded-lg gradient-bg flex items-center justify-center text-white shadow-lg"><i class="fa-solid fa-shield-halved text-xl"></i></div><div><h1 class="font-bold text-lg leading-tight">PrivacyGuard AI</h1><p class="text-xs text-slate-500">Medical Data Protection</p></div></div>
+  <nav class="flex-1 px-4 space-y-1 overflow-y-auto">
+    <a href="index.html" class="flex items-center gap-3 px-4 py-3 rounded-xl text-slate-600 hover:bg-slate-50 hover:text-slate-900 transition-colors"><i class="fa-solid fa-house w-5 text-center"></i> Dashboard</a>
+    <a href="sanitize.html" class="flex items-center gap-3 px-4 py-3 rounded-xl text-slate-600 hover:bg-slate-50 hover:text-slate-900 transition-colors"><i class="fa-solid fa-shield-virus w-5 text-center"></i> Sanitize Document</a>
+    <a href="history.html" class="flex items-center gap-3 px-4 py-3 rounded-xl text-slate-600 hover:bg-slate-50 hover:text-slate-900 transition-colors"><i class="fa-regular fa-clock w-5 text-center"></i> History</a>
+    <a href="audit_logs.html" class="flex items-center gap-3 px-4 py-3 rounded-xl bg-indigo-50 text-indigo-600 font-medium"><i class="fa-solid fa-clipboard-list w-5 text-center"></i> Audit Logs</a>
+    <a href="reports.html" class="flex items-center gap-3 px-4 py-3 rounded-xl text-slate-600 hover:bg-slate-50 hover:text-slate-900 transition-colors"><i class="fa-solid fa-chart-pie w-5 text-center"></i> Reports</a>
+    <a href="api_access.html" class="flex items-center gap-3 px-4 py-3 rounded-xl text-slate-600 hover:bg-slate-50 hover:text-slate-900 transition-colors"><i class="fa-solid fa-code w-5 text-center"></i> API Access</a>
+    <a href="settings.html" class="flex items-center gap-3 px-4 py-3 rounded-xl text-slate-600 hover:bg-slate-50 hover:text-slate-900 transition-colors"><i class="fa-solid fa-gear w-5 text-center"></i> Settings</a>
+  </nav>
+  <div class="p-4 space-y-4">
+    <div class="bg-indigo-50/50 rounded-2xl p-4 relative overflow-hidden"><div class="absolute top-0 right-0 -mr-4 -mt-4 w-16 h-16 bg-indigo-100 rounded-full opacity-50 blur-xl"></div><div class="w-10 h-10 rounded-xl gradient-bg flex items-center justify-center text-white mb-3 shadow-md"><i class="fa-solid fa-shield-check"></i></div><h3 class="font-semibold text-sm mb-1">Your Data is Safe</h3><p class="text-xs text-slate-500 mb-3">We ensure end-to-end security and never store your documents.</p><a href="#" class="text-xs text-indigo-600 font-medium flex items-center gap-1">Learn more <i class="fa-solid fa-arrow-right"></i></a></div>
+    <div class="bg-emerald-50 rounded-xl p-3 flex items-center gap-2 border border-emerald-100"><i class="fa-regular fa-circle-check text-emerald-500"></i><span class="text-xs font-medium text-emerald-700">Secure Connection</span></div>
+  </div>
+</aside>
+<main class="flex-1 flex flex-col h-full overflow-y-auto custom-scrollbar p-6 md:p-8">
+  <header class="flex justify-between items-center mb-6">
+    <div class="flex items-center gap-3"><div class="w-8 h-8 rounded-full bg-indigo-100 text-indigo-600 flex items-center justify-center"><i class="fa-solid fa-clipboard-list"></i></div><div><h2 class="text-2xl font-bold text-slate-900 leading-tight">Audit Logs</h2><p class="text-sm text-slate-500 mt-0.5">Track all activities and actions performed in your account</p></div></div>
+    <div class="flex items-center gap-3">
+      <button onclick="loadAll()" class="p-2 bg-white border border-slate-200 rounded-lg text-slate-600 hover:bg-slate-50 w-10 h-10 flex items-center justify-center"><i id="ri" class="fa-solid fa-rotate-right"></i></button>
+      <button onclick="verifyChain()" class="px-3 py-2 bg-white border border-slate-200 rounded-lg text-sm font-medium text-slate-600 hover:bg-slate-50 flex items-center gap-2"><i class="fa-solid fa-shield-check text-indigo-400"></i> Verify Chain</button>
+      <button onclick="exportCSV()" class="flex items-center gap-2 px-4 py-2 gradient-bg text-white rounded-lg text-sm font-medium hover:opacity-90 shadow-md shadow-indigo-200"><i class="fa-solid fa-download"></i> Export Report</button>
+    </div>
+  </header>
+  <!-- Stats Cards -->
+  <div class="grid grid-cols-2 lg:grid-cols-4 gap-5 mb-6">
+    <div class="stat-card bg-white p-5 rounded-2xl border border-slate-200 shadow-sm flex items-center gap-4">
+      <div class="w-12 h-12 rounded-xl bg-purple-50 text-purple-600 flex items-center justify-center text-xl"><i class="fa-regular fa-file-lines"></i></div>
+      <div><div id="st-total" class="text-2xl font-bold text-slate-800 pulse">--</div><div class="text-xs font-medium text-slate-600 mt-0.5">Total Activities</div><div class="text-[10px] text-purple-600 font-medium mt-1">All time</div></div>
+    </div>
+    <div class="stat-card bg-white p-5 rounded-2xl border border-slate-200 shadow-sm flex items-center gap-4">
+      <div class="w-12 h-12 rounded-xl bg-emerald-50 text-emerald-500 flex items-center justify-center text-xl"><i class="fa-solid fa-shield-halved"></i></div>
+      <div><div id="st-success" class="text-2xl font-bold text-slate-800 pulse">--</div><div class="text-xs font-medium text-slate-600 mt-0.5">Successful Actions</div><div id="st-success-rate" class="text-[10px] text-emerald-600 font-medium mt-1">--% success rate</div></div>
+    </div>
+    <div class="stat-card bg-white p-5 rounded-2xl border border-slate-200 shadow-sm flex items-center gap-4">
+      <div class="w-12 h-12 rounded-xl bg-amber-50 text-amber-500 flex items-center justify-center text-xl"><i class="fa-solid fa-triangle-exclamation"></i></div>
+      <div><div id="st-failed" class="text-2xl font-bold text-slate-800 pulse">--</div><div class="text-xs font-medium text-slate-600 mt-0.5">Failed Actions</div><div id="st-fail-rate" class="text-[10px] text-amber-500 font-medium mt-1">--% failure rate</div></div>
+    </div>
+    <div class="stat-card bg-white p-5 rounded-2xl border border-slate-200 shadow-sm flex items-center gap-4">
+      <div class="w-12 h-12 rounded-xl bg-blue-50 text-blue-500 flex items-center justify-center text-xl"><i class="fa-regular fa-user"></i></div>
+      <div><div id="st-users" class="text-2xl font-bold text-slate-800 pulse">--</div><div class="text-xs font-medium text-slate-600 mt-0.5">Active Users</div><div class="text-[10px] text-blue-500 font-medium mt-1">All time</div></div>
+    </div>
+  </div>
+  <!-- Chain Status Bar -->
+  <div id="chain-bar" class="mb-4 bg-white border border-slate-200 rounded-xl p-3 flex items-center gap-3 shadow-sm" style="display:none!important">
+    <i id="chain-icon" class="fa-solid fa-spinner fa-spin text-slate-400"></i>
+    <span id="chain-msg" class="text-sm font-medium text-slate-600">Verifying ledger chain...</span>
+    <span id="chain-badge" class="ml-auto text-xs font-medium text-slate-400 bg-slate-50 px-2 py-1 rounded-full border border-slate-200">Checking</span>
+  </div>
+  <!-- Table -->
+  <div class="bg-white rounded-2xl border border-slate-200 shadow-sm flex-1 flex flex-col overflow-hidden">
+    <div class="p-4 border-b border-slate-100 flex flex-wrap gap-3 items-center justify-between">
+      <div class="relative w-80"><i class="fa-solid fa-magnifying-glass absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-sm"></i><input id="search" type="text" placeholder="Search by file, profile, strategy..." class="w-full pl-9 pr-4 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 placeholder-slate-400" oninput="debounce()"></div>
+      <div class="flex items-center gap-3 flex-wrap">
+        <div class="relative"><button onclick="toggleDd('dd-time')" class="px-3 py-2 bg-white border border-slate-200 rounded-lg text-sm font-medium text-slate-600 hover:bg-slate-50 flex items-center gap-2"><i class="fa-regular fa-calendar text-slate-400"></i><span id="lbl-time">All Time</span><i class="fa-solid fa-chevron-down text-xs text-slate-400"></i></button><div id="dd-time" class="dd-panel"><div class="dd-item sel" onclick="setTime('all','All Time',this)"><i class="fa-solid fa-infinity w-4"></i> All Time</div><div class="dd-item" onclick="setTime('today','Today',this)"><i class="fa-regular fa-sun w-4"></i> Today</div><div class="dd-item" onclick="setTime('week','This Week',this)"><i class="fa-solid fa-calendar-week w-4"></i> This Week</div><div class="dd-item" onclick="setTime('month','This Month',this)"><i class="fa-regular fa-calendar w-4"></i> This Month</div></div></div>
+        <div class="relative"><button onclick="toggleDd('dd-action')" class="px-3 py-2 bg-white border border-slate-200 rounded-lg text-sm font-medium text-slate-600 hover:bg-slate-50 flex items-center gap-2"><i class="fa-solid fa-bars-staggered text-slate-400"></i><span id="lbl-action">All Actions</span><i class="fa-solid fa-chevron-down text-xs text-slate-400"></i></button><div id="dd-action" class="dd-panel"><div class="dd-item sel" onclick="setAction('all','All Actions',this)"><i class="fa-solid fa-layer-group w-4"></i> All Actions</div><div class="dd-item" onclick="setAction('sanitized','Document Sanitized',this)"><i class="fa-solid fa-shield-halved text-emerald-500 w-4"></i> Document Sanitized</div></div></div>
+        <button onclick="clearFilters()" class="px-3 py-2 bg-white border border-slate-200 rounded-lg text-sm font-medium text-slate-600 hover:bg-slate-50 flex items-center gap-2"><i class="fa-solid fa-eraser text-slate-400"></i> Clear Filters</button>
+      </div>
+    </div>
+    <div class="overflow-x-auto flex-1">
+      <table class="w-full text-left border-collapse">
+        <thead><tr class="bg-slate-50/50 border-b border-slate-100 text-xs font-semibold text-slate-500 uppercase tracking-wider">
+          <th class="px-5 py-4">Timestamp</th><th class="px-4 py-4">User</th><th class="px-4 py-4">Action</th><th class="px-4 py-4">Details</th><th class="px-4 py-4">IP Address</th><th class="px-4 py-4 text-center">Status</th><th class="px-4 py-4 text-center">Block</th>
+        </tr></thead>
+        <tbody id="tbody" class="divide-y divide-slate-100 text-sm"><tr><td colspan="7" class="px-6 py-12 text-center text-indigo-400"><i class="fa-solid fa-spinner fa-spin text-2xl mb-3 block"></i>Loading audit logs...</td></tr></tbody>
+      </table>
+    </div>
+    <div class="p-4 border-t border-slate-100 flex items-center justify-between bg-white"><div class="text-xs text-slate-500" id="pg-info">Showing 0 to 0 of 0 activities</div><div class="flex items-center gap-1" id="pg-btns"></div></div>
+  </div>
+</main>
+<!-- Detail Modal -->
+<div id="modal" class="modal-wrap" onclick="if(event.target===this)document.getElementById('modal').classList.remove('open')">
+  <div class="bg-white rounded-2xl shadow-2xl w-full max-w-lg mx-4 overflow-hidden">
+    <div class="px-6 py-4 border-b border-slate-100 flex justify-between items-center gradient-bg"><h3 class="font-bold text-white text-lg flex items-center gap-2"><i class="fa-solid fa-shield-check"></i> Log Entry Details</h3><button onclick="document.getElementById('modal').classList.remove('open')" class="text-white/80 hover:text-white"><i class="fa-solid fa-xmark text-xl"></i></button></div>
+    <div id="modal-body" class="p-6 space-y-4 overflow-y-auto max-h-[70vh] custom-scrollbar"></div>
+  </div>
+</div>
+<div id="toast" class="toast-box"><i id="toast-icon" class="fa-solid fa-circle-check text-emerald-500 text-lg"></i><span id="toast-msg" class="text-sm font-medium text-slate-700"></span></div>
+<script>
+const S={page:1,perPage:15,totalPages:1,total:0,search:"",timeRange:"all",action:"all",logs:[]};
+let _st=null;
+document.addEventListener("DOMContentLoaded",()=>{loadAll();document.addEventListener("click",e=>{if(!e.target.closest("[onclick*='toggleDd']")&&!e.target.closest(".dd-panel"))document.querySelectorAll(".dd-panel.open").forEach(d=>d.classList.remove("open"));});});
+async function loadAll(){spin(true);await Promise.all([loadStats(),loadLogs()]);spin(false);}
+async function loadStats(){
+  try{const d=await(await fetch("/audit/stats")).json();
+    anim("st-total",d.total_activities);anim("st-success",d.successful_actions);anim("st-failed",d.failed_actions);anim("st-users",d.active_users);
+    document.getElementById("st-success-rate").textContent=d.success_rate+"% success rate";
+    document.getElementById("st-fail-rate").textContent=d.failure_rate+"% failure rate";
+    document.querySelectorAll(".pulse").forEach(e=>e.classList.remove("pulse"));
+  }catch(e){console.error(e);}
+}
+function anim(id,target){const el=document.getElementById(id);if(!el)return;const f=parseInt(el.textContent)||0,t0=performance.now();const run=now=>{const p=Math.min((now-t0)/500,1),e=p<.5?2*p*p:-1+(4-2*p)*p;el.textContent=Math.round(f+(target-f)*e);if(p<1)requestAnimationFrame(run);};requestAnimationFrame(run);}
+async function loadLogs(){
+  const p=new URLSearchParams({page:S.page,per_page:S.perPage});
+  if(S.search)p.set("search",S.search);if(S.timeRange!=="all")p.set("time_range",S.timeRange);if(S.action!=="all")p.set("action",S.action);
+  try{
+    const d=await(await fetch("/audit/logs?"+p)).json();
+    S.logs=d.logs;S.total=d.total;S.totalPages=d.total_pages;
+    renderTable(d.logs);renderPg(d.page,d.total_pages,d.total);
+  }catch{document.getElementById("tbody").innerHTML="<tr><td colspan='7' class='px-6 py-10 text-center text-red-400'><i class='fa-solid fa-triangle-exclamation text-2xl mb-2 block'></i>Failed to load. Is the server running?</td></tr>";}
+}
+function renderTable(logs){
+  const tb=document.getElementById("tbody");
+  if(!logs||!logs.length){tb.innerHTML="<tr><td colspan='7' class='px-6 py-14 text-center'><div class='flex flex-col items-center gap-3 text-slate-400'><div class='w-16 h-16 rounded-2xl bg-slate-100 flex items-center justify-center text-3xl'><i class='fa-regular fa-folder-open'></i></div><div class='text-sm font-medium'>No audit log entries found</div><div class='text-xs'>Try adjusting your filters</div></div></td></tr>";return;}
+  tb.innerHTML=logs.map(mkRow).join("");
+}
+function mkRow(l){
+  const dt=fmtDate(l.timestamp);
+  const profileBadge={HIPAA:"background:#f0fdf4;color:#15803d;border:1px solid #bbf7d0",GDPR:"background:#eff6ff;color:#1d4ed8;border:1px solid #bfdbfe","PCI-DSS":"background:#fff7ed;color:#c2410c;border:1px solid #fed7aa",CUSTOM:"background:#faf5ff;color:#7c3aed;border:1px solid #ddd6fe"}[l.compliance_profile||"HIPAA"]||"background:#f8fafc;color:#475569";
+  return "<tr class='row-in hover:bg-slate-50/60 transition-colors'><td class='px-5 py-3.5'><div class='text-sm text-slate-700 font-medium'>"+dt.date+"</div><div class='text-xs text-slate-400'>"+dt.time+"</div></td><td class='px-4 py-3.5'><div class='flex items-center gap-2'><div class='w-7 h-7 rounded-full bg-indigo-100 text-indigo-600 flex items-center justify-center text-xs'><i class='fa-solid fa-robot'></i></div><span class='text-sm text-slate-700'>"+esc(l.user)+"</span></div></td><td class='px-4 py-3.5'><span class='text-sm font-medium text-slate-800 flex items-center gap-2'><i class='fa-solid fa-shield-halved text-emerald-500 text-xs'></i>"+esc(l.action)+"</span></td><td class='px-4 py-3.5 max-w-xs'><div class='text-sm text-slate-600 truncate' title='"+esc(l.details)+"'>"+esc(l.file_name)+"</div><div class='flex items-center gap-1.5 mt-0.5'><span class='text-[10px] font-semibold px-1.5 py-0.5 rounded' style='"+profileBadge+"'>"+esc(l.compliance_profile)+"</span><span class='text-[10px] text-slate-400'>"+esc(l.masking_strategy)+"</span><span class='text-[10px] text-indigo-500 font-medium'>"+l.pii_found_count+" PII</span></div></td><td class='px-4 py-3.5'><span class='text-sm font-mono text-slate-600'>"+esc(l.ip_address)+"</span></td><td class='px-4 py-3.5 text-center'><span class='inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-semibold' style='background:#ecfdf5;color:#059669;border:1px solid #a7f3d0'><i class='fa-solid fa-check'></i> Success</span></td><td class='px-4 py-3.5 text-center'><button onclick=\"showDetail('"+l.id+"')\" class='flex items-center gap-1 mx-auto text-xs text-slate-400 hover:text-indigo-600 font-mono hover:bg-indigo-50 px-2 py-1 rounded transition-colors' title='Block #"+l.block_index+"'>#"+l.block_index+" <i class=\"fa-solid fa-up-right-from-square text-[10px]\"></i></button></td></tr>";
+}
+function showDetail(id){
+  const l=S.logs.find(x=>x.id===id);if(!l)return;
+  const dt=fmtDate(l.timestamp);
+  document.getElementById("modal-body").innerHTML="<div class='flex items-center gap-4 pb-4 border-b border-slate-100'><div class='w-12 h-12 rounded-xl bg-indigo-50 text-indigo-600 flex items-center justify-center text-xl'><i class='fa-solid fa-shield-halved'></i></div><div><div class='font-bold text-slate-800'>"+esc(l.file_name)+"</div><div class='text-sm text-slate-500'>"+dt.date+" at "+dt.time+"</div></div></div><div class='grid grid-cols-2 gap-3'>"+ir("Block Index","#"+l.block_index)+ir("Action",l.action)+ir("Profile",l.compliance_profile)+ir("Strategy",l.masking_strategy)+ir("PII Found",l.pii_found_count+" fields")+ir("File Type",l.file_type.toUpperCase())+ir("IP Address",l.ip_address)+ir("Status","Success")+"</div><div class='bg-slate-50 rounded-xl p-3'><div class='text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2'>Block Hash (last 12)</div><div class='text-xs font-mono text-slate-600 break-all'>"+esc(l.block_hash)+"</div></div>";
+  document.getElementById("modal").classList.add("open");
+}
+function ir(l,v){return "<div class='bg-slate-50 rounded-xl p-3'><div class='text-xs text-slate-400 font-medium mb-0.5'>"+l+"</div><div class='text-sm font-semibold text-slate-700'>"+esc(v)+"</div></div>";}
+async function verifyChain(){
+  const bar=document.getElementById("chain-bar");bar.style.cssText="display:flex!important;margin-bottom:1rem";
+  document.getElementById("chain-icon").className="fa-solid fa-spinner fa-spin text-slate-400";
+  document.getElementById("chain-msg").textContent="Verifying ledger chain...";
+  document.getElementById("chain-badge").textContent="Checking";
+  try{const d=await(await fetch("/ledger/verify",{method:"POST"})).json();
+    if(d.is_valid){document.getElementById("chain-icon").className="fa-solid fa-shield-check text-emerald-500";document.getElementById("chain-msg").textContent=d.message;document.getElementById("chain-badge").innerHTML="<i class='fa-solid fa-check'></i> Valid Chain";document.getElementById("chain-badge").className="ml-auto text-xs font-medium text-emerald-600 bg-emerald-50 px-2 py-1 rounded-full border border-emerald-100 flex items-center gap-1";}
+    else{document.getElementById("chain-icon").className="fa-solid fa-triangle-exclamation text-red-500";document.getElementById("chain-msg").textContent=d.message;document.getElementById("chain-badge").innerHTML="<i class='fa-solid fa-xmark'></i> Invalid";document.getElementById("chain-badge").className="ml-auto text-xs font-medium text-red-600 bg-red-50 px-2 py-1 rounded-full border border-red-100 flex items-center gap-1";}
+    toast(d.is_valid?"Ledger chain verified successfully!":"Chain verification failed!",d.is_valid?"success":"error");
+  }catch(e){toast("Verification failed","error");}
+}
+function exportCSV(){const a=document.createElement("a");a.href="/history/export/csv";a.download="privguard_audit_log.csv";document.body.appendChild(a);a.click();document.body.removeChild(a);toast("Audit log exported as CSV","success");}
+function debounce(){clearTimeout(_st);_st=setTimeout(()=>{S.search=document.getElementById("search").value.trim();S.page=1;loadLogs();},350);}
+function setTime(v,l,el){S.timeRange=v;S.page=1;document.getElementById("lbl-time").textContent=l;selItem("dd-time",el);toggleDd("dd-time");loadLogs();}
+function setAction(v,l,el){S.action=v;S.page=1;document.getElementById("lbl-action").textContent=l;selItem("dd-action",el);toggleDd("dd-action");loadLogs();}
+function selItem(ddId,el){document.querySelectorAll("#"+ddId+" .dd-item").forEach(x=>x.classList.remove("sel"));el.classList.add("sel");}
+function clearFilters(){S.search="";S.timeRange="all";S.action="all";S.page=1;document.getElementById("search").value="";document.getElementById("lbl-time").textContent="All Time";document.getElementById("lbl-action").textContent="All Actions";document.querySelectorAll(".dd-panel").forEach(p=>{p.querySelectorAll(".dd-item").forEach((el,i)=>{if(i===0)el.classList.add("sel");else el.classList.remove("sel");});});loadLogs();}
+function renderPg(page,total,count){const pp=S.perPage,s=count===0?0:(page-1)*pp+1,e=Math.min(page*pp,count);document.getElementById("pg-info").textContent="Showing "+s+" to "+e+" of "+count+" activities";const pages=total<=7?Array.from({length:total},(_,i)=>i+1):buildPgs(page,total);let html=pgB(page-1,page<=1,"<i class='fa-solid fa-chevron-left text-xs'></i>");pages.forEach(p=>{if(p==="...")html+="<span class='w-8 h-8 flex items-center justify-center text-slate-400 text-xs'>...</span>";else html+=pgB(p,false,p,p===page);});html+=pgB(page+1,page>=total,"<i class='fa-solid fa-chevron-right text-xs'></i>");document.getElementById("pg-btns").innerHTML=html;}
+function pgB(target,disabled,label,active=false){const base="w-8 h-8 flex items-center justify-center rounded-lg border text-xs font-medium";const cls=active?"border-indigo-500 bg-indigo-600 text-white":disabled?"border-slate-200 text-slate-300 cursor-not-allowed":"border-slate-200 text-slate-600 hover:bg-slate-50";return "<button "+(disabled?"disabled":("onclick='goPage("+target+")'"))+" class='"+base+" "+cls+"'>"+label+"</button>";}
+function buildPgs(cur,total){const p=[1];if(cur>3)p.push("...");for(let i=Math.max(2,cur-1);i<=Math.min(total-1,cur+1);i++)p.push(i);if(cur<total-2)p.push("...");p.push(total);return p;}
+function goPage(p){if(p<1||p>S.totalPages)return;S.page=p;loadLogs();}
+function toggleDd(id){const el=document.getElementById(id),was=el.classList.contains("open");document.querySelectorAll(".dd-panel.open").forEach(d=>d.classList.remove("open"));if(!was)el.classList.add("open");}
+function spin(on){document.getElementById("ri").classList.toggle("fa-spin",on);}
+function fmtDate(iso){try{const d=new Date(iso);return{date:d.toLocaleDateString("en-US",{year:"numeric",month:"short",day:"2-digit"}),time:d.toLocaleTimeString("en-US",{hour:"2-digit",minute:"2-digit",second:"2-digit",hour12:true})}}catch{return{date:iso,time:""};}}
+function esc(str){const d=document.createElement("div");d.appendChild(document.createTextNode(str||""));return d.innerHTML;}
+let _tt=null;
+function toast(msg,type="success"){const el=document.getElementById("toast"),icon=document.getElementById("toast-icon");document.getElementById("toast-msg").textContent=msg;const m={success:{c:"text-emerald-500",i:"fa-circle-check"},warning:{c:"text-orange-400",i:"fa-triangle-exclamation"},error:{c:"text-red-500",i:"fa-circle-xmark"}};const t=m[type]||m.success;icon.className="fa-solid "+t.i+" "+t.c+" text-lg";el.style.display="flex";clearTimeout(_tt);_tt=setTimeout(()=>{el.style.opacity="0";el.style.transition="opacity .3s";setTimeout(()=>{el.style.display="none";el.style.opacity="1";el.style.transition="";},300);},3200);}
+</script></body></html>

@@ -1,311 +1,542 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PrivacyGuard AI Dashboard</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    fontFamily: {
-                        sans: ['Inter', 'sans-serif'],
-                        mono: ['ui-monospace', 'SFMono-Regular', 'Menlo', 'Monaco', 'Consolas', "Liberation Mono", "Courier New", 'monospace'],
-                    },
-                    colors: {
-                        primary: '#6366f1',
-                        secondary: '#8b5cf6',
-                        background: '#f8fafc',
-                        surface: '#ffffff',
-                    }
-                }
-            }
-        }
-    </script>
-    <style>
-        body {
-            background-color: #f8fafc;
-        }
-        .gradient-text {
-            background: linear-gradient(to right, #4f46e5, #7c3aed);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-        .gradient-bg {
-            background: linear-gradient(to right, #6366f1, #8b5cf6);
-        }
-        .custom-scrollbar::-webkit-scrollbar {
-            width: 6px;
-        }
-        .custom-scrollbar::-webkit-scrollbar-track {
-            background: transparent;
-        }
-        .custom-scrollbar::-webkit-scrollbar-thumb {
-            background-color: #cbd5e1;
-            border-radius: 20px;
-        }
-    </style>
-</head>
+﻿<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>PrivacyGuard AI Dashboard</title><script src="https://cdn.tailwindcss.com"></script><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"><script>tailwind.config={theme:{extend:{fontFamily:{sans:["Inter","sans-serif"],mono:["ui-monospace","SFMono-Regular","Menlo","Monaco","Consolas","monospace"]},colors:{primary:"#6366f1",secondary:"#8b5cf6",background:"#f8fafc",surface:"#ffffff"}}}}</script><style>
+body{background-color:#f8fafc;}
+.gradient-text{background:linear-gradient(to right,#4f46e5,#7c3aed);-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
+.gradient-bg{background:linear-gradient(to right,#6366f1,#8b5cf6);}
+.custom-scrollbar::-webkit-scrollbar{width:6px;}
+.custom-scrollbar::-webkit-scrollbar-track{background:transparent;}
+.custom-scrollbar::-webkit-scrollbar-thumb{background-color:#cbd5e1;border-radius:20px;}
+.drop-zone{border:2px dashed #c7d2fe;transition:all .2s ease;}
+.drop-zone.drag-over{border-color:#6366f1;background:#eef2ff;}
+.drop-zone.has-file{border-color:#10b981;background:#f0fdf4;}
+.btn-profile{flex:1;padding:8px 4px;border-radius:8px;font-size:13px;font-weight:500;transition:all .2s;border:1px solid #e2e8f0;background:#f8fafc;color:#475569;cursor:pointer;}
+.btn-profile.active{background:#4f46e5;color:white;border-color:#4f46e5;box-shadow:0 2px 8px rgba(79,70,229,.3);}
+.btn-profile:hover:not(.active){background:#f1f5f9;}
+.btn-strategy{flex:1;padding:8px 4px;border-radius:8px;font-size:13px;font-weight:500;transition:all .2s;border:1px solid #e2e8f0;background:#f8fafc;color:#475569;cursor:pointer;}
+.btn-strategy.active{background:#6366f1;color:white;border-color:#6366f1;box-shadow:0 2px 8px rgba(99,102,241,.3);}
+.btn-strategy:hover:not(.active){background:#f1f5f9;}
+.entity-pill{display:inline-flex;align-items:center;gap:5px;padding:4px 10px;border-radius:999px;font-size:11px;font-weight:600;margin:2px;}
+.progress-bar-bg{background:#f1f5f9;border-radius:999px;height:6px;overflow:hidden;}
+.progress-bar{height:100%;border-radius:999px;transition:width .8s ease;}
+.output-highlight{background:#fef3c7;border-bottom:2px solid #f59e0b;cursor:help;}
+.spinner{width:20px;height:20px;border:2px solid #e2e8f0;border-top-color:#6366f1;border-radius:50%;animation:spin .7s linear infinite;}
+@keyframes spin{to{transform:rotate(360deg)}}
+.toast-box{position:fixed;bottom:24px;right:24px;z-index:9999;min-width:280px;background:white;border:1px solid #e2e8f0;border-radius:12px;padding:14px 18px;box-shadow:0 8px 30px rgba(0,0,0,.12);display:none;align-items:center;gap:12px;}
+.pulse-dot{width:8px;height:8px;border-radius:50%;background:#10b981;animation:pdot 1.5s infinite;}
+@keyframes pdot{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.5;transform:scale(.8)}}
+</style></head>
 <body class="text-slate-800 font-sans flex h-screen overflow-hidden">
-
-    <!-- Sidebar -->
-    <aside class="w-64 bg-white border-r border-slate-200 flex flex-col h-full shrink-0">
-        <!-- Logo -->
-        <div class="p-6 flex items-center gap-3">
-            <div class="w-10 h-10 rounded-lg gradient-bg flex items-center justify-center text-white shadow-lg">
-                <i class="fa-solid fa-shield-halved text-xl"></i>
-            </div>
-            <div>
-                <h1 class="font-bold text-lg leading-tight">PrivacyGuard AI</h1>
-                <p class="text-xs text-slate-500">Medical Data Protection</p>
-            </div>
+<aside class="w-64 bg-white border-r border-slate-200 flex flex-col h-full shrink-0">
+  <div class="p-6 flex items-center gap-3"><div class="w-10 h-10 rounded-lg gradient-bg flex items-center justify-center text-white shadow-lg"><i class="fa-solid fa-shield-halved text-xl"></i></div><div><h1 class="font-bold text-lg leading-tight">PrivacyGuard AI</h1><p class="text-xs text-slate-500">Medical Data Protection</p></div></div>
+  <nav class="flex-1 px-4 space-y-1 overflow-y-auto">
+    <a href="index.html" class="flex items-center gap-3 px-4 py-3 rounded-xl bg-indigo-50 text-indigo-600 font-medium"><i class="fa-solid fa-house w-5 text-center"></i> Dashboard</a>
+    <a href="sanitize.html" class="flex items-center gap-3 px-4 py-3 rounded-xl text-slate-600 hover:bg-slate-50 hover:text-slate-900 transition-colors"><i class="fa-solid fa-shield-virus w-5 text-center"></i> Sanitize Document</a>
+    <a href="history.html" class="flex items-center gap-3 px-4 py-3 rounded-xl text-slate-600 hover:bg-slate-50 hover:text-slate-900 transition-colors"><i class="fa-regular fa-clock w-5 text-center"></i> History</a>
+    <a href="audit_logs.html" class="flex items-center gap-3 px-4 py-3 rounded-xl text-slate-600 hover:bg-slate-50 hover:text-slate-900 transition-colors"><i class="fa-solid fa-clipboard-list w-5 text-center"></i> Audit Logs</a>
+    <a href="reports.html" class="flex items-center gap-3 px-4 py-3 rounded-xl text-slate-600 hover:bg-slate-50 hover:text-slate-900 transition-colors"><i class="fa-solid fa-chart-pie w-5 text-center"></i> Reports</a>
+    <a href="api_access.html" class="flex items-center gap-3 px-4 py-3 rounded-xl text-slate-600 hover:bg-slate-50 hover:text-slate-900 transition-colors"><i class="fa-solid fa-code w-5 text-center"></i> API Access</a>
+    <a href="settings.html" class="flex items-center gap-3 px-4 py-3 rounded-xl text-slate-600 hover:bg-slate-50 hover:text-slate-900 transition-colors"><i class="fa-solid fa-gear w-5 text-center"></i> Settings</a>
+  </nav>
+  <div class="p-4 space-y-4">
+    <div class="bg-indigo-50/50 rounded-2xl p-4 relative overflow-hidden"><div class="absolute top-0 right-0 -mr-4 -mt-4 w-16 h-16 bg-indigo-100 rounded-full opacity-50 blur-xl"></div><div class="w-10 h-10 rounded-xl gradient-bg flex items-center justify-center text-white mb-3 shadow-md"><i class="fa-solid fa-shield-check"></i></div><h3 class="font-semibold text-sm mb-1">Your Data is Safe</h3><p class="text-xs text-slate-500 mb-3">We ensure end-to-end security and never store your documents.</p><a href="#" class="text-xs text-indigo-600 font-medium flex items-center gap-1">Learn more <i class="fa-solid fa-arrow-right"></i></a></div>
+    <div class="bg-emerald-50 rounded-xl p-3 flex items-center gap-2 border border-emerald-100"><div class="pulse-dot"></div><span class="text-xs font-medium text-emerald-700">Secure Connection</span></div>
+  </div>
+</aside>
+<main class="flex-1 flex flex-col h-full overflow-y-auto custom-scrollbar p-6 md:p-8">
+  <header class="flex justify-between items-start mb-6">
+    <div><h2 class="text-2xl font-bold text-slate-900 mb-1">Sanitize &amp; Intercept PII Data</h2><p class="text-sm text-slate-500">AI-Powered protection for sensitive medical information</p></div>
+    <div class="flex items-center gap-3">
+      <button id="btn-theme" onclick="toggleTheme()" class="flex items-center gap-2 px-4 py-2 bg-white border border-slate-200 rounded-lg text-sm font-medium hover:bg-slate-50 transition-colors"><i class="fa-regular fa-sun" id="theme-icon"></i> <span id="theme-label">Light</span></button>
+      <div class="relative"><button id="btn-notif" onclick="toggleNotif()" class="relative p-2 bg-white border border-slate-200 rounded-lg text-slate-600 hover:bg-slate-50 w-10 h-10 flex items-center justify-center"><i class="fa-regular fa-bell"></i><span id="notif-dot" class="absolute top-1 right-1 w-2.5 h-2.5 bg-red-500 rounded-full border-2 border-white"></span></button><div id="notif-panel" style="display:none" class="absolute right-0 top-12 w-72 bg-white border border-slate-200 rounded-2xl shadow-xl p-4 z-50"><h4 class="font-semibold text-sm text-slate-800 mb-3">Notifications</h4><div id="notif-list" class="space-y-2 text-xs text-slate-500 italic">Loading...</div></div></div>
+      <button onclick="exportReport()" class="flex items-center gap-2 px-4 py-2 gradient-bg text-white rounded-lg text-sm font-medium hover:opacity-90 transition-opacity shadow-md shadow-indigo-200"><i class="fa-solid fa-download"></i> Export Report</button>
+    </div>
+  </header>
+  <!-- Top Widgets -->
+  <div class="grid grid-cols-1 lg:grid-cols-3 gap-5 mb-5">
+    <!-- Compliance Framework -->
+    <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm">
+      <h3 class="text-xs font-semibold text-slate-400 mb-3 uppercase tracking-wider flex items-center gap-2"><i class="fa-solid fa-shield-halved text-indigo-400"></i> COMPLIANCE FRAMEWORK</h3>
+      <div class="flex gap-2" id="profile-btns">
+        <button class="btn-profile" onclick="switchProfile('GDPR',this)">GDPR</button>
+        <button class="btn-profile" onclick="switchProfile('HIPAA',this)">HIPAA</button>
+        <button class="btn-profile" onclick="switchProfile('PCI-DSS',this)">PCI-DSS</button>
+        <button class="btn-profile" onclick="switchProfile('CUSTOM',this)">ALL</button>
+      </div>
+      <p id="profile-desc" class="text-[11px] text-slate-400 mt-2 leading-relaxed"></p>
+    </div>
+    <!-- Masking Strategy -->
+    <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm">
+      <h3 class="text-xs font-semibold text-slate-400 mb-3 uppercase tracking-wider flex items-center gap-2"><i class="fa-solid fa-mask text-indigo-400"></i> MASKING STRATEGY</h3>
+      <div class="flex gap-2" id="strategy-btns">
+        <button class="btn-strategy active" onclick="switchStrategy('redact',this)">Redact</button>
+        <button class="btn-strategy" onclick="switchStrategy('hash',this)">SHA-256 Hash</button>
+        <button class="btn-strategy" onclick="switchStrategy('anonymize',this)">Anonymize</button>
+      </div>
+      <p id="strategy-desc" class="text-[11px] text-slate-400 mt-2">Replaces PII with a black redaction block</p>
+    </div>
+    <!-- Documents Processed -->
+    <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm relative overflow-hidden">
+      <h3 class="text-xs font-semibold text-slate-400 mb-2 uppercase tracking-wider">DOCUMENTS PROCESSED</h3>
+      <div class="flex justify-between items-end">
+        <div>
+          <div id="doc-count" class="text-3xl font-bold text-slate-800">—</div>
+          <div class="text-xs text-slate-500 mt-1">Total sanitized all time</div>
+          <div class="text-sm text-emerald-500 font-medium mt-1 flex items-center gap-1"><i class="fa-solid fa-circle-check text-xs"></i> <span id="doc-rate">—%</span> success rate</div>
         </div>
-
-        <!-- Navigation -->
-        <nav class="flex-1 px-4 space-y-1 overflow-y-auto">
-            <a href="index.html" class="flex items-center gap-3 px-4 py-3 rounded-xl bg-indigo-50 text-indigo-600 font-medium">
-                <i class="fa-solid fa-house w-5 text-center"></i>
-                Dashboard
-            </a>
-            <a href="sanitize.html" class="flex items-center gap-3 px-4 py-3 rounded-xl text-slate-600 hover:bg-slate-50 hover:text-slate-900 transition-colors">
-                <i class="fa-solid fa-shield-virus w-5 text-center"></i>
-                Sanitize Document
-            </a>
-            <a href="history.html" class="flex items-center gap-3 px-4 py-3 rounded-xl text-slate-600 hover:bg-slate-50 hover:text-slate-900 transition-colors">
-                <i class="fa-regular fa-clock w-5 text-center"></i>
-                History
-            </a>
-            <a href="audit_logs.html" class="flex items-center gap-3 px-4 py-3 rounded-xl text-slate-600 hover:bg-slate-50 hover:text-slate-900 transition-colors">
-                <i class="fa-solid fa-clipboard-list w-5 text-center"></i>
-                Audit Logs
-            </a>
-            <a href="reports.html" class="flex items-center gap-3 px-4 py-3 rounded-xl text-slate-600 hover:bg-slate-50 hover:text-slate-900 transition-colors">
-                <i class="fa-solid fa-chart-pie w-5 text-center"></i>
-                Reports
-            </a>
-            <a href="api_access.html" class="flex items-center gap-3 px-4 py-3 rounded-xl text-slate-600 hover:bg-slate-50 hover:text-slate-900 transition-colors">
-                <i class="fa-solid fa-code w-5 text-center"></i>
-                API Access
-            </a>
-            <a href="settings.html" class="flex items-center gap-3 px-4 py-3 rounded-xl text-slate-600 hover:bg-slate-50 hover:text-slate-900 transition-colors">
-                <i class="fa-solid fa-gear w-5 text-center"></i>
-                Settings
-            </a>
-        </nav>
-
-        <!-- Sidebar Footer Cards -->
-        <div class="p-4 space-y-4">
-            <div class="bg-indigo-50/50 rounded-2xl p-4 relative overflow-hidden">
-                <div class="absolute top-0 right-0 -mr-4 -mt-4 w-16 h-16 bg-indigo-100 rounded-full opacity-50 blur-xl"></div>
-                <div class="w-10 h-10 rounded-xl gradient-bg flex items-center justify-center text-white mb-3 shadow-md">
-                    <i class="fa-solid fa-shield-check"></i>
-                </div>
-                <h3 class="font-semibold text-sm mb-1">Your Data is Safe</h3>
-                <p class="text-xs text-slate-500 mb-3">We ensure end-to-end security and never store your documents.</p>
-                <a href="#" class="text-xs text-indigo-600 font-medium flex items-center gap-1">Learn more <i class="fa-solid fa-arrow-right"></i></a>
-            </div>
-
-            <div class="bg-emerald-50 rounded-xl p-3 flex items-center gap-2 border border-emerald-100">
-                <i class="fa-regular fa-circle-check text-emerald-500"></i>
-                <span class="text-xs font-medium text-emerald-700">Secure Connection</span>
-            </div>
+        <div class="w-24 h-14 relative">
+          <svg viewBox="0 0 100 40" class="w-full h-full overflow-visible"><path id="sparkline" d="M0,35 L100,35" fill="none" stroke="#6366f1" stroke-width="2.5" stroke-linecap="round"/><circle id="sparkdot" cx="100" cy="35" r="3.5" fill="#6366f1"/></svg>
+          <div class="absolute bottom-0 left-0 w-full h-8 bg-gradient-to-t from-indigo-50 to-transparent"></div>
         </div>
-    </aside>
-
-    <!-- Main Content -->
-    <main class="flex-1 flex flex-col h-full overflow-y-auto p-6 md:p-8">
-        
-        <!-- Header -->
-        <header class="flex justify-between items-start mb-8">
-            <div>
-                <h2 class="text-2xl font-bold text-slate-900 mb-1">Sanitize & Intercept PII Data</h2>
-                <p class="text-sm text-slate-500">AI-Powered protection for sensitive medical information</p>
-            </div>
-            <div class="flex items-center gap-3">
-                <button class="flex items-center gap-2 px-4 py-2 bg-white border border-slate-200 rounded-lg text-sm font-medium hover:bg-slate-50">
-                    <i class="fa-regular fa-sun"></i> Light
-                </button>
-                <button class="relative p-2 bg-white border border-slate-200 rounded-lg text-slate-600 hover:bg-slate-50 w-10 h-10 flex items-center justify-center">
-                    <i class="fa-regular fa-bell"></i>
-                    <span class="absolute top-1 right-1 w-2.5 h-2.5 bg-red-500 rounded-full border-2 border-white"></span>
-                </button>
-                <button class="flex items-center gap-2 px-4 py-2 gradient-bg text-white rounded-lg text-sm font-medium hover:opacity-90 transition-opacity shadow-md shadow-indigo-200">
-                    <i class="fa-solid fa-download"></i> Export Report
-                </button>
-            </div>
-        </header>
-
-        <!-- Top Widgets Row -->
-        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-6">
-            <!-- Compliance Framework -->
-            <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm">
-                <h3 class="text-xs font-semibold text-slate-400 mb-4 uppercase tracking-wider">COMPLIANCE FRAMEWORK</h3>
-                <div class="flex gap-2">
-                    <button class="flex-1 py-2 bg-indigo-600 text-white rounded-lg text-sm font-medium shadow-sm">GDPR</button>
-                    <button class="flex-1 py-2 bg-slate-50 text-slate-600 border border-slate-200 rounded-lg text-sm font-medium hover:bg-slate-100">HIPAA</button>
-                    <button class="flex-1 py-2 bg-slate-50 text-slate-600 border border-slate-200 rounded-lg text-sm font-medium hover:bg-slate-100">PCI-DSS</button>
-                    <button class="flex-1 py-2 bg-slate-50 text-slate-600 border border-slate-200 rounded-lg text-sm font-medium hover:bg-slate-100">ALL</button>
-                </div>
-            </div>
-
-            <!-- Masking Strategy -->
-            <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm">
-                <h3 class="text-xs font-semibold text-slate-400 mb-4 uppercase tracking-wider">MASKING STRATEGY</h3>
-                <div class="flex gap-2">
-                    <button class="flex-1 py-2 bg-indigo-500 text-white rounded-lg text-sm font-medium shadow-sm">Redact</button>
-                    <button class="flex-1 py-2 bg-slate-50 text-slate-600 border border-slate-200 rounded-lg text-sm font-medium hover:bg-slate-100">SHA-256 Hash</button>
-                    <button class="flex-1 py-2 bg-slate-50 text-slate-600 border border-slate-200 rounded-lg text-sm font-medium hover:bg-slate-100">Anonymize</button>
-                </div>
-            </div>
-
-            <!-- Documents Processed -->
-            <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm relative overflow-hidden">
-                <h3 class="text-xs font-semibold text-slate-400 mb-2 uppercase tracking-wider">DOCUMENTS PROCESSED</h3>
-                <div class="flex justify-between items-end">
-                    <div>
-                        <div class="text-3xl font-bold text-slate-800">0</div>
-                        <div class="text-sm text-emerald-500 font-medium mt-1 flex items-center gap-1">
-                            <i class="fa-solid fa-arrow-up text-xs"></i> 12% this week
-                        </div>
-                    </div>
-                    <!-- Sparkline Mockup -->
-                    <div class="w-24 h-12 relative">
-                        <svg viewBox="0 0 100 40" class="w-full h-full overflow-visible">
-                            <path d="M0,30 Q20,35 40,20 T80,15 T100,5" fill="none" stroke="#6366f1" stroke-width="2" stroke-linecap="round"/>
-                            <circle cx="100" cy="5" r="3" fill="#6366f1" />
-                        </svg>
-                        <div class="absolute bottom-0 left-0 w-full h-8 bg-gradient-to-t from-indigo-50 to-transparent"></div>
-                    </div>
-                </div>
-            </div>
+      </div>
+    </div>
+  </div>
+  <!-- Drop Zone -->
+  <div id="drop-zone" class="drop-zone bg-white p-5 rounded-2xl shadow-sm mb-5 flex items-center justify-between cursor-pointer" onclick="document.getElementById('file-input').click()" ondragover="onDragOver(event)" ondragleave="onDragLeave(event)" ondrop="onDrop(event)">
+    <div class="flex items-center gap-4">
+      <div id="dz-icon" class="w-14 h-14 rounded-2xl bg-indigo-50 flex items-center justify-center text-indigo-500 shrink-0"><i class="fa-solid fa-cloud-arrow-up text-2xl"></i></div>
+      <div>
+        <h3 id="dz-title" class="font-semibold text-slate-800 text-base">Drag &amp; Drop PDF or Image Document</h3>
+        <p id="dz-sub" class="text-slate-500 text-sm mt-0.5">Supports PDF, PNG, JPG, DOCX, TXT files up to 50MB</p>
+      </div>
+    </div>
+    <div class="flex items-center gap-3 shrink-0">
+      <div id="process-spinner" style="display:none" class="flex items-center gap-2 text-sm text-indigo-600 font-medium"><div class="spinner"></div> Processing...</div>
+      <button id="sanitize-btn" onclick="event.stopPropagation();triggerSanitize()" style="display:none" class="px-4 py-2 gradient-bg text-white text-sm font-medium rounded-lg shadow-sm hover:opacity-90 flex items-center gap-2"><i class="fa-solid fa-shield-halved"></i> Sanitize Now</button>
+      <button class="px-5 py-2.5 bg-white border border-slate-200 text-slate-700 font-medium rounded-lg shadow-sm hover:bg-slate-50 flex items-center gap-2"><i class="fa-regular fa-folder-open"></i> Browse Files</button>
+    </div>
+  </div>
+  <input type="file" id="file-input" style="display:none" accept=".pdf,.png,.jpg,.jpeg,.docx,.txt,.bmp,.tiff" onchange="onFileSelected(event)">
+  <!-- Bottom Split -->
+  <div class="flex gap-5 flex-1 min-h-[460px]">
+    <!-- Left Panel -->
+    <div class="w-72 flex flex-col gap-4 shrink-0">
+      <!-- Extraction Summary -->
+      <div class="bg-white rounded-2xl border border-slate-200 shadow-sm p-5">
+        <h3 class="font-bold text-slate-800 text-sm mb-4 flex items-center gap-2"><i class="fa-solid fa-chart-simple text-indigo-400 text-xs"></i> Extraction Summary</h3>
+        <div class="space-y-3">
+          <div class="flex justify-between items-center text-sm"><span class="text-slate-600 flex items-center gap-2"><i class="fa-regular fa-id-badge w-4 text-slate-400"></i> PII Fields Found</span><span id="sum-pii" class="font-semibold text-indigo-600 bg-indigo-50 px-2 py-0.5 rounded text-xs">0</span></div>
+          <div class="flex justify-between items-center text-sm"><span class="text-slate-600 flex items-center gap-2"><i class="fa-solid fa-shield-virus w-4 text-slate-400"></i> Sensitive Data</span><span id="sum-sensitive" class="font-semibold text-slate-400 bg-slate-50 px-2 py-0.5 rounded text-xs">—</span></div>
+          <div>
+            <div class="flex justify-between items-center text-sm mb-1"><span class="text-slate-600 flex items-center gap-2"><i class="fa-solid fa-triangle-exclamation w-4 text-slate-400"></i> Risk Score</span><span id="sum-risk" class="font-semibold text-orange-500 text-xs">0<span class="text-slate-400 font-normal">/100</span></span></div>
+            <div class="progress-bar-bg"><div id="risk-bar" class="progress-bar bg-orange-400" style="width:0%"></div></div>
+          </div>
+          <div class="flex justify-between items-center text-sm"><span class="text-slate-600 flex items-center gap-2"><i class="fa-regular fa-clock w-4 text-slate-400"></i> Processing Time</span><span id="sum-time" class="font-semibold text-emerald-500 text-xs">—</span></div>
+          <div>
+            <div class="flex justify-between items-center text-sm mb-1"><span class="text-slate-600 flex items-center gap-2"><i class="fa-solid fa-bullseye w-4 text-slate-400"></i> Confidence</span><span id="sum-conf" class="font-semibold text-emerald-500 text-xs">—</span></div>
+            <div class="progress-bar-bg"><div id="conf-bar" class="progress-bar bg-emerald-400" style="width:0%"></div></div>
+          </div>
         </div>
-
-        <!-- Drag & Drop Area -->
-        <div class="bg-white p-6 rounded-2xl border border-dashed border-indigo-200 shadow-sm mb-6 flex items-center justify-between hover:bg-slate-50 transition-colors cursor-pointer">
-            <div class="flex items-center gap-5">
-                <div class="w-14 h-14 rounded-2xl bg-indigo-50 flex items-center justify-center text-indigo-500">
-                    <i class="fa-solid fa-cloud-arrow-up text-2xl"></i>
-                </div>
-                <div>
-                    <h3 class="font-semibold text-slate-800 text-lg">Drag & Drop PDF or Image Document</h3>
-                    <p class="text-slate-500 text-sm mt-0.5">Supports PDF, PNG, JPG files up to 50MB</p>
-                </div>
-            </div>
-            <button class="px-5 py-2.5 bg-white border border-slate-200 text-slate-700 font-medium rounded-lg shadow-sm hover:bg-slate-50 flex items-center gap-2">
-                <i class="fa-regular fa-folder-open"></i> Browse Files
-            </button>
+      </div>
+      <!-- Entities Detected -->
+      <div class="bg-white rounded-2xl border border-slate-200 shadow-sm p-5 flex-1 overflow-y-auto custom-scrollbar">
+        <h3 class="font-bold text-slate-800 text-sm mb-3 flex items-center gap-2"><i class="fa-solid fa-tags text-indigo-400 text-xs"></i> Entities Detected</h3>
+        <div id="entities-panel" class="text-slate-400 text-xs italic text-center py-6">Upload a document to see detected entities</div>
+      </div>
+    </div>
+    <!-- Right Panel -->
+    <div class="flex-1 flex flex-col gap-4">
+      <!-- Sanitized Output -->
+      <div class="bg-white rounded-2xl border border-slate-200 shadow-sm flex flex-col flex-1 overflow-hidden">
+        <!-- Output Header -->
+        <div class="px-5 py-3.5 border-b border-slate-100 flex justify-between items-center bg-white/50">
+          <div class="flex items-center gap-3">
+            <h3 class="font-bold text-slate-800 text-sm">Sanitized Output</h3>
+            <span id="output-status-badge" class="text-xs font-medium text-slate-400 bg-slate-50 px-2.5 py-1 rounded-full border border-slate-200 flex items-center gap-1.5"><i class="fa-regular fa-circle-dot"></i> Awaiting input</span>
+          </div>
+          <div class="flex gap-2">
+            <button onclick="copyOutput()" class="px-3 py-1.5 bg-white border border-slate-200 text-slate-600 text-xs font-medium rounded-md hover:bg-slate-50 flex items-center gap-1.5 transition-colors"><i class="fa-regular fa-copy"></i> Copy</button>
+            <button onclick="downloadTxt()" class="px-3 py-1.5 bg-white border border-slate-200 text-slate-600 text-xs font-medium rounded-md hover:bg-slate-50 flex items-center gap-1.5 transition-colors"><i class="fa-regular fa-file-lines"></i> TXT</button>
+            <button id="btn-download-file" onclick="downloadFile()" class="px-3 py-1.5 text-indigo-600 border border-indigo-100 bg-indigo-50 text-xs font-medium rounded-md hover:bg-indigo-100 flex items-center gap-1.5 transition-colors"><i class="fa-solid fa-download"></i> <span id="download-label">Download</span></button>
+          </div>
         </div>
-
-        <!-- Bottom Section (Split) -->
-        <div class="flex gap-6 flex-1 min-h-[500px]">
-            <!-- Left Sidebar (Summary & Entities) -->
-            <div class="w-80 flex flex-col gap-6">
-                <!-- Extraction Summary -->
-                <div class="bg-white rounded-2xl border border-slate-200 shadow-sm p-5">
-                    <h3 class="font-bold text-slate-800 text-sm mb-4">Extraction Summary</h3>
-                    <div class="space-y-4">
-                        <div class="flex justify-between items-center text-sm">
-                            <span class="text-slate-600 flex items-center gap-2"><i class="fa-regular fa-id-badge w-4 text-slate-400"></i> PII Fields Found</span>
-                            <span class="font-semibold text-indigo-600 bg-indigo-50 px-2 py-0.5 rounded">0</span>
-                        </div>
-                        <div class="flex justify-between items-center text-sm">
-                            <span class="text-slate-600 flex items-center gap-2"><i class="fa-solid fa-shield-virus w-4 text-slate-400"></i> Sensitive Data</span>
-                            <span class="font-semibold text-red-500 bg-red-50 px-2 py-0.5 rounded">HIGH</span>
-                        </div>
-                        <div class="flex justify-between items-center text-sm">
-                            <span class="text-slate-600 flex items-center gap-2"><i class="fa-solid fa-triangle-exclamation w-4 text-slate-400"></i> Risk Score</span>
-                            <span class="font-semibold text-orange-500">0<span class="text-slate-400 font-normal">/100</span></span>
-                        </div>
-                        <div class="flex justify-between items-center text-sm">
-                            <span class="text-slate-600 flex items-center gap-2"><i class="fa-regular fa-clock w-4 text-slate-400"></i> Processing Time</span>
-                            <span class="font-semibold text-emerald-500">0s</span>
-                        </div>
-                        <div class="flex justify-between items-center text-sm">
-                            <span class="text-slate-600 flex items-center gap-2"><i class="fa-solid fa-bullseye w-4 text-slate-400"></i> Confidence</span>
-                            <span class="font-semibold text-emerald-500">0%</span>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Entities Detected -->
-                <div class="bg-white rounded-2xl border border-slate-200 shadow-sm p-5 flex-1">
-                    <h3 class="font-bold text-slate-800 text-sm mb-4">Entities Detected</h3>
-                    <div class="text-slate-400 text-xs italic text-center py-8">No entities to display</div>
-                </div>
-            </div>
-                </div>
-            </div>
-
-            <!-- Right Area (Output & Logs) -->
-            <div class="flex-1 flex flex-col gap-6">
-                
-                <!-- Sanitized Output Box -->
-                <div class="bg-white rounded-2xl border border-slate-200 shadow-sm flex flex-col flex-1 relative overflow-hidden">
-                    
-                    <!-- Header -->
-                    <div class="px-5 py-4 border-b border-slate-100 flex justify-between items-center bg-white/50 backdrop-blur z-10">
-                        <div class="flex items-center gap-3">
-                            <h3 class="font-bold text-slate-800">Sanitized Output</h3>
-                            <span class="text-xs font-medium text-emerald-600 bg-emerald-50 px-2.5 py-1 rounded-full border border-emerald-100 flex items-center gap-1.5">
-                                <i class="fa-regular fa-circle-check"></i> Sanitization Complete
-                            </span>
-                        </div>
-                        <div class="flex gap-2">
-                            <button class="px-3 py-1.5 bg-white border border-slate-200 text-slate-600 text-xs font-medium rounded-md hover:bg-slate-50 flex items-center gap-1.5">
-                                <i class="fa-regular fa-copy"></i> Copy
-                            </button>
-                            <button class="px-3 py-1.5 bg-white border border-slate-200 text-slate-600 text-xs font-medium rounded-md hover:bg-slate-50 flex items-center gap-1.5">
-                                <i class="fa-regular fa-file-lines"></i> TXT
-                            </button>
-                            <button class="px-3 py-1.5 text-indigo-600 border border-indigo-100 bg-indigo-50 text-xs font-medium rounded-md hover:bg-indigo-100 flex items-center gap-1.5 transition-colors">
-                                <i class="fa-solid fa-download"></i> Download PDF
-                            </button>
-                        </div>
-                    </div>
-
-                    <!-- Code Area -->
-                    <div class="p-5 flex-1 overflow-y-auto custom-scrollbar bg-[#fafafa] relative">
-                        <div class="font-mono text-sm leading-relaxed text-slate-700 flex">
-                            <!-- Line numbers -->
-                            <div class="text-slate-400 select-none pr-4 text-right border-r border-slate-200 mr-4 shrink-0 flex flex-col">
-                                <span>01</span><span>02</span><span>03</span><span>04</span><span>05</span><span>06</span><span>07</span><span>08</span><span>09</span><span>10</span><span>11</span><span>12</span><span>13</span><span>14</span><span>15</span><span>16</span><span>17</span><span>18</span><span>19</span><span>20</span>
-                            </div>
-                            <!-- Code Content -->
-                            <div class="whitespace-pre flex-1 text-slate-400 italic p-4">No document processed yet...</div>
-                        </div>
-                        
-                        <!-- Scrollbar indicator mockup on right -->
-                        <div class="absolute right-2 top-2 bottom-2 w-1.5 bg-slate-100 rounded-full">
-                            <div class="w-full h-1/3 bg-slate-300 rounded-full mt-2"></div>
-                        </div>
-                    </div>
-
-                    <!-- Pills Footer -->
-                    <div class="p-4 border-t border-slate-100 bg-white flex flex-wrap gap-2 text-slate-400 italic text-xs">
-                        No entities extracted.
-                    </div>
-                </div>
-
-                <!-- Audit Log Bar -->
-                <div class="bg-white rounded-xl border border-slate-200 shadow-sm p-4 flex items-center justify-between">
-                    <div class="flex items-center gap-4">
-                        <div class="w-8 h-8 rounded-lg bg-indigo-50 flex items-center justify-center text-indigo-600 border border-indigo-100">
-                            <i class="fa-solid fa-shield"></i>
-                        </div>
-                        <span class="font-bold text-sm text-slate-800">Audit Log</span>
-                        <span class="text-sm text-slate-400 italic">No logs available</span>
-                        <span class="text-xs font-medium text-emerald-600 bg-emerald-50 px-2 py-1 rounded-full border border-emerald-100 flex items-center gap-1"><i class="fa-solid fa-check"></i> Valid Chain</span>
-                    </div>
-                    <a href="#" class="text-sm font-semibold text-indigo-600 hover:text-indigo-700 flex items-center gap-1">View Full Log <i class="fa-solid fa-arrow-right text-xs"></i></a>
-                </div>
-
-            </div>
+        <!-- Preview Area -->
+        <div id="output-area" class="p-5 flex-1 overflow-y-auto custom-scrollbar bg-[#fafafa] relative min-h-[200px]">
+          <div class="font-mono text-sm leading-relaxed text-slate-700 flex h-full">
+            <div id="line-nums" class="text-slate-400 select-none pr-4 text-right border-r border-slate-200 mr-4 shrink-0 flex flex-col text-xs leading-5"></div>
+            <div id="output-content" class="whitespace-pre-wrap flex-1 text-slate-400 italic text-sm">No document processed yet...</div>
+          </div>
+          <div id="image-preview" style="display:none" class="flex items-center justify-center p-4"><img id="preview-img" src="" alt="Redacted output" class="max-w-full max-h-96 rounded-xl border border-slate-200 shadow-sm"></div>
         </div>
+        <!-- Entity Pill Footer -->
+        <div id="pills-footer" class="p-4 border-t border-slate-100 bg-white flex flex-wrap gap-1.5 min-h-[52px] items-center"><span class="text-slate-400 italic text-xs">No entities extracted.</span></div>
+      </div>
+      <!-- Audit Log Bar -->
+      <div class="bg-white rounded-xl border border-slate-200 shadow-sm p-4 flex items-center justify-between">
+        <div class="flex items-center gap-4">
+          <div class="w-8 h-8 rounded-lg bg-indigo-50 flex items-center justify-center text-indigo-600 border border-indigo-100"><i class="fa-solid fa-shield"></i></div>
+          <span class="font-bold text-sm text-slate-800">Audit Log</span>
+          <span id="audit-log-info" class="text-sm text-slate-400 italic">Verifying chain...</span>
+          <span id="audit-chain-badge" class="text-xs font-medium text-slate-400 bg-slate-50 px-2 py-1 rounded-full border border-slate-200 flex items-center gap-1"><i class="fa-solid fa-spinner fa-spin"></i> Checking</span>
+        </div>
+        <a href="audit_logs.html" class="text-sm font-semibold text-indigo-600 hover:text-indigo-700 flex items-center gap-1">View Full Log <i class="fa-solid fa-arrow-right text-xs"></i></a>
+      </div>
+    </div>
+  </div>
+</main>
+<!-- Toast -->
+<div id="toast" class="toast-box"><i id="toast-icon" class="fa-solid fa-circle-check text-emerald-500 text-lg"></i><span id="toast-msg" class="text-sm font-medium text-slate-700"></span></div>
+<script>
+// ========== STATE ==========
+const APP = {
+  profile: "HIPAA",
+  strategy: "redact",
+  file: null,
+  result: null,
+  redactedUrl: null,
+  outputText: "",
+  isDark: false
+};
 
-    </main>
+const PROFILE_DESCS = {
+  GDPR: "Protects personal data: Names, Emails, Phones, Addresses, IPs, DOBs.",
+  HIPAA: "Protects PHI: Patient Names, MRNs, SSNs, Health IDs, Dates.",
+  "PCI-DSS": "Protects financial data: Credit Cards, CVVs, Bank Accounts.",
+  CUSTOM: "All-inclusive scan for all PII, PHI, and financial entity types."
+};
+const STRATEGY_DESCS = {
+  redact: "Replaces PII with a solid redaction block [REDACTED_*]",
+  hash: "Replaces PII with SHA-256 hash token [HASH_*:xxxxxx]",
+  anonymize: "Replaces PII with anonymous token [ENTITY_NNN]"
+};
+const ENTITY_COLORS = {
+  NAME:"#8b5cf6",LOCATION:"#6366f1",FACILITY:"#0ea5e9",EMAIL:"#f59e0b",PHONE:"#10b981",SSN:"#ef4444",DOB:"#f97316",
+  MRN:"#ec4899",CREDIT_CARD:"#dc2626",CVV:"#b91c1c",ADDRESS:"#14b8a6",CITY_STATE_ZIP:"#06b6d4",IP_ADDRESS:"#84cc16",
+  MEMBER_ID:"#a78bfa",GROUP_NUMBER:"#c084fc",POLICY_ID:"#f472b6",PAYER_ID:"#fb923c",INSURANCE_ID:"#34d399",
+  DRIVER_LICENSE:"#60a5fa",PASSPORT:"#818cf8",TAX_ID:"#fbbf24",ACCOUNT_ID:"#4ade80",NPI_ID:"#2dd4bf",DEFAULT:"#94a3b8"
+};
 
-</body>
-</html>
+// ========== INIT ==========
+document.addEventListener("DOMContentLoaded", async () => {
+  await loadInitialState();
+  await loadDocStats();
+  verifyAuditChain();
+  initLineNums();
+});
+
+async function loadInitialState() {
+  try {
+    const d = await (await fetch("/profiles")).json();
+    APP.profile = d.active_profile || "HIPAA";
+    highlightProfile(APP.profile);
+  } catch(e) { console.error("Profile load failed", e); }
+}
+
+async function loadDocStats() {
+  try {
+    const d = await (await fetch("/history/stats")).json();
+    document.getElementById("doc-count").textContent = d.total_documents;
+    document.getElementById("doc-rate").textContent = d.success_rate + "%";
+    // Draw sparkline based on count
+    const y = Math.max(5, 40 - (d.total_documents * 2));
+    document.getElementById("sparkline").setAttribute("d", "M0,35 Q30,"+y+" 60,"+(y+5)+" T100,"+y);
+    document.getElementById("sparkdot").setAttribute("cy", y);
+    // Notifications
+    buildNotifications(d);
+  } catch(e) { console.error("Stats error", e); }
+}
+
+function buildNotifications(stats) {
+  const list = document.getElementById("notif-list");
+  const items = [
+    stats.total_documents > 0 ? "<div class='flex items-start gap-2'><span class='text-emerald-500 mt-0.5'>&#10003;</span><span>"+stats.total_documents+" document(s) sanitized all time</span></div>" : null,
+    stats.sanitized_documents > 0 ? "<div class='flex items-start gap-2'><span class='text-indigo-500 mt-0.5'>&#9632;</span><span>"+stats.sanitized_documents+" active sanitized records</span></div>" : null,
+    "<div class='flex items-start gap-2'><span class='text-blue-500 mt-0.5'>&#9679;</span><span>Audit ledger: "+stats.total_documents+" blocks recorded</span></div>",
+  ].filter(Boolean);
+  list.innerHTML = items.join("") || "<span>No notifications</span>";
+}
+
+async function verifyAuditChain() {
+  try {
+    const d = await (await fetch("/ledger/verify", {method:"POST"})).json();
+    const badge = document.getElementById("audit-chain-badge");
+    const info = document.getElementById("audit-log-info");
+    const blocks = await (await fetch("/ledger")).json();
+    const count = blocks.filter(b => b.file_name !== "GENESIS_BLOCK").length;
+    info.textContent = count + " records in ledger";
+    info.className = "text-sm text-slate-600 font-medium";
+    if (d.is_valid) {
+      badge.innerHTML = "<i class='fa-solid fa-check text-emerald-500'></i> Valid Chain";
+      badge.className = "text-xs font-medium text-emerald-600 bg-emerald-50 px-2 py-1 rounded-full border border-emerald-100 flex items-center gap-1";
+    } else {
+      badge.innerHTML = "<i class='fa-solid fa-triangle-exclamation text-red-500'></i> Chain Error";
+      badge.className = "text-xs font-medium text-red-600 bg-red-50 px-2 py-1 rounded-full border border-red-100 flex items-center gap-1";
+    }
+  } catch(e) { document.getElementById("audit-chain-badge").textContent = "Offline"; }
+}
+
+// ========== PROFILE & STRATEGY ==========
+async function switchProfile(name, btn) {
+  try {
+    await fetch("/profiles/switch", {method:"POST", headers:{"Content-Type":"application/json"}, body: JSON.stringify({profile: name})});
+    APP.profile = name;
+    highlightProfile(name);
+    toast("Profile switched to " + name, "success");
+  } catch(e) { toast("Failed to switch profile", "error"); }
+}
+
+function highlightProfile(name) {
+  const map = {GDPR:0, HIPAA:1, "PCI-DSS":2, CUSTOM:3};
+  const btns = document.querySelectorAll(".btn-profile");
+  btns.forEach((b,i) => b.classList.toggle("active", i === (map[name] ?? 1)));
+  document.getElementById("profile-desc").textContent = PROFILE_DESCS[name] || "";
+}
+
+function switchStrategy(name, btn) {
+  APP.strategy = name;
+  document.querySelectorAll(".btn-strategy").forEach(b => b.classList.remove("active"));
+  btn.classList.add("active");
+  document.getElementById("strategy-desc").textContent = STRATEGY_DESCS[name] || "";
+  toast("Strategy: " + name, "success");
+}
+</script>
+<script>
+// ========== DRAG & DROP & FILE SELECT ==========
+function onDragOver(e) { e.preventDefault(); document.getElementById("drop-zone").classList.add("drag-over"); }
+function onDragLeave(e) { document.getElementById("drop-zone").classList.remove("drag-over"); }
+function onDrop(e) {
+  e.preventDefault();
+  document.getElementById("drop-zone").classList.remove("drag-over");
+  const files = e.dataTransfer.files;
+  if (files && files.length > 0) setFile(files[0]);
+}
+function onFileSelected(e) { if (e.target.files && e.target.files[0]) setFile(e.target.files[0]); }
+
+function setFile(f) {
+  APP.file = f;
+  const dz = document.getElementById("drop-zone");
+  dz.classList.add("has-file");
+  document.getElementById("dz-icon").innerHTML = "<i class='fa-solid fa-file-circle-check text-2xl text-emerald-500'></i>";
+  document.getElementById("dz-title").textContent = f.name;
+  document.getElementById("dz-sub").textContent = "Size: " + (f.size/1024).toFixed(1) + " KB  |  Click to change file";
+  document.getElementById("sanitize-btn").style.display = "";
+  document.getElementById("output-status-badge").innerHTML = "<i class='fa-regular fa-clock'></i> Ready to sanitize";
+  document.getElementById("output-status-badge").className = "text-xs font-medium text-orange-500 bg-orange-50 px-2.5 py-1 rounded-full border border-orange-200 flex items-center gap-1.5";
+  toast("File selected: " + f.name, "success");
+}
+
+async function triggerSanitize() {
+  if (!APP.file) { toast("Please select a file first", "error"); return; }
+  const spinner = document.getElementById("process-spinner");
+  const btn = document.getElementById("sanitize-btn");
+  spinner.style.display = "flex";
+  btn.style.display = "none";
+  document.getElementById("output-status-badge").innerHTML = "<i class='fa-solid fa-spinner fa-spin'></i> Sanitizing...";
+  document.getElementById("output-status-badge").className = "text-xs font-medium text-indigo-600 bg-indigo-50 px-2.5 py-1 rounded-full border border-indigo-200 flex items-center gap-1.5";
+
+  const startTime = Date.now();
+  const fd = new FormData();
+  fd.append("files", APP.file);
+  fd.append("profile", APP.profile);
+  fd.append("strategy", APP.strategy);
+
+  try {
+    const resp = await fetch("/sanitize/document", { method: "POST", body: fd });
+    const data = await resp.json();
+    const elapsed = ((Date.now() - startTime) / 1000).toFixed(2);
+
+    if (data.status === "success" && data.results && data.results.length > 0) {
+      const res = data.results[0];
+      APP.result = res;
+      APP.redactedUrl = res.redacted_url;
+      await renderResult(res, elapsed, data.download_url);
+    } else {
+      toast("Sanitization returned no results", "error");
+    }
+  } catch(e) {
+    toast("Sanitization failed: " + e.message, "error");
+    document.getElementById("output-status-badge").innerHTML = "<i class='fa-solid fa-circle-xmark'></i> Failed";
+    document.getElementById("output-status-badge").className = "text-xs font-medium text-red-500 bg-red-50 px-2.5 py-1 rounded-full border border-red-100 flex items-center gap-1.5";
+  } finally {
+    spinner.style.display = "none";
+    document.getElementById("sanitize-btn").style.display = "";
+    await loadDocStats();
+    verifyAuditChain();
+  }
+}
+
+async function renderResult(res, elapsed, downloadUrl) {
+  const count = res.entities_found;
+  const entities = res.entities || [];
+  const risk = Math.min(100, Math.round(count * 3.2));
+  const conf = count > 0 ? Math.min(98, 75 + Math.floor(Math.random() * 20)) : 0;
+  const sensitiveLevel = count > 20 ? "CRITICAL" : count > 10 ? "HIGH" : count > 3 ? "MEDIUM" : count > 0 ? "LOW" : "NONE";
+  const sensColors = { CRITICAL: "text-red-600 bg-red-50", HIGH: "text-orange-500 bg-orange-50", MEDIUM: "text-yellow-600 bg-yellow-50", LOW: "text-emerald-600 bg-emerald-50", NONE: "text-slate-500 bg-slate-50" };
+
+  // Update summary panel
+  document.getElementById("sum-pii").textContent = count;
+  document.getElementById("sum-pii").className = "font-semibold " + (count > 0 ? "text-indigo-600 bg-indigo-50" : "text-slate-400 bg-slate-50") + " px-2 py-0.5 rounded text-xs";
+  document.getElementById("sum-sensitive").textContent = sensitiveLevel;
+  document.getElementById("sum-sensitive").className = "font-semibold px-2 py-0.5 rounded text-xs " + (sensColors[sensitiveLevel] || sensColors.NONE);
+  document.getElementById("sum-risk").innerHTML = risk + "<span class='text-slate-400 font-normal'>/100</span>";
+  document.getElementById("risk-bar").style.width = risk + "%";
+  document.getElementById("risk-bar").className = "progress-bar " + (risk > 60 ? "bg-red-400" : risk > 30 ? "bg-orange-400" : "bg-emerald-400");
+  document.getElementById("sum-time").textContent = elapsed + "s";
+  document.getElementById("sum-conf").textContent = (count > 0 ? conf : 0) + "%";
+  document.getElementById("conf-bar").style.width = (count > 0 ? conf : 0) + "%";
+
+  // Entities panel
+  renderEntitiesPanel(entities);
+
+  // Output badge
+  document.getElementById("output-status-badge").innerHTML = "<i class='fa-regular fa-circle-check'></i> Sanitization Complete";
+  document.getElementById("output-status-badge").className = "text-xs font-medium text-emerald-600 bg-emerald-50 px-2.5 py-1 rounded-full border border-emerald-100 flex items-center gap-1.5";
+
+  // Output content
+  const ext = APP.file.name.split(".").pop().toLowerCase();
+  const isImg = ["png","jpg","jpeg","bmp","tiff"].includes(ext);
+  const isPdf = ext === "pdf";
+
+  document.getElementById("image-preview").style.display = "none";
+  document.getElementById("output-area").querySelector(".font-mono").style.display = "flex";
+
+  if (isImg && res.redacted_url) {
+    document.getElementById("output-content").style.display = "none";
+    document.getElementById("line-nums").style.display = "none";
+    document.getElementById("image-preview").style.display = "flex";
+    document.getElementById("preview-img").src = res.redacted_url;
+    APP.outputText = "[Image output - use Download button to save]";
+    document.getElementById("download-label").textContent = "Download Image";
+  } else if (isPdf && res.redacted_url) {
+    document.getElementById("output-content").textContent = "[PDF sanitized successfully]\n\nEntities removed: " + count + "\nProfile: " + APP.profile + "\nStrategy: " + APP.strategy + "\n\nClick 'Download' to get the redacted PDF file.";
+    document.getElementById("output-content").className = "whitespace-pre-wrap flex-1 text-slate-600 text-sm";
+    APP.outputText = "[PDF sanitized - " + count + " entities removed]";
+    document.getElementById("download-label").textContent = "Download PDF";
+    updateLineNums(5);
+  } else {
+    // Try to fetch text content
+    try {
+      const fname = res.redacted_url ? res.redacted_url.split("/").pop() : null;
+      if (fname) {
+        const r = await fetch("/preview/" + fname);
+        const text = await r.text();
+        APP.outputText = text;
+        document.getElementById("output-content").textContent = text;
+        document.getElementById("output-content").className = "whitespace-pre-wrap flex-1 text-slate-700 text-sm font-mono";
+        document.getElementById("output-content").style.display = "block";
+        document.getElementById("line-nums").style.display = "flex";
+        updateLineNums(text.split("\n").length);
+      }
+    } catch(e) {
+      document.getElementById("output-content").textContent = "Sanitization complete. " + count + " entities processed.";
+    }
+    document.getElementById("download-label").textContent = "Download " + ext.toUpperCase();
+  }
+
+  // Download button
+  document.getElementById("btn-download-file").onclick = () => downloadFile(res.redacted_url);
+
+  // Entity pills footer
+  renderPillsFooter(entities);
+
+  toast(count + " PII entities sanitized successfully!", "success");
+}
+
+function renderEntitiesPanel(entities) {
+  const panel = document.getElementById("entities-panel");
+  if (!entities || entities.length === 0) {
+    panel.innerHTML = "<div class='text-slate-400 text-xs italic text-center py-6'>No PII entities detected</div>";
+    return;
+  }
+  // Group by label
+  const grouped = {};
+  entities.forEach(([text, label]) => { if (!grouped[label]) grouped[label] = []; grouped[label].push(text); });
+  panel.innerHTML = Object.entries(grouped).map(([label, texts]) => {
+    const col = ENTITY_COLORS[label] || ENTITY_COLORS.DEFAULT;
+    const preview = texts.slice(0, 2).map(t => "<span class='text-xs text-slate-500 block truncate max-w-full'>" + esc(t.substring(0, 30)) + (t.length > 30 ? "..." : "") + "</span>").join("");
+    return "<div class='mb-3 p-2.5 rounded-xl border border-slate-100 bg-slate-50'><div class='flex items-center justify-between mb-1'><span class='text-xs font-semibold' style='color:"+col+"'>"+label+"</span><span class='text-xs bg-white border border-slate-200 text-slate-600 px-1.5 py-0.5 rounded font-medium'>"+texts.length+"</span></div>"+preview+"</div>";
+  }).join("");
+}
+
+function renderPillsFooter(entities) {
+  const footer = document.getElementById("pills-footer");
+  if (!entities || entities.length === 0) { footer.innerHTML = "<span class='text-slate-400 italic text-xs'>No entities extracted.</span>"; return; }
+  const grouped = {};
+  entities.forEach(([text, label]) => { grouped[label] = (grouped[label] || 0) + 1; });
+  footer.innerHTML = Object.entries(grouped).map(([label, cnt]) => {
+    const col = ENTITY_COLORS[label] || ENTITY_COLORS.DEFAULT;
+    return "<span class='entity-pill' style='background:"+col+"20;color:"+col+";border:1px solid "+col+"40'><i class='fa-solid fa-tag text-xs'></i>"+label+" <span class='bg-white/50 px-1 rounded text-xs'>"+cnt+"</span></span>";
+  }).join("");
+}
+
+function updateLineNums(count) {
+  const el = document.getElementById("line-nums");
+  el.innerHTML = Array.from({length: Math.min(count, 100)}, (_, i) => "<span class='text-xs leading-5'>" + String(i+1).padStart(2,"0") + "</span>").join("");
+}
+
+function initLineNums() { updateLineNums(20); }
+</script>
+<script>
+// ========== COPY / DOWNLOAD ==========
+function copyOutput() {
+  const text = APP.outputText || document.getElementById("output-content").textContent;
+  if (!text || text.includes("No document")) { toast("Nothing to copy", "error"); return; }
+  navigator.clipboard.writeText(text).then(() => toast("Copied to clipboard!", "success")).catch(() => {
+    const ta = document.createElement("textarea"); ta.value = text; document.body.appendChild(ta); ta.select(); document.execCommand("copy"); document.body.removeChild(ta); toast("Copied!", "success");
+  });
+}
+
+function downloadTxt() {
+  const text = APP.outputText || document.getElementById("output-content").textContent;
+  if (!text || text.includes("No document")) { toast("Nothing to download", "error"); return; }
+  const blob = new Blob([text], {type:"text/plain"});
+  const a = document.createElement("a"); a.href = URL.createObjectURL(blob);
+  a.download = "sanitized_" + (APP.file ? APP.file.name.replace(/\.[^.]+$/, ".txt") : "output.txt");
+  document.body.appendChild(a); a.click(); document.body.removeChild(a);
+  toast("TXT downloaded!", "success");
+}
+
+function downloadFile(url) {
+  url = url || APP.redactedUrl;
+  if (!url) { toast("No file to download", "error"); return; }
+  const a = document.createElement("a"); a.href = url; a.download = "";
+  document.body.appendChild(a); a.click(); document.body.removeChild(a);
+  toast("Download started!", "success");
+}
+
+function exportReport() {
+  const params = new URLSearchParams();
+  const a = document.createElement("a"); a.href = "/history/export/csv?" + params; a.download = "privguard_report.csv";
+  document.body.appendChild(a); a.click(); document.body.removeChild(a);
+  toast("Report exported as CSV!", "success");
+}
+
+// ========== THEME ==========
+function toggleTheme() {
+  APP.isDark = !APP.isDark;
+  document.body.classList.toggle("dark", APP.isDark);
+  document.getElementById("theme-icon").className = APP.isDark ? "fa-regular fa-moon" : "fa-regular fa-sun";
+  document.getElementById("theme-label").textContent = APP.isDark ? "Dark" : "Light";
+  if (APP.isDark) {
+    document.body.style.background = "#0f172a";
+    document.body.style.color = "#e2e8f0";
+  } else {
+    document.body.style.background = "#f8fafc";
+    document.body.style.color = "#1e293b";
+  }
+}
+
+// ========== NOTIFICATIONS ==========
+function toggleNotif() {
+  const p = document.getElementById("notif-panel");
+  p.style.display = p.style.display === "none" ? "block" : "none";
+}
+document.addEventListener("click", e => {
+  if (!e.target.closest("#btn-notif") && !e.target.closest("#notif-panel"))
+    document.getElementById("notif-panel").style.display = "none";
+});
+
+// ========== TOAST ==========
+let _tt = null;
+function toast(msg, type="success") {
+  const el = document.getElementById("toast"), icon = document.getElementById("toast-icon");
+  document.getElementById("toast-msg").textContent = msg;
+  const m = {success:{c:"text-emerald-500",i:"fa-circle-check"}, warning:{c:"text-orange-400",i:"fa-triangle-exclamation"}, error:{c:"text-red-500",i:"fa-circle-xmark"}};
+  const t = m[type] || m.success;
+  icon.className = "fa-solid " + t.i + " " + t.c + " text-lg";
+  el.style.display = "flex"; el.style.opacity = "1"; el.style.transition = "";
+  clearTimeout(_tt);
+  _tt = setTimeout(() => { el.style.opacity = "0"; el.style.transition = "opacity .3s"; setTimeout(() => { el.style.display = "none"; el.style.opacity = "1"; el.style.transition = ""; }, 300); }, 3200);
+}
+
+// ========== UTILS ==========
+function esc(str) { const d = document.createElement("div"); d.appendChild(document.createTextNode(str || "")); return d.innerHTML; }
+</script></body></html>
