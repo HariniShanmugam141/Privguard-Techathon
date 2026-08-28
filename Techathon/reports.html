@@ -13,7 +13,7 @@ tr.row-in{animation:fi .2s ease;}@keyframes fi{from{opacity:0;transform:translat
   <div class="p-6 flex items-center gap-3"><div class="w-10 h-10 rounded-lg gradient-bg flex items-center justify-center text-white shadow-lg"><i class="fa-solid fa-shield-halved text-xl"></i></div><div><h1 class="font-bold text-lg leading-tight">PrivGuard AI</h1></div></div>
   <nav class="flex-1 px-4 space-y-1 overflow-y-auto">
     <a href="index.html" class="flex items-center gap-3 px-4 py-3 rounded-xl text-slate-600 hover:bg-slate-50 hover:text-slate-900 transition-colors"><i class="fa-solid fa-house w-5 text-center"></i> Dashboard</a>
-    <a href="sanitize.html" class="flex items-center gap-3 px-4 py-3 rounded-xl text-slate-600 hover:bg-slate-50 hover:text-slate-900 transition-colors"><i class="fa-solid fa-shield-virus w-5 text-center"></i> Sanitize Document</a>
+    <a href="sanitize.html" class="flex items-center gap-3 px-4 py-3 rounded-xl text-slate-600 hover:bg-slate-50 hover:text-slate-900 transition-colors"><i class="fa-solid fa-shield-virus w-5 text-center"></i> Redact Document</a>
     <a href="history.html" class="flex items-center gap-3 px-4 py-3 rounded-xl text-slate-600 hover:bg-slate-50 hover:text-slate-900 transition-colors"><i class="fa-regular fa-clock w-5 text-center"></i> History</a>
     <a href="audit_logs.html" class="flex items-center gap-3 px-4 py-3 rounded-xl text-slate-600 hover:bg-slate-50 hover:text-slate-900 transition-colors"><i class="fa-solid fa-clipboard-list w-5 text-center"></i> Audit Logs</a>
     <a href="reports.html" class="flex items-center gap-3 px-4 py-3 rounded-xl bg-indigo-50 text-indigo-600 font-medium"><i class="fa-solid fa-chart-pie w-5 text-center"></i> Reports</a>
@@ -28,7 +28,7 @@ tr.row-in{animation:fi .2s ease;}@keyframes fi{from{opacity:0;transform:translat
 <main class="flex-1 flex flex-col h-full overflow-y-auto custom-scrollbar p-6 md:p-8">
   <!-- Header -->
   <header class="flex justify-between items-center mb-5">
-    <div class="flex items-center gap-3"><div class="w-8 h-8 rounded-full bg-indigo-100 text-indigo-600 flex items-center justify-center"><i class="fa-solid fa-chart-column"></i></div><div><h2 class="text-2xl font-bold text-slate-900 leading-tight">Reports</h2><p class="text-sm text-slate-500 mt-0.5">Analyze and export insights about your document sanitization activity</p></div></div>
+    <div class="flex items-center gap-3"><div class="w-8 h-8 rounded-full bg-indigo-100 text-indigo-600 flex items-center justify-center"><i class="fa-solid fa-chart-column"></i></div><div><h2 class="text-2xl font-bold text-slate-900 leading-tight">Reports</h2><p class="text-sm text-slate-500 mt-0.5">Analyze and export insights about your document redaction activity</p></div></div>
     <div class="flex items-center gap-3">
       <button onclick="loadAll()" class="p-2 bg-white border border-slate-200 rounded-lg text-slate-600 hover:bg-slate-50 w-10 h-10 flex items-center justify-center"><i id="ri" class="fa-solid fa-rotate-right"></i></button>
       <button onclick="exportCSV()" class="flex items-center gap-2 px-4 py-2 gradient-bg text-white rounded-lg text-sm font-medium hover:opacity-90 shadow-md shadow-indigo-200"><i class="fa-solid fa-download"></i> Export Report</button>
@@ -196,7 +196,7 @@ async function loadDocs(){
 function renderDocs(docs){
   const tb = document.getElementById("doc-tbody");
   if(!docs||!docs.length){
-    tb.innerHTML="<tr><td colspan='6' class='px-6 py-14 text-center'><div class='flex flex-col items-center gap-3 text-slate-400'><div class='w-14 h-14 rounded-2xl bg-slate-100 flex items-center justify-center text-3xl'><i class='fa-regular fa-folder-open'></i></div><div class='text-sm font-medium'>No documents yet</div><a href='index.html' class='mt-1 px-4 py-2 bg-indigo-600 text-white text-xs font-medium rounded-lg'>Sanitize a Document</a></div></td></tr>";
+    tb.innerHTML="<tr><td colspan='6' class='px-6 py-14 text-center'><div class='flex flex-col items-center gap-3 text-slate-400'><div class='w-14 h-14 rounded-2xl bg-slate-100 flex items-center justify-center text-3xl'><i class='fa-regular fa-folder-open'></i></div><div class='text-sm font-medium'>No documents yet</div><a href='index.html' class='mt-1 px-4 py-2 bg-indigo-600 text-white text-xs font-medium rounded-lg'>Redact a Document</a></div></td></tr>";
     return;
   }
   tb.innerHTML = docs.map(mkRow).join("");

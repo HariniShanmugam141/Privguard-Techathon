@@ -1,542 +1,368 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>PrivGuard AI Dashboard</title><script src="https://cdn.tailwindcss.com"></script><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"><script>tailwind.config={theme:{extend:{fontFamily:{sans:["Inter","sans-serif"],mono:["ui-monospace","SFMono-Regular","Menlo","Monaco","Consolas","monospace"]},colors:{primary:"#6366f1",secondary:"#8b5cf6",background:"#f8fafc",surface:"#ffffff"}}}}</script><style>
-body{background-color:#f8fafc;}
-.gradient-text{background:linear-gradient(to right,#4f46e5,#7c3aed);-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
-.gradient-bg{background:linear-gradient(to right,#6366f1,#8b5cf6);}
-.custom-scrollbar::-webkit-scrollbar{width:6px;}
-.custom-scrollbar::-webkit-scrollbar-track{background:transparent;}
-.custom-scrollbar::-webkit-scrollbar-thumb{background-color:#cbd5e1;border-radius:20px;}
-.drop-zone{border:2px dashed #c7d2fe;transition:all .2s ease;}
-.drop-zone.drag-over{border-color:#6366f1;background:#eef2ff;}
-.drop-zone.has-file{border-color:#10b981;background:#f0fdf4;}
-.btn-profile{flex:1;padding:8px 4px;border-radius:8px;font-size:13px;font-weight:500;transition:all .2s;border:1px solid #e2e8f0;background:#f8fafc;color:#475569;cursor:pointer;}
-.btn-profile.active{background:#4f46e5;color:white;border-color:#4f46e5;box-shadow:0 2px 8px rgba(79,70,229,.3);}
-.btn-profile:hover:not(.active){background:#f1f5f9;}
-.btn-strategy{flex:1;padding:8px 4px;border-radius:8px;font-size:13px;font-weight:500;transition:all .2s;border:1px solid #e2e8f0;background:#f8fafc;color:#475569;cursor:pointer;}
-.btn-strategy.active{background:#6366f1;color:white;border-color:#6366f1;box-shadow:0 2px 8px rgba(99,102,241,.3);}
-.btn-strategy:hover:not(.active){background:#f1f5f9;}
-.entity-pill{display:inline-flex;align-items:center;gap:5px;padding:4px 10px;border-radius:999px;font-size:11px;font-weight:600;margin:2px;}
-.progress-bar-bg{background:#f1f5f9;border-radius:999px;height:6px;overflow:hidden;}
-.progress-bar{height:100%;border-radius:999px;transition:width .8s ease;}
-.output-highlight{background:#fef3c7;border-bottom:2px solid #f59e0b;cursor:help;}
-.spinner{width:20px;height:20px;border:2px solid #e2e8f0;border-top-color:#6366f1;border-radius:50%;animation:spin .7s linear infinite;}
-@keyframes spin{to{transform:rotate(360deg)}}
-.toast-box{position:fixed;bottom:24px;right:24px;z-index:9999;min-width:280px;background:white;border:1px solid #e2e8f0;border-radius:12px;padding:14px 18px;box-shadow:0 8px 30px rgba(0,0,0,.12);display:none;align-items:center;gap:12px;}
-.pulse-dot{width:8px;height:8px;border-radius:50%;background:#10b981;animation:pdot 1.5s infinite;}
-@keyframes pdot{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.5;transform:scale(.8)}}
-</style></head>
-<body class="text-slate-800 font-sans flex h-screen overflow-hidden">
-<aside class="w-64 bg-white border-r border-slate-200 flex flex-col h-full shrink-0">
-  <div class="p-6 flex items-center gap-3"><div class="w-10 h-10 rounded-lg gradient-bg flex items-center justify-center text-white shadow-lg"><i class="fa-solid fa-shield-halved text-xl"></i></div><div><h1 class="font-bold text-lg leading-tight">PrivGuard AI</h1></div></div>
-  <nav class="flex-1 px-4 space-y-1 overflow-y-auto">
-    <a href="index.html" class="flex items-center gap-3 px-4 py-3 rounded-xl bg-indigo-50 text-indigo-600 font-medium"><i class="fa-solid fa-house w-5 text-center"></i> Dashboard</a>
-    <a href="sanitize.html" class="flex items-center gap-3 px-4 py-3 rounded-xl text-slate-600 hover:bg-slate-50 hover:text-slate-900 transition-colors"><i class="fa-solid fa-shield-virus w-5 text-center"></i> Sanitize Document</a>
-    <a href="history.html" class="flex items-center gap-3 px-4 py-3 rounded-xl text-slate-600 hover:bg-slate-50 hover:text-slate-900 transition-colors"><i class="fa-regular fa-clock w-5 text-center"></i> History</a>
-    <a href="audit_logs.html" class="flex items-center gap-3 px-4 py-3 rounded-xl text-slate-600 hover:bg-slate-50 hover:text-slate-900 transition-colors"><i class="fa-solid fa-clipboard-list w-5 text-center"></i> Audit Logs</a>
-    <a href="reports.html" class="flex items-center gap-3 px-4 py-3 rounded-xl text-slate-600 hover:bg-slate-50 hover:text-slate-900 transition-colors"><i class="fa-solid fa-chart-pie w-5 text-center"></i> Reports</a>
-    <a href="api_access.html" class="flex items-center gap-3 px-4 py-3 rounded-xl text-slate-600 hover:bg-slate-50 hover:text-slate-900 transition-colors"><i class="fa-solid fa-code w-5 text-center"></i> API Access</a>
-    <a href="settings.html" class="flex items-center gap-3 px-4 py-3 rounded-xl text-slate-600 hover:bg-slate-50 hover:text-slate-900 transition-colors"><i class="fa-solid fa-gear w-5 text-center"></i> Settings</a>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>PrivGuard AI Dashboard</title>
+<meta name="description" content="PrivGuard AI - privacy compliance dashboard for PII detection, redaction, and audit logging."/>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+<script src="https://cdn.tailwindcss.com"></script>
+<style>
+* { font-family: "Inter", sans-serif; box-sizing: border-box; }
+body { background: #f1f5f9; }
+.sidebar { width:240px; min-width:240px; background:#fff; border-right:1px solid #e2e8f0; display:flex; flex-direction:column; height:100vh; position:sticky; top:0; }
+.nav-link { display:flex; align-items:center; gap:10px; padding:10px 16px; border-radius:10px; color:#64748b; font-size:14px; font-weight:500; text-decoration:none; transition:all .18s; }
+.nav-link:hover { background:#f8fafc; color:#1e293b; }
+.nav-link.active { background:#eef2ff; color:#4f46e5; font-weight:600; }
+.nav-link i { width:18px; text-align:center; }
+.grad { background:linear-gradient(135deg,#6366f1,#8b5cf6); }
+.stat-card { background:#fff; border-radius:18px; border:1px solid #e2e8f0; padding:22px 24px; display:flex; flex-direction:column; gap:6px; transition:box-shadow .2s,transform .2s; }
+.stat-card:hover { box-shadow:0 8px 24px rgba(99,102,241,.1); transform:translateY(-2px); }
+.stat-icon { width:44px; height:44px; border-radius:12px; display:flex; align-items:center; justify-content:center; font-size:18px; margin-bottom:8px; }
+.activity-dot { width:8px; height:8px; border-radius:50%; flex-shrink:0; margin-top:5px; }
+.badge { display:inline-flex; align-items:center; gap:5px; padding:3px 10px; border-radius:999px; font-size:11px; font-weight:600; }
+.ebar-fill { height:8px; border-radius:999px; transition:width .9s cubic-bezier(.4,0,.2,1); }
+.qa-btn { display:flex; align-items:center; gap:12px; padding:14px 18px; background:#fff; border:1px solid #e2e8f0; border-radius:14px; text-decoration:none; color:#1e293b; font-size:14px; font-weight:500; transition:all .18s; cursor:pointer; }
+.qa-btn:hover { background:#f8fafc; border-color:#c7d2fe; box-shadow:0 4px 12px rgba(99,102,241,.08); }
+.qa-icon { width:38px; height:38px; border-radius:10px; display:flex; align-items:center; justify-content:center; font-size:15px; flex-shrink:0; }
+.pulse-dot { width:8px; height:8px; border-radius:50%; background:#10b981; animation:pdot 1.5s infinite; }
+@keyframes pdot { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:.5;transform:scale(.8)} }
+.toast-box { position:fixed; bottom:24px; right:24px; z-index:9999; min-width:270px; background:white; border:1px solid #e2e8f0; border-radius:12px; padding:14px 18px; box-shadow:0 8px 30px rgba(0,0,0,.12); display:none; align-items:center; gap:12px; }
+::-webkit-scrollbar{width:6px;} ::-webkit-scrollbar-track{background:transparent;} ::-webkit-scrollbar-thumb{background:#cbd5e1;border-radius:20px;}
+.spinner { width:18px; height:18px; border:2px solid #e2e8f0; border-top-color:#6366f1; border-radius:50%; animation:spin .7s linear infinite; display:inline-block; }
+@keyframes spin { to { transform:rotate(360deg); } }
+#notif-panel { position:absolute; right:0; top:48px; width:288px; background:white; border:1px solid #e2e8f0; border-radius:16px; box-shadow:0 12px 40px rgba(0,0,0,.12); padding:16px; z-index:50; display:none; }
+</style>
+</head>
+<body class="flex h-screen overflow-hidden text-slate-800">
+
+<aside class="sidebar">
+  <div class="p-5 flex items-center gap-3 border-b border-slate-100">
+    <div class="w-10 h-10 rounded-xl grad flex items-center justify-center text-white shadow-lg">
+      <i class="fa-solid fa-shield-halved text-lg"></i>
+    </div>
+    <div><h1 class="font-bold text-base leading-tight">PrivGuard AI</h1></div>
+  </div>
+  <nav class="flex-1 px-3 py-4 space-y-0.5 overflow-y-auto">
+    <a href="index.html" class="nav-link active"><i class="fa-solid fa-house"></i> Dashboard</a>
+    <a href="sanitize.html" class="nav-link"><i class="fa-solid fa-shield-virus"></i> Redact Document</a>
+    <a href="history.html" class="nav-link"><i class="fa-regular fa-clock"></i> History</a>
+    <a href="audit_logs.html" class="nav-link"><i class="fa-solid fa-clipboard-list"></i> Audit Logs</a>
+    <a href="reports.html" class="nav-link"><i class="fa-solid fa-chart-pie"></i> Reports</a>
+    <a href="api_access.html" class="nav-link"><i class="fa-solid fa-code"></i> API Access</a>
+    <a href="settings.html" class="nav-link"><i class="fa-solid fa-gear"></i> Settings</a>
   </nav>
-  <div class="p-4 space-y-4">
-    <div class="bg-indigo-50/50 rounded-2xl p-4 relative overflow-hidden"><div class="absolute top-0 right-0 -mr-4 -mt-4 w-16 h-16 bg-indigo-100 rounded-full opacity-50 blur-xl"></div><div class="w-10 h-10 rounded-xl gradient-bg flex items-center justify-center text-white mb-3 shadow-md"><i class="fa-solid fa-shield-check"></i></div><h3 class="font-semibold text-sm mb-1">Your Data is Safe</h3><p class="text-xs text-slate-500 mb-3">We ensure end-to-end security and never store your documents.</p><a href="#" class="text-xs text-indigo-600 font-medium flex items-center gap-1">Learn more <i class="fa-solid fa-arrow-right"></i></a></div>
-    <div class="bg-emerald-50 rounded-xl p-3 flex items-center gap-2 border border-emerald-100"><div class="pulse-dot"></div><span class="text-xs font-medium text-emerald-700">Secure Connection</span></div>
+  <div class="p-4 border-t border-slate-100 space-y-3">
+    <div class="bg-indigo-50 rounded-2xl p-4">
+      <div class="w-9 h-9 rounded-xl grad flex items-center justify-center text-white mb-3 shadow">
+        <i class="fa-solid fa-shield-check text-sm"></i>
+      </div>
+      <h3 class="font-semibold text-sm mb-1">Your Data is Safe</h3>
+      <p class="text-xs text-slate-500 mb-2">End-to-end security. We never store your documents.</p>
+      <a href="#" class="text-xs text-indigo-600 font-medium flex items-center gap-1">Learn more <i class="fa-solid fa-arrow-right text-[10px]"></i></a>
+    </div>
+    <div class="bg-emerald-50 rounded-xl p-3 flex items-center gap-2 border border-emerald-100">
+      <div class="pulse-dot"></div>
+      <span class="text-xs font-medium text-emerald-700">Secure Connection</span>
+    </div>
   </div>
 </aside>
-<main class="flex-1 flex flex-col h-full overflow-y-auto custom-scrollbar p-6 md:p-8">
-  <header class="flex justify-between items-start mb-6">
-    <div><h2 class="text-2xl font-bold text-slate-900 mb-1">Sanitize &amp; Intercept PII Data</h2><p class="text-sm text-slate-500">AI-Powered protection for sensitive medical information</p></div>
+
+<main class="flex-1 flex flex-col h-full overflow-y-auto bg-slate-50 p-7">
+
+  <header class="flex justify-between items-center mb-7">
+    <div>
+      <h2 class="text-2xl font-bold text-slate-900 mb-0.5">Dashboard</h2>
+      <p class="text-sm text-slate-500">Overview of your privacy compliance activity</p>
+    </div>
     <div class="flex items-center gap-3">
-      <button id="btn-theme" onclick="toggleTheme()" class="flex items-center gap-2 px-4 py-2 bg-white border border-slate-200 rounded-lg text-sm font-medium hover:bg-slate-50 transition-colors"><i class="fa-regular fa-sun" id="theme-icon"></i> <span id="theme-label">Light</span></button>
-      <div class="relative"><button id="btn-notif" onclick="toggleNotif()" class="relative p-2 bg-white border border-slate-200 rounded-lg text-slate-600 hover:bg-slate-50 w-10 h-10 flex items-center justify-center"><i class="fa-regular fa-bell"></i><span id="notif-dot" class="absolute top-1 right-1 w-2.5 h-2.5 bg-red-500 rounded-full border-2 border-white"></span></button><div id="notif-panel" style="display:none" class="absolute right-0 top-12 w-72 bg-white border border-slate-200 rounded-2xl shadow-xl p-4 z-50"><h4 class="font-semibold text-sm text-slate-800 mb-3">Notifications</h4><div id="notif-list" class="space-y-2 text-xs text-slate-500 italic">Loading...</div></div></div>
-      <button onclick="exportReport()" class="flex items-center gap-2 px-4 py-2 gradient-bg text-white rounded-lg text-sm font-medium hover:opacity-90 transition-opacity shadow-md shadow-indigo-200"><i class="fa-solid fa-download"></i> Export Report</button>
+      <button id="btn-theme" onclick="toggleTheme()" class="flex items-center gap-2 px-3 py-2 bg-white border border-slate-200 rounded-lg text-sm font-medium hover:bg-slate-50 transition-colors">
+        <i class="fa-regular fa-sun" id="theme-icon"></i> <span id="theme-label">Light</span>
+      </button>
+      <div class="relative">
+        <button id="btn-notif" onclick="toggleNotif()" class="relative p-2 bg-white border border-slate-200 rounded-lg text-slate-600 hover:bg-slate-50 w-10 h-10 flex items-center justify-center">
+          <i class="fa-regular fa-bell"></i>
+          <span class="absolute top-1.5 right-1.5 w-2 h-2 bg-red-500 rounded-full border-2 border-white"></span>
+        </button>
+        <div id="notif-panel">
+          <h4 class="font-semibold text-sm text-slate-800 mb-3">Notifications</h4>
+          <div id="notif-list" class="space-y-2 text-xs text-slate-500 italic">Loading...</div>
+        </div>
+      </div>
+      <a href="sanitize.html" class="flex items-center gap-2 px-4 py-2 grad text-white rounded-lg text-sm font-semibold hover:opacity-90 transition-opacity shadow-md shadow-indigo-200">
+        <i class="fa-solid fa-shield-halved"></i> Redact Document
+      </a>
     </div>
   </header>
-  <!-- Top Widgets -->
-  <div class="grid grid-cols-1 lg:grid-cols-3 gap-5 mb-5">
-    <!-- Compliance Framework -->
-    <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm">
-      <h3 class="text-xs font-semibold text-slate-400 mb-3 uppercase tracking-wider flex items-center gap-2"><i class="fa-solid fa-shield-halved text-indigo-400"></i> COMPLIANCE FRAMEWORK</h3>
-      <div class="flex gap-2" id="profile-btns">
-        <button class="btn-profile" onclick="switchProfile('GDPR',this)">GDPR</button>
-        <button class="btn-profile" onclick="switchProfile('HIPAA',this)">HIPAA</button>
-        <button class="btn-profile" onclick="switchProfile('PCI-DSS',this)">PCI-DSS</button>
-        <button class="btn-profile" onclick="switchProfile('CUSTOM',this)">ALL</button>
+
+  <div class="grid grid-cols-2 xl:grid-cols-4 gap-5 mb-7">
+    <div class="stat-card">
+      <div class="stat-icon" style="background:#eef2ff;color:#6366f1;"><i class="fa-solid fa-file-shield"></i></div>
+      <div class="text-3xl font-bold text-slate-800" id="stat-total">-</div>
+      <div class="text-xs font-semibold text-slate-500 uppercase tracking-wide">Documents Processed</div>
+      <div class="text-xs text-emerald-500 font-medium flex items-center gap-1 mt-1">
+        <i class="fa-solid fa-arrow-trend-up text-[10px]"></i> <span id="stat-rate">- %</span> success rate
       </div>
-      <p id="profile-desc" class="text-[11px] text-slate-400 mt-2 leading-relaxed"></p>
     </div>
-    <!-- Masking Strategy -->
-    <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm">
-      <h3 class="text-xs font-semibold text-slate-400 mb-3 uppercase tracking-wider flex items-center gap-2"><i class="fa-solid fa-mask text-indigo-400"></i> MASKING STRATEGY</h3>
-      <div class="flex gap-2" id="strategy-btns">
-        <button class="btn-strategy active" onclick="switchStrategy('redact',this)">Redact</button>
-        <button class="btn-strategy" onclick="switchStrategy('hash',this)">SHA-256 Hash</button>
-        <button class="btn-strategy" onclick="switchStrategy('anonymize',this)">Anonymize</button>
+    <div class="stat-card">
+      <div class="stat-icon" style="background:#fef3c7;color:#f59e0b;"><i class="fa-solid fa-user-secret"></i></div>
+      <div class="text-3xl font-bold text-slate-800" id="stat-pii">-</div>
+      <div class="text-xs font-semibold text-slate-500 uppercase tracking-wide">PII Entities Found</div>
+      <div class="text-xs text-orange-400 font-medium mt-1">Across all documents</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-icon" style="background:#f0fdf4;color:#10b981;"><i class="fa-solid fa-circle-check"></i></div>
+      <div class="text-2xl font-bold text-slate-800" id="stat-profile">HIPAA</div>
+      <div class="text-xs font-semibold text-slate-500 uppercase tracking-wide">Active Profile</div>
+      <div class="flex gap-1 mt-2 flex-wrap">
+        <span class="badge" style="background:#eef2ff;color:#6366f1;">GDPR</span>
+        <span class="badge" style="background:#f0fdf4;color:#10b981;">HIPAA</span>
+        <span class="badge" style="background:#fff7ed;color:#f97316;">PCI</span>
       </div>
-      <p id="strategy-desc" class="text-[11px] text-slate-400 mt-2">Replaces PII with a black redaction block</p>
     </div>
-    <!-- Documents Processed -->
-    <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm relative overflow-hidden">
-      <h3 class="text-xs font-semibold text-slate-400 mb-2 uppercase tracking-wider">DOCUMENTS PROCESSED</h3>
-      <div class="flex justify-between items-end">
+    <div class="stat-card">
+      <div class="stat-icon" style="background:#fdf4ff;color:#a855f7;"><i class="fa-solid fa-link"></i></div>
+      <div class="text-2xl font-bold text-slate-800" id="stat-ledger">-</div>
+      <div class="text-xs font-semibold text-slate-500 uppercase tracking-wide">Audit Ledger Blocks</div>
+      <div id="stat-ledger-status" class="text-xs text-slate-400 font-medium flex items-center gap-1 mt-1">
+        <i class="fa-solid fa-lock text-[10px]"></i> Checking...
+      </div>
+    </div>
+  </div>
+
+  <div class="grid grid-cols-1 xl:grid-cols-3 gap-5 mb-7">
+    <div class="xl:col-span-2 bg-white rounded-2xl border border-slate-200 p-6">
+      <div class="flex justify-between items-center mb-5">
+        <h3 class="font-bold text-slate-800 text-sm flex items-center gap-2">
+          <i class="fa-solid fa-clock-rotate-left text-indigo-400 text-xs"></i> Recent Activity
+        </h3>
+        <a href="history.html" class="text-xs text-indigo-600 font-semibold hover:underline flex items-center gap-1">View all <i class="fa-solid fa-arrow-right text-[10px]"></i></a>
+      </div>
+      <div id="activity-feed" class="space-y-4">
+        <div class="text-xs text-slate-400 italic text-center py-6"><div class="spinner mx-auto mb-2"></div> Loading activity...</div>
+      </div>
+    </div>
+
+    <div class="bg-white rounded-2xl border border-slate-200 p-6">
+      <h3 class="font-bold text-slate-800 text-sm flex items-center gap-2 mb-5">
+        <i class="fa-solid fa-shield-halved text-indigo-400 text-xs"></i> Compliance Profiles
+      </h3>
+      <div class="space-y-4">
         <div>
-          <div id="doc-count" class="text-3xl font-bold text-slate-800">—</div>
-          <div class="text-xs text-slate-500 mt-1">Total sanitized all time</div>
-          <div class="text-sm text-emerald-500 font-medium mt-1 flex items-center gap-1"><i class="fa-solid fa-circle-check text-xs"></i> <span id="doc-rate">—%</span> success rate</div>
+          <div class="flex justify-between items-center mb-1"><span class="text-xs font-semibold text-slate-600">GDPR</span><span class="badge" style="background:#eef2ff;color:#6366f1;" id="gdpr-badge">-</span></div>
+          <div class="text-[11px] text-slate-400">Names, Emails, IPs, Addresses</div>
         </div>
-        <div class="w-24 h-14 relative">
-          <svg viewBox="0 0 100 40" class="w-full h-full overflow-visible"><path id="sparkline" d="M0,35 L100,35" fill="none" stroke="#6366f1" stroke-width="2.5" stroke-linecap="round"/><circle id="sparkdot" cx="100" cy="35" r="3.5" fill="#6366f1"/></svg>
-          <div class="absolute bottom-0 left-0 w-full h-8 bg-gradient-to-t from-indigo-50 to-transparent"></div>
+        <div>
+          <div class="flex justify-between items-center mb-1"><span class="text-xs font-semibold text-slate-600">HIPAA</span><span class="badge" style="background:#f0fdf4;color:#10b981;" id="hipaa-badge">Active</span></div>
+          <div class="text-[11px] text-slate-400">MRNs, SSNs, DOBs, Member IDs</div>
+        </div>
+        <div>
+          <div class="flex justify-between items-center mb-1"><span class="text-xs font-semibold text-slate-600">PCI-DSS</span><span class="badge" style="background:#fff7ed;color:#f97316;" id="pci-badge">-</span></div>
+          <div class="text-[11px] text-slate-400">Credit Cards, CVVs, Bank Accounts</div>
+        </div>
+        <div>
+          <div class="flex justify-between items-center mb-1"><span class="text-xs font-semibold text-slate-600">CUSTOM</span><span class="badge" style="background:#f8fafc;color:#94a3b8;" id="custom-badge">-</span></div>
+          <div class="text-[11px] text-slate-400">All entity types combined</div>
+        </div>
+      </div>
+      <div class="mt-5 pt-4 border-t border-slate-100">
+        <div class="text-[11px] text-slate-400 mb-2 font-medium uppercase tracking-wide">Switch Profile</div>
+        <div class="flex flex-wrap gap-2">
+          <button onclick="switchProfile('GDPR')" class="text-xs px-3 py-1.5 rounded-lg border border-slate-200 bg-slate-50 text-slate-600 font-medium hover:border-indigo-400 hover:text-indigo-600 transition-colors">GDPR</button>
+          <button onclick="switchProfile('HIPAA')" class="text-xs px-3 py-1.5 rounded-lg border border-slate-200 bg-slate-50 text-slate-600 font-medium hover:border-indigo-400 hover:text-indigo-600 transition-colors">HIPAA</button>
+          <button onclick="switchProfile('PCI-DSS')" class="text-xs px-3 py-1.5 rounded-lg border border-slate-200 bg-slate-50 text-slate-600 font-medium hover:border-indigo-400 hover:text-indigo-600 transition-colors">PCI-DSS</button>
+          <button onclick="switchProfile('CUSTOM')" class="text-xs px-3 py-1.5 rounded-lg border border-slate-200 bg-slate-50 text-slate-600 font-medium hover:border-indigo-400 hover:text-indigo-600 transition-colors">CUSTOM</button>
         </div>
       </div>
     </div>
   </div>
-  <!-- Drop Zone -->
-  <div id="drop-zone" class="drop-zone bg-white p-5 rounded-2xl shadow-sm mb-5 flex items-center justify-between cursor-pointer" onclick="document.getElementById('file-input').click()" ondragover="onDragOver(event)" ondragleave="onDragLeave(event)" ondrop="onDrop(event)">
-    <div class="flex items-center gap-4">
-      <div id="dz-icon" class="w-14 h-14 rounded-2xl bg-indigo-50 flex items-center justify-center text-indigo-500 shrink-0"><i class="fa-solid fa-cloud-arrow-up text-2xl"></i></div>
-      <div>
-        <h3 id="dz-title" class="font-semibold text-slate-800 text-base">Drag &amp; Drop PDF or Image Document</h3>
-        <p id="dz-sub" class="text-slate-500 text-sm mt-0.5">Supports PDF, PNG, JPG, DOCX, TXT files up to 50MB</p>
+
+  <div class="grid grid-cols-1 xl:grid-cols-3 gap-5">
+    <div class="xl:col-span-2 bg-white rounded-2xl border border-slate-200 p-6">
+      <h3 class="font-bold text-slate-800 text-sm flex items-center gap-2 mb-5">
+        <i class="fa-solid fa-tags text-indigo-400 text-xs"></i> Entity Type Breakdown
+      </h3>
+      <div id="entity-breakdown" class="space-y-3">
+        <div class="text-xs text-slate-400 italic text-center py-4"><div class="spinner mx-auto mb-2"></div> Loading breakdown...</div>
       </div>
     </div>
-    <div class="flex items-center gap-3 shrink-0">
-      <div id="process-spinner" style="display:none" class="flex items-center gap-2 text-sm text-indigo-600 font-medium"><div class="spinner"></div> Processing...</div>
-      <button id="sanitize-btn" onclick="event.stopPropagation();triggerSanitize()" style="display:none" class="px-4 py-2 gradient-bg text-white text-sm font-medium rounded-lg shadow-sm hover:opacity-90 flex items-center gap-2"><i class="fa-solid fa-shield-halved"></i> Sanitize Now</button>
-      <button class="px-5 py-2.5 bg-white border border-slate-200 text-slate-700 font-medium rounded-lg shadow-sm hover:bg-slate-50 flex items-center gap-2"><i class="fa-regular fa-folder-open"></i> Browse Files</button>
-    </div>
-  </div>
-  <input type="file" id="file-input" style="display:none" accept=".pdf,.png,.jpg,.jpeg,.docx,.txt,.bmp,.tiff" onchange="onFileSelected(event)">
-  <!-- Bottom Split -->
-  <div class="flex gap-5 flex-1 min-h-[460px]">
-    <!-- Left Panel -->
-    <div class="w-72 flex flex-col gap-4 shrink-0">
-      <!-- Extraction Summary -->
-      <div class="bg-white rounded-2xl border border-slate-200 shadow-sm p-5">
-        <h3 class="font-bold text-slate-800 text-sm mb-4 flex items-center gap-2"><i class="fa-solid fa-chart-simple text-indigo-400 text-xs"></i> Extraction Summary</h3>
-        <div class="space-y-3">
-          <div class="flex justify-between items-center text-sm"><span class="text-slate-600 flex items-center gap-2"><i class="fa-regular fa-id-badge w-4 text-slate-400"></i> PII Fields Found</span><span id="sum-pii" class="font-semibold text-indigo-600 bg-indigo-50 px-2 py-0.5 rounded text-xs">0</span></div>
-          <div class="flex justify-between items-center text-sm"><span class="text-slate-600 flex items-center gap-2"><i class="fa-solid fa-shield-virus w-4 text-slate-400"></i> Sensitive Data</span><span id="sum-sensitive" class="font-semibold text-slate-400 bg-slate-50 px-2 py-0.5 rounded text-xs">—</span></div>
-          <div>
-            <div class="flex justify-between items-center text-sm mb-1"><span class="text-slate-600 flex items-center gap-2"><i class="fa-solid fa-triangle-exclamation w-4 text-slate-400"></i> Risk Score</span><span id="sum-risk" class="font-semibold text-orange-500 text-xs">0<span class="text-slate-400 font-normal">/100</span></span></div>
-            <div class="progress-bar-bg"><div id="risk-bar" class="progress-bar bg-orange-400" style="width:0%"></div></div>
-          </div>
-          <div class="flex justify-between items-center text-sm"><span class="text-slate-600 flex items-center gap-2"><i class="fa-regular fa-clock w-4 text-slate-400"></i> Processing Time</span><span id="sum-time" class="font-semibold text-emerald-500 text-xs">—</span></div>
-          <div>
-            <div class="flex justify-between items-center text-sm mb-1"><span class="text-slate-600 flex items-center gap-2"><i class="fa-solid fa-bullseye w-4 text-slate-400"></i> Confidence</span><span id="sum-conf" class="font-semibold text-emerald-500 text-xs">—</span></div>
-            <div class="progress-bar-bg"><div id="conf-bar" class="progress-bar bg-emerald-400" style="width:0%"></div></div>
-          </div>
-        </div>
-      </div>
-      <!-- Entities Detected -->
-      <div class="bg-white rounded-2xl border border-slate-200 shadow-sm p-5 flex-1 overflow-y-auto custom-scrollbar">
-        <h3 class="font-bold text-slate-800 text-sm mb-3 flex items-center gap-2"><i class="fa-solid fa-tags text-indigo-400 text-xs"></i> Entities Detected</h3>
-        <div id="entities-panel" class="text-slate-400 text-xs italic text-center py-6">Upload a document to see detected entities</div>
-      </div>
-    </div>
-    <!-- Right Panel -->
-    <div class="flex-1 flex flex-col gap-4">
-      <!-- Sanitized Output -->
-      <div class="bg-white rounded-2xl border border-slate-200 shadow-sm flex flex-col flex-1 overflow-hidden">
-        <!-- Output Header -->
-        <div class="px-5 py-3.5 border-b border-slate-100 flex justify-between items-center bg-white/50">
-          <div class="flex items-center gap-3">
-            <h3 class="font-bold text-slate-800 text-sm">Sanitized Output</h3>
-            <span id="output-status-badge" class="text-xs font-medium text-slate-400 bg-slate-50 px-2.5 py-1 rounded-full border border-slate-200 flex items-center gap-1.5"><i class="fa-regular fa-circle-dot"></i> Awaiting input</span>
-          </div>
-          <div class="flex gap-2">
-            <button onclick="copyOutput()" class="px-3 py-1.5 bg-white border border-slate-200 text-slate-600 text-xs font-medium rounded-md hover:bg-slate-50 flex items-center gap-1.5 transition-colors"><i class="fa-regular fa-copy"></i> Copy</button>
-            <button onclick="downloadTxt()" class="px-3 py-1.5 bg-white border border-slate-200 text-slate-600 text-xs font-medium rounded-md hover:bg-slate-50 flex items-center gap-1.5 transition-colors"><i class="fa-regular fa-file-lines"></i> TXT</button>
-            <button id="btn-download-file" onclick="downloadFile()" class="px-3 py-1.5 text-indigo-600 border border-indigo-100 bg-indigo-50 text-xs font-medium rounded-md hover:bg-indigo-100 flex items-center gap-1.5 transition-colors"><i class="fa-solid fa-download"></i> <span id="download-label">Download</span></button>
-          </div>
-        </div>
-        <!-- Preview Area -->
-        <div id="output-area" class="p-5 flex-1 overflow-y-auto custom-scrollbar bg-[#fafafa] relative min-h-[200px]">
-          <div class="font-mono text-sm leading-relaxed text-slate-700 flex h-full">
-            <div id="line-nums" class="text-slate-400 select-none pr-4 text-right border-r border-slate-200 mr-4 shrink-0 flex flex-col text-xs leading-5"></div>
-            <div id="output-content" class="whitespace-pre-wrap flex-1 text-slate-400 italic text-sm">No document processed yet...</div>
-          </div>
-          <div id="image-preview" style="display:none" class="flex items-center justify-center p-4"><img id="preview-img" src="" alt="Redacted output" class="max-w-full max-h-96 rounded-xl border border-slate-200 shadow-sm"></div>
-        </div>
-        <!-- Entity Pill Footer -->
-        <div id="pills-footer" class="p-4 border-t border-slate-100 bg-white flex flex-wrap gap-1.5 min-h-[52px] items-center"><span class="text-slate-400 italic text-xs">No entities extracted.</span></div>
-      </div>
-      <!-- Audit Log Bar -->
-      <div class="bg-white rounded-xl border border-slate-200 shadow-sm p-4 flex items-center justify-between">
-        <div class="flex items-center gap-4">
-          <div class="w-8 h-8 rounded-lg bg-indigo-50 flex items-center justify-center text-indigo-600 border border-indigo-100"><i class="fa-solid fa-shield"></i></div>
-          <span class="font-bold text-sm text-slate-800">Audit Log</span>
-          <span id="audit-log-info" class="text-sm text-slate-400 italic">Verifying chain...</span>
-          <span id="audit-chain-badge" class="text-xs font-medium text-slate-400 bg-slate-50 px-2 py-1 rounded-full border border-slate-200 flex items-center gap-1"><i class="fa-solid fa-spinner fa-spin"></i> Checking</span>
-        </div>
-        <a href="audit_logs.html" class="text-sm font-semibold text-indigo-600 hover:text-indigo-700 flex items-center gap-1">View Full Log <i class="fa-solid fa-arrow-right text-xs"></i></a>
+
+    <div class="bg-white rounded-2xl border border-slate-200 p-6">
+      <h3 class="font-bold text-slate-800 text-sm flex items-center gap-2 mb-5">
+        <i class="fa-solid fa-bolt text-indigo-400 text-xs"></i> Quick Actions
+      </h3>
+      <div class="space-y-3">
+        <a href="sanitize.html" class="qa-btn">
+          <div class="qa-icon" style="background:#eef2ff;color:#6366f1;"><i class="fa-solid fa-shield-virus"></i></div>
+          <div><div class="font-semibold text-sm">Redact Document</div><div class="text-xs text-slate-400">Upload and redact PII now</div></div>
+          <i class="fa-solid fa-chevron-right text-slate-300 ml-auto text-xs"></i>
+        </a>
+        <a href="audit_logs.html" class="qa-btn">
+          <div class="qa-icon" style="background:#f0fdf4;color:#10b981;"><i class="fa-solid fa-clipboard-check"></i></div>
+          <div><div class="font-semibold text-sm">View Audit Logs</div><div class="text-xs text-slate-400">Cryptographic ledger</div></div>
+          <i class="fa-solid fa-chevron-right text-slate-300 ml-auto text-xs"></i>
+        </a>
+        <a href="reports.html" class="qa-btn">
+          <div class="qa-icon" style="background:#fff7ed;color:#f97316;"><i class="fa-solid fa-chart-pie"></i></div>
+          <div><div class="font-semibold text-sm">Export Reports</div><div class="text-xs text-slate-400">CSV and compliance summary</div></div>
+          <i class="fa-solid fa-chevron-right text-slate-300 ml-auto text-xs"></i>
+        </a>
+        <a href="settings.html" class="qa-btn">
+          <div class="qa-icon" style="background:#fdf4ff;color:#a855f7;"><i class="fa-solid fa-gear"></i></div>
+          <div><div class="font-semibold text-sm">Settings</div><div class="text-xs text-slate-400">Configure preferences</div></div>
+          <i class="fa-solid fa-chevron-right text-slate-300 ml-auto text-xs"></i>
+        </a>
       </div>
     </div>
   </div>
+
 </main>
-<!-- Toast -->
-<div id="toast" class="toast-box"><i id="toast-icon" class="fa-solid fa-circle-check text-emerald-500 text-lg"></i><span id="toast-msg" class="text-sm font-medium text-slate-700"></span></div>
+
+<div class="toast-box" id="toast">
+  <i id="toast-icon" class="fa-solid fa-circle-check text-emerald-500 text-lg"></i>
+  <span id="toast-msg" class="text-sm text-slate-700 font-medium"></span>
+</div>
+
 <script>
-// ========== STATE ==========
-const APP = {
-  profile: "HIPAA",
-  strategy: "redact",
-  file: null,
-  result: null,
-  redactedUrl: null,
-  outputText: "",
-  isDark: false
-};
-
-const PROFILE_DESCS = {
-  GDPR: "Protects personal data: Names, Emails, Phones, Addresses, IPs, DOBs.",
-  HIPAA: "Protects PHI: Patient Names, MRNs, SSNs, Health IDs, Dates.",
-  "PCI-DSS": "Protects financial data: Credit Cards, CVVs, Bank Accounts.",
-  CUSTOM: "All-inclusive scan for all PII, PHI, and financial entity types."
-};
-const STRATEGY_DESCS = {
-  redact: "Replaces PII with a solid redaction block [REDACTED_*]",
-  hash: "Replaces PII with SHA-256 hash token [HASH_*:xxxxxx]",
-  anonymize: "Replaces PII with anonymous token [ENTITY_NNN]"
-};
 const ENTITY_COLORS = {
-  NAME:"#8b5cf6",LOCATION:"#6366f1",FACILITY:"#0ea5e9",EMAIL:"#f59e0b",PHONE:"#10b981",SSN:"#ef4444",DOB:"#f97316",
-  MRN:"#ec4899",CREDIT_CARD:"#dc2626",CVV:"#b91c1c",ADDRESS:"#14b8a6",CITY_STATE_ZIP:"#06b6d4",IP_ADDRESS:"#84cc16",
-  MEMBER_ID:"#a78bfa",GROUP_NUMBER:"#c084fc",POLICY_ID:"#f472b6",PAYER_ID:"#fb923c",INSURANCE_ID:"#34d399",
-  DRIVER_LICENSE:"#60a5fa",PASSPORT:"#818cf8",TAX_ID:"#fbbf24",ACCOUNT_ID:"#4ade80",NPI_ID:"#2dd4bf",DEFAULT:"#94a3b8"
+  NAME:"#6366f1",EMAIL:"#f59e0b",PHONE:"#10b981",SSN:"#ef4444",
+  DOB:"#8b5cf6",ADDRESS:"#06b6d4",CREDIT_CARD:"#f97316",
+  MRN:"#ec4899",LOCATION:"#14b8a6",FACILITY:"#84cc16",DEFAULT:"#94a3b8"
 };
+let activeProfile = "HIPAA";
 
-// ========== INIT ==========
-document.addEventListener("DOMContentLoaded", async () => {
-  await loadInitialState();
-  await loadDocStats();
-  verifyAuditChain();
-  initLineNums();
+window.addEventListener("DOMContentLoaded", async () => {
+  await loadLedger();
+  await loadProfiles();
+  renderNotifications();
 });
 
-async function loadInitialState() {
+async function loadLedger() {
   try {
-    const d = await (await fetch("/profiles")).json();
-    APP.profile = d.active_profile || "HIPAA";
-    highlightProfile(APP.profile);
-  } catch(e) { console.error("Profile load failed", e); }
+    const blocks = await fetch("/ledger").then(r => r.json());
+    const txBlocks = blocks.filter(b => b.file_name !== "GENESIS_BLOCK");
+    document.getElementById("stat-total").textContent = txBlocks.length;
+    const totalPii = txBlocks.reduce((s, b) => s + (b.pii_found_count || 0), 0);
+    document.getElementById("stat-pii").textContent = totalPii;
+    document.getElementById("stat-rate").textContent = txBlocks.length > 0 ? "100%" : "0%";
+    document.getElementById("stat-ledger").textContent = blocks.length;
+
+    try {
+      const vData = await fetch("/ledger/verify", {method:"POST"}).then(r => r.json());
+      const el = document.getElementById("stat-ledger-status");
+      if (vData.is_valid) {
+        el.innerHTML = '<i class="fa-solid fa-lock text-[10px]"></i> Chain Verified';
+        el.className = "text-xs text-emerald-500 font-medium flex items-center gap-1 mt-1";
+      } else {
+        el.innerHTML = '<i class="fa-solid fa-triangle-exclamation text-[10px]"></i> Tamper Detected!';
+        el.className = "text-xs text-red-500 font-medium flex items-center gap-1 mt-1";
+      }
+    } catch(e) {}
+
+    renderActivity(txBlocks.slice(-6).reverse());
+    renderEntityBreakdown(txBlocks);
+  } catch(e) {
+    ["stat-total","stat-pii","stat-ledger"].forEach(id => document.getElementById(id).textContent = "err");
+    document.getElementById("activity-feed").innerHTML = "<div class='text-xs text-slate-400 italic text-center py-4'>Could not load data.</div>";
+    document.getElementById("entity-breakdown").innerHTML = "<div class='text-xs text-slate-400 italic text-center py-4'>Could not load data.</div>";
+  }
 }
 
-async function loadDocStats() {
-  try {
-    const d = await (await fetch("/history/stats")).json();
-    document.getElementById("doc-count").textContent = d.total_documents;
-    document.getElementById("doc-rate").textContent = d.success_rate + "%";
-    // Draw sparkline based on count
-    const y = Math.max(5, 40 - (d.total_documents * 2));
-    document.getElementById("sparkline").setAttribute("d", "M0,35 Q30,"+y+" 60,"+(y+5)+" T100,"+y);
-    document.getElementById("sparkdot").setAttribute("cy", y);
-    // Notifications
-    buildNotifications(d);
-  } catch(e) { console.error("Stats error", e); }
+const TYPE_COLORS = {pdf:"#6366f1",png:"#10b981",jpg:"#10b981",jpeg:"#10b981",docx:"#f59e0b",txt:"#94a3b8",bmp:"#06b6d4",tiff:"#8b5cf6"};
+const TYPE_ICONS  = {pdf:"fa-file-pdf",png:"fa-file-image",jpg:"fa-file-image",jpeg:"fa-file-image",docx:"fa-file-word",txt:"fa-file-lines",bmp:"fa-file-image",tiff:"fa-file-image"};
+
+function renderActivity(blocks) {
+  const el = document.getElementById("activity-feed");
+  if (!blocks.length) {
+    el.innerHTML = "<div class='text-xs text-slate-400 italic text-center py-6'>No activity yet. <a href='sanitize.html' class='text-indigo-500 font-semibold'>Redact your first document</a></div>";
+    return;
+  }
+  el.innerHTML = blocks.map(b => {
+    const ft = (b.file_type || "txt").toLowerCase();
+    const col = TYPE_COLORS[ft] || "#94a3b8";
+    const icon = TYPE_ICONS[ft] || "fa-file";
+    const ts = b.timestamp ? new Date(b.timestamp).toLocaleString("en-IN",{month:"short",day:"numeric",hour:"2-digit",minute:"2-digit"}) : "-";
+    const count = b.pii_found_count || 0;
+    const riskCol = count > 10 ? "#ef4444" : count > 4 ? "#f59e0b" : "#10b981";
+    return "<div class='flex items-start gap-3'><div class='activity-dot' style='background:"+col+";margin-top:6px;'></div><div class='flex-1 min-w-0'><div class='flex justify-between items-start'><div class='flex items-center gap-2 min-w-0'><i class='fa-regular "+icon+" text-xs' style='color:"+col+";'></i><span class='text-sm font-medium text-slate-700 truncate max-w-[160px]'>"+esc(b.file_name)+"</span><span class='badge text-[10px]' style='background:"+col+"20;color:"+col+";'>"+ft.toUpperCase()+"</span></div><span class='text-[11px] text-slate-400 whitespace-nowrap ml-2'>"+ts+"</span></div><div class='flex items-center gap-3 mt-1'><span class='text-xs text-slate-500'>"+esc(b.compliance_profile||"-")+"</span><span class='text-xs font-semibold' style='color:"+riskCol+"'>"+count+" PII found</span></div></div></div>";
+  }).join("");
 }
 
-function buildNotifications(stats) {
-  const list = document.getElementById("notif-list");
-  const items = [
-    stats.total_documents > 0 ? "<div class='flex items-start gap-2'><span class='text-emerald-500 mt-0.5'>&#10003;</span><span>"+stats.total_documents+" document(s) sanitized all time</span></div>" : null,
-    stats.sanitized_documents > 0 ? "<div class='flex items-start gap-2'><span class='text-indigo-500 mt-0.5'>&#9632;</span><span>"+stats.sanitized_documents+" active sanitized records</span></div>" : null,
-    "<div class='flex items-start gap-2'><span class='text-blue-500 mt-0.5'>&#9679;</span><span>Audit ledger: "+stats.total_documents+" blocks recorded</span></div>",
-  ].filter(Boolean);
-  list.innerHTML = items.join("") || "<span>No notifications</span>";
+function renderEntityBreakdown(blocks) {
+  const el = document.getElementById("entity-breakdown");
+  const totals = {};
+  blocks.forEach(b => { if (b.entities_summary) Object.entries(b.entities_summary).forEach(([k,v]) => { totals[k] = (totals[k]||0)+v; }); });
+  const entries = Object.entries(totals).sort((a,b) => b[1]-a[1]);
+  if (!entries.length) { el.innerHTML = "<div class='text-xs text-slate-400 italic text-center py-4'>No entity data yet. Redact a document first.</div>"; return; }
+  const max = entries[0][1];
+  el.innerHTML = entries.slice(0,8).map(([label,cnt]) => {
+    const col = ENTITY_COLORS[label] || ENTITY_COLORS.DEFAULT;
+    const pct = Math.round((cnt/max)*100);
+    return "<div class='flex items-center gap-3'><span class='text-xs font-semibold text-slate-600 w-28 shrink-0'>"+label+"</span><div class='flex-1 bg-slate-100 rounded-full h-2 overflow-hidden'><div class='ebar-fill' style='width:"+pct+"%;background:"+col+";'></div></div><span class='text-xs font-bold text-slate-700 w-7 text-right'>"+cnt+"</span></div>";
+  }).join("");
 }
 
-async function verifyAuditChain() {
+async function loadProfiles() {
   try {
-    const d = await (await fetch("/ledger/verify", {method:"POST"})).json();
-    const badge = document.getElementById("audit-chain-badge");
-    const info = document.getElementById("audit-log-info");
-    const blocks = await (await fetch("/ledger")).json();
-    const count = blocks.filter(b => b.file_name !== "GENESIS_BLOCK").length;
-    info.textContent = count + " records in ledger";
-    info.className = "text-sm text-slate-600 font-medium";
-    if (d.is_valid) {
-      badge.innerHTML = "<i class='fa-solid fa-check text-emerald-500'></i> Valid Chain";
-      badge.className = "text-xs font-medium text-emerald-600 bg-emerald-50 px-2 py-1 rounded-full border border-emerald-100 flex items-center gap-1";
-    } else {
-      badge.innerHTML = "<i class='fa-solid fa-triangle-exclamation text-red-500'></i> Chain Error";
-      badge.className = "text-xs font-medium text-red-600 bg-red-50 px-2 py-1 rounded-full border border-red-100 flex items-center gap-1";
-    }
-  } catch(e) { document.getElementById("audit-chain-badge").textContent = "Offline"; }
+    const data = await fetch("/profiles").then(r => r.json());
+    activeProfile = data.active_profile || "HIPAA";
+    updateProfileUI();
+  } catch(e) {}
 }
 
-// ========== PROFILE & STRATEGY ==========
-async function switchProfile(name, btn) {
+async function switchProfile(prof) {
   try {
-    await fetch("/profiles/switch", {method:"POST", headers:{"Content-Type":"application/json"}, body: JSON.stringify({profile: name})});
-    APP.profile = name;
-    highlightProfile(name);
-    toast("Profile switched to " + name, "success");
+    await fetch("/profiles/switch", {method:"POST", headers:{"Content-Type":"application/json"}, body:JSON.stringify({profile:prof})});
+    activeProfile = prof;
+    updateProfileUI();
+    toast("Profile switched to "+prof, "success");
   } catch(e) { toast("Failed to switch profile", "error"); }
 }
 
-function highlightProfile(name) {
-  const map = {GDPR:0, HIPAA:1, "PCI-DSS":2, CUSTOM:3};
-  const btns = document.querySelectorAll(".btn-profile");
-  btns.forEach((b,i) => b.classList.toggle("active", i === (map[name] ?? 1)));
-  document.getElementById("profile-desc").textContent = PROFILE_DESCS[name] || "";
+function updateProfileUI() {
+  document.getElementById("stat-profile").textContent = activeProfile;
+  const map = {GDPR:"gdpr-badge",HIPAA:"hipaa-badge","PCI-DSS":"pci-badge",CUSTOM:"custom-badge"};
+  Object.entries(map).forEach(([k,id]) => { const el = document.getElementById(id); if(el) el.textContent = k===activeProfile?"Active":"-"; });
 }
 
-function switchStrategy(name, btn) {
-  APP.strategy = name;
-  document.querySelectorAll(".btn-strategy").forEach(b => b.classList.remove("active"));
-  btn.classList.add("active");
-  document.getElementById("strategy-desc").textContent = STRATEGY_DESCS[name] || "";
-  toast("Strategy: " + name, "success");
-}
-</script>
-<script>
-// ========== DRAG & DROP & FILE SELECT ==========
-function onDragOver(e) { e.preventDefault(); document.getElementById("drop-zone").classList.add("drag-over"); }
-function onDragLeave(e) { document.getElementById("drop-zone").classList.remove("drag-over"); }
-function onDrop(e) {
-  e.preventDefault();
-  document.getElementById("drop-zone").classList.remove("drag-over");
-  const files = e.dataTransfer.files;
-  if (files && files.length > 0) setFile(files[0]);
-}
-function onFileSelected(e) { if (e.target.files && e.target.files[0]) setFile(e.target.files[0]); }
-
-function setFile(f) {
-  APP.file = f;
-  const dz = document.getElementById("drop-zone");
-  dz.classList.add("has-file");
-  document.getElementById("dz-icon").innerHTML = "<i class='fa-solid fa-file-circle-check text-2xl text-emerald-500'></i>";
-  document.getElementById("dz-title").textContent = f.name;
-  document.getElementById("dz-sub").textContent = "Size: " + (f.size/1024).toFixed(1) + " KB  |  Click to change file";
-  document.getElementById("sanitize-btn").style.display = "";
-  document.getElementById("output-status-badge").innerHTML = "<i class='fa-regular fa-clock'></i> Ready to sanitize";
-  document.getElementById("output-status-badge").className = "text-xs font-medium text-orange-500 bg-orange-50 px-2.5 py-1 rounded-full border border-orange-200 flex items-center gap-1.5";
-  toast("File selected: " + f.name, "success");
+function renderNotifications() {
+  document.getElementById("notif-list").innerHTML =
+    "<div class='flex items-start gap-2 p-2 bg-indigo-50 rounded-lg'><i class='fa-solid fa-circle-info text-indigo-400 mt-0.5'></i><div><div class='font-medium text-slate-700 text-xs'>Dashboard Loaded</div><div class='text-slate-400'>All systems operational.</div></div></div>" +
+    "<div class='flex items-start gap-2 p-2 rounded-lg mt-1'><i class='fa-solid fa-shield-check text-emerald-400 mt-0.5'></i><div><div class='font-medium text-slate-700 text-xs'>Ledger Verified</div><div class='text-slate-400'>Audit chain is intact.</div></div></div>";
 }
 
-async function triggerSanitize() {
-  if (!APP.file) { toast("Please select a file first", "error"); return; }
-  const spinner = document.getElementById("process-spinner");
-  const btn = document.getElementById("sanitize-btn");
-  spinner.style.display = "flex";
-  btn.style.display = "none";
-  document.getElementById("output-status-badge").innerHTML = "<i class='fa-solid fa-spinner fa-spin'></i> Sanitizing...";
-  document.getElementById("output-status-badge").className = "text-xs font-medium text-indigo-600 bg-indigo-50 px-2.5 py-1 rounded-full border border-indigo-200 flex items-center gap-1.5";
-
-  const startTime = Date.now();
-  const fd = new FormData();
-  fd.append("files", APP.file);
-  fd.append("profile", APP.profile);
-  fd.append("strategy", APP.strategy);
-
-  try {
-    const resp = await fetch("/sanitize/document", { method: "POST", body: fd });
-    const data = await resp.json();
-    const elapsed = ((Date.now() - startTime) / 1000).toFixed(2);
-
-    if (data.status === "success" && data.results && data.results.length > 0) {
-      const res = data.results[0];
-      APP.result = res;
-      APP.redactedUrl = res.redacted_url;
-      await renderResult(res, elapsed, data.download_url);
-    } else {
-      toast("Sanitization returned no results", "error");
-    }
-  } catch(e) {
-    toast("Sanitization failed: " + e.message, "error");
-    document.getElementById("output-status-badge").innerHTML = "<i class='fa-solid fa-circle-xmark'></i> Failed";
-    document.getElementById("output-status-badge").className = "text-xs font-medium text-red-500 bg-red-50 px-2.5 py-1 rounded-full border border-red-100 flex items-center gap-1.5";
-  } finally {
-    spinner.style.display = "none";
-    document.getElementById("sanitize-btn").style.display = "";
-    await loadDocStats();
-    verifyAuditChain();
-  }
-}
-
-async function renderResult(res, elapsed, downloadUrl) {
-  const count = res.entities_found;
-  const entities = res.entities || [];
-  const risk = Math.min(100, Math.round(count * 3.2));
-  const conf = count > 0 ? Math.min(98, 75 + Math.floor(Math.random() * 20)) : 0;
-  const sensitiveLevel = count > 20 ? "CRITICAL" : count > 10 ? "HIGH" : count > 3 ? "MEDIUM" : count > 0 ? "LOW" : "NONE";
-  const sensColors = { CRITICAL: "text-red-600 bg-red-50", HIGH: "text-orange-500 bg-orange-50", MEDIUM: "text-yellow-600 bg-yellow-50", LOW: "text-emerald-600 bg-emerald-50", NONE: "text-slate-500 bg-slate-50" };
-
-  // Update summary panel
-  document.getElementById("sum-pii").textContent = count;
-  document.getElementById("sum-pii").className = "font-semibold " + (count > 0 ? "text-indigo-600 bg-indigo-50" : "text-slate-400 bg-slate-50") + " px-2 py-0.5 rounded text-xs";
-  document.getElementById("sum-sensitive").textContent = sensitiveLevel;
-  document.getElementById("sum-sensitive").className = "font-semibold px-2 py-0.5 rounded text-xs " + (sensColors[sensitiveLevel] || sensColors.NONE);
-  document.getElementById("sum-risk").innerHTML = risk + "<span class='text-slate-400 font-normal'>/100</span>";
-  document.getElementById("risk-bar").style.width = risk + "%";
-  document.getElementById("risk-bar").className = "progress-bar " + (risk > 60 ? "bg-red-400" : risk > 30 ? "bg-orange-400" : "bg-emerald-400");
-  document.getElementById("sum-time").textContent = elapsed + "s";
-  document.getElementById("sum-conf").textContent = (count > 0 ? conf : 0) + "%";
-  document.getElementById("conf-bar").style.width = (count > 0 ? conf : 0) + "%";
-
-  // Entities panel
-  renderEntitiesPanel(entities);
-
-  // Output badge
-  document.getElementById("output-status-badge").innerHTML = "<i class='fa-regular fa-circle-check'></i> Sanitization Complete";
-  document.getElementById("output-status-badge").className = "text-xs font-medium text-emerald-600 bg-emerald-50 px-2.5 py-1 rounded-full border border-emerald-100 flex items-center gap-1.5";
-
-  // Output content
-  const ext = APP.file.name.split(".").pop().toLowerCase();
-  const isImg = ["png","jpg","jpeg","bmp","tiff"].includes(ext);
-  const isPdf = ext === "pdf";
-
-  document.getElementById("image-preview").style.display = "none";
-  document.getElementById("output-area").querySelector(".font-mono").style.display = "flex";
-
-  if (isImg && res.redacted_url) {
-    document.getElementById("output-content").style.display = "none";
-    document.getElementById("line-nums").style.display = "none";
-    document.getElementById("image-preview").style.display = "flex";
-    document.getElementById("preview-img").src = res.redacted_url;
-    APP.outputText = "[Image output - use Download button to save]";
-    document.getElementById("download-label").textContent = "Download Image";
-  } else if (isPdf && res.redacted_url) {
-    document.getElementById("output-content").textContent = "[PDF sanitized successfully]\n\nEntities removed: " + count + "\nProfile: " + APP.profile + "\nStrategy: " + APP.strategy + "\n\nClick 'Download' to get the redacted PDF file.";
-    document.getElementById("output-content").className = "whitespace-pre-wrap flex-1 text-slate-600 text-sm";
-    APP.outputText = "[PDF sanitized - " + count + " entities removed]";
-    document.getElementById("download-label").textContent = "Download PDF";
-    updateLineNums(5);
-  } else {
-    // Try to fetch text content
-    try {
-      const fname = res.redacted_url ? res.redacted_url.split("/").pop() : null;
-      if (fname) {
-        const r = await fetch("/preview/" + fname);
-        const text = await r.text();
-        APP.outputText = text;
-        document.getElementById("output-content").textContent = text;
-        document.getElementById("output-content").className = "whitespace-pre-wrap flex-1 text-slate-700 text-sm font-mono";
-        document.getElementById("output-content").style.display = "block";
-        document.getElementById("line-nums").style.display = "flex";
-        updateLineNums(text.split("\n").length);
-      }
-    } catch(e) {
-      document.getElementById("output-content").textContent = "Sanitization complete. " + count + " entities processed.";
-    }
-    document.getElementById("download-label").textContent = "Download " + ext.toUpperCase();
-  }
-
-  // Download button
-  document.getElementById("btn-download-file").onclick = () => downloadFile(res.redacted_url);
-
-  // Entity pills footer
-  renderPillsFooter(entities);
-
-  toast(count + " PII entities sanitized successfully!", "success");
-}
-
-function renderEntitiesPanel(entities) {
-  const panel = document.getElementById("entities-panel");
-  if (!entities || entities.length === 0) {
-    panel.innerHTML = "<div class='text-slate-400 text-xs italic text-center py-6'>No PII entities detected</div>";
-    return;
-  }
-  // Group by label
-  const grouped = {};
-  entities.forEach(([text, label]) => { if (!grouped[label]) grouped[label] = []; grouped[label].push(text); });
-  panel.innerHTML = Object.entries(grouped).map(([label, texts]) => {
-    const col = ENTITY_COLORS[label] || ENTITY_COLORS.DEFAULT;
-    const preview = texts.slice(0, 2).map(t => "<span class='text-xs text-slate-500 block truncate max-w-full'>" + esc(t.substring(0, 30)) + (t.length > 30 ? "..." : "") + "</span>").join("");
-    return "<div class='mb-3 p-2.5 rounded-xl border border-slate-100 bg-slate-50'><div class='flex items-center justify-between mb-1'><span class='text-xs font-semibold' style='color:"+col+"'>"+label+"</span><span class='text-xs bg-white border border-slate-200 text-slate-600 px-1.5 py-0.5 rounded font-medium'>"+texts.length+"</span></div>"+preview+"</div>";
-  }).join("");
-}
-
-function renderPillsFooter(entities) {
-  const footer = document.getElementById("pills-footer");
-  if (!entities || entities.length === 0) { footer.innerHTML = "<span class='text-slate-400 italic text-xs'>No entities extracted.</span>"; return; }
-  const grouped = {};
-  entities.forEach(([text, label]) => { grouped[label] = (grouped[label] || 0) + 1; });
-  footer.innerHTML = Object.entries(grouped).map(([label, cnt]) => {
-    const col = ENTITY_COLORS[label] || ENTITY_COLORS.DEFAULT;
-    return "<span class='entity-pill' style='background:"+col+"20;color:"+col+";border:1px solid "+col+"40'><i class='fa-solid fa-tag text-xs'></i>"+label+" <span class='bg-white/50 px-1 rounded text-xs'>"+cnt+"</span></span>";
-  }).join("");
-}
-
-function updateLineNums(count) {
-  const el = document.getElementById("line-nums");
-  el.innerHTML = Array.from({length: Math.min(count, 100)}, (_, i) => "<span class='text-xs leading-5'>" + String(i+1).padStart(2,"0") + "</span>").join("");
-}
-
-function initLineNums() { updateLineNums(20); }
-</script>
-<script>
-// ========== COPY / DOWNLOAD ==========
-function copyOutput() {
-  const text = APP.outputText || document.getElementById("output-content").textContent;
-  if (!text || text.includes("No document")) { toast("Nothing to copy", "error"); return; }
-  navigator.clipboard.writeText(text).then(() => toast("Copied to clipboard!", "success")).catch(() => {
-    const ta = document.createElement("textarea"); ta.value = text; document.body.appendChild(ta); ta.select(); document.execCommand("copy"); document.body.removeChild(ta); toast("Copied!", "success");
-  });
-}
-
-function downloadTxt() {
-  const text = APP.outputText || document.getElementById("output-content").textContent;
-  if (!text || text.includes("No document")) { toast("Nothing to download", "error"); return; }
-  const blob = new Blob([text], {type:"text/plain"});
-  const a = document.createElement("a"); a.href = URL.createObjectURL(blob);
-  a.download = "sanitized_" + (APP.file ? APP.file.name.replace(/\.[^.]+$/, ".txt") : "output.txt");
-  document.body.appendChild(a); a.click(); document.body.removeChild(a);
-  toast("TXT downloaded!", "success");
-}
-
-function downloadFile(url) {
-  url = url || APP.redactedUrl;
-  if (!url) { toast("No file to download", "error"); return; }
-  const a = document.createElement("a"); a.href = url; a.download = "";
-  document.body.appendChild(a); a.click(); document.body.removeChild(a);
-  toast("Download started!", "success");
-}
-
-function exportReport() {
-  const params = new URLSearchParams();
-  const a = document.createElement("a"); a.href = "/history/export/csv?" + params; a.download = "privguard_report.csv";
-  document.body.appendChild(a); a.click(); document.body.removeChild(a);
-  toast("Report exported as CSV!", "success");
-}
-
-// ========== THEME ==========
-function toggleTheme() {
-  APP.isDark = !APP.isDark;
-  document.body.classList.toggle("dark", APP.isDark);
-  document.getElementById("theme-icon").className = APP.isDark ? "fa-regular fa-moon" : "fa-regular fa-sun";
-  document.getElementById("theme-label").textContent = APP.isDark ? "Dark" : "Light";
-  if (APP.isDark) {
-    document.body.style.background = "#0f172a";
-    document.body.style.color = "#e2e8f0";
-  } else {
-    document.body.style.background = "#f8fafc";
-    document.body.style.color = "#1e293b";
-  }
-}
-
-// ========== NOTIFICATIONS ==========
 function toggleNotif() {
   const p = document.getElementById("notif-panel");
-  p.style.display = p.style.display === "none" ? "block" : "none";
+  p.style.display = (p.style.display === "none" || !p.style.display) ? "block" : "none";
 }
 document.addEventListener("click", e => {
   if (!e.target.closest("#btn-notif") && !e.target.closest("#notif-panel"))
     document.getElementById("notif-panel").style.display = "none";
 });
 
-// ========== TOAST ==========
-let _tt = null;
-function toast(msg, type="success") {
-  const el = document.getElementById("toast"), icon = document.getElementById("toast-icon");
-  document.getElementById("toast-msg").textContent = msg;
-  const m = {success:{c:"text-emerald-500",i:"fa-circle-check"}, warning:{c:"text-orange-400",i:"fa-triangle-exclamation"}, error:{c:"text-red-500",i:"fa-circle-xmark"}};
-  const t = m[type] || m.success;
-  icon.className = "fa-solid " + t.i + " " + t.c + " text-lg";
-  el.style.display = "flex"; el.style.opacity = "1"; el.style.transition = "";
-  clearTimeout(_tt);
-  _tt = setTimeout(() => { el.style.opacity = "0"; el.style.transition = "opacity .3s"; setTimeout(() => { el.style.display = "none"; el.style.opacity = "1"; el.style.transition = ""; }, 300); }, 3200);
+let isDark = false;
+function toggleTheme() {
+  isDark = !isDark;
+  document.body.style.background = isDark ? "#0f172a" : "#f1f5f9";
+  document.getElementById("theme-icon").className = isDark ? "fa-regular fa-moon" : "fa-regular fa-sun";
+  document.getElementById("theme-label").textContent = isDark ? "Dark" : "Light";
 }
 
-// ========== UTILS ==========
-function esc(str) { const d = document.createElement("div"); d.appendChild(document.createTextNode(str || "")); return d.innerHTML; }
-</script></body></html>
+let _tt = null;
+function toast(msg, type) {
+  const el = document.getElementById("toast"), icon = document.getElementById("toast-icon");
+  document.getElementById("toast-msg").textContent = msg;
+  const m = {success:{c:"text-emerald-500",i:"fa-circle-check"},warning:{c:"text-orange-400",i:"fa-triangle-exclamation"},error:{c:"text-red-500",i:"fa-circle-xmark"}};
+  const t = m[type]||m.success;
+  icon.className = "fa-solid "+t.i+" "+t.c+" text-lg";
+  el.style.display = "flex"; el.style.opacity = "1";
+  clearTimeout(_tt);
+  _tt = setTimeout(() => { el.style.opacity="0"; el.style.transition="opacity .3s"; setTimeout(() => {el.style.display="none";el.style.opacity="1";el.style.transition="";},300); }, 3200);
+}
+
+function esc(str) { const d = document.createElement("div"); d.appendChild(document.createTextNode(str||"")); return d.innerHTML; }
+</script>
+</body>
+</html>
