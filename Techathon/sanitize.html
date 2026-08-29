@@ -585,6 +585,7 @@ document.addEventListener('DOMContentLoaded', () => {
         } finally {
             browseBtn.innerHTML = '<i class="fa-regular fa-folder-open"></i> Browse Files';
             browseBtn.disabled = false;
+            fileInput.value = ''; // Reset file input so uploading another document works properly
         }
     });
 });
