@@ -381,5 +381,33 @@
     "output_file_hash": "73babd10d47a9654cec8e9e1ccff386c737871726da3ac8bdf33a89e6563e622",
     "previous_hash": "42db86ccf1d2bba53e5a6eaaa98f869a39f1b182cc7563ae675305c77139ecfe",
     "block_hash": "f993f14bef6dc6624dd12704dcb87e2c71a0b595f9c695704589152a28dc321a"
+  },
+  {
+    "index": 15,
+    "timestamp": "2026-08-28T23:42:30.335697Z",
+    "file_name": "Linda_N_Chen.pdf",
+    "file_type": "pdf",
+    "compliance_profile": "HIPAA",
+    "masking_strategy": "blur",
+    "pii_found_count": 19,
+    "entities_summary": {
+      "SSN": 1,
+      "EMAIL": 1,
+      "PHONE": 2,
+      "DOB": 1,
+      "MEMBER_ID": 1,
+      "GROUP_NUMBER": 1,
+      "PAYER_ID": 1,
+      "NPI_ID": 1,
+      "ADDRESS": 1,
+      "CITY_STATE_ZIP": 1,
+      "NAME": 2,
+      "LOCATION": 2,
+      "FACILITY": 4
+    },
+    "input_file_hash": "c5437dd28dbc34f4195f78fc53d6686cac58100a0305bbe97939d14b8641b554",
+    "output_file_hash": "0e81fcce214d764eaa2093349dbcfa9d2a00fcbfcdd22ef45efed4ae388bc56a",
+    "previous_hash": "f993f14bef6dc6624dd12704dcb87e2c71a0b595f9c695704589152a28dc321a",
+    "block_hash": "e52061d52fa5e80f1414427714507067e3945ec88dccb1ae0bbd27e6c871bf4a"
   }
 ]
