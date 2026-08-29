@@ -1,368 +1,353 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8"/>
-<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
-<title>PrivGuard AI Dashboard</title>
-<meta name="description" content="PrivGuard AI - privacy compliance dashboard for PII detection, redaction, and audit logging."/>
-<link rel="preconnect" href="https://fonts.googleapis.com"/>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
-<script src="https://cdn.tailwindcss.com"></script>
-<style>
-* { font-family: "Inter", sans-serif; box-sizing: border-box; }
-body { background: #f1f5f9; }
-.sidebar { width:240px; min-width:240px; background:#fff; border-right:1px solid #e2e8f0; display:flex; flex-direction:column; height:100vh; position:sticky; top:0; }
-.nav-link { display:flex; align-items:center; gap:10px; padding:10px 16px; border-radius:10px; color:#64748b; font-size:14px; font-weight:500; text-decoration:none; transition:all .18s; }
-.nav-link:hover { background:#f8fafc; color:#1e293b; }
-.nav-link.active { background:#eef2ff; color:#4f46e5; font-weight:600; }
-.nav-link i { width:18px; text-align:center; }
-.grad { background:linear-gradient(135deg,#6366f1,#8b5cf6); }
-.stat-card { background:#fff; border-radius:18px; border:1px solid #e2e8f0; padding:22px 24px; display:flex; flex-direction:column; gap:6px; transition:box-shadow .2s,transform .2s; }
-.stat-card:hover { box-shadow:0 8px 24px rgba(99,102,241,.1); transform:translateY(-2px); }
-.stat-icon { width:44px; height:44px; border-radius:12px; display:flex; align-items:center; justify-content:center; font-size:18px; margin-bottom:8px; }
-.activity-dot { width:8px; height:8px; border-radius:50%; flex-shrink:0; margin-top:5px; }
-.badge { display:inline-flex; align-items:center; gap:5px; padding:3px 10px; border-radius:999px; font-size:11px; font-weight:600; }
-.ebar-fill { height:8px; border-radius:999px; transition:width .9s cubic-bezier(.4,0,.2,1); }
-.qa-btn { display:flex; align-items:center; gap:12px; padding:14px 18px; background:#fff; border:1px solid #e2e8f0; border-radius:14px; text-decoration:none; color:#1e293b; font-size:14px; font-weight:500; transition:all .18s; cursor:pointer; }
-.qa-btn:hover { background:#f8fafc; border-color:#c7d2fe; box-shadow:0 4px 12px rgba(99,102,241,.08); }
-.qa-icon { width:38px; height:38px; border-radius:10px; display:flex; align-items:center; justify-content:center; font-size:15px; flex-shrink:0; }
-.pulse-dot { width:8px; height:8px; border-radius:50%; background:#10b981; animation:pdot 1.5s infinite; }
-@keyframes pdot { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:.5;transform:scale(.8)} }
-.toast-box { position:fixed; bottom:24px; right:24px; z-index:9999; min-width:270px; background:white; border:1px solid #e2e8f0; border-radius:12px; padding:14px 18px; box-shadow:0 8px 30px rgba(0,0,0,.12); display:none; align-items:center; gap:12px; }
-::-webkit-scrollbar{width:6px;} ::-webkit-scrollbar-track{background:transparent;} ::-webkit-scrollbar-thumb{background:#cbd5e1;border-radius:20px;}
-.spinner { width:18px; height:18px; border:2px solid #e2e8f0; border-top-color:#6366f1; border-radius:50%; animation:spin .7s linear infinite; display:inline-block; }
-@keyframes spin { to { transform:rotate(360deg); } }
-#notif-panel { position:absolute; right:0; top:48px; width:288px; background:white; border:1px solid #e2e8f0; border-radius:16px; box-shadow:0 12px 40px rgba(0,0,0,.12); padding:16px; z-index:50; display:none; }
-</style>
-</head>
-<body class="flex h-screen overflow-hidden text-slate-800">
-
-<aside class="sidebar">
-  <div class="p-5 flex items-center gap-3 border-b border-slate-100">
-    <div class="w-10 h-10 rounded-xl grad flex items-center justify-center text-white shadow-lg">
-      <i class="fa-solid fa-shield-halved text-lg"></i>
-    </div>
-    <div><h1 class="font-bold text-base leading-tight">PrivGuard AI</h1></div>
+﻿<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>PrivGuard AI - Dashboard</title><script src="https://cdn.tailwindcss.com"></script><script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"><script>tailwind.config={theme:{extend:{fontFamily:{sans:["Inter","sans-serif"]}}}}</script><style>
+*{box-sizing:border-box;}
+body{background:#f5f6fa;font-family:"Inter",sans-serif;}
+.sidebar-link{display:flex;align-items:center;gap:12px;padding:10px 16px;border-radius:10px;font-size:14px;font-weight:500;color:#64748b;text-decoration:none;transition:all .18s;}
+.sidebar-link:hover{background:#f1f5f9;color:#374151;}
+.sidebar-link.active{background:#ede9fe;color:#6366f1;font-weight:600;}
+.sidebar-link.active i{color:#6366f1;}
+.gradient-bg{background:linear-gradient(135deg,#6366f1,#8b5cf6);}
+.welcome-banner{background:linear-gradient(135deg,#f8f7ff 0%,#ede9fe 100%);border:1px solid #e0d9ff;}
+.stat-card{background:white;border-radius:16px;border:1px solid #f1f5f9;transition:all .2s;box-shadow:0 1px 3px rgba(0,0,0,.04);}
+.stat-card:hover{box-shadow:0 4px 16px rgba(99,102,241,.12);transform:translateY(-1px);}
+.badge-hipaa{background:#ede9fe;color:#6366f1;font-size:11px;font-weight:600;padding:2px 8px;border-radius:6px;}
+.badge-gdpr{background:#d1fae5;color:#059669;font-size:11px;font-weight:600;padding:2px 8px;border-radius:6px;}
+.badge-pci{background:#fef3c7;color:#d97706;font-size:11px;font-weight:600;padding:2px 8px;border-radius:6px;}
+.badge-custom{background:#f0f9ff;color:#0284c7;font-size:11px;font-weight:600;padding:2px 8px;border-radius:6px;}
+.status-protected{display:inline-flex;align-items:center;gap:4px;background:#d1fae5;color:#059669;font-size:11px;font-weight:600;padding:3px 10px;border-radius:20px;}
+.status-failed{display:inline-flex;align-items:center;gap:4px;background:#fee2e2;color:#dc2626;font-size:11px;font-weight:600;padding:3px 10px;border-radius:20px;}
+.status-deleted{display:inline-flex;align-items:center;gap:4px;background:#fff7ed;color:#ea580c;font-size:11px;font-weight:600;padding:3px 10px;border-radius:20px;}
+.quick-action-card{background:white;border:1px solid #f1f5f9;border-radius:14px;padding:16px;cursor:pointer;transition:all .2s;display:flex;align-items:center;justify-content:space-between;box-shadow:0 1px 3px rgba(0,0,0,.04);}
+.quick-action-card:hover{box-shadow:0 4px 14px rgba(0,0,0,.1);transform:translateY(-1px);}
+.attn-card{background:white;border:1px solid #f1f5f9;border-radius:12px;padding:14px 16px;display:flex;align-items:flex-start;justify-content:space-between;gap:12px;box-shadow:0 1px 3px rgba(0,0,0,.04);}
+.chart-btn{padding:6px 16px;border-radius:8px;font-size:12px;font-weight:600;border:1px solid #e2e8f0;background:white;color:#64748b;cursor:pointer;transition:all .18s;}
+.chart-btn.active{background:#6366f1;color:white;border-color:#6366f1;}
+.toast-box{position:fixed;bottom:24px;right:24px;z-index:9999;min-width:260px;background:white;border:1px solid #e2e8f0;border-radius:12px;padding:14px 18px;box-shadow:0 8px 30px rgba(0,0,0,.12);display:none;align-items:center;gap:12px;}
+.dd-panel{display:none;position:absolute;z-index:200;top:calc(100% + 6px);right:0;min-width:160px;background:white;border:1px solid #e2e8f0;border-radius:12px;box-shadow:0 8px 24px rgba(0,0,0,.1);padding:6px;}
+.dd-panel.open{display:block;}
+.dd-item{padding:8px 12px;border-radius:8px;font-size:13px;cursor:pointer;display:flex;align-items:center;gap:8px;}.dd-item:hover{background:#f8fafc;}.dd-item.sel{background:#eff6ff;color:#4f46e5;font-weight:600;}
+.pulse{animation:pl 1.8s infinite;}@keyframes pl{0%,100%{opacity:1}50%{opacity:.4}}
+.row-hover:hover{background:#fafafa;}
+.notif-dot{position:absolute;top:-4px;right:-4px;width:18px;height:18px;background:#ef4444;border-radius:50%;font-size:10px;font-weight:700;color:white;display:flex;align-items:center;justify-content:center;border:2px solid white;}
+</style></head>
+<body class="flex h-screen overflow-hidden">
+<!-- SIDEBAR -->
+<aside style="width:230px;background:white;border-right:1px solid #f1f5f9;display:flex;flex-direction:column;height:100%;flex-shrink:0;">
+  <div style="padding:24px 20px 16px;display:flex;align-items:center;gap:10px;">
+    <div class="gradient-bg" style="width:36px;height:36px;border-radius:10px;display:flex;align-items:center;justify-content:center;"><i class="fa-solid fa-shield-halved" style="color:white;font-size:16px;"></i></div>
+    <span style="font-weight:800;font-size:15px;color:#1e1b4b;">PrivGuard AI</span>
   </div>
-  <nav class="flex-1 px-3 py-4 space-y-0.5 overflow-y-auto">
-    <a href="index.html" class="nav-link active"><i class="fa-solid fa-house"></i> Dashboard</a>
-    <a href="sanitize.html" class="nav-link"><i class="fa-solid fa-shield-virus"></i> Redact Document</a>
-    <a href="history.html" class="nav-link"><i class="fa-regular fa-clock"></i> History</a>
-    <a href="audit_logs.html" class="nav-link"><i class="fa-solid fa-clipboard-list"></i> Audit Logs</a>
-    <a href="reports.html" class="nav-link"><i class="fa-solid fa-chart-pie"></i> Reports</a>
-    <a href="api_access.html" class="nav-link"><i class="fa-solid fa-code"></i> API Access</a>
-    <a href="settings.html" class="nav-link"><i class="fa-solid fa-gear"></i> Settings</a>
+  <nav style="flex:1;padding:0 12px;display:flex;flex-direction:column;gap:2px;">
+    <a href="index.html" class="sidebar-link active"><i class="fa-solid fa-house" style="width:18px;text-align:center;"></i> Dashboard</a>
+    <a href="sanitize.html" class="sidebar-link"><i class="fa-solid fa-shield-virus" style="width:18px;text-align:center;"></i> Redact Document</a>
+    <a href="history.html" class="sidebar-link"><i class="fa-regular fa-clock" style="width:18px;text-align:center;"></i> History</a>
+    <a href="audit_logs.html" class="sidebar-link"><i class="fa-solid fa-clipboard-list" style="width:18px;text-align:center;"></i> Audit Logs</a>
+    <a href="reports.html" class="sidebar-link"><i class="fa-solid fa-chart-pie" style="width:18px;text-align:center;"></i> Reports</a>
+    <a href="api_access.html" class="sidebar-link"><i class="fa-solid fa-code" style="width:18px;text-align:center;"></i> API Access</a>
+    <a href="settings.html" class="sidebar-link"><i class="fa-solid fa-gear" style="width:18px;text-align:center;"></i> Settings</a>
   </nav>
-  <div class="p-4 border-t border-slate-100 space-y-3">
-    <div class="bg-indigo-50 rounded-2xl p-4">
-      <div class="w-9 h-9 rounded-xl grad flex items-center justify-center text-white mb-3 shadow">
-        <i class="fa-solid fa-shield-check text-sm"></i>
-      </div>
-      <h3 class="font-semibold text-sm mb-1">Your Data is Safe</h3>
-      <p class="text-xs text-slate-500 mb-2">End-to-end security. We never store your documents.</p>
-      <a href="#" class="text-xs text-indigo-600 font-medium flex items-center gap-1">Learn more <i class="fa-solid fa-arrow-right text-[10px]"></i></a>
+  <div style="padding:16px 12px;display:flex;flex-direction:column;gap:10px;">
+    <div style="background:#f5f3ff;border-radius:14px;padding:16px;position:relative;overflow:hidden;">
+      <div style="width:36px;height:36px;border-radius:10px;background:linear-gradient(135deg,#6366f1,#8b5cf6);display:flex;align-items:center;justify-content:center;margin-bottom:10px;"><i class="fa-solid fa-shield-check" style="color:white;font-size:14px;"></i></div>
+      <div style="font-size:13px;font-weight:700;color:#1e1b4b;margin-bottom:4px;">Your Data is Safe</div>
+      <div style="font-size:11px;color:#64748b;line-height:1.4;margin-bottom:10px;">End-to-end encryption, secure redaction and tamper-proof audit trail.</div>
+      <a href="#" style="font-size:12px;font-weight:600;color:#6366f1;text-decoration:none;">Learn more <i class="fa-solid fa-arrow-right" style="font-size:10px;"></i></a>
     </div>
-    <div class="bg-emerald-50 rounded-xl p-3 flex items-center gap-2 border border-emerald-100">
-      <div class="pulse-dot"></div>
-      <span class="text-xs font-medium text-emerald-700">Secure Connection</span>
+    <div style="background:#ecfdf5;border-radius:10px;padding:10px 12px;display:flex;align-items:center;gap:8px;border:1px solid #d1fae5;">
+      <div style="width:8px;height:8px;border-radius:50%;background:#10b981;flex-shrink:0;"></div>
+      <span style="font-size:12px;font-weight:600;color:#065f46;">Secure Connection</span>
     </div>
   </div>
 </aside>
-
-<main class="flex-1 flex flex-col h-full overflow-y-auto bg-slate-50 p-7">
-
-  <header class="flex justify-between items-center mb-7">
-    <div>
-      <h2 class="text-2xl font-bold text-slate-900 mb-0.5">Dashboard</h2>
-      <p class="text-sm text-slate-500">Overview of your privacy compliance activity</p>
-    </div>
-    <div class="flex items-center gap-3">
-      <button id="btn-theme" onclick="toggleTheme()" class="flex items-center gap-2 px-3 py-2 bg-white border border-slate-200 rounded-lg text-sm font-medium hover:bg-slate-50 transition-colors">
-        <i class="fa-regular fa-sun" id="theme-icon"></i> <span id="theme-label">Light</span>
-      </button>
-      <div class="relative">
-        <button id="btn-notif" onclick="toggleNotif()" class="relative p-2 bg-white border border-slate-200 rounded-lg text-slate-600 hover:bg-slate-50 w-10 h-10 flex items-center justify-center">
-          <i class="fa-regular fa-bell"></i>
-          <span class="absolute top-1.5 right-1.5 w-2 h-2 bg-red-500 rounded-full border-2 border-white"></span>
-        </button>
-        <div id="notif-panel">
-          <h4 class="font-semibold text-sm text-slate-800 mb-3">Notifications</h4>
-          <div id="notif-list" class="space-y-2 text-xs text-slate-500 italic">Loading...</div>
+<!-- MAIN -->
+<main style="flex:1;display:flex;flex-direction:column;height:100%;overflow-y:auto;background:#f5f6fa;">
+  <!-- TOP HEADER -->
+  <div style="display:flex;align-items:center;justify-content:space-between;padding:20px 28px 0;background:#f5f6fa;">
+    <h1 style="font-size:22px;font-weight:800;color:#0f172a;">Dashboard</h1>
+    <div style="display:flex;align-items:center;gap:12px;">
+      <div style="position:relative;cursor:pointer;" onclick="toggleNotif()">
+        <div style="width:40px;height:40px;border-radius:12px;background:white;border:1px solid #f1f5f9;display:flex;align-items:center;justify-content:center;box-shadow:0 1px 3px rgba(0,0,0,.05);">
+          <i class="fa-regular fa-bell" style="color:#64748b;font-size:16px;"></i>
+        </div>
+        <div id="notif-badge" class="notif-dot">3</div>
+        <div id="notif-panel" class="dd-panel" style="width:280px;">
+          <div style="padding:8px 12px 6px;font-size:12px;font-weight:700;color:#374151;border-bottom:1px solid #f1f5f9;margin-bottom:4px;">Notifications</div>
+          <div id="notif-list" style="padding:4px 0;font-size:13px;color:#64748b;"></div>
         </div>
       </div>
-      <a href="sanitize.html" class="flex items-center gap-2 px-4 py-2 grad text-white rounded-lg text-sm font-semibold hover:opacity-90 transition-opacity shadow-md shadow-indigo-200">
-        <i class="fa-solid fa-shield-halved"></i> Redact Document
-      </a>
+      <a href="settings.html" style="width:40px;height:40px;border-radius:12px;background:white;border:1px solid #f1f5f9;display:flex;align-items:center;justify-content:center;box-shadow:0 1px 3px rgba(0,0,0,.05);"><i class="fa-solid fa-gear" style="color:#64748b;font-size:16px;"></i></a>
+      <a href="sanitize.html" class="gradient-bg" style="display:flex;align-items:center;gap:8px;padding:10px 18px;border-radius:12px;font-size:13px;font-weight:600;color:white;text-decoration:none;box-shadow:0 4px 14px rgba(99,102,241,.35);"><i class="fa-solid fa-plus"></i> Redact Document</a>
     </div>
-  </header>
-
-  <div class="grid grid-cols-2 xl:grid-cols-4 gap-5 mb-7">
-    <div class="stat-card">
-      <div class="stat-icon" style="background:#eef2ff;color:#6366f1;"><i class="fa-solid fa-file-shield"></i></div>
-      <div class="text-3xl font-bold text-slate-800" id="stat-total">-</div>
-      <div class="text-xs font-semibold text-slate-500 uppercase tracking-wide">Documents Processed</div>
-      <div class="text-xs text-emerald-500 font-medium flex items-center gap-1 mt-1">
-        <i class="fa-solid fa-arrow-trend-up text-[10px]"></i> <span id="stat-rate">- %</span> success rate
+  </div>
+  <!-- CONTENT AREA -->
+  <div style="padding:18px 28px;display:flex;flex-direction:column;gap:16px;flex:1;">
+    <!-- WELCOME BANNER -->
+    <div class="welcome-banner" style="border-radius:18px;padding:22px 28px;display:flex;align-items:center;justify-content:space-between;position:relative;overflow:hidden;">
+      <div>
+        <div style="font-size:20px;font-weight:800;color:#1e1b4b;margin-bottom:4px;">Welcome back, User! <span>👋</span></div>
+        <div style="font-size:13px;color:#64748b;line-height:1.5;max-width:340px;">Great to have you here! Your documents are protected,<br>your privacy is secured, and you're in control.</div>
+      </div>
+      <div style="display:flex;align-items:center;gap:20px;">
+        <div style="width:90px;height:90px;position:relative;">
+          <div class="gradient-bg" style="width:90px;height:90px;border-radius:50%;display:flex;align-items:center;justify-content:center;opacity:.15;position:absolute;"></div>
+          <div class="gradient-bg" style="width:90px;height:90px;border-radius:50%;display:flex;align-items:center;justify-content:center;"><i class="fa-solid fa-shield-halved" style="color:white;font-size:36px;"></i></div>
+          <div style="position:absolute;bottom:-4px;right:-4px;width:28px;height:28px;background:#10b981;border-radius:50%;border:3px solid white;display:flex;align-items:center;justify-content:center;"><i class="fa-solid fa-check" style="color:white;font-size:11px;"></i></div>
+        </div>
+        <div style="position:relative;">
+          <button onclick="toggleDd('dd-policy')" style="display:flex;align-items:center;gap:8px;background:white;border:1px solid #e0d9ff;border-radius:10px;padding:8px 14px;font-size:13px;font-weight:600;color:#6366f1;cursor:pointer;box-shadow:0 1px 4px rgba(99,102,241,.1);">
+            <i class="fa-solid fa-shield-halved" style="font-size:12px;"></i>
+            Protection Policy: <span id="active-profile-label">HIPAA</span>
+            <i class="fa-solid fa-chevron-down" style="font-size:10px;margin-left:2px;"></i>
+          </button>
+          <div id="dd-policy" class="dd-panel">
+            <div class="dd-item sel" onclick="switchProfile('HIPAA',this)">HIPAA</div>
+            <div class="dd-item" onclick="switchProfile('GDPR',this)">GDPR</div>
+            <div class="dd-item" onclick="switchProfile('PCI-DSS',this)">PCI-DSS</div>
+            <div class="dd-item" onclick="switchProfile('CUSTOM',this)">CUSTOM</div>
+          </div>
+        </div>
       </div>
     </div>
-    <div class="stat-card">
-      <div class="stat-icon" style="background:#fef3c7;color:#f59e0b;"><i class="fa-solid fa-user-secret"></i></div>
-      <div class="text-3xl font-bold text-slate-800" id="stat-pii">-</div>
-      <div class="text-xs font-semibold text-slate-500 uppercase tracking-wide">PII Entities Found</div>
-      <div class="text-xs text-orange-400 font-medium mt-1">Across all documents</div>
-    </div>
-    <div class="stat-card">
-      <div class="stat-icon" style="background:#f0fdf4;color:#10b981;"><i class="fa-solid fa-circle-check"></i></div>
-      <div class="text-2xl font-bold text-slate-800" id="stat-profile">HIPAA</div>
-      <div class="text-xs font-semibold text-slate-500 uppercase tracking-wide">Active Profile</div>
-      <div class="flex gap-1 mt-2 flex-wrap">
-        <span class="badge" style="background:#eef2ff;color:#6366f1;">GDPR</span>
-        <span class="badge" style="background:#f0fdf4;color:#10b981;">HIPAA</span>
-        <span class="badge" style="background:#fff7ed;color:#f97316;">PCI</span>
+    <!-- STAT CARDS -->
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:14px;">
+      <div class="stat-card" style="padding:20px 22px;">
+        <div style="display:flex;align-items:center;gap:14px;">
+          <div style="width:48px;height:48px;border-radius:14px;background:#ede9fe;display:flex;align-items:center;justify-content:center;flex-shrink:0;"><i class="fa-regular fa-file-lines" style="color:#6366f1;font-size:20px;"></i></div>
+          <div>
+            <div id="st-total" class="pulse" style="font-size:28px;font-weight:800;color:#0f172a;line-height:1;">--</div>
+            <div style="font-size:13px;font-weight:500;color:#64748b;margin-top:2px;">Documents Protected</div>
+            <div id="st-week" style="font-size:12px;font-weight:600;color:#10b981;margin-top:4px;display:flex;align-items:center;gap:4px;"><i class="fa-solid fa-arrow-up" style="font-size:10px;"></i> -- this week</div>
+          </div>
+        </div>
+      </div>
+      <div class="stat-card" style="padding:20px 22px;">
+        <div style="display:flex;align-items:center;gap:14px;">
+          <div style="width:48px;height:48px;border-radius:14px;background:#d1fae5;display:flex;align-items:center;justify-content:center;flex-shrink:0;"><i class="fa-solid fa-circle-check" style="color:#059669;font-size:20px;"></i></div>
+          <div>
+            <div id="st-rate" class="pulse" style="font-size:28px;font-weight:800;color:#0f172a;line-height:1;">--%</div>
+            <div style="font-size:13px;font-weight:500;color:#64748b;margin-top:2px;">Protection Success Rate</div>
+            <div id="st-rate-sub" style="font-size:12px;font-weight:600;color:#059669;margin-top:4px;display:flex;align-items:center;gap:4px;"><i class="fa-solid fa-shield-check" style="font-size:10px;"></i> -- documents protected</div>
+          </div>
+        </div>
+      </div>
+      <div class="stat-card" style="padding:20px 22px;">
+        <div style="display:flex;align-items:center;gap:14px;">
+          <div style="width:48px;height:48px;border-radius:14px;background:#dbeafe;display:flex;align-items:center;justify-content:center;flex-shrink:0;"><i class="fa-solid fa-lock" style="color:#2563eb;font-size:20px;"></i></div>
+          <div>
+            <div id="st-audit" class="pulse" style="font-size:28px;font-weight:800;color:#0f172a;line-height:1;">--</div>
+            <div style="font-size:13px;font-weight:500;color:#64748b;margin-top:2px;">Audit Records</div>
+            <div id="st-chain" style="font-size:12px;font-weight:600;color:#2563eb;margin-top:4px;display:flex;align-items:center;gap:4px;"><i class="fa-solid fa-spinner fa-spin" style="font-size:10px;"></i> Verifying...</div>
+          </div>
+        </div>
       </div>
     </div>
-    <div class="stat-card">
-      <div class="stat-icon" style="background:#fdf4ff;color:#a855f7;"><i class="fa-solid fa-link"></i></div>
-      <div class="text-2xl font-bold text-slate-800" id="stat-ledger">-</div>
-      <div class="text-xs font-semibold text-slate-500 uppercase tracking-wide">Audit Ledger Blocks</div>
-      <div id="stat-ledger-status" class="text-xs text-slate-400 font-medium flex items-center gap-1 mt-1">
-        <i class="fa-solid fa-lock text-[10px]"></i> Checking...
+    <!-- BOTTOM TWO COLUMNS -->
+    <div style="display:flex;gap:16px;flex:1;min-height:0;">
+      <!-- LEFT COLUMN -->
+      <div style="flex:1.6;display:flex;flex-direction:column;gap:14px;min-width:0;">
+        <!-- Recent Documents -->
+        <div style="background:white;border-radius:16px;border:1px solid #f1f5f9;box-shadow:0 1px 3px rgba(0,0,0,.04);overflow:hidden;">
+          <div style="padding:16px 20px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #f8fafc;">
+            <div style="font-size:14px;font-weight:700;color:#0f172a;display:flex;align-items:center;gap:8px;"><i class="fa-regular fa-file-lines" style="color:#6366f1;"></i> Recent Documents</div>
+            <a href="history.html" style="font-size:13px;font-weight:600;color:#6366f1;text-decoration:none;display:flex;align-items:center;gap:4px;">View all <i class="fa-solid fa-arrow-right" style="font-size:11px;"></i></a>
+          </div>
+          <div id="recent-docs" style="min-height:80px;">
+            <div style="padding:24px;text-align:center;color:#a5b4fc;"><i class="fa-solid fa-spinner fa-spin" style="font-size:20px;"></i></div>
+          </div>
+        </div>
+        <!-- Protection Activity Chart -->
+        <div style="background:white;border-radius:16px;border:1px solid #f1f5f9;box-shadow:0 1px 3px rgba(0,0,0,.04);padding:18px 20px;flex:1;display:flex;flex-direction:column;">
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:4px;">
+            <div>
+              <div style="font-size:14px;font-weight:700;color:#0f172a;display:flex;align-items:center;gap:8px;"><i class="fa-solid fa-shield-halved" style="color:#6366f1;"></i> Protection Activity</div>
+              <div style="font-size:12px;color:#94a3b8;margin-top:2px;">Documents protected over the last <span id="chart-period-label">30</span> days</div>
+            </div>
+            <a href="reports.html" style="font-size:13px;font-weight:600;color:#6366f1;text-decoration:none;display:flex;align-items:center;gap:4px;">View analytics <i class="fa-solid fa-arrow-right" style="font-size:11px;"></i></a>
+          </div>
+          <div style="flex:1;min-height:160px;position:relative;margin-top:10px;"><canvas id="activity-chart"></canvas></div>
+          <div style="display:flex;align-items:center;justify-content:center;gap:8px;margin-top:12px;">
+            <button class="chart-btn" onclick="setChartRange(7,this)">7 Days</button>
+            <button class="chart-btn active" id="btn-30" onclick="setChartRange(30,this)">30 Days</button>
+            <button class="chart-btn" onclick="setChartRange(90,this)">90 Days</button>
+          </div>
+        </div>
+      </div>
+      <!-- RIGHT COLUMN -->
+      <div style="width:300px;display:flex;flex-direction:column;gap:14px;flex-shrink:0;">
+        <!-- Attention Required -->
+        <div style="background:white;border-radius:16px;border:1px solid #f1f5f9;box-shadow:0 1px 3px rgba(0,0,0,.04);padding:16px 18px;">
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;">
+            <div style="font-size:14px;font-weight:700;color:#0f172a;display:flex;align-items:center;gap:8px;"><i class="fa-solid fa-triangle-exclamation" style="color:#f59e0b;"></i> Attention Required</div>
+            <a href="history.html" style="font-size:13px;font-weight:600;color:#6366f1;text-decoration:none;display:flex;align-items:center;gap:4px;">View all <i class="fa-solid fa-arrow-right" style="font-size:11px;"></i></a>
+          </div>
+          <div id="attention-list" style="display:flex;flex-direction:column;gap:8px;"><div style="text-align:center;padding:12px;color:#a5b4fc;font-size:13px;"><i class="fa-solid fa-spinner fa-spin"></i></div></div>
+        </div>
+        <!-- Quick Actions -->
+        <div style="background:white;border-radius:16px;border:1px solid #f1f5f9;box-shadow:0 1px 3px rgba(0,0,0,.04);padding:16px 18px;flex:1;">
+          <div style="font-size:14px;font-weight:700;color:#0f172a;margin-bottom:12px;">Quick Actions</div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
+            <a href="sanitize.html" class="quick-action-card" style="flex-direction:column;align-items:flex-start;gap:8px;text-decoration:none;">
+              <div style="width:36px;height:36px;border-radius:10px;background:#ede9fe;display:flex;align-items:center;justify-content:center;"><i class="fa-solid fa-shield-virus" style="color:#6366f1;font-size:15px;"></i></div>
+              <div><div style="font-size:12px;font-weight:700;color:#0f172a;">Redact Document</div><div style="font-size:11px;color:#94a3b8;margin-top:1px;">Upload and protect a document</div></div>
+              <i class="fa-solid fa-chevron-right" style="color:#cbd5e1;font-size:11px;align-self:flex-end;"></i>
+            </a>
+            <a href="history.html" class="quick-action-card" style="flex-direction:column;align-items:flex-start;gap:8px;text-decoration:none;">
+              <div style="width:36px;height:36px;border-radius:10px;background:#d1fae5;display:flex;align-items:center;justify-content:center;"><i class="fa-regular fa-file-lines" style="color:#059669;font-size:15px;"></i></div>
+              <div><div style="font-size:12px;font-weight:700;color:#0f172a;">View History</div><div style="font-size:11px;color:#94a3b8;margin-top:1px;">View previously protected documents</div></div>
+              <i class="fa-solid fa-chevron-right" style="color:#cbd5e1;font-size:11px;align-self:flex-end;"></i>
+            </a>
+            <a href="reports.html" class="quick-action-card" style="flex-direction:column;align-items:flex-start;gap:8px;text-decoration:none;">
+              <div style="width:36px;height:36px;border-radius:10px;background:#fef3c7;display:flex;align-items:center;justify-content:center;"><i class="fa-solid fa-chart-bar" style="color:#d97706;font-size:15px;"></i></div>
+              <div><div style="font-size:12px;font-weight:700;color:#0f172a;">View Reports</div><div style="font-size:11px;color:#94a3b8;margin-top:1px;">Protection and compliance reports</div></div>
+              <i class="fa-solid fa-chevron-right" style="color:#cbd5e1;font-size:11px;align-self:flex-end;"></i>
+            </a>
+            <a href="audit_logs.html" class="quick-action-card" style="flex-direction:column;align-items:flex-start;gap:8px;text-decoration:none;">
+              <div style="width:36px;height:36px;border-radius:10px;background:#ede9fe;display:flex;align-items:center;justify-content:center;"><i class="fa-solid fa-clipboard-list" style="color:#7c3aed;font-size:15px;"></i></div>
+              <div><div style="font-size:12px;font-weight:700;color:#0f172a;">Audit Logs</div><div style="font-size:11px;color:#94a3b8;margin-top:1px;">View tamper-evident audit records</div></div>
+              <i class="fa-solid fa-chevron-right" style="color:#cbd5e1;font-size:11px;align-self:flex-end;"></i>
+            </a>
+          </div>
+        </div>
       </div>
     </div>
   </div>
-
-  <div class="grid grid-cols-1 xl:grid-cols-3 gap-5 mb-7">
-    <div class="xl:col-span-2 bg-white rounded-2xl border border-slate-200 p-6">
-      <div class="flex justify-between items-center mb-5">
-        <h3 class="font-bold text-slate-800 text-sm flex items-center gap-2">
-          <i class="fa-solid fa-clock-rotate-left text-indigo-400 text-xs"></i> Recent Activity
-        </h3>
-        <a href="history.html" class="text-xs text-indigo-600 font-semibold hover:underline flex items-center gap-1">View all <i class="fa-solid fa-arrow-right text-[10px]"></i></a>
-      </div>
-      <div id="activity-feed" class="space-y-4">
-        <div class="text-xs text-slate-400 italic text-center py-6"><div class="spinner mx-auto mb-2"></div> Loading activity...</div>
-      </div>
-    </div>
-
-    <div class="bg-white rounded-2xl border border-slate-200 p-6">
-      <h3 class="font-bold text-slate-800 text-sm flex items-center gap-2 mb-5">
-        <i class="fa-solid fa-shield-halved text-indigo-400 text-xs"></i> Compliance Profiles
-      </h3>
-      <div class="space-y-4">
-        <div>
-          <div class="flex justify-between items-center mb-1"><span class="text-xs font-semibold text-slate-600">GDPR</span><span class="badge" style="background:#eef2ff;color:#6366f1;" id="gdpr-badge">-</span></div>
-          <div class="text-[11px] text-slate-400">Names, Emails, IPs, Addresses</div>
-        </div>
-        <div>
-          <div class="flex justify-between items-center mb-1"><span class="text-xs font-semibold text-slate-600">HIPAA</span><span class="badge" style="background:#f0fdf4;color:#10b981;" id="hipaa-badge">Active</span></div>
-          <div class="text-[11px] text-slate-400">MRNs, SSNs, DOBs, Member IDs</div>
-        </div>
-        <div>
-          <div class="flex justify-between items-center mb-1"><span class="text-xs font-semibold text-slate-600">PCI-DSS</span><span class="badge" style="background:#fff7ed;color:#f97316;" id="pci-badge">-</span></div>
-          <div class="text-[11px] text-slate-400">Credit Cards, CVVs, Bank Accounts</div>
-        </div>
-        <div>
-          <div class="flex justify-between items-center mb-1"><span class="text-xs font-semibold text-slate-600">CUSTOM</span><span class="badge" style="background:#f8fafc;color:#94a3b8;" id="custom-badge">-</span></div>
-          <div class="text-[11px] text-slate-400">All entity types combined</div>
-        </div>
-      </div>
-      <div class="mt-5 pt-4 border-t border-slate-100">
-        <div class="text-[11px] text-slate-400 mb-2 font-medium uppercase tracking-wide">Switch Profile</div>
-        <div class="flex flex-wrap gap-2">
-          <button onclick="switchProfile('GDPR')" class="text-xs px-3 py-1.5 rounded-lg border border-slate-200 bg-slate-50 text-slate-600 font-medium hover:border-indigo-400 hover:text-indigo-600 transition-colors">GDPR</button>
-          <button onclick="switchProfile('HIPAA')" class="text-xs px-3 py-1.5 rounded-lg border border-slate-200 bg-slate-50 text-slate-600 font-medium hover:border-indigo-400 hover:text-indigo-600 transition-colors">HIPAA</button>
-          <button onclick="switchProfile('PCI-DSS')" class="text-xs px-3 py-1.5 rounded-lg border border-slate-200 bg-slate-50 text-slate-600 font-medium hover:border-indigo-400 hover:text-indigo-600 transition-colors">PCI-DSS</button>
-          <button onclick="switchProfile('CUSTOM')" class="text-xs px-3 py-1.5 rounded-lg border border-slate-200 bg-slate-50 text-slate-600 font-medium hover:border-indigo-400 hover:text-indigo-600 transition-colors">CUSTOM</button>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <div class="grid grid-cols-1 xl:grid-cols-3 gap-5">
-    <div class="xl:col-span-2 bg-white rounded-2xl border border-slate-200 p-6">
-      <h3 class="font-bold text-slate-800 text-sm flex items-center gap-2 mb-5">
-        <i class="fa-solid fa-tags text-indigo-400 text-xs"></i> Entity Type Breakdown
-      </h3>
-      <div id="entity-breakdown" class="space-y-3">
-        <div class="text-xs text-slate-400 italic text-center py-4"><div class="spinner mx-auto mb-2"></div> Loading breakdown...</div>
-      </div>
-    </div>
-
-    <div class="bg-white rounded-2xl border border-slate-200 p-6">
-      <h3 class="font-bold text-slate-800 text-sm flex items-center gap-2 mb-5">
-        <i class="fa-solid fa-bolt text-indigo-400 text-xs"></i> Quick Actions
-      </h3>
-      <div class="space-y-3">
-        <a href="sanitize.html" class="qa-btn">
-          <div class="qa-icon" style="background:#eef2ff;color:#6366f1;"><i class="fa-solid fa-shield-virus"></i></div>
-          <div><div class="font-semibold text-sm">Redact Document</div><div class="text-xs text-slate-400">Upload and redact PII now</div></div>
-          <i class="fa-solid fa-chevron-right text-slate-300 ml-auto text-xs"></i>
-        </a>
-        <a href="audit_logs.html" class="qa-btn">
-          <div class="qa-icon" style="background:#f0fdf4;color:#10b981;"><i class="fa-solid fa-clipboard-check"></i></div>
-          <div><div class="font-semibold text-sm">View Audit Logs</div><div class="text-xs text-slate-400">Cryptographic ledger</div></div>
-          <i class="fa-solid fa-chevron-right text-slate-300 ml-auto text-xs"></i>
-        </a>
-        <a href="reports.html" class="qa-btn">
-          <div class="qa-icon" style="background:#fff7ed;color:#f97316;"><i class="fa-solid fa-chart-pie"></i></div>
-          <div><div class="font-semibold text-sm">Export Reports</div><div class="text-xs text-slate-400">CSV and compliance summary</div></div>
-          <i class="fa-solid fa-chevron-right text-slate-300 ml-auto text-xs"></i>
-        </a>
-        <a href="settings.html" class="qa-btn">
-          <div class="qa-icon" style="background:#fdf4ff;color:#a855f7;"><i class="fa-solid fa-gear"></i></div>
-          <div><div class="font-semibold text-sm">Settings</div><div class="text-xs text-slate-400">Configure preferences</div></div>
-          <i class="fa-solid fa-chevron-right text-slate-300 ml-auto text-xs"></i>
-        </a>
-      </div>
-    </div>
-  </div>
-
 </main>
-
-<div class="toast-box" id="toast">
-  <i id="toast-icon" class="fa-solid fa-circle-check text-emerald-500 text-lg"></i>
-  <span id="toast-msg" class="text-sm text-slate-700 font-medium"></span>
-</div>
-
+<div id="toast" class="toast-box"><i id="toast-icon" class="fa-solid fa-circle-check" style="color:#10b981;font-size:18px;"></i><span id="toast-msg" style="font-size:13px;font-weight:500;color:#374151;"></span></div>
 <script>
-const ENTITY_COLORS = {
-  NAME:"#6366f1",EMAIL:"#f59e0b",PHONE:"#10b981",SSN:"#ef4444",
-  DOB:"#8b5cf6",ADDRESS:"#06b6d4",CREDIT_CARD:"#f97316",
-  MRN:"#ec4899",LOCATION:"#14b8a6",FACILITY:"#84cc16",DEFAULT:"#94a3b8"
-};
-let activeProfile = "HIPAA";
-
-window.addEventListener("DOMContentLoaded", async () => {
-  await loadLedger();
-  await loadProfiles();
-  renderNotifications();
+const APP={profile:"HIPAA",chartDays:30,chartInst:null};
+document.addEventListener("DOMContentLoaded",async()=>{
+  await loadProfile();
+  await Promise.all([loadStats(),loadRecentDocs(),loadChart(30)]);
+  document.addEventListener("click",e=>{
+    if(!e.target.closest("#notif-panel")&&!e.target.closest("[onclick*='toggleNotif']"))document.getElementById("notif-panel").classList.remove("open");
+    if(!e.target.closest(".dd-panel")&&!e.target.closest("[onclick*='toggleDd']"))document.querySelectorAll(".dd-panel").forEach(d=>d.classList.remove("open"));
+  });
 });
 
-async function loadLedger() {
-  try {
-    const blocks = await fetch("/ledger").then(r => r.json());
-    const txBlocks = blocks.filter(b => b.file_name !== "GENESIS_BLOCK");
-    document.getElementById("stat-total").textContent = txBlocks.length;
-    const totalPii = txBlocks.reduce((s, b) => s + (b.pii_found_count || 0), 0);
-    document.getElementById("stat-pii").textContent = totalPii;
-    document.getElementById("stat-rate").textContent = txBlocks.length > 0 ? "100%" : "0%";
-    document.getElementById("stat-ledger").textContent = blocks.length;
-
-    try {
-      const vData = await fetch("/ledger/verify", {method:"POST"}).then(r => r.json());
-      const el = document.getElementById("stat-ledger-status");
-      if (vData.is_valid) {
-        el.innerHTML = '<i class="fa-solid fa-lock text-[10px]"></i> Chain Verified';
-        el.className = "text-xs text-emerald-500 font-medium flex items-center gap-1 mt-1";
-      } else {
-        el.innerHTML = '<i class="fa-solid fa-triangle-exclamation text-[10px]"></i> Tamper Detected!';
-        el.className = "text-xs text-red-500 font-medium flex items-center gap-1 mt-1";
-      }
-    } catch(e) {}
-
-    renderActivity(txBlocks.slice(-6).reverse());
-    renderEntityBreakdown(txBlocks);
-  } catch(e) {
-    ["stat-total","stat-pii","stat-ledger"].forEach(id => document.getElementById(id).textContent = "err");
-    document.getElementById("activity-feed").innerHTML = "<div class='text-xs text-slate-400 italic text-center py-4'>Could not load data.</div>";
-    document.getElementById("entity-breakdown").innerHTML = "<div class='text-xs text-slate-400 italic text-center py-4'>Could not load data.</div>";
-  }
+async function loadProfile(){
+  try{
+    const d=await(await fetch("/profiles")).json();
+    APP.profile=d.active_profile||"HIPAA";
+    document.getElementById("active-profile-label").textContent=APP.profile;
+    document.querySelectorAll("#dd-policy .dd-item").forEach(el=>el.classList.toggle("sel",el.textContent.trim()===APP.profile));
+  }catch(e){}
 }
 
-const TYPE_COLORS = {pdf:"#6366f1",png:"#10b981",jpg:"#10b981",jpeg:"#10b981",docx:"#f59e0b",txt:"#94a3b8",bmp:"#06b6d4",tiff:"#8b5cf6"};
-const TYPE_ICONS  = {pdf:"fa-file-pdf",png:"fa-file-image",jpg:"fa-file-image",jpeg:"fa-file-image",docx:"fa-file-word",txt:"fa-file-lines",bmp:"fa-file-image",tiff:"fa-file-image"};
-
-function renderActivity(blocks) {
-  const el = document.getElementById("activity-feed");
-  if (!blocks.length) {
-    el.innerHTML = "<div class='text-xs text-slate-400 italic text-center py-6'>No activity yet. <a href='sanitize.html' class='text-indigo-500 font-semibold'>Redact your first document</a></div>";
-    return;
-  }
-  el.innerHTML = blocks.map(b => {
-    const ft = (b.file_type || "txt").toLowerCase();
-    const col = TYPE_COLORS[ft] || "#94a3b8";
-    const icon = TYPE_ICONS[ft] || "fa-file";
-    const ts = b.timestamp ? new Date(b.timestamp).toLocaleString("en-IN",{month:"short",day:"numeric",hour:"2-digit",minute:"2-digit"}) : "-";
-    const count = b.pii_found_count || 0;
-    const riskCol = count > 10 ? "#ef4444" : count > 4 ? "#f59e0b" : "#10b981";
-    return "<div class='flex items-start gap-3'><div class='activity-dot' style='background:"+col+";margin-top:6px;'></div><div class='flex-1 min-w-0'><div class='flex justify-between items-start'><div class='flex items-center gap-2 min-w-0'><i class='fa-regular "+icon+" text-xs' style='color:"+col+";'></i><span class='text-sm font-medium text-slate-700 truncate max-w-[160px]'>"+esc(b.file_name)+"</span><span class='badge text-[10px]' style='background:"+col+"20;color:"+col+";'>"+ft.toUpperCase()+"</span></div><span class='text-[11px] text-slate-400 whitespace-nowrap ml-2'>"+ts+"</span></div><div class='flex items-center gap-3 mt-1'><span class='text-xs text-slate-500'>"+esc(b.compliance_profile||"-")+"</span><span class='text-xs font-semibold' style='color:"+riskCol+"'>"+count+" PII found</span></div></div></div>";
-  }).join("");
+async function loadStats(){
+  try{
+    const [stats,blocks,verify]=await Promise.all([
+      fetch("/history/stats").then(r=>r.json()),
+      fetch("/ledger").then(r=>r.json()),
+      fetch("/ledger/verify",{method:"POST"}).then(r=>r.json())
+    ]);
+    const total=stats.total_documents, sanitized=stats.sanitized_documents;
+    const rate=stats.success_rate;
+    const auditCount=blocks.length-1;
+    anim("st-total",total);
+    document.getElementById("st-week").innerHTML="<i class='fa-solid fa-arrow-up' style='font-size:10px;'></i> "+stats.viewed_this_month+" this month";
+    document.getElementById("st-rate").textContent=rate+"%";
+    document.getElementById("st-rate-sub").innerHTML="<i class='fa-solid fa-shield-check' style='font-size:10px;'></i> "+sanitized+"/"+total+" documents protected";
+    anim("st-audit",auditCount>0?auditCount:0);
+    const chainEl=document.getElementById("st-chain");
+    if(verify.is_valid){chainEl.innerHTML="<i class='fa-solid fa-circle-check' style='font-size:10px;'></i> Integrity verified";chainEl.style.color="#2563eb";}
+    else{chainEl.innerHTML="<i class='fa-solid fa-triangle-exclamation' style='font-size:10px;'></i> Chain error";chainEl.style.color="#dc2626";}
+    document.querySelectorAll(".pulse").forEach(e=>e.classList.remove("pulse"));
+    buildNotifications(stats,verify);
+  }catch(e){console.error(e);}
 }
 
-function renderEntityBreakdown(blocks) {
-  const el = document.getElementById("entity-breakdown");
-  const totals = {};
-  blocks.forEach(b => { if (b.entities_summary) Object.entries(b.entities_summary).forEach(([k,v]) => { totals[k] = (totals[k]||0)+v; }); });
-  const entries = Object.entries(totals).sort((a,b) => b[1]-a[1]);
-  if (!entries.length) { el.innerHTML = "<div class='text-xs text-slate-400 italic text-center py-4'>No entity data yet. Redact a document first.</div>"; return; }
-  const max = entries[0][1];
-  el.innerHTML = entries.slice(0,8).map(([label,cnt]) => {
-    const col = ENTITY_COLORS[label] || ENTITY_COLORS.DEFAULT;
-    const pct = Math.round((cnt/max)*100);
-    return "<div class='flex items-center gap-3'><span class='text-xs font-semibold text-slate-600 w-28 shrink-0'>"+label+"</span><div class='flex-1 bg-slate-100 rounded-full h-2 overflow-hidden'><div class='ebar-fill' style='width:"+pct+"%;background:"+col+";'></div></div><span class='text-xs font-bold text-slate-700 w-7 text-right'>"+cnt+"</span></div>";
-  }).join("");
+function buildNotifications(stats,verify){
+  const list=document.getElementById("notif-list");
+  const items=[];
+  if(stats.total_documents>0)items.push({icon:"fa-shield-check",color:"#10b981",text:stats.total_documents+" documents are protected"});
+  if(stats.viewed_this_month>0)items.push({icon:"fa-eye",color:"#6366f1",text:stats.viewed_this_month+" records viewed this month"});
+  if(stats.deleted_this_month>0)items.push({icon:"fa-trash-can",color:"#ef4444",text:stats.deleted_this_month+" records removed this month"});
+  items.push({icon:"fa-shield",color:verify.is_valid?"#10b981":"#ef4444",text:verify.is_valid?"Audit chain verified":"Chain integrity issue detected"});
+  list.innerHTML=items.map(i=>"<div style='display:flex;align-items:center;gap:8px;padding:6px 12px;'><i class='fa-solid "+i.icon+"' style='color:"+i.color+";font-size:12px;width:16px;'></i><span>"+i.text+"</span></div>").join("");
+  document.getElementById("notif-badge").textContent=items.length;
 }
 
-async function loadProfiles() {
-  try {
-    const data = await fetch("/profiles").then(r => r.json());
-    activeProfile = data.active_profile || "HIPAA";
-    updateProfileUI();
-  } catch(e) {}
+async function loadRecentDocs(){
+  try{
+    const d=await(await fetch("/history/records?page=1&per_page=6")).json();
+    const container=document.getElementById("recent-docs");
+    if(!d.records||!d.records.length){container.innerHTML="<div style='padding:24px;text-align:center;font-size:13px;color:#94a3b8;'>No documents yet. <a href=\"sanitize.html\" style=\"color:#6366f1;font-weight:600;\">Redact your first document</a></div>";return;}
+    container.innerHTML=d.records.map(r=>{
+      const dt=fmtAgo(r.timestamp);
+      const profBadge={"HIPAA":"badge-hipaa","GDPR":"badge-gdpr","PCI-DSS":"badge-pci","CUSTOM":"badge-custom"}[r.compliance_profile]||"badge-hipaa";
+      const statusBadge=r.deleted?"<span class='status-deleted'><i class='fa-solid fa-xmark'></i> Deleted</span>":"<span class='status-protected'><i class='fa-solid fa-check'></i> Protected</span>";
+      const typeIcon=r.file_type==="pdf"?"fa-regular fa-file-pdf text-red-400":r.file_type==="jpg"||r.file_type==="jpeg"||r.file_type==="png"?"fa-regular fa-image text-sky-400":"fa-regular fa-file text-slate-400";
+      return "<div class='row-hover' style='display:flex;align-items:center;padding:10px 20px;gap:10px;'><i class='fa-solid "+typeIcon+"' style='font-size:18px;width:22px;flex-shrink:0;'></i><div style='flex:1;min-width:0;'><div style='font-size:13px;font-weight:600;color:#0f172a;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;'>"+esc(r.file_name)+"</div></div><span class='"+profBadge+"'>"+esc(r.compliance_profile)+"</span>"+statusBadge+"<span style='font-size:12px;color:#94a3b8;width:70px;text-align:right;flex-shrink:0;'>"+dt+"</span><button onclick=\"markViewed('"+r.id+"')\" style='font-size:12px;font-weight:600;color:#6366f1;background:none;border:none;cursor:pointer;flex-shrink:0;'>View</button></div>";
+    }).join("");
+    loadAttentionItems(d.records);
+  }catch(e){document.getElementById("recent-docs").innerHTML="<div style='padding:16px;text-align:center;color:#ef4444;font-size:13px;'>Failed to load</div>";}
 }
 
-async function switchProfile(prof) {
-  try {
-    await fetch("/profiles/switch", {method:"POST", headers:{"Content-Type":"application/json"}, body:JSON.stringify({profile:prof})});
-    activeProfile = prof;
-    updateProfileUI();
-    toast("Profile switched to "+prof, "success");
-  } catch(e) { toast("Failed to switch profile", "error"); }
+function loadAttentionItems(records){
+  const container=document.getElementById("attention-list");
+  const attn=[];
+  const highPii=records.filter(r=>!r.deleted&&r.pii_found_count>15);
+  const deleted=records.filter(r=>r.deleted);
+  if(highPii.length>0)attn.push({icon:"fa-circle-exclamation",color:"#f59e0b",bg:"#fffbeb",title:highPii.length+" document(s) need review",sub:"High PII count detected (>15 fields)",btn:"Review",href:"history.html"});
+  if(deleted.length>0)attn.push({icon:"fa-circle-xmark",color:"#ef4444",bg:"#fef2f2",title:deleted.length+" document(s) marked deleted",sub:deleted.map(r=>r.file_name).slice(0,1).join(", "),btn:"Restore",href:"history.html"});
+  if(!attn.length)attn.push({icon:"fa-circle-check",color:"#10b981",bg:"#ecfdf5",title:"All documents are in good standing",sub:"No issues detected",btn:null,href:null});
+  container.innerHTML=attn.map(a=>"<div class='attn-card'><div style='display:flex;align-items:flex-start;gap:10px;'><div style='width:32px;height:32px;border-radius:8px;background:"+a.bg+";display:flex;align-items:center;justify-content;flex-shrink:0;align-items:center;justify-content:center;'><i class='fa-solid "+a.icon+"' style='color:"+a.color+";font-size:14px;'></i></div><div><div style='font-size:12px;font-weight:700;color:#0f172a;'>"+a.title+"</div><div style='font-size:11px;color:#94a3b8;margin-top:2px;'>"+a.sub+"</div></div></div>"+(a.btn?"<a href='"+a.href+"' style='font-size:12px;font-weight:600;color:#6366f1;text-decoration:none;white-space:nowrap;display:flex;align-items:center;gap:4px;flex-shrink:0;'>"+a.btn+" <i class='fa-solid fa-arrow-right' style='font-size:10px;'></i></a>":"")+"</div>").join("");
 }
 
-function updateProfileUI() {
-  document.getElementById("stat-profile").textContent = activeProfile;
-  const map = {GDPR:"gdpr-badge",HIPAA:"hipaa-badge","PCI-DSS":"pci-badge",CUSTOM:"custom-badge"};
-  Object.entries(map).forEach(([k,id]) => { const el = document.getElementById(id); if(el) el.textContent = k===activeProfile?"Active":"-"; });
+async function markViewed(id){
+  try{await fetch("/history/view/"+id,{method:"POST"});}catch(e){}
+  window.location.href="history.html";
 }
 
-function renderNotifications() {
-  document.getElementById("notif-list").innerHTML =
-    "<div class='flex items-start gap-2 p-2 bg-indigo-50 rounded-lg'><i class='fa-solid fa-circle-info text-indigo-400 mt-0.5'></i><div><div class='font-medium text-slate-700 text-xs'>Dashboard Loaded</div><div class='text-slate-400'>All systems operational.</div></div></div>" +
-    "<div class='flex items-start gap-2 p-2 rounded-lg mt-1'><i class='fa-solid fa-shield-check text-emerald-400 mt-0.5'></i><div><div class='font-medium text-slate-700 text-xs'>Ledger Verified</div><div class='text-slate-400'>Audit chain is intact.</div></div></div>";
+async function switchProfile(name,el){
+  try{
+    await fetch("/profiles/switch",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({profile:name})});
+    APP.profile=name;
+    document.getElementById("active-profile-label").textContent=name;
+    document.querySelectorAll("#dd-policy .dd-item").forEach(e=>e.classList.remove("sel"));
+    el.classList.add("sel");
+    document.getElementById("dd-policy").classList.remove("open");
+    toast("Profile switched to "+name,"success");
+  }catch(e){toast("Failed to switch profile","error");}
 }
 
-function toggleNotif() {
-  const p = document.getElementById("notif-panel");
-  p.style.display = (p.style.display === "none" || !p.style.display) ? "block" : "none";
-}
-document.addEventListener("click", e => {
-  if (!e.target.closest("#btn-notif") && !e.target.closest("#notif-panel"))
-    document.getElementById("notif-panel").style.display = "none";
-});
-
-let isDark = false;
-function toggleTheme() {
-  isDark = !isDark;
-  document.body.style.background = isDark ? "#0f172a" : "#f1f5f9";
-  document.getElementById("theme-icon").className = isDark ? "fa-regular fa-moon" : "fa-regular fa-sun";
-  document.getElementById("theme-label").textContent = isDark ? "Dark" : "Light";
-}
-
-let _tt = null;
-function toast(msg, type) {
-  const el = document.getElementById("toast"), icon = document.getElementById("toast-icon");
-  document.getElementById("toast-msg").textContent = msg;
-  const m = {success:{c:"text-emerald-500",i:"fa-circle-check"},warning:{c:"text-orange-400",i:"fa-triangle-exclamation"},error:{c:"text-red-500",i:"fa-circle-xmark"}};
-  const t = m[type]||m.success;
-  icon.className = "fa-solid "+t.i+" "+t.c+" text-lg";
-  el.style.display = "flex"; el.style.opacity = "1";
-  clearTimeout(_tt);
-  _tt = setTimeout(() => { el.style.opacity="0"; el.style.transition="opacity .3s"; setTimeout(() => {el.style.display="none";el.style.opacity="1";el.style.transition="";},300); }, 3200);
+async function loadChart(days){
+  APP.chartDays=days;
+  document.getElementById("chart-period-label").textContent=days;
+  try{
+    const blocks=await(await fetch("/ledger")).json();
+    const real=blocks.filter(b=>b.file_name!=="GENESIS_BLOCK");
+    const now=new Date();
+    const labels=[],counts=[];
+    for(let i=days-1;i>=0;i--){
+      const d=new Date(now);d.setDate(d.getDate()-i);
+      const lbl=d.toLocaleDateString("en-US",{month:"short",day:"numeric"});
+      const dayStr=d.toISOString().split("T")[0];
+      const cnt=real.filter(b=>b.timestamp&&b.timestamp.startsWith(dayStr)).length;
+      labels.push(lbl);counts.push(cnt);
+    }
+    const cumCounts=[];let cum=0;
+    const totalBefore=real.filter(b=>{try{return new Date(b.timestamp)<new Date(now.getTime()-days*86400000);}catch{return false;}}).length;
+    cum=totalBefore;
+    for(const c of counts){cum+=c;cumCounts.push(cum);}
+    if(APP.chartInst)APP.chartInst.destroy();
+    const ctx=document.getElementById("activity-chart").getContext("2d");
+    const grad=ctx.createLinearGradient(0,0,0,160);
+    grad.addColorStop(0,"rgba(99,102,241,0.2)");grad.addColorStop(1,"rgba(99,102,241,0)");
+    APP.chartInst=new Chart(ctx,{type:"line",data:{labels,datasets:[{data:cumCounts,borderColor:"#6366f1",borderWidth:2.5,backgroundColor:grad,fill:true,tension:.4,pointBackgroundColor:"#6366f1",pointRadius:days<=7?4:days<=30?3:2,pointHoverRadius:5}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{mode:"index",intersect:false,callbacks:{label:ctx=>"Documents: "+ctx.parsed.y}}},scales:{x:{grid:{display:false},ticks:{font:{size:10},color:"#94a3b8",maxTicksLimit:days<=7?7:days<=30?6:8}},y:{grid:{color:"#f1f5f9"},ticks:{font:{size:10},color:"#94a3b8",stepSize:1},beginAtZero:true}}}});
+  }catch(e){console.error("Chart error",e);}
 }
 
-function esc(str) { const d = document.createElement("div"); d.appendChild(document.createTextNode(str||"")); return d.innerHTML; }
-</script>
-</body>
-</html>
+function setChartRange(days,btn){
+  document.querySelectorAll(".chart-btn").forEach(b=>b.classList.remove("active"));
+  btn.classList.add("active");
+  loadChart(days);
+}
+
+function toggleNotif(){document.getElementById("notif-panel").classList.toggle("open");}
+function toggleDd(id){const el=document.getElementById(id),was=el.classList.contains("open");document.querySelectorAll(".dd-panel").forEach(d=>d.classList.remove("open"));if(!was)el.classList.add("open");}
+function anim(id,target){const el=document.getElementById(id);if(!el)return;const f=parseInt(el.textContent)||0,t0=performance.now();const run=now=>{const p=Math.min((now-t0)/500,1),e2=p<.5?2*p*p:-1+(4-2*p)*p;el.textContent=Math.round(f+(target-f)*e2);if(p<1)requestAnimationFrame(run);};requestAnimationFrame(run);}
+function fmtAgo(iso){try{const diff=Date.now()-new Date(iso).getTime();const m=Math.floor(diff/60000);if(m<1)return"just now";if(m<60)return m+"m ago";const h=Math.floor(m/60);if(h<24)return h+"h ago";return Math.floor(h/24)+"d ago";}catch{return iso;}}
+function esc(s){const d=document.createElement("div");d.appendChild(document.createTextNode(s||""));return d.innerHTML;}
+let _tt=null;
+function toast(msg,type="success"){const el=document.getElementById("toast"),icon=document.getElementById("toast-icon");document.getElementById("toast-msg").textContent=msg;const m={success:"#10b981",error:"#ef4444",warning:"#f59e0b"};icon.style.color=m[type]||m.success;el.style.display="flex";clearTimeout(_tt);_tt=setTimeout(()=>{el.style.opacity="0";el.style.transition="opacity .3s";setTimeout(()=>{el.style.display="none";el.style.opacity="1";el.style.transition="";},300);},3200);}
+</script></body></html>
