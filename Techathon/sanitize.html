@@ -60,6 +60,68 @@
             border-radius: 4px;
             font-weight: 500;
         }
+        
+        /* Processing Timeline Flow Styles */
+        .step-container {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            position: relative;
+        }
+        .step-line {
+            position: absolute;
+            left: 18px;
+            top: 36px;
+            width: 2px;
+            height: calc(100% - 24px);
+            background-color: #e2e8f0;
+            z-index: 0;
+        }
+        .step-circle {
+            width: 38px;
+            height: 38px;
+            border-radius: 50%;
+            border: 2px solid #e2e8f0;
+            background: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            font-size: 14px;
+            color: #64748b;
+            position: relative;
+            z-index: 10;
+            transition: all 0.3s ease;
+        }
+        .step-circle.active {
+            border-color: #f59e0b;
+            color: #d97706;
+            background: #fef3c7;
+            box-shadow: 0 0 0 4px rgba(245, 158, 11, 0.15);
+        }
+        .step-circle.completed {
+            border-color: #10b981;
+            color: #fff;
+            background: #10b981;
+        }
+        .step-circle.waiting {
+            border-color: #e2e8f0;
+            color: #94a3b8;
+            background: #f8fafc;
+        }
+        .step-text {
+            font-size: 13px;
+            font-weight: 500;
+            color: #64748b;
+            transition: color 0.3s ease;
+        }
+        .step-text.active {
+            color: #1e293b;
+            font-weight: 600;
+        }
+        .step-text.completed {
+            color: #0f172a;
+        }
     </style>
 </head>
 <body class="text-slate-800 font-sans flex h-screen overflow-hidden">
@@ -157,25 +219,121 @@
             </div>
         </header>
 
-        <!-- Top Section (Upload Area) -->
-        <div class="mb-6 flex shrink-0">
-            <!-- Drag & Drop Area (Full Width) -->
-            <div class="flex-1 bg-white rounded-2xl border border-dashed border-slate-300 flex flex-col items-center justify-center py-12 px-6 shadow-sm hover:bg-slate-50/50 transition-colors">
-                <div class="w-16 h-16 bg-indigo-50 rounded-full flex items-center justify-center text-indigo-500 mb-4">
-                    <i class="fa-solid fa-cloud-arrow-up text-3xl"></i>
+        <!-- Top Section (Upload, Flow, & Summary Area) -->
+        <div class="mb-6 flex gap-6 shrink-0 items-stretch">
+            <!-- Drag & Drop Area (Left) -->
+            <div class="flex-1 bg-white rounded-2xl border border-dashed border-slate-300 flex flex-col items-center justify-center py-8 px-6 shadow-sm hover:bg-slate-50/50 transition-colors">
+                <div class="w-14 h-14 bg-indigo-50 rounded-full flex items-center justify-center text-indigo-500 mb-3">
+                    <i class="fa-solid fa-cloud-arrow-up text-2xl"></i>
                 </div>
-                <h3 class="text-lg font-semibold text-slate-800 mb-1">Drag & Drop your file here</h3>
-                <p class="text-sm text-slate-500 mb-6">Supports PDF, PNG, JPG up to 50MB</p>
-                <button class="px-6 py-2.5 bg-indigo-600 text-white rounded-lg font-medium shadow-sm hover:bg-indigo-700 flex items-center gap-2 mb-4">
+                <h3 class="text-base font-semibold text-slate-800 mb-1">Drag & Drop your file here</h3>
+                <p class="text-xs text-slate-500 mb-4">Supports PDF, PNG, JPG up to 50MB</p>
+                <button class="px-5 py-2 bg-indigo-600 text-white rounded-lg text-sm font-medium shadow-sm hover:bg-indigo-700 flex items-center gap-2 mb-3">
                     <i class="fa-regular fa-folder-open"></i> Browse Files
                 </button>
-                <button class="text-sm text-slate-500 hover:text-slate-700 font-medium flex items-center gap-1.5">
+                <button class="text-xs text-slate-500 hover:text-slate-700 font-medium flex items-center gap-1.5">
                     Or paste image <i class="fa-regular fa-clipboard"></i>
                 </button>
             </div>
+
+            <!-- Processing Pipeline Flow (Middle) -->
+            <div class="w-72 bg-white rounded-2xl border border-slate-200 shadow-sm p-5 flex flex-col">
+                <h3 class="font-bold text-slate-800 text-sm mb-4 flex items-center gap-2">
+                    <i class="fa-solid fa-list-check text-indigo-500"></i> Processing Pipeline
+                </h3>
+                <div class="flex-1 flex flex-col justify-between relative min-h-[220px]">
+                    <div class="step-line"></div>
+                    
+                    <div class="step-container" id="step-1">
+                        <div class="step-circle waiting" id="circle-1">1</div>
+                        <span class="step-text" id="text-1">Document Upload</span>
+                    </div>
+                    <div class="step-container" id="step-2">
+                        <div class="step-circle waiting" id="circle-2">2</div>
+                        <span class="step-text" id="text-2">OCR Processing</span>
+                    </div>
+                    <div class="step-container" id="step-3">
+                        <div class="step-circle waiting" id="circle-3">3</div>
+                        <span class="step-text" id="text-3">Entity Recognition</span>
+                    </div>
+                    <div class="step-container" id="step-4">
+                        <div class="step-circle waiting" id="circle-4">4</div>
+                        <span class="step-text" id="text-4">Sensitive Data Redaction</span>
+                    </div>
+                    <div class="step-container" id="step-5">
+                        <div class="step-circle waiting" id="circle-5">5</div>
+                        <span class="step-text" id="text-5">Image Recognition &amp; Redaction</span>
+                    </div>
+                    <div class="step-container" id="step-6">
+                        <div class="step-circle waiting" id="circle-6">6</div>
+                        <span class="step-text" id="text-6">Metadata Scrubbing</span>
+                    </div>
+                    <div class="step-container" id="step-7">
+                        <div class="step-circle waiting" id="circle-7">7</div>
+                        <span class="step-text" id="text-7">Secure Processed Output</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- redaction Summary (Right) -->
+            <div class="w-80 bg-white rounded-2xl border border-slate-200 shadow-sm p-5 flex flex-col">
+                <div class="flex items-center gap-2 mb-4">
+                    <i class="fa-solid fa-chart-simple text-indigo-500"></i>
+                    <h3 class="font-bold text-slate-800 text-sm">redaction Summary</h3>
+                </div>
+
+                <!-- Donut Chart Mockup -->
+                <div class="flex justify-center mb-6 mt-2 relative">
+                    <svg width="120" height="120" viewBox="0 0 120 120">
+                        <circle cx="60" cy="60" r="50" fill="none" stroke="#f1f5f9" stroke-width="12"></circle>
+                        <circle id="donut-fill" cx="60" cy="60" r="50" fill="none" stroke="#6366f1" stroke-width="12" stroke-dasharray="0 314" stroke-linecap="round" transform="rotate(-90 60 60)"></circle>
+                    </svg>
+                    <div class="absolute inset-0 flex flex-col items-center justify-center">
+                        <span class="text-2xl font-bold text-slate-800 leading-none" id="donut-number">0</span>
+                        <span class="text-[10px] text-slate-500 mt-1 text-center leading-tight">Items<br>Redacted</span>
+                    </div>
+                </div>
+
+                <div class="space-y-3 flex-1">
+                    <div class="flex justify-between items-center text-xs">
+                        <span class="text-slate-700 flex items-center gap-2"><i class="fa-regular fa-user w-4 text-red-400"></i> Personal Identifiers</span>
+                        <span class="font-semibold text-slate-600 summary-num" id="num-pi">0</span>
+                    </div>
+                    <div class="flex justify-between items-center text-xs">
+                        <span class="text-slate-700 flex items-center gap-2"><i class="fa-solid fa-location-dot w-4 text-red-400"></i> Addresses</span>
+                        <span class="font-semibold text-slate-600 summary-num" id="num-addr">0</span>
+                    </div>
+                    <div class="flex justify-between items-center text-xs">
+                        <span class="text-slate-700 flex items-center gap-2"><i class="fa-solid fa-phone w-4 text-sky-400"></i> Contact Information</span>
+                        <span class="font-semibold text-slate-600 summary-num" id="num-contact">0</span>
+                    </div>
+                    <div class="flex justify-between items-center text-xs">
+                        <span class="text-slate-700 flex items-center gap-2"><i class="fa-solid fa-notes-medical w-4 text-indigo-400"></i> Medical Information</span>
+                        <span class="font-semibold text-slate-600 summary-num" id="num-med">0</span>
+                    </div>
+                    <div class="flex justify-between items-center text-xs">
+                        <span class="text-slate-700 flex items-center gap-2"><i class="fa-solid fa-umbrella w-4 text-amber-400"></i> Insurance Details</span>
+                        <span class="font-semibold text-slate-600 summary-num" id="num-ins">0</span>
+                    </div>
+                    <div class="flex justify-between items-center text-xs">
+                        <span class="text-slate-700 flex items-center gap-2"><i class="fa-solid fa-coins w-4 text-amber-500"></i> Financial Information</span>
+                        <span class="font-semibold text-slate-600 summary-num" id="num-fin">0</span>
+                    </div>
+                </div>
+
+                <!-- Status Banner -->
+                <div id="status-banner" class="mt-4 bg-slate-50 rounded-xl p-3 border border-slate-200">
+                    <div class="flex items-center gap-2 mb-1">
+                        <i id="status-icon" class="fa-regular fa-clock text-slate-400"></i>
+                        <span id="status-title" class="text-xs font-semibold text-slate-600">Status</span>
+                    </div>
+                    <p id="status-desc" class="text-xs font-medium text-slate-500 mb-1">Awaiting document...</p>
+                    <p id="status-sub" class="text-[10px] text-slate-500 leading-relaxed">Redaction process will start once a document is uploaded.</p>
+                </div>
+            </div>
         </div>
 
-                <!-- Document Preview Section -->
+        <!-- Document Preview Section -->
         <div class="flex gap-4 items-stretch mb-6 flex-1 min-h-[400px]">
             
             <!-- Original Document -->
@@ -224,63 +382,8 @@
                     No document loaded
                 </div>
             </div>
-
-            <!-- redaction Summary -->
-            <div class="w-64 bg-white rounded-2xl border border-slate-200 shadow-sm p-4 flex flex-col">
-                <div class="flex items-center gap-2 mb-4">
-                    <i class="fa-solid fa-chart-simple text-indigo-500"></i>
-                    <h3 class="font-bold text-slate-800 text-sm">redaction Summary</h3>
-                </div>
-
-                <!-- Donut Chart Mockup -->
-                <div class="flex justify-center mb-6 mt-2 relative">
-                    <svg width="120" height="120" viewBox="0 0 120 120">
-                        <circle cx="60" cy="60" r="50" fill="none" stroke="#f1f5f9" stroke-width="12"></circle>
-                        <circle cx="60" cy="60" r="50" fill="none" stroke="#6366f1" stroke-width="12" stroke-dasharray="250 314" stroke-linecap="round" transform="rotate(-90 60 60)"></circle>
-                    </svg>
-                    <div class="absolute inset-0 flex flex-col items-center justify-center">
-                        <span class="text-2xl font-bold text-slate-800 leading-none">0</span>
-                        <span class="text-[10px] text-slate-500 mt-1 text-center leading-tight">Items<br>Redacted</span>
-                    </div>
-                </div>
-
-                <div class="space-y-3 flex-1">
-                    <div class="flex justify-between items-center text-xs">
-                        <span class="text-slate-700 flex items-center gap-2"><i class="fa-regular fa-user w-4 text-red-400"></i> Personal Identifiers</span>
-                        <span class="font-semibold text-slate-600">8</span>
-                    </div>
-                    <div class="flex justify-between items-center text-xs">
-                        <span class="text-slate-700 flex items-center gap-2"><i class="fa-solid fa-location-dot w-4 text-red-400"></i> Addresses</span>
-                        <span class="font-semibold text-slate-600">3</span>
-                    </div>
-                    <div class="flex justify-between items-center text-xs">
-                        <span class="text-slate-700 flex items-center gap-2"><i class="fa-solid fa-phone w-4 text-sky-400"></i> Contact Information</span>
-                        <span class="font-semibold text-slate-600">5</span>
-                    </div>
-                    <div class="flex justify-between items-center text-xs">
-                        <span class="text-slate-700 flex items-center gap-2"><i class="fa-solid fa-notes-medical w-4 text-indigo-400"></i> Medical Information</span>
-                        <span class="font-semibold text-slate-600">0</span>
-                    </div>
-                    <div class="flex justify-between items-center text-xs">
-                        <span class="text-slate-700 flex items-center gap-2"><i class="fa-solid fa-umbrella w-4 text-amber-400"></i> Insurance Details</span>
-                        <span class="font-semibold text-slate-600">2</span>
-                    </div>
-                    <div class="flex justify-between items-center text-xs">
-                        <span class="text-slate-700 flex items-center gap-2"><i class="fa-solid fa-coins w-4 text-amber-500"></i> Financial Information</span>
-                        <span class="font-semibold text-slate-600">1</span>
-                    </div>
-                </div>
-
-                <!-- Status Banner -->
-                <div class="mt-4 bg-emerald-50 rounded-xl p-3 border border-emerald-100">
-                    <div class="flex items-center gap-2 mb-1">
-                        <i class="fa-regular fa-circle-check text-emerald-500"></i>
-                        <span class="text-xs font-semibold text-emerald-700">Status</span>
-                    </div>
-                    <p class="text-xs font-medium text-emerald-600 mb-1">Redaction complete</p>
-                    <p class="text-[10px] text-emerald-600/80 leading-relaxed">All sensitive information has been successfully protected.</p>
-                </div>
-            </div>
+            
+            <!-- Removed Redaction Summary Placeholder -->
 
         </div>
         
@@ -322,16 +425,74 @@ document.addEventListener('DOMContentLoaded', () => {
         formData.append('profile', 'HIPAA');
         formData.append('strategy', strategy);
         
+        // Reset pipeline steps visual status
+        const stepsCount = 7;
+        for (let i = 1; i <= stepsCount; i++) {
+            const circle = document.getElementById(`circle-${i}`);
+            const text = document.getElementById(`text-${i}`);
+            if (circle) {
+                circle.className = 'step-circle waiting';
+                circle.innerHTML = i;
+            }
+            if (text) text.className = 'step-text';
+        }
+
+        // Helper to update active/completed step state
+        const setStepState = (stepIndex, state) => {
+            const circle = document.getElementById(`circle-${stepIndex}`);
+            const text = document.getElementById(`text-${stepIndex}`);
+            if (circle) {
+                if (state === 'active') {
+                    circle.className = 'step-circle active';
+                    circle.innerHTML = `<i class="fa-solid fa-spinner fa-spin text-xs"></i>`;
+                } else if (state === 'completed') {
+                    circle.className = 'step-circle completed';
+                    circle.innerHTML = `<i class="fa-solid fa-check text-xs"></i>`;
+                }
+            }
+            if (text) {
+                if (state === 'active') text.className = 'step-text active';
+                else if (state === 'completed') text.className = 'step-text completed';
+            }
+        };
+
+        const sleep = ms => new Promise(r => setTimeout(r, ms));
+
         try {
+            // Step 1: Upload (Active)
+            setStepState(1, 'active');
+            await sleep(400);
+
             const res = await fetch('/sanitize/document', { method: 'POST', body: formData });
+            
+            // Step 1: Completed, Step 2: OCR Processing (Active)
+            setStepState(1, 'completed');
+            setStepState(2, 'active');
+            await sleep(500);
+
             const data = await res.json();
             
+            // Step 2: Completed, Step 3: Entity Recognition (Active)
+            setStepState(2, 'completed');
+            setStepState(3, 'active');
+            await sleep(500);
+
             if (data.status === 'success') {
+                // Step 3: Completed, Step 4: Redaction (Active)
+                setStepState(3, 'completed');
+                setStepState(4, 'active');
+                await sleep(400);
+
                 const originalPane = document.getElementById('original-pane');
                 const sanitizedPane = document.getElementById('sanitized-pane');
                 
                 const result = data.results[0];
                 
+                // Step 4: Completed, Step 5: Image Check (Active)
+                setStepState(4, 'completed');
+                setStepState(5, 'active');
+                await sleep(400);
+
                 // Embed the actual files in iframes for preview
                 originalPane.innerHTML = `<iframe src="${result.raw_url.replace('/download/', '/preview/')}" class="w-full h-full border-0" style="min-height: 400px; border-radius: 0 0 1rem 1rem;"></iframe>`;
                 sanitizedPane.innerHTML = `<iframe src="${result.redacted_url.replace('/download/', '/preview/')}" class="w-full h-full border-0" style="min-height: 400px; border-radius: 0 0 1rem 1rem;"></iframe>`;
@@ -339,15 +500,70 @@ document.addEventListener('DOMContentLoaded', () => {
                 originalPane.classList.remove('flex', 'items-center', 'justify-center', 'italic', 'text-slate-400', 'p-6');
                 sanitizedPane.classList.remove('flex', 'items-center', 'justify-center', 'italic', 'text-slate-400', 'p-6');
                 
-                // Update Donut Chart Number
+                // Step 5: Completed, Step 6: Metadata Scrubbing (Active)
+                setStepState(5, 'completed');
+                setStepState(6, 'active');
+                await sleep(400);
+
+                // Update Donut Chart Number & fill
                 const totalEntities = result.entities_found || 0;
-                const donutNumber = document.querySelector('.absolute.inset-0 span.text-2xl');
-                if (donutNumber) donutNumber.textContent = totalEntities;
+                document.getElementById('donut-number').textContent = totalEntities;
                 
-                const summaryNumbers = document.querySelectorAll('.space-y-3 .font-semibold.text-slate-600');
-                summaryNumbers.forEach(el => el.textContent = '0');
-                if (summaryNumbers.length > 0 && totalEntities > 0) {
-                     summaryNumbers[0].textContent = totalEntities;
+                const donutFill = document.getElementById('donut-fill');
+                if (donutFill) {
+                    const dashVal = totalEntities > 0 ? Math.min(314, Math.round((totalEntities / (totalEntities + 5)) * 314)) : 0;
+                    donutFill.setAttribute('stroke-dasharray', `${dashVal} 314`);
+                }
+                
+                // Group entities by category
+                const entityCounts = { pi: 0, addr: 0, contact: 0, med: 0, ins: 0, fin: 0 };
+                if (result.entities && Array.isArray(result.entities)) {
+                    result.entities.forEach(ent => {
+                        const label = ent[1];
+                        if (['NAME', 'SSN', 'DOB', 'PASSPORT', 'DRIVER_LICENSE'].includes(label)) {
+                            entityCounts.pi++;
+                        } else if (['ADDRESS', 'CITY_STATE_ZIP', 'LOCATION'].includes(label)) {
+                            entityCounts.addr++;
+                        } else if (['EMAIL', 'PHONE'].includes(label)) {
+                            entityCounts.contact++;
+                        } else if (['MRN', 'MEMBER_ID', 'NPI_ID', 'PHYSICIAN', 'FACILITY'].includes(label)) {
+                            entityCounts.med++;
+                        } else if (['POLICY_ID', 'GROUP_NUMBER', 'INSURANCE_ID'].includes(label)) {
+                            entityCounts.ins++;
+                        } else if (['CREDIT_CARD', 'CVV', 'BANK_ACCOUNT', 'TAX_ID', 'ACCOUNT_ID'].includes(label)) {
+                            entityCounts.fin++;
+                        }
+                    });
+                }
+                
+                // Populate category values
+                document.getElementById('num-pi').textContent = entityCounts.pi;
+                document.getElementById('num-addr').textContent = entityCounts.addr;
+                document.getElementById('num-contact').textContent = entityCounts.contact;
+                document.getElementById('num-med').textContent = entityCounts.med;
+                document.getElementById('num-ins').textContent = entityCounts.ins;
+                document.getElementById('num-fin').textContent = entityCounts.fin;
+                
+                // Step 6: Completed, Step 7: Secure Processed Output (Active)
+                setStepState(6, 'completed');
+                setStepState(7, 'active');
+                await sleep(400);
+
+                // Update Status Banner to Complete state
+                const statusBanner = document.getElementById('status-banner');
+                const statusIcon = document.getElementById('status-icon');
+                const statusTitle = document.getElementById('status-title');
+                const statusDesc = document.getElementById('status-desc');
+                const statusSub = document.getElementById('status-sub');
+                
+                if (statusBanner) {
+                    statusBanner.className = 'mt-4 bg-emerald-50 rounded-xl p-3 border border-emerald-100';
+                    statusIcon.className = 'fa-regular fa-circle-check text-emerald-500';
+                    statusTitle.className = 'text-xs font-semibold text-emerald-700';
+                    statusDesc.className = 'text-xs font-medium text-emerald-600 mb-1';
+                    statusDesc.textContent = 'Redaction complete';
+                    statusSub.className = 'text-[10px] text-emerald-600/80 leading-relaxed';
+                    statusSub.textContent = 'All sensitive information has been successfully protected.';
                 }
                 
                 // Wire up Download Buttons
@@ -356,6 +572,9 @@ document.addEventListener('DOMContentLoaded', () => {
                     downloadBtns[0].onclick = () => window.open(result.raw_url, '_blank');
                     downloadBtns[1].onclick = () => window.open(result.redacted_url, '_blank');
                 }
+
+                // Step 7: Completed!
+                setStepState(7, 'completed');
                 
             } else {
                 alert('Error: ' + data.detail);
