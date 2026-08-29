@@ -53,11 +53,11 @@ except Exception:
 COMPLIANCE_PROFILES = {
     "GDPR": {
         "description": "General Data Protection Regulation - Protects personal identifying data (Names, Emails, Phones, Addresses, SSNs, IPs, DOBs).",
-        "entities": ["NAME", "EMAIL", "PHONE", "ADDRESS", "CITY_STATE_ZIP", "SSN", "DOB", "IP_ADDRESS", "PASSPORT", "DRIVER_LICENSE", "LOCATION"]
+        "entities": ["NAME", "EMAIL", "PHONE", "ADDRESS", "CITY_STATE_ZIP", "SSN", "DOB", "IP_ADDRESS", "PASSPORT", "DRIVER_LICENSE", "LOCATION", "GENDER"]
     },
     "HIPAA": {
         "description": "Health Insurance Portability and Accountability Act - Protects PHI (Patient Names, MRNs, Health IDs, SSNs, Member IDs, Dates, Medical Records).",
-        "entities": ["NAME", "MRN", "SSN", "DOB", "MEMBER_ID", "GROUP_NUMBER", "POLICY_ID", "PAYER_ID", "INSURANCE_ID", "PHONE", "ADDRESS", "CITY_STATE_ZIP", "EMAIL", "PHYSICIAN", "FACILITY", "NPI_ID"]
+        "entities": ["NAME", "MRN", "SSN", "DOB", "MEMBER_ID", "GROUP_NUMBER", "POLICY_ID", "PAYER_ID", "INSURANCE_ID", "PHONE", "ADDRESS", "CITY_STATE_ZIP", "EMAIL", "PHYSICIAN", "FACILITY", "NPI_ID", "GENDER"]
     },
     "PCI-DSS": {
         "description": "Payment Card Industry Data Security Standard - Protects financial data (Credit Cards, CVVs, Bank Accounts, Tax IDs, Account IDs).",
@@ -78,21 +78,22 @@ REGEX_PATTERNS = {
     "EMAIL": r"[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-z]{2,}",
     "PHONE": r"(?:\+?\d{1,2}[\s-]?)?(?:\(?\d{3}\)?[\s.-]?\d{3}[\s.-]?\d{4})",
     "MRN": r"(?i)\bMRN[:\s]*[A-Z0-9-]{5,15}\b",
-    "DOB": r"(?i)(?:DOB[:\s]*|Date of Birth[:\s]*)(?:\d{1,2}[-/\s]\d{1,2}[-/\s]\d{2,4}|[A-Z][a-z]+\s\d{1,2},\s\d{4})",
-    "MEMBER_ID": r"(?i)(?:Member ID[:\s]*)[A-Z0-9-]{6,15}",
-    "GROUP_NUMBER": r"(?i)(?:Group Number[:\s]*)[A-Z0-9-]{3,15}",
-    "POLICY_ID": r"(?i)(?:Policy Effective Date[:\s]*)\d{1,2}[-/]\d{1,2}[-/]\d{2,4}",
-    "PAYER_ID": r"(?i)(?:Payer ID[:\s]*)\d{3,10}",
-    "NPI_ID": r"(?i)NPI[:\s]*\d{8,10}\b",
+    "DOB": r"(?i)(?:DOB|Date of Birth)[:\s]*([0-9]{1,2}[-/\s][0-9]{1,2}[-/\s][0-9]{2,4}|[A-Z][a-z]+[\s,]+[0-9]{1,2}[\s,]+[0-9]{4})",
+    "MEMBER_ID": r"(?i)\b(?:Member ID|MID)[:\s]*([A-Z0-9-]{6,15})\b",
+    "GROUP_NUMBER": r"(?i)\b(?:Group Number|Group|Group\s*#)[:\s]*([A-Z0-9-]{3,15})\b",
+    "POLICY_ID": r"(?i)\b(?:Policy Effective Date|Policy ID)[:\s]*([A-Z0-9-]{5,15}|[0-9]{1,2}[-/][0-9]{1,2}[-/][0-9]{2,4})\b",
+    "PAYER_ID": r"(?i)\b(?:Payer ID)[:\s]*([A-Z0-9-]{3,10})\b",
+    "NPI_ID": r"(?i)\bNPI[:\s]*([0-9]{8,12})\b",
     "INSURANCE_ID": r"\b\d{6,15}\b(?=.*(?:Insurance|Insurer|Provider|ID))",
     "DRIVER_LICENSE": r"(?i)(?:License[:\s]*)[A-Z0-9-]{5,15}",
     "PASSPORT": r"(?i)(?:Passport[:\s]*)[A-Z0-9-]{6,15}",
     "TAX_ID": r"\b\d{2}-\d{7}\b(?=.*Tax)",
     "ACCOUNT_ID": r"\b[A-Z]{2,3}\d{6,}\b",
-    "ADDRESS": r"\d{1,5}\s+[A-Za-z0-9\s,]+(?:Street|St|Road|Rd|Avenue|Ave|Drive|Dr|Lane|Ln|Boulevard|Blvd|Court|Ct|Way|Place|Pkwy)\b",
-    "CITY_STATE_ZIP": r"[A-Z][a-z]+,\s?[A-Z]{2}\s?\d{5}(?:-\d{4})?",
+    "ADDRESS": r"\b\d{1,5}\s+[A-Za-z0-9\s,]{4,50}\s*(?:Street|St|Road|Rd|Avenue|Ave|Drive|Dr|Lane|Ln|Boulevard|Blvd|Court|Ct|Way|Place|Pkwy)\b(?:,\s*[A-Za-z\s]+,\s*[A-Z]{2}\s*\d{5})?",
+    "CITY_STATE_ZIP": r"[A-Za-z\s]+,\s?[A-Z]{2}\s?\d{5}(?:-\d{4})?",
     "IP_ADDRESS": r"\b(?:[0-9]{1,3}\.){3}[0-9]{1,3}\b",
-    "NAME": r"(?i)(?<=Name[:\s])([A-Z][a-z]+(?:\s[A-Z]\.)?\s[A-Z][a-z]+)"
+    "GENDER": r"(?i)\b(?:Gender|Sex)[:\s]*\b(Male|Female)\b",
+    "NAME": r"(?i)(?<=Name[:\s])([A-Z][a-z]+(?:\s[A-Z]\.?)?[\s\b][A-Z][a-z]+(?:\s[A-Z][a-z]+)?)"
 }
 
 # ==========================================
@@ -233,10 +234,12 @@ def detect_pii(text: str, profile: str = "HIPAA") -> List[Tuple[str, str]]:
     for label, pattern in REGEX_PATTERNS.items():
         if target_entities and label not in target_entities:
             continue
-        for match in set(re.findall(pattern, text)):
-            if isinstance(match, tuple):
-                match = match[0]
-            val = match.strip()
+        for match in re.finditer(pattern, text):
+            # If there's a capture group, take the first group, otherwise the full match
+            if match.groups():
+                val = match.group(1).strip()
+            else:
+                val = match.group(0).strip()
             if val and len(val) >= 2:
                 detected.append((val, label))
 
