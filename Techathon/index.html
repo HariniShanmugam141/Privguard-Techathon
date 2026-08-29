@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>PrivGuard AI - Dashboard</title><script src="https://cdn.tailwindcss.com"></script><script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"><script>tailwind.config={theme:{extend:{fontFamily:{sans:["Inter","sans-serif"]}}}}</script><style>
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>PrivGuard AI - Dashboard</title><script src="https://cdn.tailwindcss.com"></script><script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"><script>tailwind.config={theme:{extend:{fontFamily:{sans:["Inter","sans-serif"]}}}}</script><style>
 *{box-sizing:border-box;}
 body{background:#f5f6fa;font-family:"Inter",sans-serif;}
 .sidebar-link{display:flex;align-items:center;gap:12px;padding:10px 16px;border-radius:10px;font-size:14px;font-weight:500;color:#64748b;text-decoration:none;transition:all .18s;}
@@ -38,15 +38,15 @@ body{background:#f5f6fa;font-family:"Inter",sans-serif;}
   </div>
   <nav style="flex:1;padding:0 12px;display:flex;flex-direction:column;gap:2px;">
     <a href="index.html" class="sidebar-link active"><i class="fa-solid fa-house" style="width:18px;text-align:center;"></i> Dashboard</a>
-    <a href="sanitize.html" class="sidebar-link"><i class="fa-solid fa-shield-virus" style="width:18px;text-align:center;"></i> Redact Document</a>
-    <a href="history.html" class="sidebar-link"><i class="fa-regular fa-clock" style="width:18px;text-align:center;"></i> History</a>
-    <a href="audit_logs.html" class="sidebar-link"><i class="fa-solid fa-clipboard-list" style="width:18px;text-align:center;"></i> Audit Logs</a>
-    <a href="reports.html" class="sidebar-link"><i class="fa-solid fa-chart-pie" style="width:18px;text-align:center;"></i> Reports</a>
-    <a href="api_access.html" class="sidebar-link"><i class="fa-solid fa-code" style="width:18px;text-align:center;"></i> API Access</a>
-    <a href="settings.html" class="sidebar-link"><i class="fa-solid fa-gear" style="width:18px;text-align:center;"></i> Settings</a>
+    <a href="sanitize.html" class="sidebar-link "><i class="fa-solid fa-shield-virus" style="width:18px;text-align:center;"></i> Redact Document</a>
+    <a href="history.html" class="sidebar-link "><i class="fa-regular fa-clock" style="width:18px;text-align:center;"></i> History</a>
+    <a href="audit_logs.html" class="sidebar-link "><i class="fa-solid fa-clipboard-list" style="width:18px;text-align:center;"></i> Audit Logs</a>
+    <a href="reports.html" class="sidebar-link "><i class="fa-solid fa-chart-pie" style="width:18px;text-align:center;"></i> Reports</a>
+    <a href="api_access.html" class="sidebar-link "><i class="fa-solid fa-code" style="width:18px;text-align:center;"></i> API Access</a>
+    <a href="settings.html" class="sidebar-link "><i class="fa-solid fa-gear" style="width:18px;text-align:center;"></i> Settings</a>
   </nav>
   <div style="padding:16px 12px;display:flex;flex-direction:column;gap:10px;">
-    <div style="background:#f5f3ff;border-radius:14px;padding:16px;position:relative;">
+    <div style="background:#f5f3ff;border-radius:14px;padding:16px;position:relative;overflow:hidden;">
       <div style="width:36px;height:36px;border-radius:10px;background:linear-gradient(135deg,#6366f1,#8b5cf6);display:flex;align-items:center;justify-content:center;margin-bottom:10px;"><i class="fa-solid fa-shield-check" style="color:white;font-size:14px;"></i></div>
       <div style="font-size:13px;font-weight:700;color:#1e1b4b;margin-bottom:4px;">Your Data is Safe</div>
       <div style="font-size:11px;color:#64748b;line-height:1.4;margin-bottom:10px;">End-to-end encryption, secure redaction and tamper-proof audit trail.</div>
@@ -63,33 +63,27 @@ body{background:#f5f6fa;font-family:"Inter",sans-serif;}
   <!-- TOP HEADER -->
   <div style="display:flex;align-items:center;justify-content:space-between;padding:20px 28px 0;background:#f5f6fa;">
     <h1 style="font-size:22px;font-weight:800;color:#0f172a;">Dashboard</h1>
-    <div class="flex items-center gap-3">
-    <button onclick="toggleTheme()" class="flex items-center gap-2 px-4 py-2 bg-white border border-slate-200 rounded-lg text-sm font-medium hover:bg-slate-50 shadow-sm transition-colors dark-btn">
-        <i class="fa-regular fa-sun" id="theme-icon"></i> <span id="theme-text">Light</span>
-    </button>
-    <div style="position:relative;">
-        <button onclick="toggleGlobalNotif()" class="relative p-2 bg-white border border-slate-200 rounded-lg text-slate-600 hover:bg-slate-50 w-10 h-10 flex items-center justify-center shadow-sm transition-colors dark-btn">
-            <i class="fa-regular fa-bell"></i>
-            <span id="g-notif-badge" style="display:none;" class="absolute top-1 right-1 w-2.5 h-2.5 bg-red-500 rounded-full border-2 border-white"></span>
-        </button>
-        <div id="g-notif-panel" style="display:none; position:absolute; top:calc(100% + 8px); right:0; width:280px; background:white; border:1px solid #e2e8f0; border-radius:12px; box-shadow:0 10px 25px rgba(0,0,0,.1); z-index:999; text-align:left;">
-            <div style="padding:10px 14px;font-size:13px;font-weight:700;color:#374151;border-bottom:1px solid #f1f5f9;">Notifications</div>
-            <div id="g-notif-list" style="padding:6px 0;font-size:13px;color:#64748b;max-height:300px;overflow-y:auto;background:white;">
-                <div style="padding:12px;text-align:center;"><i class="fa-solid fa-spinner fa-spin"></i></div>
-            </div>
+    <div style="display:flex;align-items:center;gap:12px;">
+      <div style="position:relative;cursor:pointer;" onclick="toggleNotif()">
+        <div style="width:40px;height:40px;border-radius:12px;background:white;border:1px solid #f1f5f9;display:flex;align-items:center;justify-content:center;box-shadow:0 1px 3px rgba(0,0,0,.05);">
+          <i class="fa-regular fa-bell" style="color:#64748b;font-size:16px;"></i>
         </div>
+        <div id="notif-badge" class="notif-dot">3</div>
+        <div id="notif-panel" class="dd-panel" style="width:280px;">
+          <div style="padding:8px 12px 6px;font-size:12px;font-weight:700;color:#374151;border-bottom:1px solid #f1f5f9;margin-bottom:4px;">Notifications</div>
+          <div id="notif-list" style="padding:4px 0;font-size:13px;color:#64748b;"></div>
+        </div>
+      </div>
+      <a href="settings.html" style="width:40px;height:40px;border-radius:12px;background:white;border:1px solid #f1f5f9;display:flex;align-items:center;justify-content:center;box-shadow:0 1px 3px rgba(0,0,0,.05);"><i class="fa-solid fa-gear" style="color:#64748b;font-size:16px;"></i></a>
+      <a href="sanitize.html" class="gradient-bg" style="display:flex;align-items:center;gap:8px;padding:10px 18px;border-radius:12px;font-size:13px;font-weight:600;color:white;text-decoration:none;box-shadow:0 4px 14px rgba(99,102,241,.35);"><i class="fa-solid fa-plus"></i> Redact Document</a>
     </div>
-    <button onclick="exportGlobalCSV()" class="flex items-center gap-2 px-4 py-2 bg-indigo-600 text-white rounded-lg text-sm font-medium hover:bg-indigo-700 shadow-sm transition-colors">
-        <i class="fa-solid fa-download"></i> Export Report
-    </button>
-</div>
-    </div>
+  </div>
   <!-- CONTENT AREA -->
   <div style="padding:18px 28px;display:flex;flex-direction:column;gap:16px;flex:1;">
     <!-- WELCOME BANNER -->
-    <div class="welcome-banner" style="border-radius:18px;padding:22px 28px;display:flex;align-items:center;justify-content:space-between;position:relative;">
+    <div class="welcome-banner" style="border-radius:18px;padding:22px 28px;display:flex;align-items:center;justify-content:space-between;position:relative;overflow:hidden;">
       <div>
-        <div style="font-size:20px;font-weight:800;color:#1e1b4b;margin-bottom:4px;">Welcome back, User! <span>&#128075;</span></div>
+        <div style="font-size:20px;font-weight:800;color:#1e1b4b;margin-bottom:4px;">Welcome back, User! <span>??</span></div>
         <div style="font-size:13px;color:#64748b;line-height:1.5;max-width:340px;">Great to have you here! Your documents are protected,<br>your privacy is secured, and you're in control.</div>
       </div>
       <div style="display:flex;align-items:center;gap:20px;">
@@ -268,7 +262,7 @@ function buildNotifications(stats,verify){
   if(stats.viewed_this_month>0)items.push({icon:"fa-eye",color:"#6366f1",text:stats.viewed_this_month+" records viewed this month"});
   if(stats.deleted_this_month>0)items.push({icon:"fa-trash-can",color:"#ef4444",text:stats.deleted_this_month+" records removed this month"});
   items.push({icon:"fa-shield",color:verify.is_valid?"#10b981":"#ef4444",text:verify.is_valid?"Audit chain verified":"Chain integrity issue detected"});
-  list.innerHTML=items.map(i=>"<div style='display:flex;align-items:center;gap:8px;padding:6px 12px;'><i class='fa-solid "+i.icon+"' style='color:"+i.color+";font-size:12px;width:16px;'></i><span>&#128075;</span></div>").join("");
+  list.innerHTML=items.map(i=>"<div style='display:flex;align-items:center;gap:8px;padding:6px 12px;'><i class='fa-solid "+i.icon+"' style='color:"+i.color+";font-size:12px;width:16px;'></i><span>"+i.text+"</span></div>").join("");
   document.getElementById("notif-badge").textContent=items.length;
 }
 
@@ -291,7 +285,7 @@ async function loadRecentDocs(){
 function loadAttentionItems(records){
   const container=document.getElementById("attention-list");
   const attn=[];
-  const highPii=records.filter(r=>!r.deleted && !r.viewed && r.pii_found_count>15);
+  const highPii=records.filter(r=>!r.deleted&&r.pii_found_count>15);
   const deleted=records.filter(r=>r.deleted);
   if(highPii.length>0)attn.push({icon:"fa-circle-exclamation",color:"#f59e0b",bg:"#fffbeb",title:highPii.length+" document(s) need review",sub:"High PII count detected (>15 fields)",btn:"Review",href:"history.html"});
   if(deleted.length>0)attn.push({icon:"fa-circle-xmark",color:"#ef4444",bg:"#fef2f2",title:deleted.length+" document(s) marked deleted",sub:deleted.map(r=>r.file_name).slice(0,1).join(", "),btn:"Restore",href:"history.html"});
@@ -356,79 +350,4 @@ function fmtAgo(iso){try{const diff=Date.now()-new Date(iso).getTime();const m=M
 function esc(s){const d=document.createElement("div");d.appendChild(document.createTextNode(s||""));return d.innerHTML;}
 let _tt=null;
 function toast(msg,type="success"){const el=document.getElementById("toast"),icon=document.getElementById("toast-icon");document.getElementById("toast-msg").textContent=msg;const m={success:"#10b981",error:"#ef4444",warning:"#f59e0b"};icon.style.color=m[type]||m.success;el.style.display="flex";clearTimeout(_tt);_tt=setTimeout(()=>{el.style.opacity="0";el.style.transition="opacity .3s";setTimeout(()=>{el.style.display="none";el.style.opacity="1";el.style.transition="";},300);},3200);}
-</script>
-<style>
-html.dark-mode { filter: invert(1) hue-rotate(180deg); background-color: #000; }
-html.dark-mode img, html.dark-mode canvas, html.dark-mode video, html.dark-mode .gradient-bg { filter: invert(1) hue-rotate(180deg); }
-html.dark-mode .dark-btn { border-color: #d1d5db; }
-</style>
-<script>
-(function(){
-    const isDark = localStorage.getItem('theme') === 'dark';
-    if(isDark) document.documentElement.classList.add('dark-mode');
-    window.toggleTheme = function() {
-        const isNowDark = document.documentElement.classList.toggle('dark-mode');
-        localStorage.setItem('theme', isNowDark ? 'dark' : 'light');
-        updateThemeUI(isNowDark);
-    };
-    function updateThemeUI(dark) {
-        const icn = document.getElementById('theme-icon');
-        const txt = document.getElementById('theme-text');
-        if(icn && txt) {
-            icn.className = dark ? "fa-regular fa-moon" : "fa-regular fa-sun";
-            txt.textContent = dark ? "Dark" : "Light";
-        }
-    }
-    document.addEventListener("DOMContentLoaded", () => updateThemeUI(document.documentElement.classList.contains('dark-mode')));
-    window.toggleGlobalNotif = function() {
-        const panel = document.getElementById('g-notif-panel');
-        if(!panel) return;
-        const open = panel.style.display === 'block';
-        document.querySelectorAll('.dd-panel, [id^="g-notif-panel"], [id^="notif-panel"]').forEach(el => {
-            if(el.style) el.style.display = 'none';
-            if(el.classList) el.classList.remove('open');
-        });
-        if(!open) {
-            panel.style.display = 'block';
-            fetchNotifs();
-        }
-    };
-    async function fetchNotifs() {
-        try {
-            const [stats, verify] = await Promise.all([
-                fetch("/history/stats").then(r=>r.json()),
-                fetch("/ledger/verify",{method:"POST"}).then(r=>r.json())
-            ]);
-            const items = [];
-            if(stats.total_documents>0) items.push({i:"fa-shield-check",c:"#10b981",t:stats.total_documents+" documents protected"});
-            if(stats.viewed_this_month>0) items.push({i:"fa-eye",c:"#6366f1",t:stats.viewed_this_month+" records viewed"});
-            if(stats.deleted_this_month>0) items.push({i:"fa-trash-can",c:"#ef4444",t:stats.deleted_this_month+" records deleted"});
-            items.push({i:"fa-shield",c:verify.is_valid?"#10b981":"#ef4444",t:verify.is_valid?"Audit chain verified":"Chain integrity issue!"});
-            const list = document.getElementById('g-notif-list');
-            if(list) list.innerHTML = items.map(i=>"<div style='display:flex;align-items:center;gap:10px;padding:8px 14px;border-bottom:1px solid #f8fafc;'><i class='fa-solid "+i.i+"' style='color:"+i.c+";font-size:14px;width:16px;'></i><span style='color:#333;font-weight:500;'>"+i.t+"</span></div>").join("");
-            const badge = document.getElementById('g-notif-badge');
-            if(badge) badge.style.display = items.length > 0 ? 'block' : 'none';
-        } catch(e) {}
-    }
-    setTimeout(fetchNotifs, 1000);
-    window.exportGlobalCSV = function() {
-        const a = document.createElement("a");
-        a.href = "/history/export/csv";
-        a.download = "privguard_report.csv";
-        document.body.appendChild(a);
-        a.click();
-        document.body.removeChild(a);
-    };
-    document.addEventListener("click", e => {
-        if(!e.target.closest("[onclick*='toggleGlobalNotif']") && !e.target.closest("#g-notif-panel")) {
-            const p = document.getElementById('g-notif-panel');
-            if(p) p.style.display = 'none';
-        }
-    });
-})();
-</script>
-</body>
-
-<!-- GLOBAL HEADER FUNCTIONALITY --></html>
-
-
+</script></body></html>

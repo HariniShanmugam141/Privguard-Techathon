@@ -55,79 +55,43 @@
         .toggle-checkbox:checked + .toggle-label {
             background-color: #6366f1;
         }
-    </style>
+    
+.sidebar-link{display:flex;align-items:center;gap:12px;padding:10px 16px;border-radius:10px;font-size:14px;font-weight:500;color:#64748b;text-decoration:none;transition:all .18s;}
+.sidebar-link:hover{background:#f8fafc;color:#0f172a;}
+.sidebar-link.active{background:#efeefd;color:#6366f1;font-weight:700;}
+</style>
 </head>
 <body class="text-slate-800 font-sans flex h-screen overflow-hidden">
 
-    <!-- Sidebar -->
-    <aside class="w-64 bg-white border-r border-slate-200 flex flex-col h-full shrink-0">
-        <!-- Logo -->
-        <div class="p-6 flex items-center gap-3">
-            <div class="w-10 h-10 rounded-lg gradient-bg flex items-center justify-center text-white shadow-lg">
-                <i class="fa-solid fa-shield-halved text-xl"></i>
-            </div>
-            <div>
-                <h1 class="font-bold text-lg leading-tight">PrivGuard AI</h1>
-                
-            </div>
-        </div>
-
-        <!-- Navigation -->
-        <nav class="flex-1 px-4 space-y-1 overflow-y-auto">
-            <a href="index.html" class="flex items-center gap-3 px-4 py-3 rounded-xl text-slate-600 hover:bg-slate-50 hover:text-slate-900 transition-colors">
-                <i class="fa-solid fa-house w-5 text-center"></i>
-                Dashboard
-            </a>
-            <a href="sanitize.html" class="flex items-center gap-3 px-4 py-3 rounded-xl text-slate-600 hover:bg-slate-50 hover:text-slate-900 transition-colors">
-                <i class="fa-solid fa-shield-virus w-5 text-center"></i>
-                Redact Document
-            </a>
-            <a href="history.html" class="flex items-center gap-3 px-4 py-3 rounded-xl text-slate-600 hover:bg-slate-50 hover:text-slate-900 transition-colors">
-                <i class="fa-regular fa-clock w-5 text-center"></i>
-                History
-            </a>
-            <a href="audit_logs.html" class="flex items-center gap-3 px-4 py-3 rounded-xl text-slate-600 hover:bg-slate-50 hover:text-slate-900 transition-colors">
-                <i class="fa-solid fa-clipboard-list w-5 text-center"></i>
-                Audit Logs
-            </a>
-            <a href="reports.html" class="flex items-center gap-3 px-4 py-3 rounded-xl text-slate-600 hover:bg-slate-50 hover:text-slate-900 transition-colors">
-                <i class="fa-solid fa-chart-pie w-5 text-center"></i>
-                Reports
-            </a>
-            <a href="api_access.html" class="flex items-center gap-3 px-4 py-3 rounded-xl text-slate-600 hover:bg-slate-50 hover:text-slate-900 transition-colors">
-                <i class="fa-solid fa-code w-5 text-center"></i>
-                API Access
-            </a>
-            <!-- Active State -->
-            <a href="settings.html" class="flex items-center gap-3 px-4 py-3 rounded-xl bg-indigo-50 text-indigo-600 font-medium">
-                <i class="fa-solid fa-gear w-5 text-center"></i>
-                Settings
-            </a>
-        </nav>
-
-        <!-- Sidebar Footer Cards -->
-        <div class="p-4 space-y-4">
-            <div class="bg-indigo-50/50 rounded-2xl p-4 relative overflow-hidden">
-                <div class="absolute top-0 right-0 -mr-4 -mt-4 w-16 h-16 bg-indigo-100 rounded-full opacity-50 blur-xl"></div>
-                <div class="w-10 h-10 rounded-xl gradient-bg flex items-center justify-center text-white mb-3 shadow-md">
-                    <i class="fa-solid fa-shield-check"></i>
-                </div>
-                <h3 class="font-semibold text-sm mb-1">Your Data is Safe</h3>
-                <p class="text-xs text-slate-500 mb-3">We ensure end-to-end security and never store your documents.</p>
-                <a href="#" class="text-xs text-indigo-600 font-medium flex items-center gap-1">Learn more <i class="fa-solid fa-arrow-right"></i></a>
-            </div>
-
-            <div class="bg-emerald-50 rounded-xl p-3 flex items-center gap-2 border border-emerald-100">
-                <i class="fa-regular fa-circle-check text-emerald-500 shrink-0"></i>
-                <div>
-                    <span class="text-xs font-medium text-emerald-700 block leading-tight">Secure Connection</span>
-                    <span class="text-[10px] text-emerald-600/80 block leading-tight">All systems are protected</span>
-                </div>
-            </div>
-        </div>
-    </aside>
-
-    <!-- Main Content -->
+    <!-- SIDEBAR -->
+<aside style="width:230px;background:white;border-right:1px solid #f1f5f9;display:flex;flex-direction:column;height:100%;flex-shrink:0;">
+  <div style="padding:24px 20px 16px;display:flex;align-items:center;gap:10px;">
+    <div class="gradient-bg" style="width:36px;height:36px;border-radius:10px;display:flex;align-items:center;justify-content:center;"><i class="fa-solid fa-shield-halved" style="color:white;font-size:16px;"></i></div>
+    <span style="font-weight:800;font-size:15px;color:#1e1b4b;">PrivGuard AI</span>
+  </div>
+  <nav style="flex:1;padding:0 12px;display:flex;flex-direction:column;gap:2px;">
+    <a href="index.html" class="sidebar-link "><i class="fa-solid fa-house" style="width:18px;text-align:center;"></i> Dashboard</a>
+    <a href="sanitize.html" class="sidebar-link "><i class="fa-solid fa-shield-virus" style="width:18px;text-align:center;"></i> Redact Document</a>
+    <a href="history.html" class="sidebar-link "><i class="fa-regular fa-clock" style="width:18px;text-align:center;"></i> History</a>
+    <a href="audit_logs.html" class="sidebar-link "><i class="fa-solid fa-clipboard-list" style="width:18px;text-align:center;"></i> Audit Logs</a>
+    <a href="reports.html" class="sidebar-link "><i class="fa-solid fa-chart-pie" style="width:18px;text-align:center;"></i> Reports</a>
+    <a href="api_access.html" class="sidebar-link "><i class="fa-solid fa-code" style="width:18px;text-align:center;"></i> API Access</a>
+    <a href="settings.html" class="sidebar-link active"><i class="fa-solid fa-gear" style="width:18px;text-align:center;"></i> Settings</a>
+  </nav>
+  <div style="padding:16px 12px;display:flex;flex-direction:column;gap:10px;">
+    <div style="background:#f5f3ff;border-radius:14px;padding:16px;position:relative;overflow:hidden;">
+      <div style="width:36px;height:36px;border-radius:10px;background:linear-gradient(135deg,#6366f1,#8b5cf6);display:flex;align-items:center;justify-content:center;margin-bottom:10px;"><i class="fa-solid fa-shield-check" style="color:white;font-size:14px;"></i></div>
+      <div style="font-size:13px;font-weight:700;color:#1e1b4b;margin-bottom:4px;">Your Data is Safe</div>
+      <div style="font-size:11px;color:#64748b;line-height:1.4;margin-bottom:10px;">End-to-end encryption, secure redaction and tamper-proof audit trail.</div>
+      <a href="#" style="font-size:12px;font-weight:600;color:#6366f1;text-decoration:none;">Learn more <i class="fa-solid fa-arrow-right" style="font-size:10px;"></i></a>
+    </div>
+    <div style="background:#ecfdf5;border-radius:10px;padding:10px 12px;display:flex;align-items:center;gap:8px;border:1px solid #d1fae5;">
+      <div style="width:8px;height:8px;border-radius:50%;background:#10b981;flex-shrink:0;"></div>
+      <span style="font-size:12px;font-weight:600;color:#065f46;">Secure Connection</span>
+    </div>
+  </div>
+</aside>
+<!-- MAIN -->
     <main class="flex-1 flex flex-col h-full overflow-y-auto p-6 md:p-8">
         
         <!-- Header -->
