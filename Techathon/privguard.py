@@ -92,7 +92,7 @@ REGEX_PATTERNS = {
     "ADDRESS": r"\b\d{1,5}\s+[A-Za-z0-9\s,]{4,50}\s*(?:Street|St|Road|Rd|Avenue|Ave|Drive|Dr|Lane|Ln|Boulevard|Blvd|Court|Ct|Way|Place|Pkwy)\b(?:,\s*[A-Za-z\s]+,\s*[A-Z]{2}\s*\d{5})?",
     "CITY_STATE_ZIP": r"[A-Za-z\s]+,\s?[A-Z]{2}\s?\d{5}(?:-\d{4})?",
     "IP_ADDRESS": r"\b(?:[0-9]{1,3}\.){3}[0-9]{1,3}\b",
-    "GENDER": r"(?i)\b(?:Gender|Sex)[:\s]*\b(Male|Female|Other)\b",
+    "GENDER": r"(?i)\b(?:Gender|Sex)[:\s]*\b(Male|Female)\b",
     "NAME": r"(?i)(?<=Name[:\s])([A-Z][a-z]+(?:\s[A-Z]\.?)?[\s\b][A-Z][a-z]+(?:\s[A-Z][a-z]+)?)"
 }
 
