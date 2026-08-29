@@ -51,20 +51,22 @@
             background: linear-gradient(to bottom, rgba(99, 102, 241, 0.2), rgba(99, 102, 241, 0));
         }
     
-.sidebar-link{display:flex;align-items:center;gap:12px;padding:10px 16px;border-radius:10px;font-size:14px;font-weight:500;color:#64748b;text-decoration:none;transition:all .18s;}
-.sidebar-link:hover{background:#f8fafc;color:#0f172a;}
-.sidebar-link.active{background:#efeefd;color:#6366f1;font-weight:700;}
+.sidebar-link{display:flex;align-items:center;gap:12px;padding:12px 16px;border-radius:10px;font-size:14px;font-weight:500;color:#94a3b8;text-decoration:none;transition:all .18s;margin-bottom:4px;}
+.sidebar-link:hover{background:rgba(255,255,255,0.05);color:#ffffff;}
+.sidebar-link.active{background:rgba(99,102,241,0.15);color:#ffffff;font-weight:700;box-shadow:inset 3px 0 0 #6366f1;}
+
+
 </style>
 </head>
 <body class="text-slate-800 font-sans flex h-screen overflow-hidden">
 
     <!-- SIDEBAR -->
-<aside style="width:230px;background:white;border-right:1px solid #f1f5f9;display:flex;flex-direction:column;height:100%;flex-shrink:0;">
-  <div style="padding:24px 20px 16px;display:flex;align-items:center;gap:10px;">
-    <div class="gradient-bg" style="width:36px;height:36px;border-radius:10px;display:flex;align-items:center;justify-content:center;"><i class="fa-solid fa-shield-halved" style="color:white;font-size:16px;"></i></div>
-    <span style="font-weight:800;font-size:15px;color:#1e1b4b;">PrivGuard AI</span>
+<aside style="width:230px;background:#030712;border-right:1px solid #111827;display:flex;flex-direction:column;height:100%;flex-shrink:0;">
+  <div style="padding:28px 24px 20px;display:flex;align-items:center;gap:12px;">
+    <div style="width:36px;height:36px;border-radius:10px;background:linear-gradient(135deg, #6366f1, #8b5cf6);display:flex;align-items:center;justify-content:center;box-shadow:0 0 12px rgba(99,102,241,0.3);"><i class="fa-solid fa-shield-halved" style="color:white;font-size:16px;"></i></div>
+    <span style="font-weight:800;font-size:16px;color:#ffffff;letter-spacing:0.5px;">PrivGuard <span style="color:#6366f1;">AI</span></span>
   </div>
-  <nav style="flex:1;padding:0 12px;display:flex;flex-direction:column;gap:2px;">
+  <nav style="flex:1;padding:12px 14px;display:flex;flex-direction:column;gap:2px;">
     <a href="index.html" class="sidebar-link "><i class="fa-solid fa-house" style="width:18px;text-align:center;"></i> Dashboard</a>
     <a href="sanitize.html" class="sidebar-link "><i class="fa-solid fa-shield-virus" style="width:18px;text-align:center;"></i> Redact Document</a>
     <a href="history.html" class="sidebar-link "><i class="fa-regular fa-clock" style="width:18px;text-align:center;"></i> History</a>
@@ -73,16 +75,19 @@
     <a href="api_access.html" class="sidebar-link active"><i class="fa-solid fa-code" style="width:18px;text-align:center;"></i> API Access</a>
     <a href="settings.html" class="sidebar-link "><i class="fa-solid fa-gear" style="width:18px;text-align:center;"></i> Settings</a>
   </nav>
-  <div style="padding:16px 12px;display:flex;flex-direction:column;gap:10px;">
-    <div style="background:#f5f3ff;border-radius:14px;padding:16px;position:relative;overflow:hidden;">
-      <div style="width:36px;height:36px;border-radius:10px;background:linear-gradient(135deg,#6366f1,#8b5cf6);display:flex;align-items:center;justify-content:center;margin-bottom:10px;"><i class="fa-solid fa-shield-check" style="color:white;font-size:14px;"></i></div>
-      <div style="font-size:13px;font-weight:700;color:#1e1b4b;margin-bottom:4px;">Your Data is Safe</div>
-      <div style="font-size:11px;color:#64748b;line-height:1.4;margin-bottom:10px;">End-to-end encryption, secure redaction and tamper-proof audit trail.</div>
-      <a href="#" style="font-size:12px;font-weight:600;color:#6366f1;text-decoration:none;">Learn more <i class="fa-solid fa-arrow-right" style="font-size:10px;"></i></a>
+  <div style="padding:16px 14px;display:flex;flex-direction:column;gap:12px;">
+    <div style="background:rgba(99,102,241,0.06);border:1px solid rgba(99,102,241,0.15);border-radius:14px;padding:18px 16px;position:relative;overflow:hidden;">
+      <div style="width:36px;height:36px;border-radius:10px;background:rgba(99,102,241,0.15);display:flex;align-items:center;justify-content:center;margin-bottom:12px;border:1px solid rgba(99,102,241,0.2);"><i class="fa-solid fa-lock text-indigo-400" style="font-size:14px;"></i></div>
+      <div style="font-size:13px;font-weight:700;color:#ffffff;margin-bottom:4px;">Your Data is Safe</div>
+      <div style="font-size:11px;color:#94a3b8;line-height:1.4;margin-bottom:12px;">End-to-end encryption, secure redaction and tamper-proof audit trail.</div>
+      <a href="#" style="font-size:12px;font-weight:600;color:#818cf8;text-decoration:none;display:flex;align-items:center;gap:4px;">Learn more <i class="fa-solid fa-arrow-right" style="font-size:10px;"></i></a>
     </div>
-    <div style="background:#ecfdf5;border-radius:10px;padding:10px 12px;display:flex;align-items:center;gap:8px;border:1px solid #d1fae5;">
-      <div style="width:8px;height:8px;border-radius:50%;background:#10b981;flex-shrink:0;"></div>
-      <span style="font-size:12px;font-weight:600;color:#065f46;">Secure Connection</span>
+    <div style="background:rgba(16,185,129,0.06);border-radius:10px;padding:10px 12px;display:flex;align-items:center;justify-content:space-between;border:1px solid rgba(16,185,129,0.15);">
+      <div style="display:flex;align-items:center;gap:8px;">
+        <div style="width:8px;height:8px;border-radius:50%;background:#10b981;flex-shrink:0;"></div>
+        <span style="font-size:12px;font-weight:600;color:#a7f3d0;">Secure Connection</span>
+      </div>
+      <i class="fa-solid fa-circle-check" style="color:#10b981;font-size:12px;"></i>
     </div>
   </div>
 </aside>
