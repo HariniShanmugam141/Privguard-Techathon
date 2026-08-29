@@ -89,7 +89,7 @@ body{background:#f5f6fa;font-family:"Inter",sans-serif;}
     <!-- WELCOME BANNER -->
     <div class="welcome-banner" style="border-radius:18px;padding:22px 28px;display:flex;align-items:center;justify-content:space-between;position:relative;">
       <div>
-        <div style="font-size:20px;font-weight:800;color:#1e1b4b;margin-bottom:4px;">Welcome back, User! <span>ðŸ‘‹</span></div>
+        <div style="font-size:20px;font-weight:800;color:#1e1b4b;margin-bottom:4px;">Welcome back, User! <span>&#128075;</span></div>
         <div style="font-size:13px;color:#64748b;line-height:1.5;max-width:340px;">Great to have you here! Your documents are protected,<br>your privacy is secured, and you're in control.</div>
       </div>
       <div style="display:flex;align-items:center;gap:20px;">
@@ -268,7 +268,7 @@ function buildNotifications(stats,verify){
   if(stats.viewed_this_month>0)items.push({icon:"fa-eye",color:"#6366f1",text:stats.viewed_this_month+" records viewed this month"});
   if(stats.deleted_this_month>0)items.push({icon:"fa-trash-can",color:"#ef4444",text:stats.deleted_this_month+" records removed this month"});
   items.push({icon:"fa-shield",color:verify.is_valid?"#10b981":"#ef4444",text:verify.is_valid?"Audit chain verified":"Chain integrity issue detected"});
-  list.innerHTML=items.map(i=>"<div style='display:flex;align-items:center;gap:8px;padding:6px 12px;'><i class='fa-solid "+i.icon+"' style='color:"+i.color+";font-size:12px;width:16px;'></i><span>"+i.text+"</span></div>").join("");
+  list.innerHTML=items.map(i=>"<div style='display:flex;align-items:center;gap:8px;padding:6px 12px;'><i class='fa-solid "+i.icon+"' style='color:"+i.color+";font-size:12px;width:16px;'></i><span>&#128075;</span></div>").join("");
   document.getElementById("notif-badge").textContent=items.length;
 }
 
@@ -430,4 +430,5 @@ html.dark-mode .dark-btn { border-color: #d1d5db; }
 </body>
 
 <!-- GLOBAL HEADER FUNCTIONALITY --></html>
+
 

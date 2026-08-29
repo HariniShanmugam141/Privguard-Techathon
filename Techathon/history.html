@@ -130,7 +130,7 @@ function pgB(target,disabled,label,active=false){const base="w-8 h-8 flex items-
 function buildPgs(cur,total){const p=[1];if(cur>3)p.push("...");for(let i=Math.max(2,cur-1);i<=Math.min(total-1,cur+1);i++)p.push(i);if(cur<total-2)p.push("...");p.push(total);return p;}
 function goPage(p){if(p<1||p>S.totalPages)return;S.page=p;loadRecords();}
 function toggleDd(id){const el=document.getElementById(id),was=el.classList.contains("open");document.querySelectorAll(".dd-panel.open").forEach(d=>d.classList.remove("open"));if(!was)el.classList.add("open");}
-function spin(on){document.getElementById("ri").classList.toggle("fa-spin",on);}
+function spin(on){const e=document.getElementById("ri");if(e)e.classList.toggle("fa-spin",on);}
 function ticon(t){const m={pdf:{icon:"fa-regular fa-file-pdf",color:"text-red-500",bg:"bg-red-50"},jpg:{icon:"fa-regular fa-image",color:"text-sky-500",bg:"bg-sky-50"},jpeg:{icon:"fa-regular fa-image",color:"text-sky-500",bg:"bg-sky-50"},png:{icon:"fa-regular fa-image",color:"text-purple-500",bg:"bg-purple-50"},docx:{icon:"fa-regular fa-file-word",color:"text-blue-600",bg:"bg-blue-50"},doc:{icon:"fa-regular fa-file-word",color:"text-blue-600",bg:"bg-blue-50"},txt:{icon:"fa-regular fa-file-lines",color:"text-slate-500",bg:"bg-slate-100"}};return m[t?.toLowerCase()]||{icon:"fa-regular fa-file",color:"text-slate-500",bg:"bg-slate-100"};}
 function stratB(s){const m={redact:"<span class='badge' style='background:#0f172a;color:#f1f5f9;border:1px solid #334155'><i class='fa-solid fa-ban text-xs'></i> Redact</span>",hash:"<span class='badge' style='background:#fffbeb;color:#d97706;border:1px solid #fde68a'><i class='fa-solid fa-hashtag text-xs'></i> Hash</span>",anonymize:"<span class='badge' style='background:#f0f9ff;color:#0284c7;border:1px solid #bae6fd'><i class='fa-solid fa-mask text-xs'></i> Anonymize</span>"};return m[s?.toLowerCase()]||"<span class='badge'>"+esc(s)+"</span>";}
 function profB(p){const m={HIPAA:"background:#f0fdf4;color:#15803d;border:1px solid #bbf7d0",GDPR:"background:#eff6ff;color:#1d4ed8;border:1px solid #bfdbfe","PCI-DSS":"background:#fff7ed;color:#c2410c;border:1px solid #fed7aa",CUSTOM:"background:#faf5ff;color:#7c3aed;border:1px solid #ddd6fe"};const s=m[p?.toUpperCase()]||"";return "<span class='badge' style='"+s+"'>"+esc(p)+"</span>";}
@@ -212,5 +212,6 @@ html.dark-mode .dark-btn { border-color: #d1d5db; }
 </body>
 
 <!-- GLOBAL HEADER FUNCTIONALITY --></html>
+
 
 

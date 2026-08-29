@@ -644,5 +644,34 @@
     "output_file_hash": "ee7a1d90a9e4adc723dc1a079ffc8a8917ef61702cedb9e7b6004f0ce9e2153a",
     "previous_hash": "c03691c745ee3adc2f33055ec9036a0a39826e192d952e60baeba2f837124763",
     "block_hash": "2e51c7b568cc6b2dd130bbe38c325be0f8bc84d9f890578dd8f134e5094f13a1"
+  },
+  {
+    "index": 28,
+    "timestamp": "2026-08-29T10:13:33.504550Z",
+    "file_name": "Emily_Dawson.pdf",
+    "file_type": "pdf",
+    "compliance_profile": "HIPAA",
+    "masking_strategy": "redact",
+    "pii_found_count": 32,
+    "entities_summary": {
+      "SSN": 1,
+      "EMAIL": 1,
+      "PHONE": 2,
+      "DOB": 2,
+      "MEMBER_ID": 1,
+      "GROUP_NUMBER": 1,
+      "POLICY_ID": 1,
+      "PAYER_ID": 1,
+      "NPI_ID": 1,
+      "ADDRESS": 1,
+      "CITY_STATE_ZIP": 1,
+      "NAME": 8,
+      "FACILITY": 10,
+      "LOCATION": 1
+    },
+    "input_file_hash": "993edabc579355af85f7abcbf0a5463fbd06e5826bb63fac0fa62214d1ec9204",
+    "output_file_hash": "7fd47959f660ddc55817bad59647ecee2e8a6c6902f7af8005fefcdfde248cd5",
+    "previous_hash": "2e51c7b568cc6b2dd130bbe38c325be0f8bc84d9f890578dd8f134e5094f13a1",
+    "block_hash": "9961442f21d113deffbeba7c3e839b5354ef3aa1c5fa8f9b696691a87a2ec9bb"
   }
 ]

@@ -165,7 +165,7 @@ function pgB(target,disabled,label,active=false){const base="w-8 h-8 flex items-
 function buildPgs(cur,total){const p=[1];if(cur>3)p.push("...");for(let i=Math.max(2,cur-1);i<=Math.min(total-1,cur+1);i++)p.push(i);if(cur<total-2)p.push("...");p.push(total);return p;}
 function goPage(p){if(p<1||p>S.totalPages)return;S.page=p;loadLogs();}
 function toggleDd(id){const el=document.getElementById(id),was=el.classList.contains("open");document.querySelectorAll(".dd-panel.open").forEach(d=>d.classList.remove("open"));if(!was)el.classList.add("open");}
-function spin(on){document.getElementById("ri").classList.toggle("fa-spin",on);}
+function spin(on){const e=document.getElementById("ri");if(e)e.classList.toggle("fa-spin",on);}
 function fmtDate(iso){try{const d=new Date(iso);return{date:d.toLocaleDateString("en-US",{year:"numeric",month:"short",day:"2-digit"}),time:d.toLocaleTimeString("en-US",{hour:"2-digit",minute:"2-digit",second:"2-digit",hour12:true})}}catch{return{date:iso,time:""};}}
 function esc(str){const d=document.createElement("div");d.appendChild(document.createTextNode(str||""));return d.innerHTML;}
 let _tt=null;
@@ -244,4 +244,5 @@ html.dark-mode .dark-btn { border-color: #d1d5db; }
 </body>
 
 <!-- GLOBAL HEADER FUNCTIONALITY --></html>
+
 
