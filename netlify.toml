@@ -1,0 +1,3 @@
+[build]
+  command = "mkdir -p dist && cp Techathon/*.html dist/"
+  publish = "dist"
