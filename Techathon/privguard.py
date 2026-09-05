@@ -1115,8 +1115,8 @@ def run_cli(argv: List[str]):
     parser.add_argument("--profile", choices=["GDPR", "HIPAA", "PCI-DSS", "CUSTOM"], default="HIPAA", help="Compliance profile enforcement")
     parser.add_argument("--strategy", choices=["redact", "hash", "anonymize"], default="redact", help="Masking strategy")
     parser.add_argument("--server", action="store_true", help="Start FastAPI local inline proxy server")
-    parser.add_argument("--host", default="127.0.0.1", help="Server host IP")
-    parser.add_argument("--port", type=int, default=8000, help="Server port")
+    parser.add_argument("--host", default=os.environ.get("HOST", "127.0.0.1"), help="Server host IP")
+    parser.add_argument("--port", type=int, default=int(os.environ.get("PORT", 8000)), help="Server port")
     parser.add_argument("--verify-ledger", action="store_true", help="Verify cryptographic audit ledger chain")
 
     args = parser.parse_args(argv[1:])
@@ -1136,9 +1136,10 @@ def run_cli(argv: List[str]):
         if not FASTAPI_AVAILABLE:
             print("[!] FastAPI/Uvicorn not installed. Run: pip install fastapi uvicorn python-multipart")
             return 1
-        print(f"[*] Starting PrivGuard Local Inline Proxy at http://{args.host}:{args.port}")
-        print(f"[*] Serving Interactive Dashboard at http://{args.host}:{args.port}/dashboard")
-        uvicorn.run(app, host=args.host, port=args.port)
+        port = int(os.environ.get("PORT", args.port))
+        host = "0.0.0.0" if os.environ.get("PORT") else args.host
+        print(f"[*] Starting PrivGuard at http://{host}:{port}")
+        uvicorn.run(app, host=host, port=port)
         return 0
 
     if not args.files:
