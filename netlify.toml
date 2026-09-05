@@ -1,0 +1,45 @@
+[build]
+  publish = "Techathon"
+  functions = "netlify/functions"
+
+[[redirects]]
+  from = "/sanitize/text"
+  to = "/.netlify/functions/sanitize-text"
+  status = 200
+
+[[redirects]]
+  from = "/history/stats"
+  to = "/.netlify/functions/history-stats"
+  status = 200
+
+[[redirects]]
+  from = "/history/records"
+  to = "/.netlify/functions/history-records"
+  status = 200
+
+[[redirects]]
+  from = "/ledger"
+  to = "/.netlify/functions/ledger"
+  status = 200
+
+[[redirects]]
+  from = "/ledger/verify"
+  to = "/.netlify/functions/ledger-verify"
+  status = 200
+
+[[redirects]]
+  from = "/profiles"
+  to = "/.netlify/functions/profiles"
+  status = 200
+
+[[redirects]]
+  from = "/sanitize/document"
+  to = "/.netlify/functions/sanitize-document-stub"
+  status = 200
+
+[[headers]]
+  for = "/*"
+  [headers.values]
+    Access-Control-Allow-Origin = "*"
+    Access-Control-Allow-Methods = "GET, POST, PUT, DELETE, OPTIONS"
+    Access-Control-Allow-Headers = "Content-Type"
