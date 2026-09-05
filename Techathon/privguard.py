@@ -26,6 +26,7 @@ try:
     from fastapi import FastAPI, File, UploadFile, Form, HTTPException, Query
     from fastapi.responses import HTMLResponse, FileResponse, JSONResponse
     from fastapi.middleware.cors import CORSMiddleware
+    from pydantic import BaseModel
     import uvicorn
     FASTAPI_AVAILABLE = True
 except ImportError:
@@ -93,7 +94,7 @@ REGEX_PATTERNS = {
     "CITY_STATE_ZIP": r"[A-Za-z\s]+,\s?[A-Z]{2}\s?\d{5}(?:-\d{4})?",
     "IP_ADDRESS": r"\b(?:[0-9]{1,3}\.){3}[0-9]{1,3}\b",
     "GENDER": r"(?i)\b(?:Gender|Sex)[:\s]*\b(Male|Female)\b",
-    "NAME": r"(?i)(?<=Name[:\s])([A-Z][a-z]+(?:\s[A-Z]\.?)?[\s\b][A-Z][a-z]+(?:\s[A-Z][a-z]+)?)"
+    "NAME": r"(?i)(?:Patient\s+Name|Name|Patient)\s*:\s*([A-Z][a-zA-Z]+(?:\s+[A-Z][a-zA-Z]+){0,3})"
 }
 
 # ==========================================
@@ -966,7 +967,39 @@ if FASTAPI_AVAILABLE:
             headers={"Content-Disposition": f"attachment; filename=privguard_history_{now.strftime('%Y%m%d_%H%M%S')}.csv"}
         )
 
+    class TextSanitizeRequest(BaseModel):
+        text: str
+        strategy: Optional[str] = "redact"
+        profile: Optional[str] = None
+
+    @app.post("/sanitize/text")
+    async def sanitize_text(req: TextSanitizeRequest):
+        prof  = req.profile.upper() if req.profile else active_profile
+        strat = req.strategy.lower() if req.strategy else DEFAULT_STRATEGY
+        raw   = req.text
+
+        pii_entities = detect_pii(raw, prof)
+
+        # Apply replacements: replace each matched PII value in original text
+        redacted = raw
+        # Sort by length descending to avoid partial replacements
+        for ent_text, label in sorted(pii_entities, key=lambda x: -len(x[0])):
+            replacement = get_masked_replacement(ent_text, label, strat)
+            redacted = redacted.replace(ent_text, replacement)
+
+        entities_summary = {}
+        for _, label in pii_entities:
+            entities_summary[label] = entities_summary.get(label, 0) + 1
+
+        return {
+            "status": "success",
+            "redacted_text": redacted,
+            "entities_summary": entities_summary,
+            "pii_found_count": len(pii_entities)
+        }
+
     @app.post("/sanitize/document")
+
     async def sanitize_document(
         files: List[UploadFile] = File(...),
         profile: Optional[str] = Form(None),

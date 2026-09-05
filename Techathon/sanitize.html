@@ -196,17 +196,43 @@
 
         <!-- Top Section (Upload, Flow, & Summary Area) -->
         <div class="mb-6 flex gap-6 shrink-0 items-stretch">
-            <!-- Drag & Drop Area (Left) -->
-            <div class="flex-1 bg-white rounded-2xl border border-dashed border-slate-300 flex flex-col items-center justify-center py-8 px-6 shadow-sm hover:bg-slate-50/50 transition-colors">
-                <div class="w-14 h-14 bg-indigo-50 rounded-full flex items-center justify-center text-indigo-500 mb-3">
-                    <i class="fa-solid fa-cloud-arrow-up text-2xl"></i>
+            <!-- Upload Panel (Left) -->
+            <div class="flex-1 bg-white rounded-2xl border border-slate-200 shadow-sm flex flex-col overflow-hidden">
+
+                <!-- Tabs -->
+                <div class="flex border-b border-slate-200">
+                    <button id="tab-upload" onclick="switchTab('upload')" class="flex-1 flex items-center justify-center gap-2 py-3 text-sm font-semibold text-indigo-600 border-b-2 border-indigo-600 bg-white transition-colors">
+                        <i class="fa-solid fa-cloud-arrow-up"></i> Upload Document
+                    </button>
+                    <button id="tab-text" onclick="switchTab('text')" class="flex-1 flex items-center justify-center gap-2 py-3 text-sm font-medium text-slate-500 border-b-2 border-transparent hover:text-slate-700 bg-white transition-colors">
+                        <i class="fa-solid fa-pen-nib"></i> Enter Text
+                    </button>
                 </div>
-                <h3 class="text-base font-semibold text-slate-800 mb-1">Drag & Drop your file here</h3>
-                <p class="text-xs text-slate-500 mb-4">Supports PDF, PNG, JPG up to 50MB</p>
-                <button class="px-5 py-2 bg-indigo-600 text-white rounded-lg text-sm font-medium shadow-sm hover:bg-indigo-700 flex items-center gap-2 mb-3">
-                    <i class="fa-regular fa-folder-open"></i> Browse Files
-                </button>
-                
+
+                <!-- Upload Tab Content -->
+                <div id="panel-upload" class="flex flex-col items-center justify-center py-8 px-6 flex-1 border-dashed border-2 border-transparent hover:bg-slate-50/50 transition-colors">
+                    <div class="w-14 h-14 bg-indigo-50 rounded-full flex items-center justify-center text-indigo-500 mb-3">
+                        <i class="fa-solid fa-cloud-arrow-up text-2xl"></i>
+                    </div>
+                    <h3 class="text-base font-semibold text-slate-800 mb-1">Drag &amp; Drop your file here</h3>
+                    <p class="text-xs text-slate-500 mb-4">Supports PDF, PNG, JPG up to 50MB</p>
+                    <button onclick="document.getElementById('fileInput').click()" class="px-5 py-2 bg-indigo-600 text-white rounded-lg text-sm font-medium shadow-sm hover:bg-indigo-700 flex items-center gap-2 mb-3">
+                        <i class="fa-regular fa-folder-open"></i> Browse Files
+                    </button>
+                </div>
+
+                <!-- Enter Text Tab Content (hidden by default) -->
+                <div id="panel-text" class="hidden flex-col px-6 py-5 flex-1">
+                    <p class="text-xs font-semibold text-slate-500 uppercase tracking-wide mb-2">Enter or paste text manually</p>
+                    <textarea id="text-input" oninput="updateCharCount()" maxlength="10000" placeholder="Paste your document text here..." class="w-full flex-1 resize-none border border-slate-200 rounded-xl p-3 text-sm text-slate-700 focus:outline-none focus:ring-2 focus:ring-indigo-300 leading-relaxed" style="min-height:160px;"></textarea>
+                    <div class="flex items-center justify-between mt-2">
+                        <span id="char-count" class="text-xs text-slate-400">0 / 10000 characters</span>
+                        <button id="process-text-btn" onclick="processText()" class="flex items-center gap-2 px-5 py-2 bg-indigo-600 text-white rounded-lg text-sm font-semibold hover:bg-indigo-700 shadow-sm transition-colors">
+                            <i class="fa-solid fa-bolt"></i> Process Text
+                        </button>
+                    </div>
+                </div>
+
             </div>
 
             <!-- Processing Pipeline Flow (Middle) -->
@@ -369,6 +395,130 @@
     </main>
 
 <script>
+// ── Tab Switching ──────────────────────────────────────────
+function switchTab(tab) {
+    const uploadPanel = document.getElementById('panel-upload');
+    const textPanel   = document.getElementById('panel-text');
+    const tabUpload   = document.getElementById('tab-upload');
+    const tabText     = document.getElementById('tab-text');
+
+    if (tab === 'upload') {
+        uploadPanel.classList.remove('hidden');
+        uploadPanel.classList.add('flex');
+        textPanel.classList.add('hidden');
+        textPanel.classList.remove('flex');
+        tabUpload.classList.add('text-indigo-600','border-indigo-600','font-semibold');
+        tabUpload.classList.remove('text-slate-500','border-transparent');
+        tabText.classList.remove('text-indigo-600','border-indigo-600','font-semibold');
+        tabText.classList.add('text-slate-500','border-transparent');
+    } else {
+        textPanel.classList.remove('hidden');
+        textPanel.classList.add('flex');
+        uploadPanel.classList.add('hidden');
+        uploadPanel.classList.remove('flex');
+        tabText.classList.add('text-indigo-600','border-indigo-600','font-semibold');
+        tabText.classList.remove('text-slate-500','border-transparent');
+        tabUpload.classList.remove('text-indigo-600','border-indigo-600','font-semibold');
+        tabUpload.classList.add('text-slate-500','border-transparent');
+    }
+}
+
+// ── Character Counter ──────────────────────────────────────
+function updateCharCount() {
+    const ta  = document.getElementById('text-input');
+    const cnt = document.getElementById('char-count');
+    if (ta && cnt) cnt.textContent = `${ta.value.length} / 10000 characters`;
+}
+
+// ── Process Plain Text ─────────────────────────────────────
+async function processText() {
+    const ta  = document.getElementById('text-input');
+    const btn = document.getElementById('process-text-btn');
+    const text = ta ? ta.value.trim() : '';
+    if (!text) { alert('Please enter some text first.'); return; }
+
+    btn.disabled = true;
+    btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Processing...';
+
+    // Reset pipeline steps
+    for (let i = 1; i <= 7; i++) {
+        const c = document.getElementById(`circle-${i}`);
+        const t = document.getElementById(`text-${i}`);
+        if (c) { c.className = 'step-circle waiting'; c.innerHTML = i; }
+        if (t) t.className = 'step-text';
+    }
+
+    const setStepState = (idx, state) => {
+        const c = document.getElementById(`circle-${idx}`);
+        const t = document.getElementById(`text-${idx}`);
+        if (c) {
+            c.className = state === 'active' ? 'step-circle active' : 'step-circle completed';
+            c.innerHTML = state === 'active'
+                ? '<i class="fa-solid fa-spinner fa-spin text-xs"></i>'
+                : '<i class="fa-solid fa-check text-xs"></i>';
+        }
+        if (t) t.className = `step-text ${state}`;
+    };
+    const sleep = ms => new Promise(r => setTimeout(r, ms));
+
+    try {
+        setStepState(1, 'active'); await sleep(350);
+        setStepState(1, 'completed'); setStepState(2, 'active'); await sleep(350);
+
+        const res  = await fetch('/sanitize/text', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ text, strategy: 'redact', profile: 'HIPAA' })
+        });
+        const data = await res.json();
+
+        setStepState(2, 'completed'); setStepState(3, 'active'); await sleep(350);
+        setStepState(3, 'completed'); setStepState(4, 'active'); await sleep(350);
+
+        if (data.status === 'success') {
+            setStepState(4, 'completed'); setStepState(5, 'active'); await sleep(300);
+            setStepState(5, 'completed'); setStepState(6, 'active'); await sleep(300);
+            setStepState(6, 'completed'); setStepState(7, 'active'); await sleep(300);
+            setStepState(7, 'completed');
+
+            // Show original and redacted text in preview panes
+            const originalPane  = document.getElementById('original-pane');
+            const sanitizedPane = document.getElementById('sanitized-pane');
+            const fmt = t => `<pre style="white-space:pre-wrap;word-break:break-word;font-size:13px;font-family:inherit;padding:16px;line-height:1.7;">${t}</pre>`;
+            originalPane.innerHTML  = fmt(text.replace(/</g,'&lt;').replace(/>/g,'&gt;'));
+            sanitizedPane.innerHTML = fmt((data.redacted_text || data.sanitized_text || '').replace(/</g,'&lt;').replace(/>/g,'&gt;'));
+            originalPane.classList.remove('flex','items-center','justify-center','italic','text-slate-400','p-6');
+            sanitizedPane.classList.remove('flex','items-center','justify-center','italic','text-slate-400','p-6');
+
+            // Update summary counts
+            const entities = data.entities_summary || {};
+            const total    = Object.values(entities).reduce((a,b) => a+b, 0);
+            document.getElementById('donut-number').textContent = total;
+            const circ = 2 * Math.PI * 50;
+            document.getElementById('donut-fill').setAttribute('stroke-dasharray', `${Math.min(total/30,1)*circ} ${circ}`);
+            document.getElementById('num-pi').textContent      = entities.NAME || entities.PERSON || 0;
+            document.getElementById('num-addr').textContent    = entities.ADDRESS || entities.LOCATION || 0;
+            document.getElementById('num-contact').textContent = (entities.PHONE || 0) + (entities.EMAIL || 0);
+            document.getElementById('num-med').textContent     = entities.MEDICAL_RECORD || entities.DOB || 0;
+            document.getElementById('num-ins').textContent     = entities.MEMBER_ID || entities.GROUP_NUMBER || 0;
+            document.getElementById('num-fin').textContent     = entities.SSN || entities.CARD_NUMBER || 0;
+
+            document.getElementById('status-icon').className  = 'fa-solid fa-circle-check text-emerald-500';
+            document.getElementById('status-title').textContent = 'Redaction Complete';
+            document.getElementById('status-desc').textContent  = `${total} item(s) redacted from text.`;
+            document.getElementById('status-sub').textContent   = 'Text processed successfully.';
+        } else {
+            alert('Error: ' + (data.message || 'Processing failed.'));
+        }
+    } catch (err) {
+        console.error(err);
+        alert('Server error. Is the server running?');
+    } finally {
+        btn.disabled = false;
+        btn.innerHTML = '<i class="fa-solid fa-bolt"></i> Process Text';
+    }
+}
+
 document.addEventListener('DOMContentLoaded', () => {
     const browseBtn = Array.from(document.querySelectorAll('button')).find(el => el.textContent.includes('Browse Files'));
     if (!browseBtn) return;
