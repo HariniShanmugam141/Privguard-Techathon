@@ -577,5 +577,94 @@
     "output_file_hash": "5f9a1ae9ee21acddee661f8fc70b60bdad20448b6970ab44deb66ab7ba791bea",
     "previous_hash": "36679fc2c4712056dd96e4bb66a425c0f6a9b25b78d77b513012e99996252a8e",
     "block_hash": "913322a670dc14fd5c15d2a15ee6f6dc75666876c4f765375d112b4cdd3d9e29"
+  },
+  {
+    "index": 22,
+    "timestamp": "2026-08-29T11:13:01.154373Z",
+    "file_name": "Emily_Dawson.pdf",
+    "file_type": "pdf",
+    "compliance_profile": "HIPAA",
+    "masking_strategy": "redact",
+    "pii_found_count": 33,
+    "entities_summary": {
+      "SSN": 1,
+      "EMAIL": 1,
+      "PHONE": 2,
+      "DOB": 2,
+      "MEMBER_ID": 1,
+      "GROUP_NUMBER": 1,
+      "POLICY_ID": 1,
+      "PAYER_ID": 1,
+      "NPI_ID": 1,
+      "ADDRESS": 1,
+      "CITY_STATE_ZIP": 1,
+      "GENDER": 1,
+      "NAME": 8,
+      "FACILITY": 10,
+      "LOCATION": 1
+    },
+    "input_file_hash": "993edabc579355af85f7abcbf0a5463fbd06e5826bb63fac0fa62214d1ec9204",
+    "output_file_hash": "f76521d85b77b96a89987a913d21176b4cff8fc5ed77bcfb0cebb5e0b91f52b1",
+    "previous_hash": "913322a670dc14fd5c15d2a15ee6f6dc75666876c4f765375d112b4cdd3d9e29",
+    "block_hash": "440481db1149e8df8e75e50764a7f64004a5ce7d99ba67b650686c2876929b8c"
+  },
+  {
+    "index": 23,
+    "timestamp": "2026-08-29T11:13:48.578491Z",
+    "file_name": "Demo Image.jpg",
+    "file_type": "jpg",
+    "compliance_profile": "HIPAA",
+    "masking_strategy": "redact",
+    "pii_found_count": 1,
+    "entities_summary": {
+      "NAME": 1
+    },
+    "input_file_hash": "e463ff85cef6f60697b06d2f02ae5c2f83584e0459708864addc20c5d6a1aa7f",
+    "output_file_hash": "e2a9e63834f0fcb89bd93f3a0e0d9bf13ed3f285a2910bad0bcb3888949dd46c",
+    "previous_hash": "440481db1149e8df8e75e50764a7f64004a5ce7d99ba67b650686c2876929b8c",
+    "block_hash": "63e02226bd85353832376707e2e08aaffac49fc54a7dc306db811abdd74f6b82"
+  },
+  {
+    "index": 24,
+    "timestamp": "2026-08-29T11:14:23.640495Z",
+    "file_name": "BANK CUSTOMER STATEMENT.txt",
+    "file_type": "txt",
+    "compliance_profile": "HIPAA",
+    "masking_strategy": "redact",
+    "pii_found_count": 16,
+    "entities_summary": {
+      "EMAIL": 1,
+      "PHONE": 4,
+      "ADDRESS": 1,
+      "NAME": 4,
+      "FACILITY": 5,
+      "LOCATION": 1
+    },
+    "input_file_hash": "52eff3206d3b1476c60a1f4aa397e0125bcec221f10de3e0a01706c429cb4bee",
+    "output_file_hash": "1dc87ca9b832323f19e3cfdca07fc997aa00208fc4fba4133f6011ce39135b70",
+    "previous_hash": "63e02226bd85353832376707e2e08aaffac49fc54a7dc306db811abdd74f6b82",
+    "block_hash": "04a591c2ad021ef264ae8aad09df7bfc338b682351fef3b148fa928df9ba4f4a"
+  },
+  {
+    "index": 25,
+    "timestamp": "2026-08-29T11:14:48.789176Z",
+    "file_name": "Harini_Shankar.docx",
+    "file_type": "docx",
+    "compliance_profile": "HIPAA",
+    "masking_strategy": "redact",
+    "pii_found_count": 10,
+    "entities_summary": {
+      "EMAIL": 1,
+      "PHONE": 1,
+      "MRN": 1,
+      "DOB": 1,
+      "GENDER": 1,
+      "NAME": 3,
+      "FACILITY": 2
+    },
+    "input_file_hash": "9f14bff8fdf037d7c340e9bda9b982c5d45b2ead46e75cedf253a56bc5b5fd30",
+    "output_file_hash": "2bfaf77a104b2cec438ffb941b31597f4b44cfdd0c5a876c0bb483cfc3526257",
+    "previous_hash": "04a591c2ad021ef264ae8aad09df7bfc338b682351fef3b148fa928df9ba4f4a",
+    "block_hash": "0c70bb367658b711228976dd2ef7d3b78d769bcf5400bceacbca0bb1b6c278c6"
   }
 ]
