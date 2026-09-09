@@ -411,6 +411,8 @@ function switchTab(tab) {
         tabUpload.classList.remove('text-slate-500','border-transparent');
         tabText.classList.remove('text-indigo-600','border-indigo-600','font-semibold');
         tabText.classList.add('text-slate-500','border-transparent');
+        document.getElementById('text-1').textContent = 'Document Upload';
+        document.getElementById('text-5').textContent = 'Image Recognition & Redaction';
     } else {
         textPanel.classList.remove('hidden');
         textPanel.classList.add('flex');
@@ -420,6 +422,8 @@ function switchTab(tab) {
         tabText.classList.remove('text-slate-500','border-transparent');
         tabUpload.classList.remove('text-indigo-600','border-indigo-600','font-semibold');
         tabUpload.classList.add('text-slate-500','border-transparent');
+        document.getElementById('text-1').textContent = 'Text Entered';
+        document.getElementById('text-5').textContent = 'Text Analysis & Redaction';
     }
 }
 
@@ -787,6 +791,7 @@ html.dark-mode .dark-btn { border-color: #d1d5db; }
 
 <!-- GLOBAL HEADER FUNCTIONALITY -->
 </html>
+
 
 
 
