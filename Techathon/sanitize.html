@@ -333,7 +333,7 @@
         </div>
 
         <!-- Document Preview Section -->
-        <div class="flex gap-4 items-stretch mb-6 flex-1 min-h-[400px]">
+        <div id="preview-section" class="flex gap-4 items-stretch mb-6 flex-1 min-h-[400px]">
             
             <!-- Original Document -->
             <div class="flex-1 bg-white rounded-2xl border border-slate-200 shadow-sm flex flex-col overflow-hidden">
@@ -383,6 +383,29 @@
             </div>
             
             <!-- Removed Redaction Summary Placeholder -->
+</div>
+            
+            <!-- Text Results Section (Hidden by default) -->
+            <div id="text-results-section" class="hidden gap-6 items-stretch mb-6 flex-1 min-h-[250px]">
+                <div class="flex-1 bg-white rounded-2xl border border-slate-200 shadow-sm p-6 flex flex-col relative">
+                    <div class="flex items-center gap-2 mb-4">
+                        <i class="fa-regular fa-file-lines text-indigo-500"></i>
+                        <h3 class="font-bold text-slate-800 text-sm">Original Text</h3>
+                    </div>
+                    <div id="original-text-pane" class="flex-1 text-sm text-slate-600 whitespace-pre-wrap break-words leading-relaxed"></div>
+                </div>
+
+                <div class="flex-1 bg-white rounded-2xl border border-emerald-100 shadow-sm p-6 flex flex-col relative bg-emerald-50/30">
+                    <div class="flex items-center gap-2 mb-4">
+                        <i class="fa-solid fa-shield-halved text-indigo-500"></i>
+                        <h3 class="font-bold text-slate-800 text-sm">Sanitized Text</h3>
+                    </div>
+                    <div id="sanitized-text-pane" class="flex-1 text-sm text-slate-600 whitespace-pre-wrap break-words leading-relaxed mb-8"></div>
+                    <button onclick="navigator.clipboard.writeText(document.getElementById('sanitized-text-pane').innerText);alert('Copied!')" class="absolute bottom-5 right-5 bg-indigo-600 text-white px-4 py-2 rounded-lg text-xs font-semibold shadow-sm hover:bg-indigo-700 flex items-center gap-2 transition-colors">
+                        <i class="fa-regular fa-copy"></i> Copy Sanitized Text
+                    </button>
+                </div>
+            </div>
 
         </div>
         
@@ -412,9 +435,13 @@ function switchTab(tab) {
         tabText.classList.remove('text-indigo-600','border-indigo-600','font-semibold');
         tabText.classList.add('text-slate-500','border-transparent');
         document.getElementById('text-1').textContent = 'Document Upload';
-        document.getElementById('text-5').textContent = 'Image Recognition & Redaction';
+                document.getElementById('text-5').textContent = 'Image Recognition & Redaction';
         document.getElementById('status-desc').textContent = 'Awaiting document...';
         document.getElementById('status-sub').textContent = 'Redaction process will start once a document is uploaded.';
+        const ps = document.getElementById('preview-section');
+        const tr = document.getElementById('text-results-section');
+        if (ps) { ps.classList.remove('hidden'); ps.classList.add('flex'); }
+        if (tr) { tr.classList.remove('flex'); tr.classList.add('hidden'); }
     } else {
         textPanel.classList.remove('hidden');
         textPanel.classList.add('flex');
@@ -425,9 +452,13 @@ function switchTab(tab) {
         tabUpload.classList.remove('text-indigo-600','border-indigo-600','font-semibold');
         tabUpload.classList.add('text-slate-500','border-transparent');
         document.getElementById('text-1').textContent = 'Text Entered';
-        document.getElementById('text-5').textContent = 'Text Analysis & Redaction';
-        document.getElementById('status-desc').textContent = 'Awaiting text...';
-        document.getElementById('status-sub').textContent = 'Enter or paste text to start the redaction process.';
+                document.getElementById('text-5').textContent = 'Text Analysis & Redaction';
+        document.getElementById('status-desc').textContent = 'Ready for text input';
+        document.getElementById('status-sub').textContent = 'Enter or paste text to begin the secure redaction process.';
+        const ps = document.getElementById('preview-section');
+        const tr = document.getElementById('text-results-section');
+        if (ps) { ps.classList.remove('flex'); ps.classList.add('hidden'); }
+        if (tr) { tr.classList.remove('hidden'); tr.classList.add('flex'); }
     }
 }
 
@@ -490,8 +521,8 @@ async function processText() {
             setStepState(7, 'completed');
 
             // Show original and redacted text in preview panes
-            const originalPane  = document.getElementById('original-pane');
-            const sanitizedPane = document.getElementById('sanitized-pane');
+            const originalPane  = document.getElementById('original-text-pane');
+            const sanitizedPane = document.getElementById('sanitized-text-pane');
             const fmt = t => `<pre style="white-space:pre-wrap;word-break:break-word;font-size:13px;font-family:inherit;padding:16px;line-height:1.7;">${t}</pre>`;
             originalPane.innerHTML  = fmt(text.replace(/</g,'&lt;').replace(/>/g,'&gt;'));
             sanitizedPane.innerHTML = fmt((data.redacted_text || data.sanitized_text || '').replace(/</g,'&lt;').replace(/>/g,'&gt;'));
@@ -614,7 +645,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 await sleep(400);
 
                 const originalPane = document.getElementById('original-pane');
-                const sanitizedPane = document.getElementById('sanitized-pane');
+                const sanitizedPane = document.getElementById('sanitized-text-pane');
                 
                 const result = data.results[0];
                 
@@ -795,6 +826,7 @@ html.dark-mode .dark-btn { border-color: #d1d5db; }
 
 <!-- GLOBAL HEADER FUNCTIONALITY -->
 </html>
+
 
 
 
