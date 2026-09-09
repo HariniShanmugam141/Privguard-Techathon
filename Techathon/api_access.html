@@ -131,7 +131,7 @@
                 </div>
                 <div>
                     <div class="text-xs font-medium text-slate-500 mb-0.5">Total API Keys</div>
-                    <div class="text-xl font-bold text-slate-800">2</div>
+                    <div id="total-keys" class="text-xl font-bold text-slate-800">--</div>
                     <div class="text-[10px] text-slate-500 font-medium mt-1">Manage your API keys</div>
                 </div>
             </div>
@@ -144,7 +144,7 @@
                     </div>
                     <div>
                         <div class="text-xs font-medium text-slate-500 mb-0.5">Requests This Month</div>
-                        <div class="text-xl font-bold text-slate-800">0</div>
+                        <div id="total-keys" class="text-xl font-bold text-slate-800">--</div>
                         <div class="text-[10px] text-emerald-500 font-medium mt-1 flex items-center gap-1">
                             <i class="fa-solid fa-arrow-up"></i> 18.2% vs last month
                         </div>
@@ -181,7 +181,7 @@
                                     <th class="pb-3 pl-4">IP Address</th>
                                 </tr>
                             </thead>
-                            <tbody class="divide-y divide-slate-100 text-sm">
+                            <tbody id="activity-table" class="divide-y divide-slate-100 text-sm">
                         <tr>
                             <td colspan="10" class="px-6 py-8 text-center text-slate-500">
                                 No data available
@@ -346,6 +346,78 @@ html.dark-mode .dark-btn { border-color: #d1d5db; }
         } catch(e) {}
     }
     setTimeout(fetchNotifs, 1000);
+
+    async function loadApiAccessData() {
+        try {
+            const res = await fetch("/api/access/data");
+            const data = await res.json();
+            
+            document.getElementById("total-keys").innerText = data.total_keys;
+            document.getElementById("requests-month").innerText = data.requests_this_month;
+            
+            const tbody = document.getElementById("activity-table");
+            if (!data.recent_activity || data.recent_activity.length === 0) {
+                tbody.innerHTML = <tr><td colspan="6" class="px-6 py-8 text-center text-slate-500">No data available</td></tr>;
+                return;
+            }
+            
+            tbody.innerHTML = data.recent_activity.map(a => {
+                const dt = new Date(a.timestamp).toLocaleString();
+                const statusColor = a.status < 400 ? 'text-emerald-600 bg-emerald-50' : 'text-red-600 bg-red-50';
+                const methodColor = a.method === 'GET' ? 'text-blue-600' : 'text-purple-600';
+                return 
+                    <tr class="hover:bg-slate-50 transition-colors">
+                        <td class="py-3 pr-4 text-slate-500 text-xs"></td>
+                        <td class="py-3 px-4 font-mono text-xs text-slate-700"></td>
+                        <td class="py-3 px-4 text-center"><span class="font-mono text-[10px] font-bold "></span></td>
+                        <td class="py-3 px-4 text-center"><span class="px-2 py-1 rounded text-xs font-semibold "></span></td>
+                        <td class="py-3 px-4 text-center text-xs text-slate-500"></td>
+                        <td class="py-3 pl-4 text-xs font-mono text-slate-500"></td>
+                    </tr>
+                ;
+            }).join('');
+        } catch (e) {
+            console.error(e);
+        }
+    }
+    document.addEventListener("DOMContentLoaded", loadApiAccessData);
+
+
+    async function loadApiAccessData() {
+        try {
+            const res = await fetch("/api/access/data");
+            const data = await res.json();
+            
+            document.getElementById("total-keys").innerText = data.total_keys;
+            document.getElementById("requests-month").innerText = data.requests_this_month;
+            
+            const tbody = document.getElementById("activity-table");
+            if (!data.recent_activity || data.recent_activity.length === 0) {
+                tbody.innerHTML = <tr><td colspan="6" class="px-6 py-8 text-center text-slate-500">No data available</td></tr>;
+                return;
+            }
+            
+            tbody.innerHTML = data.recent_activity.map(a => {
+                const dt = new Date(a.timestamp).toLocaleString();
+                const statusColor = a.status < 400 ? 'text-emerald-600 bg-emerald-50' : 'text-red-600 bg-red-50';
+                const methodColor = a.method === 'GET' ? 'text-blue-600' : 'text-purple-600';
+                return 
+                    <tr class="hover:bg-slate-50 transition-colors">
+                        <td class="py-3 pr-4 text-slate-500 text-xs"></td>
+                        <td class="py-3 px-4 font-mono text-xs text-slate-700"></td>
+                        <td class="py-3 px-4 text-center"><span class="font-mono text-[10px] font-bold "></span></td>
+                        <td class="py-3 px-4 text-center"><span class="px-2 py-1 rounded text-xs font-semibold "></span></td>
+                        <td class="py-3 px-4 text-center text-xs text-slate-500"></td>
+                        <td class="py-3 pl-4 text-xs font-mono text-slate-500"></td>
+                    </tr>
+                ;
+            }).join('');
+        } catch (e) {
+            console.error(e);
+        }
+    }
+    document.addEventListener("DOMContentLoaded", loadApiAccessData);
+
     window.exportGlobalCSV = function() {
         const a = document.createElement("a");
         a.href = "/history/export/csv";

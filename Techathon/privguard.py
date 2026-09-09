@@ -531,6 +531,59 @@ if FASTAPI_AVAILABLE:
     # HISTORY STATE MANAGER
     # ==========================================
 
+
+    @app.get("/api/access/data")
+    def get_api_access_data():
+        try:
+            import json
+            with open("api_keys.json", "r") as f:
+                keys = json.load(f)
+        except Exception:
+            keys = []
+        try:
+            import json
+            with open("api_activity.json", "r") as f:
+                logs = json.load(f)
+        except Exception:
+            logs = []
+        import datetime
+        now = datetime.datetime.utcnow()
+        month_start = now.replace(day=1, hour=0, minute=0, second=0, microsecond=0)
+        requests_this_month = 0
+        for l in logs:
+            try:
+                ts = datetime.datetime.fromisoformat(l["timestamp"].replace("Z", "+00:00")).replace(tzinfo=None)
+                if ts >= month_start:
+                    requests_this_month += 1
+            except:
+                pass
+        return {
+            "total_keys": len(keys),
+            "requests_this_month": requests_this_month,
+            "recent_activity": logs[:10]
+        }
+
+    def log_api_call(endpoint: str, method: str, status: int, response_time_ms: int, ip_address: str = "127.0.0.1"):
+        import datetime
+        activity = {
+            "timestamp": datetime.datetime.utcnow().isoformat() + "Z",
+            "endpoint": endpoint,
+            "method": method,
+            "status": status,
+            "response_time": f"{response_time_ms}ms",
+            "ip_address": ip_address
+        }
+        try:
+            import json
+            with open("api_activity.json", "r") as f:
+                logs = json.load(f)
+        except Exception:
+            logs = []
+        logs.insert(0, activity)
+        with open("api_activity.json", "w") as f:
+            import json
+            json.dump(logs[:100], f)
+
     HISTORY_STATE_FILE = "history_state.json"
 
     def load_history_state() -> Dict[str, Any]:
