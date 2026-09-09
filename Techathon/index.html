@@ -249,7 +249,7 @@ async function loadStats(){
     const rate=stats.success_rate;
     const auditCount=blocks.length-1;
     anim("st-total",total);
-    document.getElementById("st-week").innerHTML="<i class='fa-solid fa-arrow-up' style='font-size:10px;'></i> "+stats.viewed_this_month+" this month";
+    document.getElementById("st-week").innerHTML="<i class='fa-solid fa-arrow-up' style='font-size:10px;'></i> "+stats.protected_this_month+" this month";
     document.getElementById("st-rate").textContent=rate+"%";
     document.getElementById("st-rate-sub").innerHTML="<i class='fa-solid fa-shield-check' style='font-size:10px;'></i> "+sanitized+"/"+total+" documents protected";
     anim("st-audit",auditCount>0?auditCount:0);
@@ -430,6 +430,7 @@ html.dark-mode .dark-btn { border-color: #d1d5db; }
 </body>
 
 <!-- GLOBAL HEADER FUNCTIONALITY --></html>
+
 
 
 

@@ -1,4 +1,4 @@
-import sys
+﻿import sys
 import os
 import re
 import io
@@ -809,25 +809,29 @@ if FASTAPI_AVAILABLE:
         viewed = len(viewed_set)
         viewed_this_month = 0
         deleted_this_month = 0
+        protected_this_month = 0
         for r in records:
             try:
-                ts = datetime.datetime.fromisoformat(r["timestamp"].replace("Z", "+00:00")).replace(tzinfo=None)
+                ts = datetime.datetime.fromisoformat(r['timestamp'].replace('Z', '+00:00')).replace(tzinfo=None)
             except Exception:
                 continue
             if ts >= month_start:
-                if r["id"] in viewed_set:
+                if r.get('status', 'sanitized') == 'sanitized':
+                    protected_this_month += 1
+                if r['id'] in viewed_set:
                     viewed_this_month += 1
-                if r["id"] in deleted_set:
+                if r['id'] in deleted_set:
                     deleted_this_month += 1
         success_rate = round((sanitized / total * 100), 1) if total > 0 else 0.0
         return {
-            "total_documents": total,
-            "sanitized_documents": sanitized,
-            "viewed_documents": viewed,
-            "deleted_documents": deleted,
-            "viewed_this_month": viewed_this_month,
-            "deleted_this_month": deleted_this_month,
-            "success_rate": success_rate,
+            'total_documents': total,
+            'sanitized_documents': sanitized,
+            'deleted_documents': deleted,
+            'viewed_documents': viewed,
+            'viewed_this_month': viewed_this_month,
+            'deleted_this_month': deleted_this_month,
+            'protected_this_month': protected_this_month,
+            'success_rate': success_rate
         }
 
     @app.get("/history/records")
@@ -1200,4 +1204,5 @@ def run_cli(argv: List[str]):
 
 if __name__ == "__main__":
     sys.exit(run_cli(sys.argv))
+
 
