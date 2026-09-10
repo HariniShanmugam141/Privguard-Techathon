@@ -46,12 +46,9 @@ body{background:#f5f6fa;font-family:"Inter",sans-serif;}
     <a href="settings.html" class="sidebar-link "><i class="fa-solid fa-gear" style="width:18px;text-align:center;"></i> Settings</a>
   </nav>
   <div style="padding:16px 12px;display:flex;flex-direction:column;gap:10px;">
-    <div style="background:#f5f3ff;border-radius:14px;padding:16px;position:relative;">
-      <div style="width:36px;height:36px;border-radius:10px;background:linear-gradient(135deg,#6366f1,#8b5cf6);display:flex;align-items:center;justify-content:center;margin-bottom:10px;"><i class="fa-solid fa-shield-check" style="color:white;font-size:14px;"></i></div>
-      <div style="font-size:13px;font-weight:700;color:#1e1b4b;margin-bottom:4px;">Your Data is Safe</div>
-      <div style="font-size:11px;color:#64748b;line-height:1.4;margin-bottom:10px;">End-to-end encryption, secure redaction and tamper-proof audit trail.</div>
-      <a href="#" style="font-size:12px;font-weight:600;color:#6366f1;text-decoration:none;">Learn more <i class="fa-solid fa-arrow-right" style="font-size:10px;"></i></a>
-    </div>
+    <button onclick="localStorage.clear(); window.location.href='login.html';" style="width:100%;display:flex;align-items:center;justify-content:center;gap:8px;padding:12px;background:#fef2f2;color:#ef4444;border:1px solid #fee2e2;border-radius:12px;font-size:13px;font-weight:600;cursor:pointer;transition:all 0.2s;" onmouseover="this.style.background='#fee2e2'" onmouseout="this.style.background='#fef2f2'">
+        <i class="fa-solid fa-arrow-right-from-bracket"></i> Logout
+      </button>
     <div style="background:#ecfdf5;border-radius:10px;padding:10px 12px;display:flex;align-items:center;gap:8px;border:1px solid #d1fae5;">
       <div style="width:8px;height:8px;border-radius:50%;background:#10b981;flex-shrink:0;"></div>
       <span style="font-size:12px;font-weight:600;color:#065f46;">Secure Connection</span>
@@ -63,14 +60,11 @@ body{background:#f5f6fa;font-family:"Inter",sans-serif;}
   <!-- TOP HEADER -->
   <div style="display:flex;align-items:center;justify-content:space-between;padding:20px 28px 0;background:#f5f6fa;">
     <h1 style="font-size:22px;font-weight:800;color:#0f172a;">Dashboard</h1>
-    <div class="flex items-center gap-3">
-    <button onclick="toggleTheme()" class="flex items-center gap-2 px-4 py-2 bg-white border border-slate-200 rounded-lg text-sm font-medium hover:bg-slate-50 shadow-sm transition-colors dark-btn">
-        <i class="fa-regular fa-sun" id="theme-icon"></i> <span id="theme-text">Light</span>
-    </button>
+    <div class="flex items-center gap-4">
     <div style="position:relative;">
-        <button onclick="toggleGlobalNotif()" class="relative p-2 bg-white border border-slate-200 rounded-lg text-slate-600 hover:bg-slate-50 w-10 h-10 flex items-center justify-center shadow-sm transition-colors dark-btn">
-            <i class="fa-regular fa-bell"></i>
-            <span id="g-notif-badge" style="display:none;" class="absolute top-1 right-1 w-2.5 h-2.5 bg-red-500 rounded-full border-2 border-white"></span>
+        <button onclick="toggleGlobalNotif()" class="relative w-9 h-9 rounded-full bg-slate-50 flex items-center justify-center text-slate-500 hover:bg-slate-100 transition-colors">
+            <i class="fa-regular fa-bell text-sm"></i>
+            <span id="g-notif-badge" style="display:none;" class="absolute top-1 right-1 w-2 h-2 bg-red-500 rounded-full border-2 border-white"></span>
         </button>
         <div id="g-notif-panel" style="display:none; position:absolute; top:calc(100% + 8px); right:0; width:280px; background:white; border:1px solid #e2e8f0; border-radius:12px; box-shadow:0 10px 25px rgba(0,0,0,.1); z-index:999; text-align:left;">
             <div style="padding:10px 14px;font-size:13px;font-weight:700;color:#374151;border-bottom:1px solid #f1f5f9;">Notifications</div>
@@ -79,9 +73,13 @@ body{background:#f5f6fa;font-family:"Inter",sans-serif;}
             </div>
         </div>
     </div>
-    <button onclick="exportGlobalCSV()" class="flex items-center gap-2 px-4 py-2 bg-indigo-600 text-white rounded-lg text-sm font-medium hover:bg-indigo-700 shadow-sm transition-colors">
-        <i class="fa-solid fa-download"></i> Export Report
-    </button>
+
+    <div class="flex items-center gap-3 cursor-pointer hover:bg-slate-50 p-1.5 rounded-xl transition-colors">
+        <div class="w-8 h-8 rounded-full bg-indigo-600 text-white flex items-center justify-center text-sm font-bold user-avatar-initial">B</div>
+        <div class="hidden md:flex items-center gap-1.5 text-sm font-semibold text-slate-700">
+            <span class="user-display-name">Bhavya Shree D.</span> <i class="fa-solid fa-chevron-down text-[10px] text-slate-400"></i>
+        </div>
+    </div>
 </div>
     </div>
   <!-- CONTENT AREA -->
@@ -249,7 +247,7 @@ async function loadStats(){
     const rate=stats.success_rate;
     const auditCount=blocks.length-1;
     anim("st-total",total);
-    document.getElementById("st-week").innerHTML="<i class='fa-solid fa-arrow-up' style='font-size:10px;'></i> "+stats.viewed_this_month+" this month";
+    document.getElementById("st-week").innerHTML="<i class='fa-solid fa-arrow-up' style='font-size:10px;'></i> "+stats.protected_this_month+" this month";
     document.getElementById("st-rate").textContent=rate+"%";
     document.getElementById("st-rate-sub").innerHTML="<i class='fa-solid fa-shield-check' style='font-size:10px;'></i> "+sanitized+"/"+total+" documents protected";
     anim("st-audit",auditCount>0?auditCount:0);
@@ -430,6 +428,7 @@ html.dark-mode .dark-btn { border-color: #d1d5db; }
 </body>
 
 <!-- GLOBAL HEADER FUNCTIONALITY --></html>
+
 
 
 

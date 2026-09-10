@@ -1,4 +1,4 @@
-import sys
+﻿import sys
 import os
 import re
 import io
@@ -564,6 +564,59 @@ if FASTAPI_AVAILABLE:
     # HISTORY STATE MANAGER
     # ==========================================
 
+
+    @app.get("/api/access/data")
+    def get_api_access_data():
+        try:
+            import json
+            with open("api_keys.json", "r") as f:
+                keys = json.load(f)
+        except Exception:
+            keys = []
+        try:
+            import json
+            with open("api_activity.json", "r") as f:
+                logs = json.load(f)
+        except Exception:
+            logs = []
+        import datetime
+        now = datetime.datetime.utcnow()
+        month_start = now.replace(day=1, hour=0, minute=0, second=0, microsecond=0)
+        requests_this_month = 0
+        for l in logs:
+            try:
+                ts = datetime.datetime.fromisoformat(l["timestamp"].replace("Z", "+00:00")).replace(tzinfo=None)
+                if ts >= month_start:
+                    requests_this_month += 1
+            except:
+                pass
+        return {
+            "total_keys": len(keys),
+            "requests_this_month": requests_this_month,
+            "recent_activity": logs[:10]
+        }
+
+    def log_api_call(endpoint: str, method: str, status: int, response_time_ms: int, ip_address: str = "127.0.0.1"):
+        import datetime
+        activity = {
+            "timestamp": datetime.datetime.utcnow().isoformat() + "Z",
+            "endpoint": endpoint,
+            "method": method,
+            "status": status,
+            "response_time": f"{response_time_ms}ms",
+            "ip_address": ip_address
+        }
+        try:
+            import json
+            with open("api_activity.json", "r") as f:
+                logs = json.load(f)
+        except Exception:
+            logs = []
+        logs.insert(0, activity)
+        with open("api_activity.json", "w") as f:
+            import json
+            json.dump(logs[:100], f)
+
     HISTORY_STATE_FILE = "history_state.json"
 
     def load_history_state() -> Dict[str, Any]:
@@ -613,6 +666,9 @@ if FASTAPI_AVAILABLE:
     # ==========================================
 
     @app.get("/", response_class=HTMLResponse)
+    def serve_root():
+        return FileResponse("signup.html")
+
     @app.get("/dashboard", response_class=HTMLResponse)
     def serve_dashboard():
         return FileResponse("index.html")
@@ -842,25 +898,29 @@ if FASTAPI_AVAILABLE:
         viewed = len(viewed_set)
         viewed_this_month = 0
         deleted_this_month = 0
+        protected_this_month = 0
         for r in records:
             try:
-                ts = datetime.datetime.fromisoformat(r["timestamp"].replace("Z", "+00:00")).replace(tzinfo=None)
+                ts = datetime.datetime.fromisoformat(r['timestamp'].replace('Z', '+00:00')).replace(tzinfo=None)
             except Exception:
                 continue
             if ts >= month_start:
-                if r["id"] in viewed_set:
+                if r.get('status', 'sanitized') == 'sanitized':
+                    protected_this_month += 1
+                if r['id'] in viewed_set:
                     viewed_this_month += 1
-                if r["id"] in deleted_set:
+                if r['id'] in deleted_set:
                     deleted_this_month += 1
         success_rate = round((sanitized / total * 100), 1) if total > 0 else 0.0
         return {
-            "total_documents": total,
-            "sanitized_documents": sanitized,
-            "viewed_documents": viewed,
-            "deleted_documents": deleted,
-            "viewed_this_month": viewed_this_month,
-            "deleted_this_month": deleted_this_month,
-            "success_rate": success_rate,
+            'total_documents': total,
+            'sanitized_documents': sanitized,
+            'deleted_documents': deleted,
+            'viewed_documents': viewed,
+            'viewed_this_month': viewed_this_month,
+            'deleted_this_month': deleted_this_month,
+            'protected_this_month': protected_this_month,
+            'success_rate': success_rate
         }
 
     @app.get("/history/records")
@@ -1327,4 +1387,5 @@ def run_cli(argv: List[str]):
 
 if __name__ == "__main__":
     sys.exit(run_cli(sys.argv))
+
 

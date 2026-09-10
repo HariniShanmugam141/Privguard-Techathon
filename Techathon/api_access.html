@@ -74,12 +74,9 @@
     <a href="settings.html" class="sidebar-link "><i class="fa-solid fa-gear" style="width:18px;text-align:center;"></i> Settings</a>
   </nav>
   <div style="padding:16px 12px;display:flex;flex-direction:column;gap:10px;">
-    <div style="background:#f5f3ff;border-radius:14px;padding:16px;position:relative;overflow:hidden;">
-      <div style="width:36px;height:36px;border-radius:10px;background:linear-gradient(135deg,#6366f1,#8b5cf6);display:flex;align-items:center;justify-content:center;margin-bottom:10px;"><i class="fa-solid fa-shield-check" style="color:white;font-size:14px;"></i></div>
-      <div style="font-size:13px;font-weight:700;color:#1e1b4b;margin-bottom:4px;">Your Data is Safe</div>
-      <div style="font-size:11px;color:#64748b;line-height:1.4;margin-bottom:10px;">End-to-end encryption, secure redaction and tamper-proof audit trail.</div>
-      <a href="#" style="font-size:12px;font-weight:600;color:#6366f1;text-decoration:none;">Learn more <i class="fa-solid fa-arrow-right" style="font-size:10px;"></i></a>
-    </div>
+    <button onclick="localStorage.clear(); window.location.href='login.html';" style="width:100%;display:flex;align-items:center;justify-content:center;gap:8px;padding:12px;background:#fef2f2;color:#ef4444;border:1px solid #fee2e2;border-radius:12px;font-size:13px;font-weight:600;cursor:pointer;transition:all 0.2s;" onmouseover="this.style.background='#fee2e2'" onmouseout="this.style.background='#fef2f2'">
+        <i class="fa-solid fa-arrow-right-from-bracket"></i> Logout
+      </button>
     <div style="background:#ecfdf5;border-radius:10px;padding:10px 12px;display:flex;align-items:center;gap:8px;border:1px solid #d1fae5;">
       <div style="width:8px;height:8px;border-radius:50%;background:#10b981;flex-shrink:0;"></div>
       <span style="font-size:12px;font-weight:600;color:#065f46;">Secure Connection</span>
@@ -100,14 +97,11 @@
                     <p class="text-sm text-slate-500 mt-0.5">Manage your API keys and access to PrivGuard AI services</p>
                 </div>
             </div>
-            <div class="flex items-center gap-3">
-    <button onclick="toggleTheme()" class="flex items-center gap-2 px-4 py-2 bg-white border border-slate-200 rounded-lg text-sm font-medium hover:bg-slate-50 shadow-sm transition-colors dark-btn">
-        <i class="fa-regular fa-sun" id="theme-icon"></i> <span id="theme-text">Light</span>
-    </button>
+            <div class="flex items-center gap-4">
     <div style="position:relative;">
-        <button onclick="toggleGlobalNotif()" class="relative p-2 bg-white border border-slate-200 rounded-lg text-slate-600 hover:bg-slate-50 w-10 h-10 flex items-center justify-center shadow-sm transition-colors dark-btn">
-            <i class="fa-regular fa-bell"></i>
-            <span id="g-notif-badge" style="display:none;" class="absolute top-1 right-1 w-2.5 h-2.5 bg-red-500 rounded-full border-2 border-white"></span>
+        <button onclick="toggleGlobalNotif()" class="relative w-9 h-9 rounded-full bg-slate-50 flex items-center justify-center text-slate-500 hover:bg-slate-100 transition-colors">
+            <i class="fa-regular fa-bell text-sm"></i>
+            <span id="g-notif-badge" style="display:none;" class="absolute top-1 right-1 w-2 h-2 bg-red-500 rounded-full border-2 border-white"></span>
         </button>
         <div id="g-notif-panel" style="display:none; position:absolute; top:calc(100% + 8px); right:0; width:280px; background:white; border:1px solid #e2e8f0; border-radius:12px; box-shadow:0 10px 25px rgba(0,0,0,.1); z-index:999; text-align:left;">
             <div style="padding:10px 14px;font-size:13px;font-weight:700;color:#374151;border-bottom:1px solid #f1f5f9;">Notifications</div>
@@ -116,9 +110,13 @@
             </div>
         </div>
     </div>
-    <button onclick="exportGlobalCSV()" class="flex items-center gap-2 px-4 py-2 bg-indigo-600 text-white rounded-lg text-sm font-medium hover:bg-indigo-700 shadow-sm transition-colors">
-        <i class="fa-solid fa-download"></i> Export Report
-    </button>
+
+    <div class="flex items-center gap-3 cursor-pointer hover:bg-slate-50 p-1.5 rounded-xl transition-colors">
+        <div class="w-8 h-8 rounded-full bg-indigo-600 text-white flex items-center justify-center text-sm font-bold user-avatar-initial">B</div>
+        <div class="hidden md:flex items-center gap-1.5 text-sm font-semibold text-slate-700">
+            <span class="user-display-name">Bhavya Shree D.</span> <i class="fa-solid fa-chevron-down text-[10px] text-slate-400"></i>
+        </div>
+    </div>
 </div>
     </header>
 
@@ -131,7 +129,7 @@
                 </div>
                 <div>
                     <div class="text-xs font-medium text-slate-500 mb-0.5">Total API Keys</div>
-                    <div class="text-xl font-bold text-slate-800">2</div>
+                    <div id="total-keys" class="text-xl font-bold text-slate-800">--</div>
                     <div class="text-[10px] text-slate-500 font-medium mt-1">Manage your API keys</div>
                 </div>
             </div>
@@ -144,7 +142,7 @@
                     </div>
                     <div>
                         <div class="text-xs font-medium text-slate-500 mb-0.5">Requests This Month</div>
-                        <div class="text-xl font-bold text-slate-800">0</div>
+                        <div id="total-keys" class="text-xl font-bold text-slate-800">--</div>
                         <div class="text-[10px] text-emerald-500 font-medium mt-1 flex items-center gap-1">
                             <i class="fa-solid fa-arrow-up"></i> 18.2% vs last month
                         </div>
@@ -181,7 +179,7 @@
                                     <th class="pb-3 pl-4">IP Address</th>
                                 </tr>
                             </thead>
-                            <tbody class="divide-y divide-slate-100 text-sm">
+                            <tbody id="activity-table" class="divide-y divide-slate-100 text-sm">
                         <tr>
                             <td colspan="10" class="px-6 py-8 text-center text-slate-500">
                                 No data available
@@ -346,6 +344,78 @@ html.dark-mode .dark-btn { border-color: #d1d5db; }
         } catch(e) {}
     }
     setTimeout(fetchNotifs, 1000);
+
+    async function loadApiAccessData() {
+        try {
+            const res = await fetch("/api/access/data");
+            const data = await res.json();
+            
+            document.getElementById("total-keys").innerText = data.total_keys;
+            document.getElementById("requests-month").innerText = data.requests_this_month;
+            
+            const tbody = document.getElementById("activity-table");
+            if (!data.recent_activity || data.recent_activity.length === 0) {
+                tbody.innerHTML = <tr><td colspan="6" class="px-6 py-8 text-center text-slate-500">No data available</td></tr>;
+                return;
+            }
+            
+            tbody.innerHTML = data.recent_activity.map(a => {
+                const dt = new Date(a.timestamp).toLocaleString();
+                const statusColor = a.status < 400 ? 'text-emerald-600 bg-emerald-50' : 'text-red-600 bg-red-50';
+                const methodColor = a.method === 'GET' ? 'text-blue-600' : 'text-purple-600';
+                return 
+                    <tr class="hover:bg-slate-50 transition-colors">
+                        <td class="py-3 pr-4 text-slate-500 text-xs"></td>
+                        <td class="py-3 px-4 font-mono text-xs text-slate-700"></td>
+                        <td class="py-3 px-4 text-center"><span class="font-mono text-[10px] font-bold "></span></td>
+                        <td class="py-3 px-4 text-center"><span class="px-2 py-1 rounded text-xs font-semibold "></span></td>
+                        <td class="py-3 px-4 text-center text-xs text-slate-500"></td>
+                        <td class="py-3 pl-4 text-xs font-mono text-slate-500"></td>
+                    </tr>
+                ;
+            }).join('');
+        } catch (e) {
+            console.error(e);
+        }
+    }
+    document.addEventListener("DOMContentLoaded", loadApiAccessData);
+
+
+    async function loadApiAccessData() {
+        try {
+            const res = await fetch("/api/access/data");
+            const data = await res.json();
+            
+            document.getElementById("total-keys").innerText = data.total_keys;
+            document.getElementById("requests-month").innerText = data.requests_this_month;
+            
+            const tbody = document.getElementById("activity-table");
+            if (!data.recent_activity || data.recent_activity.length === 0) {
+                tbody.innerHTML = <tr><td colspan="6" class="px-6 py-8 text-center text-slate-500">No data available</td></tr>;
+                return;
+            }
+            
+            tbody.innerHTML = data.recent_activity.map(a => {
+                const dt = new Date(a.timestamp).toLocaleString();
+                const statusColor = a.status < 400 ? 'text-emerald-600 bg-emerald-50' : 'text-red-600 bg-red-50';
+                const methodColor = a.method === 'GET' ? 'text-blue-600' : 'text-purple-600';
+                return 
+                    <tr class="hover:bg-slate-50 transition-colors">
+                        <td class="py-3 pr-4 text-slate-500 text-xs"></td>
+                        <td class="py-3 px-4 font-mono text-xs text-slate-700"></td>
+                        <td class="py-3 px-4 text-center"><span class="font-mono text-[10px] font-bold "></span></td>
+                        <td class="py-3 px-4 text-center"><span class="px-2 py-1 rounded text-xs font-semibold "></span></td>
+                        <td class="py-3 px-4 text-center text-xs text-slate-500"></td>
+                        <td class="py-3 pl-4 text-xs font-mono text-slate-500"></td>
+                    </tr>
+                ;
+            }).join('');
+        } catch (e) {
+            console.error(e);
+        }
+    }
+    document.addEventListener("DOMContentLoaded", loadApiAccessData);
+
     window.exportGlobalCSV = function() {
         const a = document.createElement("a");
         a.href = "/history/export/csv";

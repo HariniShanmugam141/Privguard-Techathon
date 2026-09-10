@@ -1,0 +1,1 @@
+[{"timestamp": "2026-09-09T18:32:51.781992Z", "endpoint": "/profiles", "method": "GET", "status": 404, "response_time": "0ms", "ip_address": "127.0.0.1"}, {"timestamp": "2026-09-09T18:32:02.664140Z", "endpoint": "/history/stats", "method": "GET", "status": 404, "response_time": "0ms", "ip_address": "127.0.0.1"}]

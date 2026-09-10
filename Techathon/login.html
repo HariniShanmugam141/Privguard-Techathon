@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PrivGuard AI - Sign In</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: { 
+                        sans: ["Inter", "sans-serif"],
+                        handwriting: ["Caveat", "cursive"]
+                    },
+                    colors: {
+                        primary: '#6366f1',
+                        secondary: '#8b5cf6'
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body { font-family: "Inter", sans-serif; background-color: #ffffff; }
+    </style>
+</head>
+<body class="bg-white h-screen overflow-hidden flex">
+    
+    <!-- LEFT SIDE -->
+    <div class="hidden lg:flex w-[45%] flex-col relative overflow-hidden" style="background: linear-gradient(145deg, #eff3ff 0%, #ede9fe 100%);">
+        
+        <!-- Background radial glow -->
+        <div class="absolute bottom-0 right-0 w-[500px] h-[500px]" style="background: radial-gradient(circle at bottom right, rgba(99,102,241,0.15) 0%, transparent 60%);"></div>
+
+        <div class="px-6 pt-6 pb-2 z-10 flex flex-col h-full">
+            
+            <!-- Logo -->
+            <div class="flex items-center gap-3 mb-3">
+                <div class="w-12 h-12 rounded-2xl bg-indigo-600 text-white flex items-center justify-center shadow-lg shadow-indigo-600/30 shrink-0">
+                    <i class="fa-solid fa-shield-halved text-2xl"></i>
+                </div>
+                <div>
+                    <h1 class="text-[24px] font-bold text-slate-900 tracking-tight flex items-center gap-1.5">
+                        PrivGuard <span class="text-indigo-600">AI</span>
+                    </h1>
+                    <p class="text-[12px] font-medium text-slate-500 mt-0.5">Redact. Protect. Keep Your Data Safe.</p>
+                </div>
+            </div>
+
+            <!-- Headers -->
+            <div class="mb-3">
+                <h2 class="text-[24px] font-extrabold text-slate-900 leading-none mb-2 tracking-tight">Smarter Privacy,</h2>
+                <h2 class="text-[24px] font-extrabold text-indigo-600 leading-none mb-2 tracking-tight">Safer Tomorrow.</h2>
+                <p class="text-slate-600 text-[13px] leading-relaxed max-w-[380px]">PrivGuard AI helps you remove sensitive information from your documents and text using advanced AI, ensuring privacy, security and compliance.</p>
+            </div>
+
+            <!-- Features -->
+            <div class="space-y-2 flex-1">
+                <div class="flex gap-5 items-start">
+                    <div class="w-11 h-11 rounded-xl bg-indigo-100 flex items-center justify-center shrink-0 shadow-inner">
+                        <i class="fa-solid fa-shield-halved text-indigo-600 text-lg"></i>
+                    </div>
+                    <div>
+                        <h3 class="text-sm font-bold text-slate-900 mb-1">AI-Powered Redaction</h3>
+                        <p class="text-[11.5px] text-slate-500 leading-snug max-w-[280px]">Detects and removes sensitive information automatically.</p>
+                    </div>
+                </div>
+
+                <div class="flex gap-5 items-start">
+                    <div class="w-11 h-11 rounded-xl bg-blue-100 flex items-center justify-center shrink-0 shadow-inner">
+                        <i class="fa-solid fa-lock text-blue-500 text-lg"></i>
+                    </div>
+                    <div>
+                        <h3 class="text-sm font-bold text-slate-900 mb-1">Compliance Ready</h3>
+                        <p class="text-[11.5px] text-slate-500 leading-snug max-w-[280px]">Supports GDPR, HIPAA, PCI-DSS and <span class="font-bold text-indigo-600">Custom</span>.</p>
+                    </div>
+                </div>
+
+                <div class="flex gap-5 items-start">
+                    <div class="w-11 h-11 rounded-xl bg-emerald-100 flex items-center justify-center shrink-0 shadow-inner">
+                        <i class="fa-solid fa-file-invoice text-emerald-500 text-lg"></i>
+                    </div>
+                    <div>
+                        <h3 class="text-sm font-bold text-slate-900 mb-1">Secure Processing</h3>
+                        <p class="text-[11.5px] text-slate-500 leading-snug max-w-[280px]">Your data is encrypted and handled with the highest security standards.</p>
+                    </div>
+                </div>
+
+                <div class="flex gap-5 items-start">
+                    <div class="w-11 h-11 rounded-xl bg-orange-100 flex items-center justify-center shrink-0 shadow-inner">
+                        <i class="fa-solid fa-clipboard-check text-orange-500 text-lg"></i>
+                    </div>
+                    <div>
+                        <h3 class="text-sm font-bold text-slate-900 mb-1">Audit & Transparency</h3>
+                        <p class="text-[11.5px] text-slate-500 leading-snug max-w-[280px]">Maintain complete audit logs for accountability and trust.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Bottom Illustration/Text -->
+            <div class="mt-auto flex items-end justify-between w-full pb-8">
+                <div class="text-indigo-600/90 transform -rotate-12 font-handwriting text-[24px] font-bold z-20 mb-4 ml-2">
+                    Your privacy,<br>our priority
+                    <div class="h-0.5 w-16 bg-indigo-500/50 mt-1 rounded-full transform rotate-2"></div>
+                </div>
+                
+                <div class="relative w-32 h-32 flex items-center justify-center opacity-90">
+                    <!-- Simulated circular grids -->
+                    <div class="absolute inset-0 border border-indigo-200/50 rounded-full scale-[1.1]"></div>
+                    <div class="absolute inset-0 border border-indigo-200/50 rounded-full scale-[1.4]"></div>
+                    
+                    <!-- File Graphic -->
+                    <div class="bg-white p-3 rounded-2xl shadow-xl shadow-indigo-900/10 border border-white transform -rotate-3 w-[64px] h-[80px] flex flex-col gap-2 relative z-10 mr-6 mb-1">
+                        <div class="h-2 w-full bg-indigo-100 rounded-full"></div>
+                        <div class="h-2 w-4/5 bg-indigo-100 rounded-full"></div>
+                        <div class="h-2 w-full bg-indigo-100 rounded-full"></div>
+                        <div class="h-2 w-3/5 bg-indigo-100 rounded-full"></div>
+                    </div>
+
+                    <!-- Shield Graphic -->
+                    <div class="absolute bottom-4 right-4 bg-indigo-500 w-10 h-12 flex items-center justify-center shadow-2xl shadow-indigo-600/50 z-20" style="border-radius: 8px 8px 16px 16px;">
+                        <i class="fa-solid fa-lock text-white text-[14px]"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+        </div>
+    </div>
+
+    <!-- RIGHT SIDE -->
+    <div class="flex-1 flex flex-col overflow-y-auto bg-white relative">
+        <!-- Top Nav -->
+        <div class="px-6 pt-6 pb-2 md:px-10 md:py-4 flex justify-end items-center text-[13px] absolute top-0 right-0 w-full z-10">
+            <span class="text-slate-500 font-medium">New here?</span>
+            <a href="signup.html" class="ml-2 font-bold text-indigo-600 hover:text-indigo-700 transition-colors">
+                Create an account
+            </a>
+        </div>
+
+        <!-- Form Container -->
+        <div class="flex-1 flex flex-col justify-center max-w-[440px] mx-auto w-full px-6 py-1 mt-0">
+            
+            <h2 class="text-[24px] font-bold text-slate-900 mb-2">Welcome Back!</h2>
+            <p class="text-[13px] text-slate-500 mb-3 max-w-[340px] leading-relaxed">Sign in to your PrivGuard AI account</p>
+
+            <form action="index.html" class="space-y-2">
+                
+                <!-- Email -->
+                <div>
+                    <label class="block text-[13px] font-bold text-slate-700 mb-2">Email Address</label>
+                    <div class="relative group">
+                        <div class="absolute inset-y-0 left-0 flex items-center pl-4 pointer-events-none text-slate-400 group-focus-within:text-indigo-600 transition-colors z-10">
+                            <i class="fa-regular fa-envelope text-[14px]"></i>
+                        </div>
+                        <input type="email" id="email" placeholder="you@example.com" required class="w-full bg-white border border-slate-200 rounded-xl focus:border-indigo-600 focus:ring-[1.5px] focus:ring-indigo-600 transition-all text-[13px] text-slate-900 placeholder:text-slate-400 font-medium h-[44px] pl-[44px] pr-4 shadow-sm hover:border-slate-300 outline-none">
+                    </div>
+                </div>
+
+                <!-- Password -->
+                <div>
+                    <label class="block text-[13px] font-bold text-slate-700 mb-2">Password</label>
+                    <div class="relative group">
+                        <div class="absolute inset-y-0 left-0 flex items-center pl-4 pointer-events-none text-slate-400 group-focus-within:text-indigo-600 transition-colors z-10">
+                            <i class="fa-regular fa-lock text-[14px]"></i>
+                        </div>
+                        <input type="password" id="pwInput" placeholder="Enter your password" required class="w-full bg-white border border-slate-200 rounded-xl focus:border-indigo-600 focus:ring-[1.5px] focus:ring-indigo-600 transition-all text-[13px] text-slate-900 placeholder:text-slate-400 font-medium h-[44px] pl-[44px] pr-12 shadow-sm hover:border-slate-300 outline-none">
+                        <button type="button" onclick="togglePw()" class="absolute inset-y-0 right-0 flex items-center pr-4 text-slate-400 hover:text-slate-600 transition-colors z-10">
+                            <i class="fa-regular fa-eye-slash text-[14px]" id="pwIcon"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Remember Me & Forgot Password -->
+                <div class="flex items-center justify-between py-1">
+                    <label class="flex items-center gap-2 cursor-pointer">
+                        <input type="checkbox" class="w-4 h-4 rounded border-slate-300 text-indigo-600 focus:ring-indigo-600 focus:ring-offset-0">
+                        <span class="text-[13px] text-slate-500 font-medium">Remember me</span>
+                    </label>
+                    <a href="#" class="text-[13px] font-semibold text-indigo-600 hover:text-indigo-700 hover:underline">Forgot password?</a>
+                </div>
+
+                <!-- Submit -->
+                <button type="submit" class="w-full bg-indigo-600 text-white font-semibold rounded-xl h-[44px] mt-3 flex items-center justify-center gap-2 hover:bg-indigo-700 focus:ring-4 focus:ring-indigo-600/20 transition-all shadow-lg shadow-indigo-600/20 text-[13px]">
+                    Sign In <i class="fa-solid fa-arrow-right text-xs"></i>
+                </button>
+
+                <!-- Divider -->
+                <div class="flex items-center justify-center gap-4 py-1 mt-3">
+                    <div class="h-[1px] bg-slate-200 flex-1"></div>
+                    <span class="text-[11px] font-bold text-slate-400 uppercase tracking-wider">OR</span>
+                    <div class="h-[1px] bg-slate-200 flex-1"></div>
+                </div>
+
+                <!-- Google Auth -->
+                <button type="button" id="btn-google" class="w-full bg-white border border-slate-200 text-slate-700 font-bold rounded-xl h-[44px] flex items-center justify-center gap-3 hover:bg-slate-50 transition-all shadow-sm text-[13px]">
+                    <img src="https://www.svgrepo.com/show/475656/google-color.svg" alt="Google" class="w-5 h-5">
+                    Continue with Google
+                </button>
+
+            </form>
+
+            <p class="text-center text-[12px] text-slate-500 font-medium mt-3">
+                By signing in, you agree to our <a href="#" class="text-indigo-600 font-semibold hover:underline">Terms of Service</a> and <a href="#" class="text-indigo-600 font-semibold hover:underline">Privacy Policy</a>.
+            </p>
+        </div>
+    </div>
+
+    <script>
+        function togglePw() {
+            const inp = document.getElementById('pwInput');
+            const ico = document.getElementById('pwIcon');
+            if(inp.type === 'password') {
+                inp.type = 'text';
+                ico.className = 'fa-regular fa-eye text-[14px]';
+            } else {
+                inp.type = 'password';
+                ico.className = 'fa-regular fa-eye-slash text-[14px]';
+            }
+        }
+    </script>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
+        import { getAuth, signInWithEmailAndPassword, GoogleAuthProvider, signInWithPopup } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-auth.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyBW4lyiQuw9qQdGjmVThwooXCX76MCSLWM",
+            authDomain: "privguard-ai-28efd.firebaseapp.com",
+            databaseURL: "https://privguard-ai-28efd-default-rtdb.firebaseio.com/",
+            projectId: "privguard-ai-28efd",
+            storageBucket: "privguard-ai-28efd.firebasestorage.app",
+            messagingSenderId: "391276997350",
+            appId: "1:391276997350:web:b0de8e030293f1ddcae927"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+
+        
+        // Google Auth Logic
+        const btnGoogle = document.getElementById('btn-google');
+        if (btnGoogle) {
+            btnGoogle.addEventListener('click', () => {
+                const provider = new GoogleAuthProvider();
+                const originalText = btnGoogle.innerHTML;
+                btnGoogle.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Connecting...';
+                
+                signInWithPopup(auth, provider)
+                    .then((result) => {
+                        window.location.href = '/dashboard';
+                    }).catch((error) => {
+                        alert("Google Sign-In Error: " + error.message);
+                        btnGoogle.innerHTML = originalText;
+                    });
+            });
+        }
+
+        const form = document.getElementById('loginForm');
+        form.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('pwInput').value;
+
+            const btn = form.querySelector('button[type="submit"]');
+            const originalText = btn.innerHTML;
+            btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Signing In...';
+            btn.disabled = true;
+
+            signInWithEmailAndPassword(auth, email, password)
+                .then((userCredential) => {
+                    window.location.href = '/dashboard';
+                })
+                .catch((error) => {
+                    alert("Invalid email or password");
+                    btn.innerHTML = originalText;
+                    btn.disabled = false;
+                });
+        });
+    </script>
+</body>
+</html>
