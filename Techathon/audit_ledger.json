@@ -577,5 +577,251 @@
     "output_file_hash": "5f9a1ae9ee21acddee661f8fc70b60bdad20448b6970ab44deb66ab7ba791bea",
     "previous_hash": "36679fc2c4712056dd96e4bb66a425c0f6a9b25b78d77b513012e99996252a8e",
     "block_hash": "913322a670dc14fd5c15d2a15ee6f6dc75666876c4f765375d112b4cdd3d9e29"
+  },
+  {
+    "index": 22,
+    "timestamp": "2026-09-10T15:34:02.184267Z",
+    "file_name": "Linda_N_Chen.pdf",
+    "file_type": "pdf",
+    "compliance_profile": "CUSTOM",
+    "masking_strategy": "redact",
+    "pii_found_count": 22,
+    "entities_summary": {
+      "SSN": 1,
+      "EMAIL": 1,
+      "PHONE": 2,
+      "DOB": 1,
+      "MEMBER_ID": 1,
+      "GROUP_NUMBER": 1,
+      "PAYER_ID": 1,
+      "NPI_ID": 1,
+      "ACCOUNT_ID": 1,
+      "ADDRESS": 1,
+      "CITY_STATE_ZIP": 1,
+      "GENDER": 1,
+      "NAME": 3,
+      "LOCATION": 2,
+      "FACILITY": 4
+    },
+    "input_file_hash": "c5437dd28dbc34f4195f78fc53d6686cac58100a0305bbe97939d14b8641b554",
+    "output_file_hash": "76399b0217bd6640acf75699420bc0019727e66fb8344c4395d84b0a2eae871b",
+    "previous_hash": "913322a670dc14fd5c15d2a15ee6f6dc75666876c4f765375d112b4cdd3d9e29",
+    "block_hash": "783f74df31833d37174daab85cc4ba5597a7185723847996ad93162f9d8527a6"
+  },
+  {
+    "index": 23,
+    "timestamp": "2026-09-10T15:54:01.653279Z",
+    "file_name": "Highlighted PHI Details Michael_J_Harper.pdf",
+    "file_type": "pdf",
+    "compliance_profile": "HIPAA",
+    "masking_strategy": "redact",
+    "pii_found_count": 22,
+    "entities_summary": {
+      "CUSTOM_KEYWORD": 1,
+      "SSN": 1,
+      "EMAIL": 1,
+      "PHONE": 2,
+      "DOB": 1,
+      "MEMBER_ID": 1,
+      "GROUP_NUMBER": 1,
+      "PAYER_ID": 1,
+      "NPI_ID": 1,
+      "ADDRESS": 1,
+      "CITY_STATE_ZIP": 1,
+      "GENDER": 1,
+      "NAME": 5,
+      "LOCATION": 1,
+      "FACILITY": 3
+    },
+    "input_file_hash": "1777618f6ace476c09796b502fafb9b6d30571ff7744b73f2a8c62ca75df8349",
+    "output_file_hash": "2ec86f90c661ed0aa345468ee33725338f279d9ac967b48cfa20548031416be3",
+    "previous_hash": "783f74df31833d37174daab85cc4ba5597a7185723847996ad93162f9d8527a6",
+    "block_hash": "ea402f3848367b13fb204c8bdc8a0373099a43cf31dd85b45051a92a1a5f19e7"
+  },
+  {
+    "index": 24,
+    "timestamp": "2026-09-10T16:21:21.509093Z",
+    "file_name": "Highlighted PHI Details Michael_J_Harper.pdf",
+    "file_type": "pdf",
+    "compliance_profile": "HIPAA",
+    "masking_strategy": "redact",
+    "pii_found_count": 1,
+    "entities_summary": {
+      "CUSTOM_KEYWORD": 1
+    },
+    "input_file_hash": "1777618f6ace476c09796b502fafb9b6d30571ff7744b73f2a8c62ca75df8349",
+    "output_file_hash": "74a549bf170503c1fe750f6f3448eb00825c69167b7cd725b168121c4310ee53",
+    "previous_hash": "ea402f3848367b13fb204c8bdc8a0373099a43cf31dd85b45051a92a1a5f19e7",
+    "block_hash": "11b19d0e27138201c2aa87aaa146badabe24eac6d596734a6f35da46dcc8ed00"
+  },
+  {
+    "index": 25,
+    "timestamp": "2026-09-10T16:31:46.132848Z",
+    "file_name": "Highlighted PHI Details Michael_J_Harper.pdf",
+    "file_type": "pdf",
+    "compliance_profile": "HIPAA",
+    "masking_strategy": "redact",
+    "pii_found_count": 1,
+    "entities_summary": {
+      "CUSTOM_KEYWORD": 1
+    },
+    "input_file_hash": "1777618f6ace476c09796b502fafb9b6d30571ff7744b73f2a8c62ca75df8349",
+    "output_file_hash": "1b1b654de09c1bb59dc727300a824e8cdfc55f482320702a32ffeb6508f6926c",
+    "previous_hash": "11b19d0e27138201c2aa87aaa146badabe24eac6d596734a6f35da46dcc8ed00",
+    "block_hash": "4b9edea7ed0a61e49e1791429732abe71345a276cb7bc42a36ecf456f392c387"
+  },
+  {
+    "index": 26,
+    "timestamp": "2026-09-10T16:32:32.332184Z",
+    "file_name": "Highlighted PHI Details Michael_J_Harper.pdf",
+    "file_type": "pdf",
+    "compliance_profile": "HIPAA",
+    "masking_strategy": "redact",
+    "pii_found_count": 2,
+    "entities_summary": {
+      "CUSTOM_KEYWORD": 2
+    },
+    "input_file_hash": "1777618f6ace476c09796b502fafb9b6d30571ff7744b73f2a8c62ca75df8349",
+    "output_file_hash": "8c0ccd78f7c2bb811594e53ef5aad51386b55c2e4e62327fa2c36bd661c39514",
+    "previous_hash": "4b9edea7ed0a61e49e1791429732abe71345a276cb7bc42a36ecf456f392c387",
+    "block_hash": "b0aa9b832f0cb1b542f1a245a600e7ba52adb79c523cbf95cc4c8b1a21db03c1"
+  },
+  {
+    "index": 27,
+    "timestamp": "2026-09-10T16:33:20.951945Z",
+    "file_name": "Highlighted PHI Details Michael_J_Harper.pdf",
+    "file_type": "pdf",
+    "compliance_profile": "HIPAA",
+    "masking_strategy": "redact",
+    "pii_found_count": 3,
+    "entities_summary": {
+      "CUSTOM_KEYWORD": 3
+    },
+    "input_file_hash": "1777618f6ace476c09796b502fafb9b6d30571ff7744b73f2a8c62ca75df8349",
+    "output_file_hash": "e459092a9fcca1154131eb8a1fdf11cf9a6ab6bc9e6088fde0c4e6bfefcf72bf",
+    "previous_hash": "b0aa9b832f0cb1b542f1a245a600e7ba52adb79c523cbf95cc4c8b1a21db03c1",
+    "block_hash": "e9e38a21bdf4771ba1ca7a11b8ebd1e17961edee7b9c193120dca756f0169fef"
+  },
+  {
+    "index": 28,
+    "timestamp": "2026-09-10T16:34:24.080179Z",
+    "file_name": "Highlighted PHI Details Michael_J_Harper.pdf",
+    "file_type": "pdf",
+    "compliance_profile": "HIPAA",
+    "masking_strategy": "redact",
+    "pii_found_count": 4,
+    "entities_summary": {
+      "CUSTOM_KEYWORD": 4
+    },
+    "input_file_hash": "1777618f6ace476c09796b502fafb9b6d30571ff7744b73f2a8c62ca75df8349",
+    "output_file_hash": "3c7b77279b40fc5fa8adf2fc357b9f2d2a8de5da33bb2ff5f178b75cd6a9e5ef",
+    "previous_hash": "e9e38a21bdf4771ba1ca7a11b8ebd1e17961edee7b9c193120dca756f0169fef",
+    "block_hash": "a20a271638e15451cbca148a31c54dca30ffb3dbdb960d99435584b9e8fb2773"
+  },
+  {
+    "index": 29,
+    "timestamp": "2026-09-10T16:35:19.606302Z",
+    "file_name": "Highlighted PHI Details Michael_J_Harper.pdf",
+    "file_type": "pdf",
+    "compliance_profile": "HIPAA",
+    "masking_strategy": "redact",
+    "pii_found_count": 4,
+    "entities_summary": {
+      "CUSTOM_KEYWORD": 4
+    },
+    "input_file_hash": "1777618f6ace476c09796b502fafb9b6d30571ff7744b73f2a8c62ca75df8349",
+    "output_file_hash": "e2a124fe30eeb70e6c0a89d92701f84b340b10eb77b26cd06f46c08274b69d06",
+    "previous_hash": "a20a271638e15451cbca148a31c54dca30ffb3dbdb960d99435584b9e8fb2773",
+    "block_hash": "f1b023127e2a3a7aa8644107136a4f07e713c8f41cee7afec53d8a5b6f55f508"
+  },
+  {
+    "index": 30,
+    "timestamp": "2026-09-10T17:02:50.300670Z",
+    "file_name": "Linda_N_Chen.pdf",
+    "file_type": "pdf",
+    "compliance_profile": "HIPAA",
+    "masking_strategy": "redact",
+    "pii_found_count": 21,
+    "entities_summary": {
+      "SSN": 1,
+      "EMAIL": 1,
+      "PHONE": 2,
+      "DOB": 1,
+      "MEMBER_ID": 1,
+      "GROUP_NUMBER": 1,
+      "PAYER_ID": 1,
+      "NPI_ID": 1,
+      "ADDRESS": 1,
+      "CITY_STATE_ZIP": 1,
+      "GENDER": 1,
+      "NAME": 3,
+      "LOCATION": 2,
+      "FACILITY": 4
+    },
+    "input_file_hash": "c5437dd28dbc34f4195f78fc53d6686cac58100a0305bbe97939d14b8641b554",
+    "output_file_hash": "693da20c2b54e8d188df3614e607d76d25b9320b9c782e0588ac74de3c2a16dc",
+    "previous_hash": "f1b023127e2a3a7aa8644107136a4f07e713c8f41cee7afec53d8a5b6f55f508",
+    "block_hash": "59835d9ff0d86b841a07c9e577beb6949b7f030230116abf4043a33ccd627d2c"
+  },
+  {
+    "index": 31,
+    "timestamp": "2026-09-10T17:09:19.201366Z",
+    "file_name": "Linda_N_Chen.pdf",
+    "file_type": "pdf",
+    "compliance_profile": "HIPAA",
+    "masking_strategy": "redact",
+    "pii_found_count": 21,
+    "entities_summary": {
+      "SSN": 1,
+      "EMAIL": 1,
+      "PHONE": 2,
+      "DOB": 1,
+      "MEMBER_ID": 1,
+      "GROUP_NUMBER": 1,
+      "PAYER_ID": 1,
+      "NPI_ID": 1,
+      "ADDRESS": 1,
+      "CITY_STATE_ZIP": 1,
+      "GENDER": 1,
+      "NAME": 3,
+      "LOCATION": 2,
+      "FACILITY": 4
+    },
+    "input_file_hash": "c5437dd28dbc34f4195f78fc53d6686cac58100a0305bbe97939d14b8641b554",
+    "output_file_hash": "0d5d625348de1e8d8538cb9cb301e981b79d2738b31140ffd7fbb8d78b3adddf",
+    "previous_hash": "59835d9ff0d86b841a07c9e577beb6949b7f030230116abf4043a33ccd627d2c",
+    "block_hash": "7987db6494bed18979e8f6bbae24c7ca3ddb143a5c16cbf970facb01c750000b"
+  },
+  {
+    "index": 32,
+    "timestamp": "2026-09-10T19:12:21.062688Z",
+    "file_name": "Linda_N_Chen.pdf",
+    "file_type": "pdf",
+    "compliance_profile": "NONE",
+    "masking_strategy": "redact",
+    "pii_found_count": 13,
+    "entities_summary": {
+      "CUSTOM_KEYWORD": 13
+    },
+    "input_file_hash": "c5437dd28dbc34f4195f78fc53d6686cac58100a0305bbe97939d14b8641b554",
+    "output_file_hash": "15dee600d6724a3a5b168cc9924c47eb1d2a5a37011cdd22e1750bc67c37fcfa",
+    "previous_hash": "7987db6494bed18979e8f6bbae24c7ca3ddb143a5c16cbf970facb01c750000b",
+    "block_hash": "37e5b7520f5470e13f6e26149794c1731406845f4ee829c265ddbd2c18e5aebc"
+  },
+  {
+    "index": 33,
+    "timestamp": "2026-09-10T19:24:29.342294Z",
+    "file_name": "Linda_N_Chen.pdf",
+    "file_type": "pdf",
+    "compliance_profile": "NONE",
+    "masking_strategy": "redact",
+    "pii_found_count": 1,
+    "entities_summary": {
+      "MANUAL": 1
+    },
+    "input_file_hash": "c5437dd28dbc34f4195f78fc53d6686cac58100a0305bbe97939d14b8641b554",
+    "output_file_hash": "8df58efaf09d001da81bca151fe57cdd293789c1f7ddde05cbc397300bb033c6",
+    "previous_hash": "37e5b7520f5470e13f6e26149794c1731406845f4ee829c265ddbd2c18e5aebc",
+    "block_hash": "71b65bcb345e4df34b4547cb1234f4fa5e4d411d5cc1af2ee52f5a74af2247ea"
   }
 ]

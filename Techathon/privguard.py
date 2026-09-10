@@ -65,6 +65,14 @@ COMPLIANCE_PROFILES = {
         "entities": ["CREDIT_CARD", "CVV", "BANK_ACCOUNT", "TAX_ID", "ACCOUNT_ID", "PAYER_ID", "SSN"]
     },
     "CUSTOM": {
+        "description": "User-defined custom redaction rules.",
+        "entities": []
+    },
+    "NONE": {
+        "description": "Used internally for manual interactive review overrides.",
+        "entities": []
+    },
+    "ALL": {
         "description": "All-inclusive security profile scanning for all PII, PHI, and financial entity types.",
         "entities": []  # Empty means target all detected entities
     }
@@ -220,8 +228,8 @@ ledger_instance = AuditLedger()
 # ENTITY DETECTION ENGINE
 # ==========================================
 
-def detect_pii(text: str, profile: str = "HIPAA") -> List[Tuple[str, str]]:
-    """Detect PII/PHI entities based on compliance profile."""
+def detect_pii(text: str, profile: str = "HIPAA", custom_keywords: List[str] = None, exact_matches: List[str] = None) -> List[Tuple[str, str]]:
+    """Detect PII/PHI entities based on compliance profile and custom keywords."""
     if not text:
         return []
 
@@ -231,7 +239,32 @@ def detect_pii(text: str, profile: str = "HIPAA") -> List[Tuple[str, str]]:
 
     detected = []
 
-    # 1. Regex rules search
+    if exact_matches:
+        for match in exact_matches:
+            if match.strip():
+                detected.append((match.strip(), "MANUAL"))
+        return list(set(detected))
+
+    # 0. Custom Keywords (Case Insensitive)
+    has_custom = False
+    if custom_keywords:
+        for kw in custom_keywords:
+            kw = kw.strip()
+            if not kw: continue
+            has_custom = True
+            # Treat the custom keyword as a field label (e.g. "Name" or "Employee ID")
+            # Look for the label, followed by optional spaces and colons/dashes, then capture the rest of the line
+            pattern = r'(?i)\b' + re.escape(kw) + r'[\s]*[:\-]?[\s]*([^\n]+)'
+            for match in re.finditer(pattern, text):
+                val = match.group(1).strip()
+                if val:
+                    detected.append((val, "CUSTOM_KEYWORD"))
+
+    # If the user provided custom keywords, ONLY redact those details as requested
+    if has_custom:
+        return list(set(detected))
+
+    # 1. Regex rules search (Standard PII)
     for label, pattern in REGEX_PATTERNS.items():
         if target_entities and label not in target_entities:
             continue
@@ -244,7 +277,7 @@ def detect_pii(text: str, profile: str = "HIPAA") -> List[Tuple[str, str]]:
             if val and len(val) >= 2:
                 detected.append((val, label))
 
-    # 2. spaCy NER search
+    # 2. spaCy NER search (Standard PII)
     if nlp is not None:
         doc = nlp(text)
         for ent in doc.ents:
@@ -971,21 +1004,28 @@ if FASTAPI_AVAILABLE:
         text: str
         strategy: Optional[str] = "redact"
         profile: Optional[str] = None
+        custom_keywords: Optional[List[str]] = []
 
     @app.post("/sanitize/text")
     async def sanitize_text(req: TextSanitizeRequest):
         prof  = req.profile.upper() if req.profile else active_profile
         strat = req.strategy.lower() if req.strategy else DEFAULT_STRATEGY
         raw   = req.text
+        kw    = req.custom_keywords
 
-        pii_entities = detect_pii(raw, prof)
+        pii_entities = detect_pii(raw, prof, kw)
 
         # Apply replacements: replace each matched PII value in original text
         redacted = raw
         # Sort by length descending to avoid partial replacements
         for ent_text, label in sorted(pii_entities, key=lambda x: -len(x[0])):
             replacement = get_masked_replacement(ent_text, label, strat)
-            redacted = redacted.replace(ent_text, replacement)
+            # Case insensitive replacement for custom keywords to ensure all variations are masked
+            if label == "CUSTOM_KEYWORD":
+                pattern = re.compile(re.escape(ent_text), re.IGNORECASE)
+                redacted = pattern.sub(replacement, redacted)
+            else:
+                redacted = redacted.replace(ent_text, replacement)
 
         entities_summary = {}
         for _, label in pii_entities:
@@ -998,15 +1038,102 @@ if FASTAPI_AVAILABLE:
             "pii_found_count": len(pii_entities)
         }
 
+    @app.post("/sanitize/text/preview")
+    async def sanitize_text_preview(req: TextSanitizeRequest):
+        prof  = req.profile.upper() if req.profile else active_profile
+        raw   = req.text
+        kw    = req.custom_keywords
+
+        pii_entities = detect_pii(raw, prof, kw)
+
+        # Wrap identified text in span tags for the interactive preview
+        # We need a safe way to replace without destroying previous HTML tags, so we'll use a placeholder system.
+        # However, for simplicity here, we'll sort by length and use standard replace, assuming no nested PII.
+        preview_html = raw
+        # Escape HTML first so we don't conflict with our own spans
+        preview_html = preview_html.replace("<", "&lt;").replace(">", "&gt;")
+
+        for ent_text, label in sorted(pii_entities, key=lambda x: -len(x[0])):
+            safe_ent_text = ent_text.replace("<", "&lt;").replace(">", "&gt;")
+            span_tag = f'<span class="ai-highlight bg-yellow-200 text-yellow-900 px-1 rounded cursor-pointer select-none transition-all" data-label="{label}" data-original="{safe_ent_text}">{safe_ent_text}</span>'
+            
+            if label == "CUSTOM_KEYWORD":
+                pattern = re.compile(re.escape(safe_ent_text), re.IGNORECASE)
+                preview_html = pattern.sub(span_tag, preview_html)
+            else:
+                preview_html = preview_html.replace(safe_ent_text, span_tag)
+
+        entities_summary = {}
+        for _, label in pii_entities:
+            entities_summary[label] = entities_summary.get(label, 0) + 1
+
+        return {
+            "status": "success",
+            "preview_html": preview_html,
+            "entities_summary": entities_summary,
+            "pii_found_count": len(pii_entities)
+        }
+
+
+    @app.post("/sanitize/document/preview")
+    async def sanitize_document_preview(
+        files: List[UploadFile] = File(...),
+        profile: Optional[str] = Form(None),
+        custom_keywords: Optional[str] = Form("")
+    ):
+        prof = profile.upper() if profile else active_profile
+        kw_list = [k.strip() for k in custom_keywords.split(",")] if custom_keywords else []
+
+        temp_dir = "temp_uploads"
+        os.makedirs(temp_dir, exist_ok=True)
+        session_id = str(uuid.uuid4())
+
+        # Just take the first file for interactive preview
+        file = files[0]
+        input_filename = file.filename
+        input_path = os.path.join(temp_dir, f"raw_{session_id[:8]}_{input_filename}")
+        
+        content_bytes = await file.read()
+        with open(input_path, "wb") as f:
+            f.write(content_bytes)
+
+        # Extract text from the document
+        extracted_text = extract_document_text(input_path)
+        pii_entities = detect_pii(extracted_text, prof, kw_list)
+
+        preview_html = extracted_text
+        preview_html = preview_html.replace("<", "&lt;").replace(">", "&gt;")
+
+        for ent_text, label in sorted(pii_entities, key=lambda x: -len(x[0])):
+            safe_ent_text = ent_text.replace("<", "&lt;").replace(">", "&gt;")
+            span_tag = f'<span class="ai-highlight bg-yellow-200 text-yellow-900 px-1 rounded cursor-pointer select-none transition-all" data-label="{label}">{safe_ent_text}</span>'
+            
+            if label == "CUSTOM_KEYWORD":
+                pattern = re.compile(re.escape(safe_ent_text), re.IGNORECASE)
+                preview_html = pattern.sub(span_tag, preview_html)
+            else:
+                preview_html = preview_html.replace(safe_ent_text, span_tag)
+
+        return {
+            "status": "success",
+            "preview_html": preview_html
+        }
+
+
     @app.post("/sanitize/document")
 
     async def sanitize_document(
         files: List[UploadFile] = File(...),
         profile: Optional[str] = Form(None),
-        strategy: Optional[str] = Form("redact")
+        strategy: Optional[str] = Form("redact"),
+        custom_keywords: Optional[str] = Form(""),
+        exact_matches: Optional[str] = Form("")
     ):
         prof = profile.upper() if profile else active_profile
         strat = strategy.lower() if strategy else DEFAULT_STRATEGY
+        
+        kw_list = [k.strip() for k in custom_keywords.split(",")] if custom_keywords else []
+        exact_list = [k.strip() for k in exact_matches.split(",")] if exact_matches else []
 
         temp_dir = "temp_uploads"
         os.makedirs(temp_dir, exist_ok=True)
@@ -1033,7 +1160,7 @@ if FASTAPI_AVAILABLE:
                 output_path = os.path.join(temp_dir, out_filename)
 
                 extracted_text = extract_document_text(input_path)
-                pii_entities = detect_pii(extracted_text, prof)
+                pii_entities = detect_pii(extracted_text, prof, kw_list, exact_list)
 
                 faces_count = 0
                 success = False
