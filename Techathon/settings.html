@@ -173,7 +173,7 @@
                                 </div>
                             </div>
                             <div class="relative w-full md:w-56 shrink-0">
-                                <select class="w-full appearance-none bg-white border border-slate-200 text-slate-700 text-sm rounded-lg pl-3 pr-8 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 font-medium cursor-pointer">
+                                <select id="setting-output-format" class="w-full appearance-none bg-white border border-slate-200 text-slate-700 text-sm rounded-lg pl-3 pr-8 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 font-medium cursor-pointer">
                                     <option>PDF</option>
                                     <option>PNG</option>
                                     <option>JPG</option>
@@ -197,7 +197,7 @@
                                 </div>
                             </div>
                             <div class="relative w-full md:w-56 shrink-0">
-                                <select class="w-full appearance-none bg-white border border-slate-200 text-slate-700 text-sm rounded-lg pl-3 pr-8 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 font-medium cursor-pointer">
+                                <select id="setting-language" class="w-full appearance-none bg-white border border-slate-200 text-slate-700 text-sm rounded-lg pl-3 pr-8 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 font-medium cursor-pointer">
                                     <option>English</option>
                                     <option>Spanish</option>
                                     <option>French</option>
@@ -221,7 +221,7 @@
                                 </div>
                             </div>
                             <div class="relative w-full md:w-56 shrink-0">
-                                <select class="w-full appearance-none bg-white border border-slate-200 text-slate-700 text-sm rounded-lg pl-3 pr-8 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 font-medium cursor-pointer">
+                                <select id="setting-timezone" class="w-full appearance-none bg-white border border-slate-200 text-slate-700 text-sm rounded-lg pl-3 pr-8 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 font-medium cursor-pointer">
                                     <option>(UTC+05:30) Asia/Kolkata</option>
                                     <option>(UTC-08:00) Pacific Time</option>
                                     <option>(UTC+00:00) GMT</option>
@@ -289,13 +289,13 @@
                             <div class="text-xs text-slate-500">Choose your preferred theme.</div>
                         </div>
                         <div class="flex bg-slate-50 p-1 rounded-lg border border-slate-200">
-                            <button class="px-4 py-1.5 bg-white border-2 border-indigo-500 rounded-md text-indigo-600 font-medium text-xs flex items-center gap-2 shadow-sm">
+                            <button id="btn-theme-light" onclick="setThemePreference('light')" class="px-4 py-1.5 border-2 text-slate-500 font-medium text-xs hover:text-slate-700 flex items-center gap-2 rounded-md">
                                 <i class="fa-regular fa-sun"></i> Light
                             </button>
-                            <button class="px-4 py-1.5 border-2 border-transparent text-slate-500 font-medium text-xs hover:text-slate-700 flex items-center gap-2">
+                            <button id="btn-theme-dark" onclick="setThemePreference('dark')" class="px-4 py-1.5 border-2 border-transparent text-slate-500 font-medium text-xs hover:text-slate-700 flex items-center gap-2 rounded-md">
                                 <i class="fa-regular fa-moon"></i> Dark
                             </button>
-                            <button class="px-4 py-1.5 border-2 border-transparent text-slate-500 font-medium text-xs hover:text-slate-700 flex items-center gap-2">
+                            <button id="btn-theme-dark" onclick="setThemePreference('dark')" class="px-4 py-1.5 border-2 border-transparent text-slate-500 font-medium text-xs hover:text-slate-700 flex items-center gap-2 rounded-md">
                                 <i class="fa-solid fa-desktop"></i> System
                             </button>
                         </div>
@@ -343,7 +343,7 @@
                                     <span class="text-xs font-semibold">Session Timeout</span>
                                 </div>
                                 <div class="relative w-28 shrink-0">
-                                    <select class="w-full appearance-none bg-white border border-slate-200 text-slate-700 text-[10px] rounded pl-2 pr-6 py-1 focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500 font-medium cursor-pointer">
+                                    <select id="setting-session-timeout" class="w-full appearance-none bg-white border border-slate-200 text-slate-700 text-[10px] rounded pl-2 pr-6 py-1 focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500 font-medium cursor-pointer">
                                         <option>30 Minutes</option>
                                         <option>1 Hour</option>
                                         <option>Never</option>
@@ -365,7 +365,7 @@
                                     <span class="text-xs font-semibold">Date Format</span>
                                 </div>
                                 <div class="relative w-28 shrink-0">
-                                    <select class="w-full appearance-none bg-white border border-slate-200 text-slate-700 text-[10px] rounded pl-2 pr-6 py-1 focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500 font-medium cursor-pointer">
+                                    <select id="setting-date-format" class="w-full appearance-none bg-white border border-slate-200 text-slate-700 text-[10px] rounded pl-2 pr-6 py-1 focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500 font-medium cursor-pointer">
                                         <option>MM/DD/YYYY</option>
                                         <option>DD/MM/YYYY</option>
                                     </select>
@@ -386,7 +386,7 @@
                                     <span class="text-xs font-semibold">Time Format</span>
                                 </div>
                                 <div class="relative w-28 shrink-0">
-                                    <select class="w-full appearance-none bg-white border border-slate-200 text-slate-700 text-[10px] rounded pl-2 pr-6 py-1 focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500 font-medium cursor-pointer">
+                                    <select id="setting-time-format" class="w-full appearance-none bg-white border border-slate-200 text-slate-700 text-[10px] rounded pl-2 pr-6 py-1 focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500 font-medium cursor-pointer">
                                         <option>12-Hour (AM/PM)</option>
                                         <option>24-Hour</option>
                                     </select>
@@ -518,6 +518,79 @@ html.dark-mode .dark-btn { border-color: #d1d5db; }
     });
 })();
 </script>
+
+<script>
+// Handle form fields
+document.addEventListener("DOMContentLoaded", () => {
+    const fields = [
+        "setting-output-format", "setting-language", "setting-timezone",
+        "setting-session-timeout", "setting-date-format", "setting-time-format"
+    ];
+    
+    const toggles = [
+        "toggle1", "toggle2"
+    ];
+
+    // Load from local storage
+    fields.forEach(id => {
+        const el = document.getElementById(id);
+        if(el && localStorage.getItem(id) !== null) {
+            el.value = localStorage.getItem(id);
+        }
+        if(el) {
+            el.addEventListener('change', (e) => localStorage.setItem(id, e.target.value));
+        }
+    });
+
+    toggles.forEach(id => {
+        const el = document.getElementById(id);
+        if(el && localStorage.getItem(id) !== null) {
+            el.checked = localStorage.getItem(id) === 'true';
+        }
+        if(el) {
+            el.addEventListener('change', (e) => localStorage.setItem(id, e.target.checked));
+        }
+    });
+
+    // Handle Theme specific buttons
+    let activeTheme = localStorage.getItem('theme_pref') || 'light';
+    updateThemeButtons(activeTheme);
+});
+
+window.setThemePreference = function(theme) {
+    localStorage.setItem('theme_pref', theme);
+    updateThemeButtons(theme);
+    
+    // Also trigger the existing toggle functionality if switching between light/dark
+    const isNowDark = theme === 'dark' || (theme === 'system' && window.matchMedia('(prefers-color-scheme: dark)').matches);
+    if (isNowDark !== document.documentElement.classList.contains('dark-mode')) {
+        window.toggleTheme(); // sync with the global header
+    }
+};
+
+function updateThemeButtons(theme) {
+    const buttons = {
+        'light': document.getElementById('btn-theme-light'),
+        'dark': document.getElementById('btn-theme-dark'),
+        'system': document.getElementById('btn-theme-system')
+    };
+    
+    const activeClass = "bg-white border-indigo-500 text-indigo-600 shadow-sm".split(" ");
+    const inactiveClass = "border-transparent text-slate-500 hover:text-slate-700".split(" ");
+    
+    for(const key in buttons) {
+        if(!buttons[key]) continue;
+        if(key === theme) {
+            buttons[key].classList.remove(...inactiveClass);
+            buttons[key].classList.add(...activeClass);
+        } else {
+            buttons[key].classList.remove(...activeClass);
+            buttons[key].classList.add(...inactiveClass);
+        }
+    }
+}
+</script>
+
 </body>
 
 <!-- GLOBAL HEADER FUNCTIONALITY -->
