@@ -162,7 +162,7 @@
                                 </div>
                                 <div class="flex items-center gap-2">
                                     <span class="font-bold text-slate-900 text-sm"><span class="user-display-name">Bhavya Shree D.</span></span>
-                                    <button class="text-slate-400 hover:text-indigo-600 transition-colors"><i class="fa-regular fa-copy text-xs"></i></button>
+                                    <button id="btn-copy-id" class="text-slate-400 hover:text-indigo-600 transition-colors" title="Copy PrivGuard ID"><i class="fa-regular fa-copy text-xs"></i></button>
                                 </div>
                             </div>
                             
@@ -237,7 +237,7 @@
                                     <p class="text-[11px] text-slate-500 mt-1">Update your password to keep your account secure.</p>
                                 </div>
                             </div>
-                            <button class="shrink-0 px-4 py-2 border border-indigo-500 text-indigo-600 bg-white hover:bg-indigo-50 rounded-lg text-[12px] font-semibold transition-colors shadow-sm">
+                            <button id="btn-change-password" class="shrink-0 px-4 py-2 border border-indigo-500 text-indigo-600 bg-white hover:bg-indigo-50 rounded-lg text-[12px] font-semibold transition-colors shadow-sm">
                                 Change Password
                             </button>
                         </div>
@@ -374,7 +374,7 @@ html.dark-mode .dark-btn { border-color: #d1d5db; }
 <script type="module">
 // Firebase Setup & Settings Sync
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
-import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-auth.js";
+import { getAuth, onAuthStateChanged, sendPasswordResetEmail } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-auth.js";
 import { getDatabase, ref, get, update } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-database.js";
 
 const firebaseConfig = {
@@ -500,6 +500,83 @@ toggles.forEach(t => {
         });
     }
 });
+
+
+// UI Feedback Toast
+function showToast(message) {
+    let toast = document.getElementById('settings-toast');
+    if(!toast) {
+        toast = document.createElement('div');
+        toast.id = 'settings-toast';
+        toast.style.cssText = 'position:fixed;bottom:20px;right:20px;background:#10b981;color:white;padding:10px 20px;border-radius:8px;font-size:13px;font-weight:600;box-shadow:0 4px 12px rgba(0,0,0,0.15);transition:opacity 0.3s;z-index:9999;opacity:0;';
+        document.body.appendChild(toast);
+    }
+    toast.textContent = message;
+    toast.style.opacity = '1';
+    setTimeout(() => { toast.style.opacity = '0'; }, 3000);
+}
+
+// Intercept fields logic to show toast
+fields.forEach(f => {
+    const el = document.getElementById(f.id);
+    if(el) {
+        // Remove the old listener injected previously (simplest way is we just add another listener that calls toast)
+        el.addEventListener('change', () => {
+            showToast("Settings saved successfully!");
+        });
+    }
+});
+toggles.forEach(t => {
+    const el = document.getElementById(t.id);
+    if(el) {
+        el.addEventListener('change', () => {
+            showToast("Preferences updated!");
+        });
+    }
+});
+
+// Copy ID functionality
+const copyBtn = document.getElementById('btn-copy-id');
+if(copyBtn) {
+    copyBtn.addEventListener('click', () => {
+        if(currentUserUid) {
+            navigator.clipboard.writeText(currentUserUid).then(() => {
+                showToast("PrivGuard ID copied to clipboard!");
+            });
+        } else {
+            showToast("No active user ID found.");
+        }
+    });
+}
+
+// Change Password functionality
+let currentUserEmail = null;
+onAuthStateChanged(auth, (user) => {
+    if(user) currentUserEmail = user.email; // Capture for reset
+});
+
+const pwdBtn = document.getElementById('btn-change-password');
+if(pwdBtn) {
+    pwdBtn.addEventListener('click', () => {
+        if(currentUserEmail) {
+            pwdBtn.textContent = "Sending...";
+            pwdBtn.disabled = true;
+            sendPasswordResetEmail(auth, currentUserEmail)
+                .then(() => {
+                    showToast("Password reset email sent!");
+                    pwdBtn.textContent = "Change Password";
+                    pwdBtn.disabled = false;
+                })
+                .catch((error) => {
+                    showToast("Error: " + error.message);
+                    pwdBtn.textContent = "Change Password";
+                    pwdBtn.disabled = false;
+                });
+        } else {
+            showToast("Please log in to change your password.");
+        }
+    });
+}
 
 function loadLocalStorageFallback() {
     fields.forEach(f => {
