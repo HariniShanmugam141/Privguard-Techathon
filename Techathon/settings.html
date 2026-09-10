@@ -94,358 +94,213 @@
 <!-- MAIN -->
     <main class="flex-1 flex flex-col h-full overflow-y-auto p-6 md:p-8">
         
+        
         <!-- Header -->
-        <header class="flex justify-between items-start mb-6">
-            <div class="flex items-center gap-3">
-                <div class="w-8 h-8 rounded-full bg-indigo-100 text-indigo-600 flex items-center justify-center">
-                    <i class="fa-solid fa-gear"></i>
-                </div>
-                <div>
-                    <h2 class="text-2xl font-bold text-slate-900 leading-tight">Settings</h2>
-                    <p class="text-sm text-slate-500 mt-0.5">Manage your preferences, security and application settings</p>
-                </div>
+        <header class="h-16 bg-white border-b border-slate-200 flex items-center justify-between px-6 shrink-0 z-10">
+            <div class="flex items-center gap-4">
+                <button class="lg:hidden text-slate-500 hover:text-slate-700">
+                    <i class="fa-solid fa-bars text-lg"></i>
+                </button>
             </div>
-            <div class="flex items-center gap-3">
-    <button onclick="toggleTheme()" class="flex items-center gap-2 px-4 py-2 bg-white border border-slate-200 rounded-lg text-sm font-medium hover:bg-slate-50 shadow-sm transition-colors dark-btn">
-        <i class="fa-regular fa-sun" id="theme-icon"></i> <span id="theme-text">Light</span>
-    </button>
-    <div style="position:relative;">
-        <button onclick="toggleGlobalNotif()" class="relative p-2 bg-white border border-slate-200 rounded-lg text-slate-600 hover:bg-slate-50 w-10 h-10 flex items-center justify-center shadow-sm transition-colors dark-btn">
-            <i class="fa-regular fa-bell"></i>
-            <span id="g-notif-badge" style="display:none;" class="absolute top-1 right-1 w-2.5 h-2.5 bg-red-500 rounded-full border-2 border-white"></span>
-        </button>
-        <div id="g-notif-panel" style="display:none; position:absolute; top:calc(100% + 8px); right:0; width:280px; background:white; border:1px solid #e2e8f0; border-radius:12px; box-shadow:0 10px 25px rgba(0,0,0,.1); z-index:999; text-align:left;">
-            <div style="padding:10px 14px;font-size:13px;font-weight:700;color:#374151;border-bottom:1px solid #f1f5f9;">Notifications</div>
-            <div id="g-notif-list" style="padding:6px 0;font-size:13px;color:#64748b;max-height:300px;overflow-y:auto;background:white;">
-                <div style="padding:12px;text-align:center;"><i class="fa-solid fa-spinner fa-spin"></i></div>
-            </div>
-        </div>
-    </div>
-    <button onclick="exportGlobalCSV()" class="flex items-center gap-2 px-4 py-2 bg-indigo-600 text-white rounded-lg text-sm font-medium hover:bg-indigo-700 shadow-sm transition-colors">
-        <i class="fa-solid fa-download"></i> Export Report
-    </button>
-</div>
-    </header>
-
-        <!-- Tabs Navigation -->
-        <div class="bg-white rounded-xl border border-slate-200 shadow-sm mb-6 flex overflow-x-auto custom-scrollbar">
-            <a href="#" class="px-5 py-3.5 border-b-2 border-indigo-600 text-indigo-600 font-semibold text-sm flex items-center gap-2 whitespace-nowrap">
-                <i class="fa-solid fa-gear"></i> General
-            </a>
-            <a href="#" class="px-5 py-3.5 border-b-2 border-transparent text-slate-500 hover:text-slate-800 hover:border-slate-300 font-medium text-sm flex items-center gap-2 whitespace-nowrap transition-colors">
-                <i class="fa-solid fa-shield-check"></i> Security
-            </a>
-            <a href="#" class="px-5 py-3.5 border-b-2 border-transparent text-slate-500 hover:text-slate-800 hover:border-slate-300 font-medium text-sm flex items-center gap-2 whitespace-nowrap transition-colors">
-                <i class="fa-solid fa-shield-virus"></i> redaction
-            </a>
-            <a href="#" class="px-5 py-3.5 border-b-2 border-transparent text-slate-500 hover:text-slate-800 hover:border-slate-300 font-medium text-sm flex items-center gap-2 whitespace-nowrap transition-colors">
-                <i class="fa-regular fa-bell"></i> Notifications
-            </a>
-            <a href="#" class="px-5 py-3.5 border-b-2 border-transparent text-slate-500 hover:text-slate-800 hover:border-slate-300 font-medium text-sm flex items-center gap-2 whitespace-nowrap transition-colors">
-                <i class="fa-solid fa-puzzle-piece"></i> Integrations
-            </a>
-            <a href="#" class="px-5 py-3.5 border-b-2 border-transparent text-slate-500 hover:text-slate-800 hover:border-slate-300 font-medium text-sm flex items-center gap-2 whitespace-nowrap transition-colors">
-                <i class="fa-solid fa-sliders"></i> Advanced
-            </a>
-        </div>
-
-        <!-- Layout Split -->
-        <div class="flex flex-col lg:flex-row gap-6">
             
-            <!-- Left Column -->
-            <div class="flex-1 flex flex-col gap-6">
-                
-                <!-- Application Settings -->
-                <div class="bg-white rounded-2xl border border-slate-200 shadow-sm p-6">
-                    <h3 class="font-bold text-slate-800 mb-1 text-sm">Application Settings</h3>
-                    <p class="text-xs text-slate-500 mb-6">Configure general application preferences.</p>
-                    
-                    <div class="space-y-6">
-                        <!-- Setting 2 -->
-                        <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
-                            <div class="flex gap-3">
-                                <div class="w-8 h-8 rounded-lg bg-indigo-50 text-indigo-500 flex items-center justify-center shrink-0">
-                                    <i class="fa-regular fa-file-pdf"></i>
-                                </div>
-                                <div>
-                                    <div class="text-sm font-semibold text-slate-800">Default Output Format</div>
-                                    <div class="text-xs text-slate-500">Choose the default format for sanitized documents.</div>
-                                </div>
-                            </div>
-                            <div class="relative w-full md:w-56 shrink-0">
-                                <select id="setting-output-format" class="w-full appearance-none bg-white border border-slate-200 text-slate-700 text-sm rounded-lg pl-3 pr-8 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 font-medium cursor-pointer">
-                                    <option>PDF</option>
-                                    <option>PNG</option>
-                                    <option>JPG</option>
-                                    <option>TXT</option>
-                                </select>
-                                <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-slate-400">
-                                    <i class="fa-solid fa-chevron-down text-xs"></i>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Setting 3 -->
-                        <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
-                            <div class="flex gap-3">
-                                <div class="w-8 h-8 rounded-lg bg-indigo-50 text-indigo-500 flex items-center justify-center shrink-0">
-                                    <i class="fa-solid fa-globe"></i>
-                                </div>
-                                <div>
-                                    <div class="text-sm font-semibold text-slate-800">Language</div>
-                                    <div class="text-xs text-slate-500">Select your preferred language.</div>
-                                </div>
-                            </div>
-                            <div class="relative w-full md:w-56 shrink-0">
-                                <select id="setting-language" class="w-full appearance-none bg-white border border-slate-200 text-slate-700 text-sm rounded-lg pl-3 pr-8 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 font-medium cursor-pointer">
-                                    <option>English</option>
-                                    <option>Spanish</option>
-                                    <option>French</option>
-                                    <option>German</option>
-                                </select>
-                                <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-slate-400">
-                                    <i class="fa-solid fa-chevron-down text-xs"></i>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Setting 4 -->
-                        <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
-                            <div class="flex gap-3">
-                                <div class="w-8 h-8 rounded-lg bg-indigo-50 text-indigo-500 flex items-center justify-center shrink-0">
-                                    <i class="fa-regular fa-clock"></i>
-                                </div>
-                                <div>
-                                    <div class="text-sm font-semibold text-slate-800">Timezone</div>
-                                    <div class="text-xs text-slate-500">Select your timezone.</div>
-                                </div>
-                            </div>
-                            <div class="relative w-full md:w-56 shrink-0">
-                                <select id="setting-timezone" class="w-full appearance-none bg-white border border-slate-200 text-slate-700 text-sm rounded-lg pl-3 pr-8 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 font-medium cursor-pointer">
-                                    <option>(UTC+05:30) Asia/Kolkata</option>
-                                    <option>(UTC-08:00) Pacific Time</option>
-                                    <option>(UTC+00:00) GMT</option>
-                                </select>
-                                <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-slate-400">
-                                    <i class="fa-solid fa-chevron-down text-xs"></i>
-                                </div>
-                            </div>
+            <!-- Top Right Profile Nav -->
+            <div class="flex items-center gap-4">
+                <div style="position:relative;">
+                    <button onclick="toggleGlobalNotif()" class="relative w-9 h-9 rounded-full bg-slate-50 flex items-center justify-center text-slate-500 hover:bg-slate-100 transition-colors">
+                        <i class="fa-regular fa-bell text-sm"></i>
+                        <span id="g-notif-badge" style="display:none;" class="absolute top-1 right-1 w-2 h-2 bg-red-500 rounded-full border-2 border-white"></span>
+                    </button>
+                    <div id="g-notif-panel" style="display:none; position:absolute; top:calc(100% + 8px); right:0; width:280px; background:white; border:1px solid #e2e8f0; border-radius:12px; box-shadow:0 10px 25px rgba(0,0,0,.1); z-index:999; text-align:left;">
+                        <div style="padding:10px 14px;font-size:13px;font-weight:700;color:#374151;border-bottom:1px solid #f1f5f9;">Notifications</div>
+                        <div id="g-notif-list" style="padding:6px 0;font-size:13px;color:#64748b;max-height:300px;overflow-y:auto;background:white;">
+                            <div style="padding:12px;text-align:center;"><i class="fa-solid fa-spinner fa-spin"></i></div>
                         </div>
                     </div>
                 </div>
 
-                <!-- Data & Storage -->
-                <div class="bg-white rounded-2xl border border-slate-200 shadow-sm p-6">
-                    <h3 class="font-bold text-slate-800 mb-1 text-sm">Data & Storage</h3>
-                    <p class="text-xs text-slate-500 mb-6">Manage how your data is handled and stored.</p>
+                <div class="flex items-center gap-3 cursor-pointer hover:bg-slate-50 p-1.5 rounded-xl transition-colors">
+                    <div class="w-8 h-8 rounded-full bg-indigo-600 text-white flex items-center justify-center text-sm font-bold">B</div>
+                    <div class="hidden md:flex items-center gap-1.5 text-sm font-semibold text-slate-700">
+                        Bhavya Shree D. <i class="fa-solid fa-chevron-down text-[10px] text-slate-400"></i>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Dashboard Area -->
+        <main class="flex-1 overflow-y-auto p-6 lg:p-10 bg-[#f8fafc]">
+            <div class="max-w-6xl mx-auto">
+                
+                <!-- Page Title -->
+                <div class="mb-8">
+                    <h2 class="text-[26px] font-bold text-slate-900 leading-tight">Settings</h2>
+                    <p class="text-[13.5px] text-slate-500 mt-1 font-medium">Manage your account, security and application preferences.</p>
+                </div>
+
+                <div class="flex flex-col lg:flex-row gap-6">
                     
-                    <div class="space-y-6">
-                        <!-- Setting 2 -->
-                        <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
-                            <div class="flex gap-3">
-                                <div class="w-8 h-8 rounded-lg bg-indigo-50 text-indigo-500 flex items-center justify-center shrink-0">
+                    <!-- LEFT COLUMN -->
+                    <div class="flex-1 flex flex-col gap-6">
+                        
+                        <!-- Account Information Card -->
+                        <div class="bg-white rounded-2xl border border-slate-200 p-8 shadow-sm">
+                            
+                            <div class="flex items-center gap-4 mb-6">
+                                <div class="w-11 h-11 rounded-full bg-indigo-50 flex items-center justify-center text-indigo-600 text-[18px]">
+                                    <i class="fa-regular fa-user"></i>
+                                </div>
+                                <div>
+                                    <h3 class="font-bold text-slate-900 text-[15px]">Account Information</h3>
+                                    <p class="text-[12px] text-slate-500 mt-0.5">View and update your personal details.</p>
+                                </div>
+                            </div>
+                            
+                            <!-- Avatar row -->
+                            <div class="flex items-center gap-4 mb-8">
+                                <div class="relative">
+                                    <div class="w-[60px] h-[60px] rounded-full bg-indigo-600 text-white flex items-center justify-center text-2xl font-bold">B</div>
+                                    <div class="absolute bottom-0 right-0 w-[22px] h-[22px] bg-white rounded-full border border-slate-200 flex items-center justify-center text-indigo-600 text-[10px] cursor-pointer shadow-sm hover:bg-slate-50">
+                                        <i class="fa-solid fa-pencil"></i>
+                                    </div>
+                                </div>
+                                <div class="flex items-center gap-2">
+                                    <span class="font-bold text-slate-900 text-sm">Bhavya Shree D.</span>
+                                    <button class="text-slate-400 hover:text-indigo-600 transition-colors"><i class="fa-regular fa-copy text-xs"></i></button>
+                                </div>
+                            </div>
+                            
+                            <!-- Form Fields -->
+                            <div class="space-y-5">
+                                <div>
+                                    <label class="block text-[11px] font-bold text-slate-700 mb-1.5">Full Name</label>
+                                    <div class="relative">
+                                        <input type="text" id="setting-name" value="Bhavya Shree D." class="w-full border border-slate-200 rounded-xl px-4 py-3 text-[13px] text-slate-600 font-medium focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 hover:border-slate-300 transition-colors">
+                                        <div class="absolute inset-y-0 right-0 pr-4 flex items-center pointer-events-none text-slate-400">
+                                            <i class="fa-solid fa-pencil text-xs"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div>
+                                    <label class="block text-[11px] font-bold text-slate-700 mb-1.5">Email Address</label>
+                                    <div class="relative">
+                                        <input type="email" id="setting-email" value="bhavyashree@gmail.com" class="w-full border border-slate-200 rounded-xl px-4 py-3 text-[13px] text-slate-600 font-medium focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 hover:border-slate-300 transition-colors">
+                                        <div class="absolute inset-y-0 right-0 pr-4 flex items-center pointer-events-none text-slate-400">
+                                            <i class="fa-solid fa-pencil text-xs"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div>
+                                    <label class="block text-[11px] font-bold text-slate-700 mb-1.5">Phone Number</label>
+                                    <div class="relative">
+                                        <input type="tel" id="setting-phone" value="+91 98765 43210" class="w-full border border-slate-200 rounded-xl px-4 py-3 text-[13px] text-slate-600 font-medium focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 hover:border-slate-300 transition-colors">
+                                        <div class="absolute inset-y-0 right-0 pr-4 flex items-center pointer-events-none text-slate-400">
+                                            <i class="fa-solid fa-pencil text-xs"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Info Box -->
+                            <div class="mt-6 bg-indigo-50/70 rounded-xl p-4 flex gap-3 items-start">
+                                <i class="fa-solid fa-circle-info text-indigo-500 text-sm mt-[3px]"></i>
+                                <p class="text-[11.5px] text-indigo-600/90 leading-relaxed font-medium">Your PrivGuard ID is used to securely identify your account.<br>Keep it safe and do not share it with others.</p>
+                            </div>
+                        </div>
+
+                        <!-- Privacy First Card -->
+                        <div class="bg-[#f8fafc] rounded-2xl border border-slate-200 p-6 flex items-center justify-between relative overflow-hidden">
+                            <div class="flex gap-4 items-center relative z-10">
+                                <div class="w-10 h-10 rounded-[10px] bg-white shadow-sm border border-slate-100 flex items-center justify-center text-indigo-600 shrink-0">
                                     <i class="fa-solid fa-shield-halved"></i>
                                 </div>
                                 <div>
-                                    <div class="text-sm font-semibold text-slate-800">Local Processing Only</div>
-                                    <div class="text-xs text-slate-500">Process documents locally without sending to any server.</div>
+                                    <h4 class="font-bold text-slate-800 text-[13px] mb-0.5">Privacy First</h4>
+                                    <p class="text-[11px] text-slate-500 leading-relaxed max-w-[280px]">We respect your privacy. Your data is encrypted and never shared with third parties.</p>
                                 </div>
                             </div>
-                            <!-- Toggle -->
-                            <div class="relative inline-block w-12 mr-2 align-middle select-none transition duration-200 ease-in shrink-0">
-                                <input type="checkbox" name="toggle1" id="toggle1" checked class="toggle-checkbox absolute block w-6 h-6 rounded-full bg-white border-4 border-indigo-600 appearance-none cursor-pointer z-10 transition-transform duration-200 ease-in-out"/>
-                                <label for="toggle1" class="toggle-label block overflow-hidden h-6 rounded-full bg-indigo-600 cursor-pointer"></label>
+                            <!-- Large background shield -->
+                            <div class="absolute right-8 top-1/2 -translate-y-1/2 opacity-[0.04] text-indigo-900 text-[80px] pointer-events-none">
+                                <i class="fa-solid fa-shield"></i>
                             </div>
                         </div>
 
-                        <!-- Setting 3 -->
-                        <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
-                            <div class="flex gap-3">
-                                <div class="w-8 h-8 rounded-lg bg-indigo-50 text-indigo-500 flex items-center justify-center shrink-0">
+                    </div>
+
+                    <!-- RIGHT COLUMN -->
+                    <div class="w-full lg:w-[48%] flex flex-col gap-6">
+                        
+                        <!-- Change Password Card -->
+                        <div class="bg-white rounded-2xl border border-slate-200 p-6 shadow-sm flex items-center justify-between gap-4">
+                            <div class="flex items-center gap-4">
+                                <div class="w-11 h-11 rounded-full bg-indigo-50 flex items-center justify-center text-indigo-600 text-lg shrink-0">
                                     <i class="fa-solid fa-lock"></i>
                                 </div>
                                 <div>
-                                    <div class="text-sm font-semibold text-slate-800">Encrypted Storage</div>
-                                    <div class="text-xs text-slate-500">Encrypt documents and data stored on your device.</div>
+                                    <h3 class="font-bold text-slate-900 text-[14px]">Change Password</h3>
+                                    <p class="text-[11px] text-slate-500 mt-1">Update your password to keep your account secure.</p>
                                 </div>
                             </div>
-                            <!-- Toggle -->
-                            <div class="relative inline-block w-12 mr-2 align-middle select-none transition duration-200 ease-in shrink-0">
-                                <input type="checkbox" name="toggle2" id="toggle2" checked class="toggle-checkbox absolute block w-6 h-6 rounded-full bg-white border-4 border-indigo-600 appearance-none cursor-pointer z-10 transition-transform duration-200 ease-in-out"/>
-                                <label for="toggle2" class="toggle-label block overflow-hidden h-6 rounded-full bg-indigo-600 cursor-pointer"></label>
+                            <button class="shrink-0 px-4 py-2 border border-indigo-500 text-indigo-600 bg-white hover:bg-indigo-50 rounded-lg text-[12px] font-semibold transition-colors shadow-sm">
+                                Change Password
+                            </button>
+                        </div>
+
+                        <!-- Notification Preferences Card -->
+                        <div class="bg-white rounded-2xl border border-slate-200 p-8 shadow-sm flex-1">
+                            
+                            <div class="flex items-center gap-4 mb-8">
+                                <div class="w-11 h-11 rounded-full bg-indigo-50 flex items-center justify-center text-indigo-600 text-lg">
+                                    <i class="fa-regular fa-bell"></i>
+                                </div>
+                                <div>
+                                    <h3 class="font-bold text-slate-900 text-[15px]">Notification Preferences</h3>
+                                    <p class="text-[12px] text-slate-500 mt-0.5">Choose what kind of notifications you want to receive.</p>
+                                </div>
+                            </div>
+
+                            <div class="space-y-6">
+                                <!-- Toggle 1 -->
+                                <div class="flex items-center justify-between gap-4">
+                                    <div>
+                                        <h4 class="font-bold text-slate-800 text-[13px] mb-1">Processing Updates</h4>
+                                        <p class="text-[11.5px] text-slate-500">Get notified when your documents are processed.</p>
+                                    </div>
+                                    <div class="relative inline-block w-10 align-middle select-none transition duration-200 ease-in shrink-0">
+                                        <input type="checkbox" id="notif-processing" checked class="toggle-checkbox absolute block w-5 h-5 rounded-full bg-white border-[3px] border-indigo-600 appearance-none cursor-pointer z-10 transition-transform duration-200 ease-in-out"/>
+                                        <label for="notif-processing" class="toggle-label block overflow-hidden h-5 rounded-full bg-indigo-600 cursor-pointer"></label>
+                                    </div>
+                                </div>
+                                <!-- Toggle 2 -->
+                                <div class="flex items-center justify-between gap-4">
+                                    <div>
+                                        <h4 class="font-bold text-slate-800 text-[13px] mb-1">Security Alerts</h4>
+                                        <p class="text-[11.5px] text-slate-500">Receive alerts for unusual account activity.</p>
+                                    </div>
+                                    <div class="relative inline-block w-10 align-middle select-none transition duration-200 ease-in shrink-0">
+                                        <input type="checkbox" id="notif-security" class="toggle-checkbox absolute block w-5 h-5 rounded-full bg-white border-[3px] border-slate-300 appearance-none cursor-pointer z-10 transition-transform duration-200 ease-in-out"/>
+                                        <label for="notif-security" class="toggle-label block overflow-hidden h-5 rounded-full bg-slate-200 cursor-pointer"></label>
+                                    </div>
+                                </div>
+                                <!-- Toggle 3 -->
+                                <div class="flex items-center justify-between gap-4">
+                                    <div>
+                                        <h4 class="font-bold text-slate-800 text-[13px] mb-1">Product Updates</h4>
+                                        <p class="text-[11.5px] text-slate-500">Stay informed about new features and improvements.</p>
+                                    </div>
+                                    <div class="relative inline-block w-10 align-middle select-none transition duration-200 ease-in shrink-0">
+                                        <input type="checkbox" id="notif-product" checked class="toggle-checkbox absolute block w-5 h-5 rounded-full bg-white border-[3px] border-indigo-600 appearance-none cursor-pointer z-10 transition-transform duration-200 ease-in-out"/>
+                                        <label for="notif-product" class="toggle-label block overflow-hidden h-5 rounded-full bg-indigo-600 cursor-pointer"></label>
+                                    </div>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                </div>
 
-                <!-- Appearance -->
-                <div class="bg-white rounded-2xl border border-slate-200 shadow-sm p-6">
-                    <h3 class="font-bold text-slate-800 mb-1 text-sm">Appearance</h3>
-                    <p class="text-xs text-slate-500 mb-6">Customize the look and feel of the application.</p>
-                    
-                    <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
-                        <div>
-                            <div class="text-sm font-semibold text-slate-800">Theme</div>
-                            <div class="text-xs text-slate-500">Choose your preferred theme.</div>
-                        </div>
-                        <div class="flex bg-slate-50 p-1 rounded-lg border border-slate-200">
-                            <button id="btn-theme-light" onclick="setThemePreference('light')" class="px-4 py-1.5 border-2 text-slate-500 font-medium text-xs hover:text-slate-700 flex items-center gap-2 rounded-md">
-                                <i class="fa-regular fa-sun"></i> Light
-                            </button>
-                            <button id="btn-theme-dark" onclick="setThemePreference('dark')" class="px-4 py-1.5 border-2 border-transparent text-slate-500 font-medium text-xs hover:text-slate-700 flex items-center gap-2 rounded-md">
-                                <i class="fa-regular fa-moon"></i> Dark
-                            </button>
-                            <button id="btn-theme-dark" onclick="setThemePreference('dark')" class="px-4 py-1.5 border-2 border-transparent text-slate-500 font-medium text-xs hover:text-slate-700 flex items-center gap-2 rounded-md">
-                                <i class="fa-solid fa-desktop"></i> System
-                            </button>
-                        </div>
                     </div>
-                </div>
-
-                <!-- Security Note Footer -->
-                <div class="bg-indigo-50/50 rounded-xl p-3 border border-indigo-100 flex items-center gap-3">
-                    <i class="fa-regular fa-shield-check text-indigo-500"></i>
-                    <span class="text-xs font-medium text-slate-600">Your data security is our top priority. All settings are applied locally and securely.</span>
                 </div>
 
             </div>
+        </main>
 
-            <!-- Right Column -->
-            <div class="w-full lg:w-[340px] flex flex-col gap-6 shrink-0">
-                
-                <!-- Profile Preferences -->
-                <div class="bg-white rounded-2xl border border-slate-200 shadow-sm p-6">
-                    <h3 class="font-bold text-slate-800 mb-1 text-sm">Profile Preferences</h3>
-                    <p class="text-[11px] text-slate-500 mb-6">Manage your profile and account preferences.</p>
-                    
-                    <!-- Profile Info -->
-                    <div class="flex items-center gap-4 mb-6">
-                        <div class="w-12 h-12 rounded-full gradient-bg flex items-center justify-center text-white text-xl shadow-md">
-                            <i class="fa-solid fa-shield-halved"></i>
-                        </div>
-                        <div>
-                            <div class="font-bold text-slate-800 text-sm">PrivGuard User</div>
-                            <div class="text-xs text-slate-500">user@privguard.ai</div>
-                            <a href="#" class="text-[10px] font-semibold text-indigo-600 hover:text-indigo-700 flex items-center gap-1 mt-0.5">
-                                Update Profile <i class="fa-solid fa-arrow-up-right-from-square text-[8px]"></i>
-                            </a>
-                        </div>
-                    </div>
-
-                    <!-- Additional Profile Settings -->
-                    <div class="space-y-4 pt-4 border-t border-slate-100">
-                        <div class="flex flex-col gap-1">
-                            <div class="flex items-center justify-between">
-                                <div class="flex items-center gap-2 text-slate-700">
-                                    <div class="w-6 h-6 rounded bg-indigo-50 text-indigo-500 flex items-center justify-center shrink-0">
-                                        <i class="fa-regular fa-clock text-[10px]"></i>
-                                    </div>
-                                    <span class="text-xs font-semibold">Session Timeout</span>
-                                </div>
-                                <div class="relative w-28 shrink-0">
-                                    <select id="setting-session-timeout" class="w-full appearance-none bg-white border border-slate-200 text-slate-700 text-[10px] rounded pl-2 pr-6 py-1 focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500 font-medium cursor-pointer">
-                                        <option>30 Minutes</option>
-                                        <option>1 Hour</option>
-                                        <option>Never</option>
-                                    </select>
-                                    <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-slate-400">
-                                        <i class="fa-solid fa-chevron-down text-[8px]"></i>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="text-[9px] text-slate-400 pl-8">Automatically sign out after a period of inactivity.</div>
-                        </div>
-
-                        <div class="flex flex-col gap-1">
-                            <div class="flex items-center justify-between">
-                                <div class="flex items-center gap-2 text-slate-700">
-                                    <div class="w-6 h-6 rounded bg-indigo-50 text-indigo-500 flex items-center justify-center shrink-0">
-                                        <i class="fa-regular fa-calendar text-[10px]"></i>
-                                    </div>
-                                    <span class="text-xs font-semibold">Date Format</span>
-                                </div>
-                                <div class="relative w-28 shrink-0">
-                                    <select id="setting-date-format" class="w-full appearance-none bg-white border border-slate-200 text-slate-700 text-[10px] rounded pl-2 pr-6 py-1 focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500 font-medium cursor-pointer">
-                                        <option>MM/DD/YYYY</option>
-                                        <option>DD/MM/YYYY</option>
-                                    </select>
-                                    <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-slate-400">
-                                        <i class="fa-solid fa-chevron-down text-[8px]"></i>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="text-[9px] text-slate-400 pl-8">Choose your preferred date format.</div>
-                        </div>
-
-                        <div class="flex flex-col gap-1">
-                            <div class="flex items-center justify-between">
-                                <div class="flex items-center gap-2 text-slate-700">
-                                    <div class="w-6 h-6 rounded bg-indigo-50 text-indigo-500 flex items-center justify-center shrink-0">
-                                        <i class="fa-regular fa-clock text-[10px]"></i>
-                                    </div>
-                                    <span class="text-xs font-semibold">Time Format</span>
-                                </div>
-                                <div class="relative w-28 shrink-0">
-                                    <select id="setting-time-format" class="w-full appearance-none bg-white border border-slate-200 text-slate-700 text-[10px] rounded pl-2 pr-6 py-1 focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500 font-medium cursor-pointer">
-                                        <option>12-Hour (AM/PM)</option>
-                                        <option>24-Hour</option>
-                                    </select>
-                                    <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-slate-400">
-                                        <i class="fa-solid fa-chevron-down text-[8px]"></i>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="text-[9px] text-slate-400 pl-8">Choose your preferred time format.</div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- About PrivGuard AI -->
-                <div class="bg-white rounded-2xl border border-slate-200 shadow-sm p-6">
-                    <h3 class="font-bold text-slate-800 text-sm mb-4">About PrivGuard AI</h3>
-                    
-                    <div class="space-y-4 mb-5">
-                        <div class="flex justify-between items-center text-xs">
-                            <span class="font-semibold text-slate-700">Application Version</span>
-                            <div class="flex items-center gap-2">
-                                <span class="font-bold text-slate-800">v1.2.0</span>
-                                <span class="px-1.5 py-0.5 rounded text-[9px] font-bold bg-emerald-50 text-emerald-600 border border-emerald-100">Latest</span>
-                            </div>
-                        </div>
-                        <div class="flex justify-between items-center text-xs">
-                            <span class="font-semibold text-slate-700">Last Updated</span>
-                            <span class="text-slate-600">May 05, 2025</span>
-                        </div>
-                        <div class="text-xs text-slate-600 text-center py-2">
-                            Made with <i class="fa-solid fa-heart text-purple-500 text-[10px] mx-1"></i> for secure healthcare
-                        </div>
-                    </div>
-
-                    <button class="w-full px-4 py-2 bg-white border border-slate-200 text-indigo-600 rounded-lg text-xs font-semibold hover:bg-slate-50 flex items-center justify-center gap-2 transition-colors">
-                        <i class="fa-solid fa-arrows-rotate"></i> Check for Updates
-                    </button>
-                </div>
-
-                <!-- Need Help -->
-                <div class="bg-white rounded-2xl border border-slate-200 shadow-sm p-6">
-                    <div class="flex items-start gap-4 mb-4">
-                        <div class="w-10 h-10 rounded-full bg-indigo-50 text-indigo-500 flex items-center justify-center text-lg shrink-0">
-                            <i class="fa-solid fa-headset"></i>
-                        </div>
-                        <div>
-                            <h3 class="font-bold text-slate-800 text-sm mb-1">Need Help?</h3>
-                            <p class="text-[10px] text-slate-500 leading-relaxed">Contact our support team if you need any assistance with settings or configuration.</p>
-                        </div>
-                    </div>
-                    <button class="w-full px-4 py-2 bg-white border border-indigo-200 text-indigo-600 rounded-lg text-xs font-semibold hover:bg-indigo-50 flex items-center justify-center gap-2 transition-colors">
-                        <i class="fa-regular fa-envelope"></i> Contact Support
-                    </button>
-                </div>
-
-            </div>
-        </div>
-
-    </main>
 
 
 <style>
@@ -522,16 +377,9 @@ html.dark-mode .dark-btn { border-color: #d1d5db; }
 <script>
 // Handle form fields
 document.addEventListener("DOMContentLoaded", () => {
-    const fields = [
-        "setting-output-format", "setting-language", "setting-timezone",
-        "setting-session-timeout", "setting-date-format", "setting-time-format"
-    ];
-    
-    const toggles = [
-        "toggle1", "toggle2"
-    ];
+    const fields = ["setting-name", "setting-email", "setting-phone"];
+    const toggles = ["notif-processing", "notif-security", "notif-product"];
 
-    // Load from local storage
     fields.forEach(id => {
         const el = document.getElementById(id);
         if(el && localStorage.getItem(id) !== null) {
@@ -546,49 +394,30 @@ document.addEventListener("DOMContentLoaded", () => {
         const el = document.getElementById(id);
         if(el && localStorage.getItem(id) !== null) {
             el.checked = localStorage.getItem(id) === 'true';
+            
+            // Sync custom CSS border color for unchecked state
+            if(!el.checked) {
+                el.classList.replace('border-indigo-600', 'border-slate-300');
+                el.nextElementSibling.classList.replace('bg-indigo-600', 'bg-slate-200');
+            } else {
+                el.classList.replace('border-slate-300', 'border-indigo-600');
+                el.nextElementSibling.classList.replace('bg-slate-200', 'bg-indigo-600');
+            }
         }
         if(el) {
-            el.addEventListener('change', (e) => localStorage.setItem(id, e.target.checked));
+            el.addEventListener('change', (e) => {
+                localStorage.setItem(id, e.target.checked);
+                if(!e.target.checked) {
+                    el.classList.replace('border-indigo-600', 'border-slate-300');
+                    el.nextElementSibling.classList.replace('bg-indigo-600', 'bg-slate-200');
+                } else {
+                    el.classList.replace('border-slate-300', 'border-indigo-600');
+                    el.nextElementSibling.classList.replace('bg-slate-200', 'bg-indigo-600');
+                }
+            });
         }
     });
-
-    // Handle Theme specific buttons
-    let activeTheme = localStorage.getItem('theme_pref') || 'light';
-    updateThemeButtons(activeTheme);
 });
-
-window.setThemePreference = function(theme) {
-    localStorage.setItem('theme_pref', theme);
-    updateThemeButtons(theme);
-    
-    // Also trigger the existing toggle functionality if switching between light/dark
-    const isNowDark = theme === 'dark' || (theme === 'system' && window.matchMedia('(prefers-color-scheme: dark)').matches);
-    if (isNowDark !== document.documentElement.classList.contains('dark-mode')) {
-        window.toggleTheme(); // sync with the global header
-    }
-};
-
-function updateThemeButtons(theme) {
-    const buttons = {
-        'light': document.getElementById('btn-theme-light'),
-        'dark': document.getElementById('btn-theme-dark'),
-        'system': document.getElementById('btn-theme-system')
-    };
-    
-    const activeClass = "bg-white border-indigo-500 text-indigo-600 shadow-sm".split(" ");
-    const inactiveClass = "border-transparent text-slate-500 hover:text-slate-700".split(" ");
-    
-    for(const key in buttons) {
-        if(!buttons[key]) continue;
-        if(key === theme) {
-            buttons[key].classList.remove(...inactiveClass);
-            buttons[key].classList.add(...activeClass);
-        } else {
-            buttons[key].classList.remove(...activeClass);
-            buttons[key].classList.add(...inactiveClass);
-        }
-    }
-}
 </script>
 
 </body>
