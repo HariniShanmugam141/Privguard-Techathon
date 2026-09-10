@@ -439,23 +439,43 @@
                 <!-- Body -->
                 <div class="p-6 grid grid-cols-2 gap-6 bg-slate-50">
                     
-                    <!-- Card 1 -->
-                    <div class="bg-white border border-slate-200 rounded-xl p-5 flex flex-col h-full shadow-sm hover:shadow-md transition-shadow">
-                        <div class="flex items-center gap-3 mb-4">
-                            <div class="w-8 h-8 rounded-full bg-indigo-50 flex items-center justify-center text-indigo-600">
-                                <i class="fa-solid fa-ban text-sm"></i>
-                            </div>
-                            <h3 class="font-bold text-slate-800 text-sm">Custom Keyword Blacklist</h3>
-                        </div>
-                        <p class="text-xs text-slate-600 leading-relaxed mb-4 flex-1">
-                            Define company-specific sensitive words, project names, or internal IDs to automatically redact. Separate entries with commas.
-                        </p>
-                        <textarea id="custom-keywords" class="w-full border border-slate-200 rounded-lg p-3 text-sm focus:outline-none focus:border-indigo-400 resize-none mb-6" rows="2" placeholder="e.g., Project Titan, EMP-404, Confidential"></textarea>
+                    <!-- Left Column -->
+                    <div class="flex flex-col gap-6">
                         
-                        <div class="bg-indigo-50/50 rounded-lg p-3 flex gap-3 border border-indigo-100">
-                            <i class="fa-solid fa-circle-info text-indigo-500 mt-0.5"></i>
-                            <p class="text-[11px] text-indigo-700 leading-relaxed">Tip: Add project names, internal codes, or any sensitive terms specific to your organization.</p>
+                        <!-- New Card: Redact Exact Details -->
+                        <div class="bg-white border border-slate-200 rounded-xl p-5 flex flex-col shadow-sm hover:shadow-md transition-shadow">
+                            <div class="flex items-center gap-3 mb-4">
+                                <div class="w-8 h-8 rounded-full bg-indigo-50 flex items-center justify-center text-indigo-600">
+                                    <i class="fa-regular fa-file-lines text-sm"></i>
+                                </div>
+                                <h3 class="font-bold text-slate-800 text-sm">Redact Exact Details</h3>
+                            </div>
+                            <textarea id="exact-details" class="w-full border border-slate-200 rounded-lg p-3 text-sm focus:outline-none focus:border-indigo-400 resize-none mb-4" rows="2" placeholder="e.g., john.doe@company.com -> [REDACTED_EMAIL],&#10;SSN -> [REDACTED]"></textarea>
+                            <div class="bg-indigo-50/50 rounded-lg p-3 flex gap-3 border border-indigo-100">
+                                <i class="fa-solid fa-circle-info text-indigo-500 mt-0.5"></i>
+                                <p class="text-[11px] text-indigo-700 leading-relaxed">Tip: Add exact details you want to redact, separated by commas.</p>
+                            </div>
                         </div>
+
+                        <!-- Card 1: Custom Keyword Blacklist -->
+                        <div class="bg-white border border-slate-200 rounded-xl p-5 flex flex-col shadow-sm hover:shadow-md transition-shadow">
+                            <div class="flex items-center gap-3 mb-4">
+                                <div class="w-8 h-8 rounded-full bg-indigo-50 flex items-center justify-center text-indigo-600">
+                                    <i class="fa-solid fa-ban text-sm"></i>
+                                </div>
+                                <h3 class="font-bold text-slate-800 text-sm">Custom Keyword Blacklist</h3>
+                            </div>
+                            <p class="text-xs text-slate-600 leading-relaxed mb-4 flex-1">
+                                Define company-specific sensitive words, project names, or internal IDs to automatically redact. Separate entries with commas.
+                            </p>
+                            <textarea id="custom-keywords" class="w-full border border-slate-200 rounded-lg p-3 text-sm focus:outline-none focus:border-indigo-400 resize-none mb-4" rows="2" placeholder="e.g., Project Titan, EMP-404, Confidential"></textarea>
+                            
+                            <div class="bg-indigo-50/50 rounded-lg p-3 flex gap-3 border border-indigo-100 mt-auto">
+                                <i class="fa-solid fa-circle-info text-indigo-500 mt-0.5"></i>
+                                <p class="text-[11px] text-indigo-700 leading-relaxed">Tip: Add project names, internal codes, or any sensitive terms specific to your organization.</p>
+                            </div>
+                        </div>
+
                     </div>
 
                     <!-- Card 2 -->
