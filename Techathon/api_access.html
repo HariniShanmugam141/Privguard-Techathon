@@ -350,6 +350,15 @@ html.dark-mode .dark-btn { border-color: #d1d5db; }
     }
     setTimeout(fetchNotifs, 1000);
 
+    
+
+
+    
+
+    
+    
+
+    
     async function loadApiAccessData() {
         try {
             const res = await fetch("/api/access/data");
@@ -360,7 +369,7 @@ html.dark-mode .dark-btn { border-color: #d1d5db; }
             
             const tbody = document.getElementById("activity-table");
             if (!data.recent_activity || data.recent_activity.length === 0) {
-                tbody.innerHTML = <tr><td colspan="6" class="px-4 py-8 text-center text-slate-500">No data available</td></tr>;
+                tbody.innerHTML = '<tr><td colspan="6" class="px-4 py-8 text-center text-slate-500">No data available</td></tr>';
                 return;
             }
             
@@ -368,52 +377,14 @@ html.dark-mode .dark-btn { border-color: #d1d5db; }
                 const dt = new Date(a.timestamp).toLocaleString();
                 const statusColor = a.status < 400 ? 'text-emerald-600 bg-emerald-50' : 'text-red-600 bg-red-50';
                 const methodColor = a.method === 'GET' ? 'text-blue-600' : 'text-purple-600';
-                return 
-                    <tr class="hover:bg-slate-50 transition-colors">
-                        <td class="py-3 pr-4 text-slate-500 text-[10px]"></td>
-                        <td class="py-3 px-4 font-mono text-[10px] text-slate-700"></td>
-                        <td class="py-3 px-4 text-center"><span class="font-mono text-[10px] font-bold "></span></td>
-                        <td class="py-3 px-4 text-center"><span class="px-2 py-1 rounded text-[10px] font-semibold "></span></td>
-                        <td class="py-3 px-4 text-center text-[10px] text-slate-500"></td>
-                        <td class="py-3 pl-4 text-[10px] font-mono text-slate-500"></td>
-                    </tr>
-                ;
-            }).join('');
-        } catch (e) {
-            console.error(e);
-        }
-    }
-    document.addEventListener("DOMContentLoaded", loadApiAccessData);
-
-
-    async function loadApiAccessData() {
-        try {
-            const res = await fetch("/api/access/data");
-            const data = await res.json();
-            
-            document.getElementById("total-keys").innerText = data.total_keys;
-            document.getElementById("requests-month").innerText = data.requests_this_month;
-            
-            const tbody = document.getElementById("activity-table");
-            if (!data.recent_activity || data.recent_activity.length === 0) {
-                tbody.innerHTML = <tr><td colspan="6" class="px-4 py-8 text-center text-slate-500">No data available</td></tr>;
-                return;
-            }
-            
-            tbody.innerHTML = data.recent_activity.map(a => {
-                const dt = new Date(a.timestamp).toLocaleString();
-                const statusColor = a.status < 400 ? 'text-emerald-600 bg-emerald-50' : 'text-red-600 bg-red-50';
-                const methodColor = a.method === 'GET' ? 'text-blue-600' : 'text-purple-600';
-                return 
-                    <tr class="hover:bg-slate-50 transition-colors">
-                        <td class="py-3 pr-4 text-slate-500 text-[10px]"></td>
-                        <td class="py-3 px-4 font-mono text-[10px] text-slate-700"></td>
-                        <td class="py-3 px-4 text-center"><span class="font-mono text-[10px] font-bold "></span></td>
-                        <td class="py-3 px-4 text-center"><span class="px-2 py-1 rounded text-[10px] font-semibold "></span></td>
-                        <td class="py-3 px-4 text-center text-[10px] text-slate-500"></td>
-                        <td class="py-3 pl-4 text-[10px] font-mono text-slate-500"></td>
-                    </tr>
-                ;
+                return `<tr class="hover:bg-slate-50 transition-colors">
+                        <td class="py-3 pr-4 text-slate-500 text-[10px]">${dt}</td>
+                        <td class="py-3 px-4 font-mono text-[10px] text-slate-700">${a.endpoint}</td>
+                        <td class="py-3 px-4 text-center"><span class="font-mono text-[10px] font-bold ${methodColor}">${a.method}</span></td>
+                        <td class="py-3 px-4 text-center"><span class="px-2 py-1 rounded text-[10px] font-semibold ${statusColor}">${a.status}</span></td>
+                        <td class="py-3 px-4 text-center text-[10px] text-slate-500">${a.response_time}ms</td>
+                        <td class="py-3 pl-4 text-[10px] font-mono text-slate-500">${a.ip_address}</td>
+                    </tr>`;
             }).join('');
         } catch (e) {
             console.error(e);
