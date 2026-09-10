@@ -794,6 +794,24 @@ function switchTab(tab) {
         const step5 = document.getElementById('text-5');
         if(step5) step5.innerText = "Image Recognition & Redaction";
         
+        const statusDesc = document.getElementById('status-desc');
+        const statusSub = document.getElementById('status-sub');
+        if (statusDesc && statusDesc.innerText.includes("Ready for text input")) {
+            statusDesc.innerText = "Awaiting document...";
+        }
+        if (statusSub && statusSub.innerText.includes("Enter or paste text to begin")) {
+            statusSub.innerText = "Redaction process will start once a document is uploaded.";
+        }
+        
+        const origPane = document.getElementById('original-pane');
+        const sanPane = document.getElementById('sanitized-pane');
+        if (origPane && origPane.innerHTML.includes("No text entered")) {
+            origPane.innerHTML = '<div class="w-12 h-12 rounded-full bg-slate-100 flex items-center justify-center mb-2"><i class="fa-regular fa-file text-slate-300 text-xl"></i></div>No document loaded';
+        }
+        if (sanPane && sanPane.innerHTML.includes("No text entered")) {
+            sanPane.innerHTML = '<div class="w-12 h-12 rounded-full bg-slate-100 flex items-center justify-center mb-2"><i class="fa-regular fa-file-shield text-slate-300 text-xl"></i></div><button id="copy-sanitized-btn" class="hidden absolute bottom-3 right-3 px-4 py-1.5 bg-indigo-600 text-white rounded-lg text-[10px] font-semibold hover:bg-indigo-700 shadow-sm transition-colors flex items-center gap-1.5 z-10" onclick="(document.getElementById(\'sanitized-content-text\') || document.getElementById(\'interactive-content\')).innerText && navigator.clipboard.writeText((document.getElementById(\'sanitized-content-text\') || document.getElementById(\'interactive-content\')).innerText); alert(\'Copied to clipboard!\')"><i class="fa-regular fa-copy"></i> Copy Sanitized Text</button>No document loaded';
+        }
+        
         if(origDownload) origDownload.classList.remove('hidden');
         if(sanDownload) sanDownload.classList.remove('hidden');
         if(arrowInd) arrowInd.classList.remove('hidden');
@@ -818,6 +836,24 @@ function switchTab(tab) {
         if(step1) step1.innerText = "Text Entered";
         const step5 = document.getElementById('text-5');
         if(step5) step5.innerText = "Text Analysis & Redaction";
+        
+        const statusDesc = document.getElementById('status-desc');
+        const statusSub = document.getElementById('status-sub');
+        if (statusDesc && statusDesc.innerText.includes("Awaiting document")) {
+            statusDesc.innerText = "Ready for text input";
+        }
+        if (statusSub && statusSub.innerText.includes("Redaction process will start once a document is uploaded")) {
+            statusSub.innerText = "Enter or paste text to begin the secure redaction process.";
+        }
+        
+        const origPane = document.getElementById('original-pane');
+        const sanPane = document.getElementById('sanitized-pane');
+        if (origPane && origPane.innerHTML.includes("No document loaded")) {
+            origPane.innerHTML = '<div class="w-12 h-12 rounded-full bg-slate-100 flex items-center justify-center mb-2"><i class="fa-regular fa-file-lines text-slate-300 text-xl"></i></div>No text entered';
+        }
+        if (sanPane && sanPane.innerHTML.includes("No document loaded")) {
+            sanPane.innerHTML = '<div class="w-12 h-12 rounded-full bg-slate-100 flex items-center justify-center mb-2"><i class="fa-solid fa-text-slash text-slate-300 text-xl"></i></div><button id="copy-sanitized-btn" class="hidden absolute bottom-3 right-3 px-4 py-1.5 bg-indigo-600 text-white rounded-lg text-[10px] font-semibold hover:bg-indigo-700 shadow-sm transition-colors flex items-center gap-1.5 z-10" onclick="(document.getElementById(\'sanitized-content-text\') || document.getElementById(\'interactive-content\')).innerText && navigator.clipboard.writeText((document.getElementById(\'sanitized-content-text\') || document.getElementById(\'interactive-content\')).innerText); alert(\'Copied to clipboard!\')"><i class="fa-regular fa-copy"></i> Copy Sanitized Text</button>No text entered';
+        }
         
         if(origDownload) origDownload.classList.add('hidden');
         if(sanDownload) sanDownload.classList.add('hidden');
