@@ -200,13 +200,13 @@
 
                 <!-- Validation Checks -->
                 <div class="flex items-center gap-5 py-1.5">
-                    <div class="flex items-center gap-1.5 text-[11px] text-indigo-600 font-bold">
+                    <div id="req-length" class="flex items-center gap-1.5 text-[11px] text-slate-400 font-medium transition-colors">
                         <i class="fa-solid fa-check"></i> At least 8 characters
                     </div>
-                    <div class="flex items-center gap-1.5 text-[11px] text-indigo-600 font-bold">
+                    <div id="req-upper" class="flex items-center gap-1.5 text-[11px] text-slate-400 font-medium transition-colors">
                         <i class="fa-solid fa-check"></i> One uppercase letter
                     </div>
-                    <div class="flex items-center gap-1.5 text-[11px] text-indigo-600 font-bold">
+                    <div id="req-num" class="flex items-center gap-1.5 text-[11px] text-slate-400 font-medium transition-colors">
                         <i class="fa-solid fa-check"></i> One number
                     </div>
                 </div>
@@ -224,7 +224,7 @@
                 </div>
 
                 <!-- Google Auth -->
-                <button type="button" class="w-full bg-white border border-slate-200 text-slate-700 font-semibold rounded-2xl h-[44px] flex items-center justify-center gap-3 hover:bg-slate-50 transition-all shadow-sm text-[13px]">
+                <button type="button" id="btn-google" class="w-full bg-white border border-slate-200 text-slate-700 font-semibold rounded-2xl h-[44px] flex items-center justify-center gap-3 hover:bg-slate-50 transition-all shadow-sm text-[13px]">
                     <img src="https://www.svgrepo.com/show/475656/google-color.svg" alt="Google" class="w-5 h-5">
                     Continue with Google
                 </button>
@@ -253,7 +253,7 @@
 
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
-        import { getAuth, createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-auth.js";
+        import { getAuth, createUserWithEmailAndPassword, GoogleAuthProvider, signInWithPopup } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-auth.js";
         import { getDatabase, ref, set } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-database.js";
 
         const firebaseConfig = {
@@ -269,6 +269,60 @@
         const app = initializeApp(firebaseConfig);
         const auth = getAuth(app);
         const database = getDatabase(app);
+
+        
+        // Password Validation Logic
+        const pwInput = document.getElementById('pwInput');
+        const reqLength = document.getElementById('req-length');
+        const reqUpper = document.getElementById('req-upper');
+        const reqNum = document.getElementById('req-num');
+
+        const activeClass = "text-indigo-600 font-bold".split(" ");
+        const inactiveClass = "text-slate-400 font-medium".split(" ");
+
+        function updateReq(el, isValid) {
+            if (isValid) {
+                el.classList.remove(...inactiveClass);
+                el.classList.add(...activeClass);
+            } else {
+                el.classList.remove(...activeClass);
+                el.classList.add(...inactiveClass);
+            }
+        }
+
+        pwInput.addEventListener('input', (e) => {
+            const val = e.target.value;
+            updateReq(reqLength, val.length >= 8);
+            updateReq(reqUpper, /[A-Z]/.test(val));
+            updateReq(reqNum, /[0-9]/.test(val));
+        });
+
+        // Google Auth Logic
+        const btnGoogle = document.getElementById('btn-google');
+        if (btnGoogle) {
+            btnGoogle.addEventListener('click', () => {
+                const provider = new GoogleAuthProvider();
+                const originalText = btnGoogle.innerHTML;
+                btnGoogle.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Connecting...';
+                
+                signInWithPopup(auth, provider)
+                    .then((result) => {
+                        const user = result.user;
+                        // Save basic profile to DB
+                        set(ref(database, 'users/' + user.uid), {
+                            fullName: user.displayName || 'Google User',
+                            email: user.email,
+                            phone: user.phoneNumber || '',
+                            createdAt: new Date().toISOString()
+                        }).then(() => {
+                            window.location.href = '/dashboard';
+                        });
+                    }).catch((error) => {
+                        alert("Google Sign-In Error: " + error.message);
+                        btnGoogle.innerHTML = originalText;
+                    });
+            });
+        }
 
         const form = document.getElementById('signupForm');
         form.addEventListener('submit', (e) => {

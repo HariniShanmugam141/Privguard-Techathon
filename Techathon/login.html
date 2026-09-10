@@ -227,7 +227,7 @@
 
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
-        import { getAuth, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-auth.js";
+        import { getAuth, signInWithEmailAndPassword, GoogleAuthProvider, signInWithPopup } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-auth.js";
 
         const firebaseConfig = {
             apiKey: "AIzaSyBW4lyiQuw9qQdGjmVThwooXCX76MCSLWM",
@@ -241,6 +241,25 @@
 
         const app = initializeApp(firebaseConfig);
         const auth = getAuth(app);
+
+        
+        // Google Auth Logic
+        const btnGoogle = document.getElementById('btn-google');
+        if (btnGoogle) {
+            btnGoogle.addEventListener('click', () => {
+                const provider = new GoogleAuthProvider();
+                const originalText = btnGoogle.innerHTML;
+                btnGoogle.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Connecting...';
+                
+                signInWithPopup(auth, provider)
+                    .then((result) => {
+                        window.location.href = '/dashboard';
+                    }).catch((error) => {
+                        alert("Google Sign-In Error: " + error.message);
+                        btnGoogle.innerHTML = originalText;
+                    });
+            });
+        }
 
         const form = document.getElementById('loginForm');
         form.addEventListener('submit', (e) => {
