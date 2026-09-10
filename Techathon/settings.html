@@ -93,16 +93,18 @@
   </div>
 </aside>
 <!-- MAIN -->
-<!-- MAIN -->
-    <main class="flex-1 flex flex-col h-full overflow-y-auto p-3">
-        
-        
-        <!-- Header -->
-        <header class="h-16 bg-white border-b border-slate-200 flex items-center justify-between px-4 shrink-0 z-10">
+    <main class="flex-1 flex flex-col h-full overflow-y-auto custom-scrollbar p-3">
+            <div class="max-w-6xl mx-auto">
+                
+                <header class="flex justify-between items-center mb-2">
             <div class="flex items-center gap-2">
-                <button class="lg:hidden text-slate-500 hover:text-slate-700">
-                    <i class="fa-solid fa-bars text-[14px]"></i>
-                </button>
+                <div class="w-6 h-6 rounded-full bg-indigo-100 text-indigo-600 flex items-center justify-center">
+                    <i class="fa-solid fa-gear text-[11px]"></i>
+                </div>
+                <div>
+                    <h2 class="text-[18px] font-bold text-slate-900 leading-tight">Settings</h2>
+                    <p class="text-[11.5px] text-slate-500 mt-0.5">Manage your account, security and application preferences.</p>
+                </div>
             </div>
             
             <!-- Top Right Profile Nav -->
@@ -121,23 +123,13 @@
                 </div>
 
                 <div class="flex items-center gap-2 cursor-pointer hover:bg-slate-50 p-1.5 rounded-xl transition-colors">
-                    <div class="w-6 h-6 rounded-full bg-indigo-600 text-white flex items-center justify-center text-[11.5px] font-bold"><span class="user-avatar-initial">B</span></div>
+                    <div class="w-6 h-6 rounded-full bg-indigo-600 text-white flex items-center justify-center text-[11.5px] font-bold user-avatar-initial">B</div>
                     <div class="hidden md:flex items-center gap-1.5 text-[11.5px] font-semibold text-slate-700">
                         <span class="user-display-name">Bhavya Shree D.</span> <i class="fa-solid fa-chevron-down text-[10px] text-slate-400"></i>
                     </div>
                 </div>
             </div>
         </header>
-
-        <!-- Main Dashboard Area -->
-        <main class="flex-1 overflow-y-auto p-3 lg:p-10 bg-[#f8fafc]">
-            <div class="max-w-6xl mx-auto">
-                
-                <!-- Page Title -->
-                <div class="mb-8">
-                    <h2 class="text-[26px] font-bold text-slate-900 leading-tight">Settings</h2>
-                    <p class="text-[13.5px] text-slate-500 mt-1 font-medium">Manage your account, security and application preferences.</p>
-                </div>
 
                 <div class="flex flex-col lg:flex-row gap-2">
                     
