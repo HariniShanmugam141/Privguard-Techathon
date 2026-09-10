@@ -94,22 +94,22 @@
 </aside>
 <!-- MAIN -->
 <!-- MAIN -->
-    <main class="flex-1 flex flex-col h-full overflow-y-auto p-5 md:p-6">
+    <main class="flex-1 flex flex-col h-full overflow-y-auto p-3">
         
         
         <!-- Header -->
         <header class="h-16 bg-white border-b border-slate-200 flex items-center justify-between px-4 shrink-0 z-10">
-            <div class="flex items-center gap-3">
+            <div class="flex items-center gap-2">
                 <button class="lg:hidden text-slate-500 hover:text-slate-700">
-                    <i class="fa-solid fa-bars text-[16px]"></i>
+                    <i class="fa-solid fa-bars text-[14px]"></i>
                 </button>
             </div>
             
             <!-- Top Right Profile Nav -->
-            <div class="flex items-center gap-3">
+            <div class="flex items-center gap-2">
                 <div style="position:relative;">
-                    <button onclick="toggleGlobalNotif()" class="relative w-9 h-9 rounded-full bg-slate-50 flex items-center justify-center text-slate-500 hover:bg-slate-100 transition-colors">
-                        <i class="fa-regular fa-bell text-[13px]"></i>
+                    <button onclick="toggleGlobalNotif()" class="relative w-7 h-7 rounded-full bg-slate-50 flex items-center justify-center text-slate-500 hover:bg-slate-100 transition-colors">
+                        <i class="fa-regular fa-bell text-[11.5px]"></i>
                         <span id="g-notif-badge" style="display:none;" class="absolute top-1 right-1 w-2 h-2 bg-red-500 rounded-full border-2 border-white"></span>
                     </button>
                     <div id="g-notif-panel" style="display:none; position:absolute; top:calc(100% + 8px); right:0; width:280px; background:white; border:1px solid #e2e8f0; border-radius:12px; box-shadow:0 10px 25px rgba(0,0,0,.1); z-index:999; text-align:left;">
@@ -120,9 +120,9 @@
                     </div>
                 </div>
 
-                <div class="flex items-center gap-3 cursor-pointer hover:bg-slate-50 p-1.5 rounded-xl transition-colors">
-                    <div class="w-8 h-8 rounded-full bg-indigo-600 text-white flex items-center justify-center text-[13px] font-bold"><span class="user-avatar-initial">B</span></div>
-                    <div class="hidden md:flex items-center gap-1.5 text-[13px] font-semibold text-slate-700">
+                <div class="flex items-center gap-2 cursor-pointer hover:bg-slate-50 p-1.5 rounded-xl transition-colors">
+                    <div class="w-6 h-6 rounded-full bg-indigo-600 text-white flex items-center justify-center text-[11.5px] font-bold"><span class="user-avatar-initial">B</span></div>
+                    <div class="hidden md:flex items-center gap-1.5 text-[11.5px] font-semibold text-slate-700">
                         <span class="user-display-name">Bhavya Shree D.</span> <i class="fa-solid fa-chevron-down text-[10px] text-slate-400"></i>
                     </div>
                 </div>
@@ -130,7 +130,7 @@
         </header>
 
         <!-- Main Dashboard Area -->
-        <main class="flex-1 overflow-y-auto p-5 lg:p-10 bg-[#f8fafc]">
+        <main class="flex-1 overflow-y-auto p-3 lg:p-10 bg-[#f8fafc]">
             <div class="max-w-6xl mx-auto">
                 
                 <!-- Page Title -->
@@ -139,85 +139,85 @@
                     <p class="text-[13.5px] text-slate-500 mt-1 font-medium">Manage your account, security and application preferences.</p>
                 </div>
 
-                <div class="flex flex-col lg:flex-row gap-5">
+                <div class="flex flex-col lg:flex-row gap-2">
                     
                     <!-- LEFT COLUMN -->
-                    <div class="flex-1 flex flex-col gap-5">
+                    <div class="flex-1 flex flex-col gap-2">
                         
                         <!-- Account Information Card -->
                         <div class="bg-white rounded-2xl border border-slate-200 p-6 shadow-sm">
                             
-                            <div class="flex items-center gap-3 mb-4">
-                                <div class="w-11 h-11 rounded-full bg-indigo-50 flex items-center justify-center text-indigo-600 text-[18px]">
+                            <div class="flex items-center gap-2 mb-2">
+                                <div class="w-11 h-11 rounded-full bg-indigo-50 flex items-center justify-center text-indigo-600 text-[15px]">
                                     <i class="fa-regular fa-user"></i>
                                 </div>
                                 <div>
-                                    <h3 class="font-bold text-slate-900 text-[15px]">Account Information</h3>
-                                    <p class="text-[12px] text-slate-500 mt-0.5">View and update your personal details.</p>
+                                    <h3 class="font-bold text-slate-900 text-[13px]">Account Information</h3>
+                                    <p class="text-[10px] text-slate-500 mt-0.5">View and update your personal details.</p>
                                 </div>
                             </div>
                             
                             <!-- Avatar row -->
-                            <div class="flex items-center gap-3 mb-8">
+                            <div class="flex items-center gap-2 mb-8">
                                 <div class="relative">
-                                    <div class="w-[60px] h-[60px] rounded-full bg-indigo-600 text-white flex items-center justify-center text-[22px] font-bold"><span class="user-avatar-initial">B</span></div>
+                                    <div class="w-[60px] h-[60px] rounded-full bg-indigo-600 text-white flex items-center justify-center text-[18px] font-bold"><span class="user-avatar-initial">B</span></div>
                                     <div class="absolute bottom-0 right-0 w-[22px] h-[22px] bg-white rounded-full border border-slate-200 flex items-center justify-center text-indigo-600 text-[10px] cursor-pointer shadow-sm hover:bg-slate-50">
                                         <i class="fa-solid fa-pencil"></i>
                                     </div>
                                 </div>
                                 <div class="flex items-center gap-2">
-                                    <span class="font-bold text-slate-900 text-[13px]"><span class="user-display-name">Bhavya Shree D.</span></span>
-                                    <button id="btn-copy-id" class="text-slate-400 hover:text-indigo-600 transition-colors" title="Copy PrivGuard ID"><i class="fa-regular fa-copy text-[11px]"></i></button>
+                                    <span class="font-bold text-slate-900 text-[11.5px]"><span class="user-display-name">Bhavya Shree D.</span></span>
+                                    <button id="btn-copy-id" class="text-slate-400 hover:text-indigo-600 transition-colors" title="Copy PrivGuard ID"><i class="fa-regular fa-copy text-[10px]"></i></button>
                                 </div>
                             </div>
                             
                             <!-- Form Fields -->
                             <div class="space-y-5">
                                 <div>
-                                    <label class="block text-[11px] font-bold text-slate-700 mb-1.5">Full Name</label>
+                                    <label class="block text-[10px] font-bold text-slate-700 mb-1.5">Full Name</label>
                                     <div class="relative">
-                                        <input type="text" id="setting-name" value="Bhavya Shree D." class="w-full border border-slate-200 rounded-xl px-4 py-3 text-[13px] text-slate-600 font-medium focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 hover:border-slate-300 transition-colors">
+                                        <input type="text" id="setting-name" value="Bhavya Shree D." class="w-full border border-slate-200 rounded-xl px-2.5 py-1.5.5 text-[11.5px] text-slate-600 font-medium focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 hover:border-slate-300 transition-colors">
                                         <div class="absolute inset-y-0 right-0 pr-4 flex items-center pointer-events-none text-slate-400">
-                                            <i class="fa-solid fa-pencil text-[11px]"></i>
+                                            <i class="fa-solid fa-pencil text-[10px]"></i>
                                         </div>
                                     </div>
                                 </div>
                                 <div>
-                                    <label class="block text-[11px] font-bold text-slate-700 mb-1.5">Email Address</label>
+                                    <label class="block text-[10px] font-bold text-slate-700 mb-1.5">Email Address</label>
                                     <div class="relative">
-                                        <input type="email" id="setting-email" value="bhavyashree@gmail.com" class="w-full border border-slate-200 rounded-xl px-4 py-3 text-[13px] text-slate-600 font-medium focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 hover:border-slate-300 transition-colors">
+                                        <input type="email" id="setting-email" value="bhavyashree@gmail.com" class="w-full border border-slate-200 rounded-xl px-2.5 py-1.5.5 text-[11.5px] text-slate-600 font-medium focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 hover:border-slate-300 transition-colors">
                                         <div class="absolute inset-y-0 right-0 pr-4 flex items-center pointer-events-none text-slate-400">
-                                            <i class="fa-solid fa-pencil text-[11px]"></i>
+                                            <i class="fa-solid fa-pencil text-[10px]"></i>
                                         </div>
                                     </div>
                                 </div>
                                 <div>
-                                    <label class="block text-[11px] font-bold text-slate-700 mb-1.5">Phone Number</label>
+                                    <label class="block text-[10px] font-bold text-slate-700 mb-1.5">Phone Number</label>
                                     <div class="relative">
-                                        <input type="tel" id="setting-phone" value="+91 98765 43210" class="w-full border border-slate-200 rounded-xl px-4 py-3 text-[13px] text-slate-600 font-medium focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 hover:border-slate-300 transition-colors">
+                                        <input type="tel" id="setting-phone" value="+91 98765 43210" class="w-full border border-slate-200 rounded-xl px-2.5 py-1.5.5 text-[11.5px] text-slate-600 font-medium focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 hover:border-slate-300 transition-colors">
                                         <div class="absolute inset-y-0 right-0 pr-4 flex items-center pointer-events-none text-slate-400">
-                                            <i class="fa-solid fa-pencil text-[11px]"></i>
+                                            <i class="fa-solid fa-pencil text-[10px]"></i>
                                         </div>
                                     </div>
                                 </div>
                             </div>
 
                             <!-- Info Box -->
-                            <div class="mt-6 bg-indigo-50/70 rounded-xl p-4 flex gap-3 items-start">
-                                <i class="fa-solid fa-circle-info text-indigo-500 text-[13px] mt-[3px]"></i>
+                            <div class="mt-6 bg-indigo-50/70 rounded-xl p-3 flex gap-2 items-start">
+                                <i class="fa-solid fa-circle-info text-indigo-500 text-[11.5px] mt-[3px]"></i>
                                 <p class="text-[11.5px] text-indigo-600/90 leading-relaxed font-medium">Your PrivGuard ID is used to securely identify your account.<br>Keep it safe and do not share it with others.</p>
                             </div>
                         </div>
 
                         <!-- Privacy First Card -->
-                        <div class="bg-[#f8fafc] rounded-2xl border border-slate-200 p-5 flex items-center justify-between relative overflow-hidden">
-                            <div class="flex gap-3 items-center relative z-10">
-                                <div class="w-9 h-9 rounded-[10px] bg-white shadow-sm border border-slate-100 flex items-center justify-center text-indigo-600 shrink-0">
+                        <div class="bg-[#f8fafc] rounded-2xl border border-slate-200 p-3 flex items-center justify-between relative overflow-hidden">
+                            <div class="flex gap-2 items-center relative z-10">
+                                <div class="w-7 h-7 rounded-[10px] bg-white shadow-sm border border-slate-100 flex items-center justify-center text-indigo-600 shrink-0">
                                     <i class="fa-solid fa-shield-halved"></i>
                                 </div>
                                 <div>
-                                    <h4 class="font-bold text-slate-800 text-[13px] mb-0.5">Privacy First</h4>
-                                    <p class="text-[11px] text-slate-500 leading-relaxed max-w-[280px]">We respect your privacy. Your data is encrypted and never shared with third parties.</p>
+                                    <h4 class="font-bold text-slate-800 text-[11.5px] mb-0.5">Privacy First</h4>
+                                    <p class="text-[10px] text-slate-500 leading-relaxed max-w-[280px]">We respect your privacy. Your data is encrypted and never shared with third parties.</p>
                                 </div>
                             </div>
                             <!-- Large background shield -->
@@ -229,20 +229,20 @@
                     </div>
 
                     <!-- RIGHT COLUMN -->
-                    <div class="w-full lg:w-[48%] flex flex-col gap-5">
+                    <div class="w-full lg:w-[48%] flex flex-col gap-2">
                         
                         <!-- Change Password Card -->
-                        <div class="bg-white rounded-2xl border border-slate-200 p-5 shadow-sm flex items-center justify-between gap-3">
-                            <div class="flex items-center gap-3">
-                                <div class="w-11 h-11 rounded-full bg-indigo-50 flex items-center justify-center text-indigo-600 text-[16px] shrink-0">
+                        <div class="bg-white rounded-2xl border border-slate-200 p-3 shadow-sm flex items-center justify-between gap-2">
+                            <div class="flex items-center gap-2">
+                                <div class="w-11 h-11 rounded-full bg-indigo-50 flex items-center justify-center text-indigo-600 text-[14px] shrink-0">
                                     <i class="fa-solid fa-lock"></i>
                                 </div>
                                 <div>
-                                    <h3 class="font-bold text-slate-900 text-[14px]">Change Password</h3>
-                                    <p class="text-[11px] text-slate-500 mt-1">Update your password to keep your account secure.</p>
+                                    <h3 class="font-bold text-slate-900 text-[12px]">Change Password</h3>
+                                    <p class="text-[10px] text-slate-500 mt-1">Update your password to keep your account secure.</p>
                                 </div>
                             </div>
-                            <button id="btn-change-password" class="shrink-0 px-4 py-2 border border-indigo-500 text-indigo-600 bg-white hover:bg-indigo-50 rounded-lg text-[12px] font-semibold transition-colors shadow-sm">
+                            <button id="btn-change-password" class="shrink-0 px-4 py-1.5 border border-indigo-500 text-indigo-600 bg-white hover:bg-indigo-50 rounded-lg text-[10px] font-semibold transition-colors shadow-sm">
                                 Change Password
                             </button>
                         </div>
@@ -250,21 +250,21 @@
                         <!-- Notification Preferences Card -->
                         <div class="bg-white rounded-2xl border border-slate-200 p-6 shadow-sm flex-1">
                             
-                            <div class="flex items-center gap-3 mb-8">
-                                <div class="w-11 h-11 rounded-full bg-indigo-50 flex items-center justify-center text-indigo-600 text-[16px]">
+                            <div class="flex items-center gap-2 mb-8">
+                                <div class="w-11 h-11 rounded-full bg-indigo-50 flex items-center justify-center text-indigo-600 text-[14px]">
                                     <i class="fa-regular fa-bell"></i>
                                 </div>
                                 <div>
-                                    <h3 class="font-bold text-slate-900 text-[15px]">Notification Preferences</h3>
-                                    <p class="text-[12px] text-slate-500 mt-0.5">Choose what kind of notifications you want to receive.</p>
+                                    <h3 class="font-bold text-slate-900 text-[13px]">Notification Preferences</h3>
+                                    <p class="text-[10px] text-slate-500 mt-0.5">Choose what kind of notifications you want to receive.</p>
                                 </div>
                             </div>
 
                             <div class="space-y-6">
                                 <!-- Toggle 1 -->
-                                <div class="flex items-center justify-between gap-3">
+                                <div class="flex items-center justify-between gap-2">
                                     <div>
-                                        <h4 class="font-bold text-slate-800 text-[13px] mb-1">Processing Updates</h4>
+                                        <h4 class="font-bold text-slate-800 text-[11.5px] mb-1">Processing Updates</h4>
                                         <p class="text-[11.5px] text-slate-500">Get notified when your documents are processed.</p>
                                     </div>
                                     <div class="relative inline-block w-9 align-middle select-none transition duration-200 ease-in shrink-0">
@@ -273,9 +273,9 @@
                                     </div>
                                 </div>
                                 <!-- Toggle 2 -->
-                                <div class="flex items-center justify-between gap-3">
+                                <div class="flex items-center justify-between gap-2">
                                     <div>
-                                        <h4 class="font-bold text-slate-800 text-[13px] mb-1">Security Alerts</h4>
+                                        <h4 class="font-bold text-slate-800 text-[11.5px] mb-1">Security Alerts</h4>
                                         <p class="text-[11.5px] text-slate-500">Receive alerts for unusual account activity.</p>
                                     </div>
                                     <div class="relative inline-block w-9 align-middle select-none transition duration-200 ease-in shrink-0">
@@ -284,9 +284,9 @@
                                     </div>
                                 </div>
                                 <!-- Toggle 3 -->
-                                <div class="flex items-center justify-between gap-3">
+                                <div class="flex items-center justify-between gap-2">
                                     <div>
-                                        <h4 class="font-bold text-slate-800 text-[13px] mb-1">Product Updates</h4>
+                                        <h4 class="font-bold text-slate-800 text-[11.5px] mb-1">Product Updates</h4>
                                         <p class="text-[11.5px] text-slate-500">Stay informed about new features and improvements.</p>
                                     </div>
                                     <div class="relative inline-block w-9 align-middle select-none transition duration-200 ease-in shrink-0">

@@ -168,21 +168,21 @@
         
         <!-- Header -->
         <header class="flex justify-between items-start mb-6">
-            <div class="flex items-center gap-3">
-                <div class="w-8 h-8 rounded-full bg-indigo-100 text-indigo-600 flex items-center justify-center">
+            <div class="flex items-center gap-2">
+                <div class="w-6 h-6 rounded-full bg-indigo-100 text-indigo-600 flex items-center justify-center">
                     <i class="fa-solid fa-shield-virus"></i>
                 </div>
                 <div>
                     <h2 class="text-2xl font-bold text-slate-900 leading-tight">Redact Document</h2>
-                    <p class="text-sm text-slate-500 mt-0.5">Remove or mask sensitive information from your documents</p>
+                    <p class="text-[11.5px] text-slate-500 mt-0.5">Remove or mask sensitive information from your documents</p>
                 </div>
             </div>
-            <div class="flex items-center gap-3">
-    <button onclick="toggleTheme()" class="flex items-center gap-2 px-4 py-2 bg-white border border-slate-200 rounded-lg text-sm font-medium hover:bg-slate-50 shadow-sm transition-colors dark-btn">
+            <div class="flex items-center gap-2">
+    <button onclick="toggleTheme()" class="flex items-center gap-2 px-4 py-1.5 bg-white border border-slate-200 rounded-lg text-[11.5px] font-medium hover:bg-slate-50 shadow-sm transition-colors dark-btn">
         <i class="fa-regular fa-sun" id="theme-icon"></i> <span id="theme-text">Light</span>
     </button>
     <div style="position:relative;">
-        <button onclick="toggleGlobalNotif()" class="relative p-2 bg-white border border-slate-200 rounded-lg text-slate-600 hover:bg-slate-50 w-10 h-10 flex items-center justify-center shadow-sm transition-colors dark-btn">
+        <button onclick="toggleGlobalNotif()" class="relative p-2 bg-white border border-slate-200 rounded-lg text-slate-600 hover:bg-slate-50 w-10 h-8 flex items-center justify-center shadow-sm transition-colors dark-btn">
             <i class="fa-regular fa-bell"></i>
             <span id="g-notif-badge" style="display:none;" class="absolute top-1 right-1 w-2.5 h-2.5 bg-red-500 rounded-full border-2 border-white"></span>
         </button>
@@ -193,7 +193,7 @@
             </div>
         </div>
     </div>
-    <button onclick="exportGlobalCSV()" class="flex items-center gap-2 px-4 py-2 bg-indigo-600 text-white rounded-lg text-sm font-medium hover:bg-indigo-700 shadow-sm transition-colors">
+    <button onclick="exportGlobalCSV()" class="flex items-center gap-2 px-4 py-1.5 bg-indigo-600 text-white rounded-lg text-[11.5px] font-medium hover:bg-indigo-700 shadow-sm transition-colors">
         <i class="fa-solid fa-download"></i> Export Report
     </button>
 </div>
@@ -206,34 +206,34 @@
 
                 <!-- Tabs -->
                 <div class="flex border-b border-slate-200">
-                    <button id="tab-upload" onclick="switchTab('upload')" class="flex-1 flex items-center justify-center gap-2 py-3 text-sm font-semibold text-indigo-600 border-b-2 border-indigo-600 bg-white transition-colors">
+                    <button id="tab-upload" onclick="switchTab('upload')" class="flex-1 flex items-center justify-center gap-2 py-3 text-[11.5px] font-semibold text-indigo-600 border-b-2 border-indigo-600 bg-white transition-colors">
                         <i class="fa-solid fa-cloud-arrow-up"></i> Upload Document
                     </button>
-                    <button id="tab-text" onclick="switchTab('text')" class="flex-1 flex items-center justify-center gap-2 py-3 text-sm font-medium text-slate-500 border-b-2 border-transparent hover:text-slate-700 bg-white transition-colors">
+                    <button id="tab-text" onclick="switchTab('text')" class="flex-1 flex items-center justify-center gap-2 py-3 text-[11.5px] font-medium text-slate-500 border-b-2 border-transparent hover:text-slate-700 bg-white transition-colors">
                         <i class="fa-solid fa-pen-nib"></i> Enter Text
                     </button>
                 </div>
 
                 <!-- Upload Tab Content -->
-                <div id="panel-upload" class="flex flex-col flex-1 p-5">
+                <div id="panel-upload" class="flex flex-col flex-1 p-3">
                     <!-- Dropzone Area -->
                     <div class="flex-1 flex flex-col items-center justify-center border-dashed border-2 border-slate-300 rounded-xl bg-slate-50 hover:bg-slate-100 transition-colors cursor-pointer py-10" onclick="document.getElementById('fileInput').click()">
-                        <div class="w-14 h-14 bg-indigo-600 rounded-full flex items-center justify-center text-white mb-3 shadow-md">
+                        <div class="w-14 h-14 bg-indigo-600 rounded-full flex items-center justify-center text-white mb-2 shadow-md">
                             <i class="fa-solid fa-arrow-up text-xl"></i>
                         </div>
                         <h3 class="text-lg font-bold text-slate-800 mb-1">Drag & Drop your file here</h3>
-                        <p class="text-sm text-slate-500 mb-5">Supports PDF, PNG, JPG up to 50MB</p>
-                        <button class="px-6 py-2 bg-indigo-600 text-white rounded-lg text-sm font-bold shadow hover:bg-indigo-700 flex items-center gap-2">
+                        <p class="text-[11.5px] text-slate-500 mb-5">Supports PDF, PNG, JPG up to 50MB</p>
+                        <button class="px-6 py-1.5 bg-indigo-600 text-white rounded-lg text-[11.5px] font-bold shadow hover:bg-indigo-700 flex items-center gap-2">
                             <i class="fa-regular fa-folder-open"></i> Browse Files
                         </button>
                     </div>
 
                     <!-- Bottom Buttons -->
                     <div class="flex justify-between items-center mt-5">
-                        <button onclick="toggleCustomizeMenu()" class="px-6 py-2.5 bg-indigo-50 text-indigo-700 border border-indigo-200 rounded-lg text-sm font-bold shadow-sm hover:bg-indigo-100 flex items-center gap-2 transition-colors">
+                        <button onclick="toggleCustomizeMenu()" class="px-6 py-1.5.5 bg-indigo-50 text-indigo-700 border border-indigo-200 rounded-lg text-[11.5px] font-bold shadow-sm hover:bg-indigo-100 flex items-center gap-2 transition-colors">
                             <i class="fa-solid fa-gear"></i> Customize
                         </button>
-                        <button onclick="document.getElementById('fileInput').click()" class="px-8 py-2.5 bg-indigo-600 text-white rounded-lg text-sm font-bold shadow-md hover:bg-indigo-700 flex items-center gap-2 transition-colors">
+                        <button onclick="document.getElementById('fileInput').click()" class="px-8 py-1.5.5 bg-indigo-600 text-white rounded-lg text-[11.5px] font-bold shadow-md hover:bg-indigo-700 flex items-center gap-2 transition-colors">
                             <i class="fa-solid fa-play"></i> Process Document
                         </button>
                     </div>
@@ -241,11 +241,11 @@
 
                 <!-- Enter Text Tab Content (hidden by default) -->
                 <div id="panel-text" class="hidden flex-col px-6 py-5 flex-1">
-                    <p class="text-xs font-semibold text-slate-500 uppercase tracking-wide mb-2">Enter or paste text manually</p>
-                    <textarea id="text-input" oninput="updateCharCount()" maxlength="10000" placeholder="Paste your document text here..." class="w-full flex-1 resize-none border border-slate-200 rounded-xl p-3 text-sm text-slate-700 focus:outline-none focus:ring-2 focus:ring-indigo-300 leading-relaxed" style="min-height:160px;"></textarea>
+                    <p class="text-[10px] font-semibold text-slate-500 uppercase tracking-wide mb-2">Enter or paste text manually</p>
+                    <textarea id="text-input" oninput="updateCharCount()" maxlength="10000" placeholder="Paste your document text here..." class="w-full flex-1 resize-none border border-slate-200 rounded-xl p-3 text-[11.5px] text-slate-700 focus:outline-none focus:ring-2 focus:ring-indigo-300 leading-relaxed" style="min-height:160px;"></textarea>
                     <div class="flex items-center justify-between mt-2">
-                        <span id="char-count" class="text-xs text-slate-400">0 / 10000 characters</span>
-                        <button id="process-text-btn" onclick="processText()" class="flex items-center gap-2 px-5 py-2 bg-indigo-600 text-white rounded-lg text-sm font-semibold hover:bg-indigo-700 shadow-sm transition-colors">
+                        <span id="char-count" class="text-[10px] text-slate-400">0 / 10000 characters</span>
+                        <button id="process-text-btn" onclick="processText()" class="flex items-center gap-2 px-5 py-1.5 bg-indigo-600 text-white rounded-lg text-[11.5px] font-semibold hover:bg-indigo-700 shadow-sm transition-colors">
                             <i class="fa-solid fa-bolt"></i> Process Text
                         </button>
                     </div>
@@ -254,8 +254,8 @@
             </div>
 
             <!-- Processing Pipeline Flow (Middle) -->
-            <div id="pipeline-panel" class="w-72 bg-white rounded-2xl border border-slate-200 shadow-sm p-5 flex flex-col transition-all">
-                <h3 class="font-bold text-slate-800 text-sm mb-4 flex items-center gap-2">
+            <div id="pipeline-panel" class="w-72 bg-white rounded-2xl border border-slate-200 shadow-sm p-3 flex flex-col transition-all">
+                <h3 class="font-bold text-slate-800 text-[11.5px] mb-2 flex items-center gap-2">
                     <i class="fa-solid fa-list-check text-indigo-500"></i> Processing Pipeline
                 </h3>
                 <div class="flex-1 flex flex-col justify-between relative min-h-[220px]">
@@ -273,11 +273,11 @@
                         <div class="step-circle waiting" id="circle-3">3</div>
                         <span class="step-text" id="text-3">Entity Recognition</span>
                     </div>
-                    <div class="step-container" id="step-4">
+                    <div class="step-container" id="step-3">
                         <div class="step-circle waiting" id="circle-4">4</div>
                         <span class="step-text" id="text-4">Sensitive Data Redaction</span>
                     </div>
-                    <div class="step-container" id="step-5">
+                    <div class="step-container" id="step-3">
                         <div class="step-circle waiting" id="circle-5">5</div>
                         <span class="step-text" id="text-5">Image Recognition &amp; Redaction</span>
                     </div>
@@ -293,10 +293,10 @@
             </div>
 
             <!-- redaction Summary (Right) -->
-            <div id="summary-panel" class="w-80 bg-white rounded-2xl border border-slate-200 shadow-sm p-5 flex flex-col transition-all">
-                <div class="flex items-center gap-2 mb-4">
+            <div id="summary-panel" class="w-80 bg-white rounded-2xl border border-slate-200 shadow-sm p-3 flex flex-col transition-all">
+                <div class="flex items-center gap-2 mb-2">
                     <i class="fa-solid fa-chart-simple text-indigo-500"></i>
-                    <h3 class="font-bold text-slate-800 text-sm">redaction Summary</h3>
+                    <h3 class="font-bold text-slate-800 text-[11.5px]">redaction Summary</h3>
                 </div>
 
                 <!-- Donut Chart Mockup -->
@@ -312,27 +312,27 @@
                 </div>
 
                 <div class="space-y-3 flex-1">
-                    <div class="flex justify-between items-center text-xs">
+                    <div class="flex justify-between items-center text-[10px]">
                         <span class="text-slate-700 flex items-center gap-2"><i class="fa-regular fa-user w-4 text-red-400"></i> Personal Identifiers</span>
                         <span class="font-semibold text-slate-600 summary-num" id="num-pi">0</span>
                     </div>
-                    <div class="flex justify-between items-center text-xs">
+                    <div class="flex justify-between items-center text-[10px]">
                         <span class="text-slate-700 flex items-center gap-2"><i class="fa-solid fa-location-dot w-4 text-red-400"></i> Addresses</span>
                         <span class="font-semibold text-slate-600 summary-num" id="num-addr">0</span>
                     </div>
-                    <div class="flex justify-between items-center text-xs">
+                    <div class="flex justify-between items-center text-[10px]">
                         <span class="text-slate-700 flex items-center gap-2"><i class="fa-solid fa-phone w-4 text-sky-400"></i> Contact Information</span>
                         <span class="font-semibold text-slate-600 summary-num" id="num-contact">0</span>
                     </div>
-                    <div class="flex justify-between items-center text-xs">
+                    <div class="flex justify-between items-center text-[10px]">
                         <span class="text-slate-700 flex items-center gap-2"><i class="fa-solid fa-notes-medical w-4 text-indigo-400"></i> Medical Information</span>
                         <span class="font-semibold text-slate-600 summary-num" id="num-med">0</span>
                     </div>
-                    <div class="flex justify-between items-center text-xs">
+                    <div class="flex justify-between items-center text-[10px]">
                         <span class="text-slate-700 flex items-center gap-2"><i class="fa-solid fa-umbrella w-4 text-amber-400"></i> Insurance Details</span>
                         <span class="font-semibold text-slate-600 summary-num" id="num-ins">0</span>
                     </div>
-                    <div class="flex justify-between items-center text-xs">
+                    <div class="flex justify-between items-center text-[10px]">
                         <span class="text-slate-700 flex items-center gap-2"><i class="fa-solid fa-coins w-4 text-amber-500"></i> Financial Information</span>
                         <span class="font-semibold text-slate-600 summary-num" id="num-fin">0</span>
                     </div>
@@ -342,31 +342,31 @@
                 <div id="status-banner" class="mt-4 bg-slate-50 rounded-xl p-3 border border-slate-200">
                     <div class="flex items-center gap-2 mb-1">
                         <i id="status-icon" class="fa-regular fa-clock text-slate-400"></i>
-                        <span id="status-title" class="text-xs font-semibold text-slate-600">Status</span>
+                        <span id="status-title" class="text-[10px] font-semibold text-slate-600">Status</span>
                     </div>
-                    <p id="status-desc" class="text-xs font-medium text-slate-500 mb-1">Awaiting document...</p>
+                    <p id="status-desc" class="text-[10px] font-medium text-slate-500 mb-1">Awaiting document...</p>
                     <p id="status-sub" class="text-[10px] text-slate-500 leading-relaxed">Redaction process will start once a document is uploaded.</p>
                 </div>
             </div>
         </div>
 
         <!-- Document Preview Section -->
-        <div class="flex gap-4 items-stretch mb-6 flex-1 min-h-[400px]">
+        <div class="flex gap-2 items-stretch mb-6 flex-1 min-h-[400px]">
             
             <!-- Original Document -->
             <div class="flex-1 bg-white rounded-2xl border border-slate-200 shadow-sm flex flex-col overflow-hidden">
-                <div id="original-doc-header" class="px-4 py-3 border-b border-slate-100 flex justify-between items-center bg-slate-50">
+                <div id="original-doc-header" class="px-2.5 py-1.5.5 border-b border-slate-100 flex justify-between items-center bg-slate-50">
                     <div class="flex items-center gap-2">
                         <i class="fa-regular fa-file-lines text-indigo-500"></i>
-                        <h3 class="font-semibold text-slate-800 text-sm">Original Document</h3>
+                        <h3 class="font-semibold text-slate-800 text-[11.5px]">Original Document</h3>
                     </div>
-                    <button class="text-xs font-medium text-indigo-600 hover:text-indigo-700 flex items-center gap-1">
+                    <button class="text-[10px] font-medium text-indigo-600 hover:text-indigo-700 flex items-center gap-1">
                         <i class="fa-solid fa-download"></i> Download
                     </button>
                 </div>
                 
                 <div id="original-pane" class="flex-1 bg-slate-50/50 flex flex-col items-center justify-center p-6 text-slate-400 italic">
-                    <div class="w-12 h-12 rounded-full bg-slate-100 flex items-center justify-center mb-3">
+                    <div class="w-12 h-12 rounded-full bg-slate-100 flex items-center justify-center mb-2">
                         <i class="fa-regular fa-file text-slate-300 text-xl"></i>
                     </div>
                     No document loaded
@@ -375,33 +375,33 @@
 
             <!-- Arrow Indicator -->
             <div id="arrow-indicator" class="flex items-center justify-center">
-                <div class="w-8 h-8 rounded-full bg-indigo-50 text-indigo-500 flex items-center justify-center border border-indigo-100 shadow-sm">
+                <div class="w-6 h-6 rounded-full bg-indigo-50 text-indigo-500 flex items-center justify-center border border-indigo-100 shadow-sm">
                     <i class="fa-solid fa-arrow-right"></i>
                 </div>
             </div>
 
             <!-- Sanitized Document -->
             <div class="flex-1 bg-white rounded-2xl border border-slate-200 shadow-sm flex flex-col overflow-hidden">
-                <div class="px-4 py-3 border-b border-slate-100 flex justify-between items-center bg-emerald-50/50">
+                <div class="px-2.5 py-1.5.5 border-b border-slate-100 flex justify-between items-center bg-emerald-50/50">
                     <div class="flex items-center gap-2">
                         <i class="fa-regular fa-shield-check text-emerald-500"></i>
-                        <h3 class="font-semibold text-slate-800 text-sm">Sanitized Document (Redacted)</h3>
+                        <h3 class="font-semibold text-slate-800 text-[11.5px]">Sanitized Document (Redacted)</h3>
                     </div>
-                    <button class="text-xs font-medium text-indigo-600 hover:text-indigo-700 flex items-center gap-1">
+                    <button class="text-[10px] font-medium text-indigo-600 hover:text-indigo-700 flex items-center gap-1">
                         <i class="fa-solid fa-download"></i> Download
                     </button>
                 </div>
                 
                 <div id="sanitized-pane" class="flex-1 bg-slate-50/50 flex flex-col items-center justify-center p-6 text-slate-400 italic overflow-y-auto relative">
-                    <div class="w-12 h-12 rounded-full bg-slate-100 flex items-center justify-center mb-3">
+                    <div class="w-12 h-12 rounded-full bg-slate-100 flex items-center justify-center mb-2">
                         <i class="fa-regular fa-file-shield text-slate-300 text-xl"></i>
                     </div>
                     No document loaded
                 </div>
                 <!-- Interactive Action Bar (Hidden by default) -->
-                <div id="interactive-actions" class="hidden px-4 py-3 border-t border-slate-200 bg-indigo-50/80 flex justify-between items-center">
-                    <span class="text-xs text-indigo-700 font-semibold"><i class="fa-solid fa-hand-pointer mr-1"></i> Highlight text to manually redact</span>
-                    <button onclick="openPreviewModal()" class="px-5 py-2 bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-bold rounded-lg shadow-sm transition-colors">
+                <div id="interactive-actions" class="hidden px-2.5 py-1.5.5 border-t border-slate-200 bg-indigo-50/80 flex justify-between items-center">
+                    <span class="text-[10px] text-indigo-700 font-semibold"><i class="fa-solid fa-hand-pointer mr-1"></i> Highlight text to manually redact</span>
+                    <button onclick="openPreviewModal()" class="px-5 py-1.5 bg-indigo-600 hover:bg-indigo-700 text-white text-[11.5px] font-bold rounded-lg shadow-sm transition-colors">
                         <i class="fa-solid fa-eye mr-1"></i> Preview
                     </button>
                 </div>
@@ -412,9 +412,9 @@
         </div>
         
         <!-- Footer Notification -->
-        <div class="bg-indigo-50/50 border border-indigo-100 rounded-xl p-3 flex items-center gap-3">
+        <div class="bg-indigo-50/50 border border-indigo-100 rounded-xl p-3 flex items-center gap-2">
             <i class="fa-solid fa-shield-check text-indigo-500"></i>
-            <span class="text-xs font-medium text-slate-600">Your document is processed securely. We do not store or share your files.</span>
+            <span class="text-[10px] font-medium text-slate-600">Your document is processed securely. We do not store or share your files.</span>
         </div>
 
         <!-- Customize Modal -->
@@ -422,13 +422,13 @@
             <div class="bg-white rounded-2xl shadow-xl w-full max-w-4xl flex flex-col overflow-hidden">
                 <!-- Header -->
                 <div class="px-6 py-5 border-b border-slate-100 flex items-center justify-between">
-                    <div class="flex items-center gap-4">
-                        <div class="w-10 h-10 rounded-full bg-indigo-50 flex items-center justify-center text-indigo-600">
+                    <div class="flex items-center gap-2">
+                        <div class="w-10 h-8 rounded-full bg-indigo-50 flex items-center justify-center text-indigo-600">
                             <i class="fa-solid fa-gear text-lg"></i>
                         </div>
                         <div>
                             <h2 class="text-lg font-bold text-slate-800">Customize</h2>
-                            <p class="text-xs text-slate-500">Configure advanced redaction options for better privacy and accuracy.</p>
+                            <p class="text-[10px] text-slate-500">Configure advanced redaction options for better privacy and accuracy.</p>
                         </div>
                     </div>
                     <button onclick="toggleCustomizeMenu()" class="text-slate-400 hover:text-slate-600 transition-colors">
@@ -443,65 +443,65 @@
                     <div class="flex flex-col gap-6">
                         
                         <!-- New Card: Redact Exact Details -->
-                        <div class="bg-white border border-slate-200 rounded-xl p-5 flex flex-col shadow-sm hover:shadow-md transition-shadow">
-                            <div class="flex items-center gap-3 mb-4">
-                                <div class="w-8 h-8 rounded-full bg-indigo-50 flex items-center justify-center text-indigo-600">
-                                    <i class="fa-regular fa-file-lines text-sm"></i>
+                        <div class="bg-white border border-slate-200 rounded-xl p-3 flex flex-col shadow-sm hover:shadow-md transition-shadow">
+                            <div class="flex items-center gap-2 mb-2">
+                                <div class="w-6 h-6 rounded-full bg-indigo-50 flex items-center justify-center text-indigo-600">
+                                    <i class="fa-regular fa-file-lines text-[11.5px]"></i>
                                 </div>
-                                <h3 class="font-bold text-slate-800 text-sm">Redact Exact Details</h3>
+                                <h3 class="font-bold text-slate-800 text-[11.5px]">Redact Exact Details</h3>
                             </div>
-                            <textarea id="exact-details" class="w-full border border-slate-200 rounded-lg p-3 text-sm focus:outline-none focus:border-indigo-400 resize-none mb-4 overflow-hidden" rows="2" placeholder="e.g., john.doe@company.com"></textarea>
-                            <div class="bg-indigo-50/50 rounded-lg p-3 flex gap-3 border border-indigo-100">
+                            <textarea id="exact-details" class="w-full border border-slate-200 rounded-lg p-3 text-[11.5px] focus:outline-none focus:border-indigo-400 resize-none mb-2 overflow-hidden" rows="2" placeholder="e.g., john.doe@company.com"></textarea>
+                            <div class="bg-indigo-50/50 rounded-lg p-3 flex gap-2 border border-indigo-100">
                                 <i class="fa-solid fa-circle-info text-indigo-500 mt-0.5"></i>
-                                <p class="text-[11px] text-indigo-700 leading-relaxed">Tip: Add exact details you want to redact, separated by commas.</p>
+                                <p class="text-[10px] text-indigo-700 leading-relaxed">Tip: Add exact details you want to redact, separated by commas.</p>
                             </div>
                         </div>
 
                         <!-- Card 1: Custom Keyword Blacklist -->
-                        <div class="bg-white border border-slate-200 rounded-xl p-5 flex flex-col shadow-sm hover:shadow-md transition-shadow">
-                            <div class="flex items-center gap-3 mb-4">
-                                <div class="w-8 h-8 rounded-full bg-indigo-50 flex items-center justify-center text-indigo-600">
-                                    <i class="fa-solid fa-ban text-sm"></i>
+                        <div class="bg-white border border-slate-200 rounded-xl p-3 flex flex-col shadow-sm hover:shadow-md transition-shadow">
+                            <div class="flex items-center gap-2 mb-2">
+                                <div class="w-6 h-6 rounded-full bg-indigo-50 flex items-center justify-center text-indigo-600">
+                                    <i class="fa-solid fa-ban text-[11.5px]"></i>
                                 </div>
-                                <h3 class="font-bold text-slate-800 text-sm">Custom Keyword Blacklist</h3>
+                                <h3 class="font-bold text-slate-800 text-[11.5px]">Custom Keyword Blacklist</h3>
                             </div>
-                            <p class="text-xs text-slate-600 leading-relaxed mb-4 flex-1">
+                            <p class="text-[10px] text-slate-600 leading-relaxed mb-2 flex-1">
                                 Define company-specific sensitive words, project names, or internal IDs to automatically redact. Separate entries with commas.
                             </p>
-                            <textarea id="custom-keywords" class="w-full border border-slate-200 rounded-lg p-3 text-sm focus:outline-none focus:border-indigo-400 resize-none mb-4" rows="2" placeholder="e.g., Project Titan, EMP-404, Confidential"></textarea>
+                            <textarea id="custom-keywords" class="w-full border border-slate-200 rounded-lg p-3 text-[11.5px] focus:outline-none focus:border-indigo-400 resize-none mb-2" rows="2" placeholder="e.g., Project Titan, EMP-404, Confidential"></textarea>
                             
-                            <div class="bg-indigo-50/50 rounded-lg p-3 flex gap-3 border border-indigo-100 mt-auto">
+                            <div class="bg-indigo-50/50 rounded-lg p-3 flex gap-2 border border-indigo-100 mt-auto">
                                 <i class="fa-solid fa-circle-info text-indigo-500 mt-0.5"></i>
-                                <p class="text-[11px] text-indigo-700 leading-relaxed">Tip: Add project names, internal codes, or any sensitive terms specific to your organization.</p>
+                                <p class="text-[10px] text-indigo-700 leading-relaxed">Tip: Add project names, internal codes, or any sensitive terms specific to your organization.</p>
                             </div>
                         </div>
 
                     </div>
 
                     <!-- Card 2 -->
-                    <div class="bg-white border border-slate-200 rounded-xl p-5 flex flex-col h-full shadow-sm hover:shadow-md transition-shadow">
-                        <div class="flex flex-col mb-4">
+                    <div class="bg-white border border-slate-200 rounded-xl p-3 flex flex-col h-full shadow-sm hover:shadow-md transition-shadow">
+                        <div class="flex flex-col mb-2">
                             <div class="flex items-center justify-between mb-1">
-                                <div class="flex items-center gap-3">
-                                    <div class="w-8 h-8 rounded-full bg-indigo-50 flex items-center justify-center text-indigo-600">
-                                        <i class="fa-solid fa-user-check text-sm"></i>
+                                <div class="flex items-center gap-2">
+                                    <div class="w-6 h-6 rounded-full bg-indigo-50 flex items-center justify-center text-indigo-600">
+                                        <i class="fa-solid fa-user-check text-[11.5px]"></i>
                                     </div>
-                                    <h3 class="font-bold text-slate-800 text-sm">Enable Interactive Review</h3>
+                                    <h3 class="font-bold text-slate-800 text-[11.5px]">Enable Interactive Review</h3>
                                 </div>
                                 <label class="relative inline-flex items-center cursor-pointer">
                                     <input type="checkbox" id="interactive-review-toggle" class="sr-only peer" checked>
                                     <div class="w-9 h-5 bg-slate-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-slate-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-indigo-600"></div>
                                 </label>
                             </div>
-                            <p class="text-[11px] text-slate-500 font-semibold ml-11 mt-[-4px]">(Click-to-Redact)</p>
+                            <p class="text-[10px] text-slate-500 font-semibold ml-11 mt-[-4px]">(Click-to-Redact)</p>
                         </div>
-                        <p class="text-xs text-slate-600 leading-relaxed mb-4">
+                        <p class="text-[10px] text-slate-600 leading-relaxed mb-2">
                             Review AI-proposed redactions highlighted in yellow before they are applied. Manually highlight missed text to add it, or click existing highlights to remove them.
                         </p>
                         
                         <!-- Mockup Image -->
-                        <div class="border border-slate-100 rounded-lg p-4 mb-6 relative overflow-hidden bg-white shadow-sm flex-1">
-                            <p class="text-[11px] text-slate-500 leading-relaxed">
+                        <div class="border border-slate-100 rounded-lg p-3 mb-6 relative overflow-hidden bg-white shadow-sm flex-1">
+                            <p class="text-[10px] text-slate-500 leading-relaxed">
                                 The <span class="font-semibold text-slate-700">Project Titan</span> team met with <span class="bg-yellow-100 text-yellow-800 border border-yellow-200 px-1 rounded">John Smith</span>, from <span class="bg-yellow-100 text-yellow-800 border border-yellow-200 px-1 rounded">ACME Corp</span>, regarding the <span class="bg-yellow-100 text-yellow-800 border border-yellow-200 px-1 rounded">EMP-404</span> initiative.
                             </p>
                             <div class="mt-3 space-y-1.5 opacity-30">
@@ -512,21 +512,21 @@
                             </div>
                         </div>
 
-                        <div class="bg-indigo-50/50 rounded-lg p-3 flex gap-3 border border-indigo-100 mt-auto">
+                        <div class="bg-indigo-50/50 rounded-lg p-3 flex gap-2 border border-indigo-100 mt-auto">
                             <i class="fa-solid fa-circle-info text-indigo-500 mt-0.5"></i>
-                            <p class="text-[11px] text-indigo-700 leading-relaxed">This gives you full control to review, add, or remove redactions for higher accuracy.</p>
+                            <p class="text-[10px] text-indigo-700 leading-relaxed">This gives you full control to review, add, or remove redactions for higher accuracy.</p>
                         </div>
                     </div>
 
                 </div>
 
                 <!-- Footer -->
-                <div class="px-6 py-4 border-t border-slate-100 flex justify-end gap-3 bg-white">
-                    <button onclick="toggleCustomizeMenu()" class="px-5 py-2.5 rounded-lg text-sm font-semibold text-slate-600 border border-slate-200 hover:bg-slate-50 transition-colors">
+                <div class="px-6 py-4 border-t border-slate-100 flex justify-end gap-2 bg-white">
+                    <button onclick="toggleCustomizeMenu()" class="px-5 py-1.5.5 rounded-lg text-[11.5px] font-semibold text-slate-600 border border-slate-200 hover:bg-slate-50 transition-colors">
                         Cancel
                     </button>
-                    <button onclick="toggleCustomizeMenu()" class="px-6 py-2.5 rounded-lg text-sm font-bold text-white bg-indigo-600 hover:bg-indigo-700 shadow-sm transition-colors flex items-center gap-2">
-                        <i class="fa-solid fa-sliders text-xs"></i> Save & Apply
+                    <button onclick="toggleCustomizeMenu()" class="px-6 py-1.5.5 rounded-lg text-[11.5px] font-bold text-white bg-indigo-600 hover:bg-indigo-700 shadow-sm transition-colors flex items-center gap-2">
+                        <i class="fa-solid fa-sliders text-[10px]"></i> Save & Apply
                     </button>
                 </div>
             </div>
@@ -537,13 +537,13 @@
             <div class="bg-white rounded-2xl shadow-xl w-full max-w-5xl flex flex-col overflow-hidden max-h-[90vh]">
                 <!-- Header -->
                 <div class="px-6 py-5 border-b border-slate-100 flex items-center justify-between">
-                    <div class="flex items-center gap-4">
-                        <div class="w-10 h-10 rounded-full bg-indigo-50 flex items-center justify-center text-indigo-600">
+                    <div class="flex items-center gap-2">
+                        <div class="w-10 h-8 rounded-full bg-indigo-50 flex items-center justify-center text-indigo-600">
                             <i class="fa-solid fa-eye text-lg"></i>
                         </div>
                         <div>
                             <h2 class="text-lg font-bold text-slate-800">Preview Redaction</h2>
-                            <p class="text-xs text-slate-500">See what will be redacted based on your manual selections.</p>
+                            <p class="text-[10px] text-slate-500">See what will be redacted based on your manual selections.</p>
                         </div>
                     </div>
                     <button onclick="closePreviewModal()" class="text-slate-400 hover:text-slate-600 transition-colors">
@@ -556,14 +556,14 @@
                     
                     <!-- Left Column: Document Viewer -->
                     <div class="col-span-3 bg-white border border-slate-200 rounded-xl flex flex-col shadow-sm overflow-hidden h-[500px]">
-                        <div class="px-4 py-3 border-b border-slate-100 flex justify-between items-center bg-white">
+                        <div class="px-2.5 py-1.5.5 border-b border-slate-100 flex justify-between items-center bg-white">
                             <div class="flex items-center gap-2">
                                 <i class="fa-regular fa-file-lines text-indigo-500"></i>
-                                <h3 class="font-semibold text-slate-800 text-sm">Sanitized Document (Redacted)</h3>
+                                <h3 class="font-semibold text-slate-800 text-[11.5px]">Sanitized Document (Redacted)</h3>
                             </div>
-                            <span class="text-xs text-slate-400 font-medium">Preview</span>
+                            <span class="text-[10px] text-slate-400 font-medium">Preview</span>
                         </div>
-                        <div id="preview-document-content" class="p-5 overflow-y-auto flex-1 text-slate-700 bg-slate-50/30 whitespace-pre-wrap break-words text-[13px] leading-relaxed font-[inherit]">
+                        <div id="preview-document-content" class="p-3 overflow-y-auto flex-1 text-slate-700 bg-slate-50/30 whitespace-pre-wrap break-words text-[11.5px] leading-relaxed font-[inherit]">
                             <!-- Injected content -->
                         </div>
                     </div>
@@ -571,8 +571,8 @@
                     <!-- Right Column: Info and Stats -->
                     <div class="col-span-2 flex flex-col gap-6">
                         <!-- Stats -->
-                        <div class="bg-white border border-slate-200 rounded-xl p-5 shadow-sm flex-1 flex flex-col">
-                            <h3 class="font-bold text-slate-800 text-sm mb-4">Items to be Redacted (<span id="preview-redact-count">0</span>)</h3>
+                        <div class="bg-white border border-slate-200 rounded-xl p-3 shadow-sm flex-1 flex flex-col">
+                            <h3 class="font-bold text-slate-800 text-[11.5px] mb-2">Items to be Redacted (<span id="preview-redact-count">0</span>)</h3>
                             <div id="preview-items-list" class="flex-1 overflow-y-auto space-y-2 pr-2">
                                 <!-- Injected items -->
                             </div>
@@ -583,11 +583,11 @@
 
                 <!-- Footer -->
                 <div class="px-6 py-4 border-t border-slate-100 flex justify-between items-center bg-white">
-                    <button onclick="closePreviewModal()" class="px-5 py-2.5 rounded-lg text-sm font-semibold text-indigo-600 border border-indigo-100 bg-indigo-50 hover:bg-indigo-100 transition-colors flex items-center gap-2">
-                        <i class="fa-solid fa-chevron-left text-xs"></i> Back to Edit
+                    <button onclick="closePreviewModal()" class="px-5 py-1.5.5 rounded-lg text-[11.5px] font-semibold text-indigo-600 border border-indigo-100 bg-indigo-50 hover:bg-indigo-100 transition-colors flex items-center gap-2">
+                        <i class="fa-solid fa-chevron-left text-[10px]"></i> Back to Edit
                     </button>
-                    <button onclick="finalizeAndClosePreview()" class="px-6 py-2.5 rounded-lg text-sm font-bold text-white bg-indigo-600 hover:bg-indigo-700 shadow-sm transition-colors flex items-center gap-2">
-                        <i class="fa-solid fa-shield-check text-xs"></i> Confirm & Redact
+                    <button onclick="finalizeAndClosePreview()" class="px-6 py-1.5.5 rounded-lg text-[11.5px] font-bold text-white bg-indigo-600 hover:bg-indigo-700 shadow-sm transition-colors flex items-center gap-2">
+                        <i class="fa-solid fa-shield-check text-[10px]"></i> Confirm & Redact
                     </button>
                 </div>
             </div>
@@ -658,11 +658,11 @@ function openPreviewModal() {
             
             // Add to the right-side list
             const listItem = document.createElement('div');
-            listItem.className = 'flex justify-between items-center py-2 border-b border-slate-100 last:border-0';
+            listItem.className = 'flex justify-between items-center py-1.5 border-b border-slate-100 last:border-0';
             listItem.innerHTML = `
                 <div class="flex items-center gap-2">
                     <div class="w-2 h-2 rounded-full bg-blue-500"></div>
-                    <span class="text-xs font-medium text-slate-700 truncate max-w-[150px]">${span.textContent}</span>
+                    <span class="text-[10px] font-medium text-slate-700 truncate max-w-[150px]">${span.textContent}</span>
                 </div>
                 <span class="text-[10px] text-slate-400 font-medium bg-slate-100 px-2 py-0.5 rounded">1 item</span>
             `;
@@ -675,7 +675,7 @@ function openPreviewModal() {
 
     document.getElementById('preview-redact-count').textContent = finalRedactCount;
     if (finalRedactCount === 0) {
-        itemsList.innerHTML = '<p class="text-xs text-slate-400 italic py-2">No items selected for redaction.</p>';
+        itemsList.innerHTML = '<p class="text-[10px] text-slate-400 italic py-1.5">No items selected for redaction.</p>';
     }
 
     // Show the modal
@@ -811,8 +811,8 @@ async function processText() {
         if (c) {
             c.className = state === 'active' ? 'step-circle active' : 'step-circle completed';
             c.innerHTML = state === 'active'
-                ? '<i class="fa-solid fa-spinner fa-spin text-xs"></i>'
-                : '<i class="fa-solid fa-check text-xs"></i>';
+                ? '<i class="fa-solid fa-spinner fa-spin text-[10px]"></i>'
+                : '<i class="fa-solid fa-check text-[10px]"></i>';
         }
         if (t) t.className = `step-text ${state}`;
     };
@@ -894,27 +894,27 @@ async function processText() {
                     <div class="p-8 w-full h-full flex flex-col justify-center">
                         <h3 class="font-bold text-slate-800 text-lg mb-6"><i class="fa-solid fa-paintbrush text-indigo-500 mr-2"></i> Highlight Guide</h3>
                         <div class="space-y-6">
-                            <div class="flex gap-4 items-start bg-slate-50 p-4 rounded-xl border border-slate-100">
+                            <div class="flex gap-2 items-start bg-slate-50 p-3 rounded-xl border border-slate-100">
                                 <div class="w-10 h-6 rounded-md bg-yellow-200 shrink-0 mt-0.5 shadow-inner"></div>
                                 <div>
-                                    <h4 class="text-sm font-bold text-slate-800">Yellow (AI Suggestion)</h4>
-                                    <p class="text-xs text-slate-600 mt-1 leading-relaxed">Will NOT be redacted automatically. Click once to select it for redaction.</p>
+                                    <h4 class="text-[11.5px] font-bold text-slate-800">Yellow (AI Suggestion)</h4>
+                                    <p class="text-[10px] text-slate-600 mt-1 leading-relaxed">Will NOT be redacted automatically. Click once to select it for redaction.</p>
                                 </div>
                             </div>
-                            <div class="flex gap-4 items-start bg-slate-50 p-4 rounded-xl border border-slate-100">
+                            <div class="flex gap-2 items-start bg-slate-50 p-3 rounded-xl border border-slate-100">
                                 <div class="w-10 h-6 rounded-md bg-blue-200 shrink-0 mt-0.5 shadow-inner"></div>
                                 <div>
-                                    <h4 class="text-sm font-bold text-slate-800">Blue (Manual)</h4>
-                                    <p class="text-xs text-slate-600 mt-1 leading-relaxed">Selected by you. This WILL be securely redacted.</p>
+                                    <h4 class="text-[11.5px] font-bold text-slate-800">Blue (Manual)</h4>
+                                    <p class="text-[10px] text-slate-600 mt-1 leading-relaxed">Selected by you. This WILL be securely redacted.</p>
                                 </div>
                             </div>
-                            <div class="flex gap-4 items-start bg-slate-50 p-4 rounded-xl border border-slate-100">
+                            <div class="flex gap-2 items-start bg-slate-50 p-3 rounded-xl border border-slate-100">
                                 <div class="w-10 h-6 rounded-md bg-transparent border-2 border-slate-300 relative shrink-0 mt-0.5 overflow-hidden">
                                     <div class="absolute inset-0 flex items-center justify-center"><div class="w-full h-[2px] bg-slate-400"></div></div>
                                 </div>
                                 <div>
-                                    <h4 class="text-sm font-bold text-slate-800">White / Faded</h4>
-                                    <p class="text-xs text-slate-600 mt-1 leading-relaxed">Explicitly rejected by double-clicking. WILL NOT be redacted.</p>
+                                    <h4 class="text-[11.5px] font-bold text-slate-800">White / Faded</h4>
+                                    <p class="text-[10px] text-slate-600 mt-1 leading-relaxed">Explicitly rejected by double-clicking. WILL NOT be redacted.</p>
                                 </div>
                             </div>
                         </div>
@@ -1012,10 +1012,10 @@ document.addEventListener('DOMContentLoaded', () => {
             if (circle) {
                 if (state === 'active') {
                     circle.className = 'step-circle active';
-                    circle.innerHTML = `<i class="fa-solid fa-spinner fa-spin text-xs"></i>`;
+                    circle.innerHTML = `<i class="fa-solid fa-spinner fa-spin text-[10px]"></i>`;
                 } else if (state === 'completed') {
                     circle.className = 'step-circle completed';
-                    circle.innerHTML = `<i class="fa-solid fa-check text-xs"></i>`;
+                    circle.innerHTML = `<i class="fa-solid fa-check text-[10px]"></i>`;
                 }
             }
             if (text) {
@@ -1103,27 +1103,27 @@ document.addEventListener('DOMContentLoaded', () => {
                         <div class="p-8 w-full h-full flex flex-col justify-center">
                             <h3 class="font-bold text-slate-800 text-lg mb-6"><i class="fa-solid fa-paintbrush text-indigo-500 mr-2"></i> Highlight Guide</h3>
                             <div class="space-y-6">
-                                <div class="flex gap-4 items-start bg-slate-50 p-4 rounded-xl border border-slate-100">
+                                <div class="flex gap-2 items-start bg-slate-50 p-3 rounded-xl border border-slate-100">
                                     <div class="w-10 h-6 rounded-md bg-yellow-200 shrink-0 mt-0.5 shadow-inner"></div>
                                     <div>
-                                        <h4 class="text-sm font-bold text-slate-800">Yellow (AI Suggestion)</h4>
-                                        <p class="text-xs text-slate-600 mt-1 leading-relaxed">Will NOT be redacted automatically. Click once to select it for redaction.</p>
+                                        <h4 class="text-[11.5px] font-bold text-slate-800">Yellow (AI Suggestion)</h4>
+                                        <p class="text-[10px] text-slate-600 mt-1 leading-relaxed">Will NOT be redacted automatically. Click once to select it for redaction.</p>
                                     </div>
                                 </div>
-                                <div class="flex gap-4 items-start bg-slate-50 p-4 rounded-xl border border-slate-100">
+                                <div class="flex gap-2 items-start bg-slate-50 p-3 rounded-xl border border-slate-100">
                                     <div class="w-10 h-6 rounded-md bg-blue-200 shrink-0 mt-0.5 shadow-inner"></div>
                                     <div>
-                                        <h4 class="text-sm font-bold text-slate-800">Blue (Manual)</h4>
-                                        <p class="text-xs text-slate-600 mt-1 leading-relaxed">Selected by you. This WILL be securely redacted.</p>
+                                        <h4 class="text-[11.5px] font-bold text-slate-800">Blue (Manual)</h4>
+                                        <p class="text-[10px] text-slate-600 mt-1 leading-relaxed">Selected by you. This WILL be securely redacted.</p>
                                     </div>
                                 </div>
-                                <div class="flex gap-4 items-start bg-slate-50 p-4 rounded-xl border border-slate-100">
+                                <div class="flex gap-2 items-start bg-slate-50 p-3 rounded-xl border border-slate-100">
                                     <div class="w-10 h-6 rounded-md bg-transparent border-2 border-slate-300 relative shrink-0 mt-0.5 overflow-hidden">
                                         <div class="absolute inset-0 flex items-center justify-center"><div class="w-full h-[2px] bg-slate-400"></div></div>
                                     </div>
                                     <div>
-                                        <h4 class="text-sm font-bold text-slate-800">White / Faded</h4>
-                                        <p class="text-xs text-slate-600 mt-1 leading-relaxed">Explicitly rejected by double-clicking. WILL NOT be redacted.</p>
+                                        <h4 class="text-[11.5px] font-bold text-slate-800">White / Faded</h4>
+                                        <p class="text-[10px] text-slate-600 mt-1 leading-relaxed">Explicitly rejected by double-clicking. WILL NOT be redacted.</p>
                                     </div>
                                 </div>
                             </div>
@@ -1208,8 +1208,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (statusBanner) {
                     statusBanner.className = 'mt-4 bg-emerald-50 rounded-xl p-3 border border-emerald-100';
                     statusIcon.className = 'fa-regular fa-circle-check text-emerald-500';
-                    statusTitle.className = 'text-xs font-semibold text-emerald-700';
-                    statusDesc.className = 'text-xs font-medium text-emerald-600 mb-1';
+                    statusTitle.className = 'text-[10px] font-semibold text-emerald-700';
+                    statusDesc.className = 'text-[10px] font-medium text-emerald-600 mb-1';
                     statusDesc.textContent = 'Redaction complete';
                     statusSub.className = 'text-[10px] text-emerald-600/80 leading-relaxed';
                     statusSub.textContent = 'All sensitive information has been successfully protected.';

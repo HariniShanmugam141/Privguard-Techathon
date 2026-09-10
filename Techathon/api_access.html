@@ -89,23 +89,23 @@
 </aside>
 <!-- MAIN -->
 <!-- MAIN -->
-    <main class="flex-1 flex flex-col h-full overflow-y-auto p-5 md:p-6">
+    <main class="flex-1 flex flex-col h-full overflow-y-auto p-3">
         
         <!-- Header -->
-        <header class="flex justify-between items-start mb-4">
-            <div class="flex items-center gap-3">
-                <div class="w-8 h-8 rounded-full bg-indigo-100 text-indigo-600 flex items-center justify-center">
+        <header class="flex justify-between items-start mb-2">
+            <div class="flex items-center gap-2">
+                <div class="w-6 h-6 rounded-full bg-indigo-100 text-indigo-600 flex items-center justify-center">
                     <i class="fa-solid fa-code"></i>
                 </div>
                 <div>
-                    <h2 class="text-[22px] font-bold text-slate-900 leading-tight">API Access</h2>
-                    <p class="text-[13px] text-slate-500 mt-0.5">Manage your API keys and access to PrivGuard AI services</p>
+                    <h2 class="text-[18px] font-bold text-slate-900 leading-tight">API Access</h2>
+                    <p class="text-[11.5px] text-slate-500 mt-0.5">Manage your API keys and access to PrivGuard AI services</p>
                 </div>
             </div>
-            <div class="flex items-center gap-3">
+            <div class="flex items-center gap-2">
     <div style="position:relative;">
-        <button onclick="toggleGlobalNotif()" class="relative w-9 h-9 rounded-full bg-slate-50 flex items-center justify-center text-slate-500 hover:bg-slate-100 transition-colors">
-            <i class="fa-regular fa-bell text-[13px]"></i>
+        <button onclick="toggleGlobalNotif()" class="relative w-7 h-7 rounded-full bg-slate-50 flex items-center justify-center text-slate-500 hover:bg-slate-100 transition-colors">
+            <i class="fa-regular fa-bell text-[11.5px]"></i>
             <span id="g-notif-badge" style="display:none;" class="absolute top-1 right-1 w-2 h-2 bg-red-500 rounded-full border-2 border-white"></span>
         </button>
         <div id="g-notif-panel" style="display:none; position:absolute; top:calc(100% + 8px); right:0; width:280px; background:white; border:1px solid #e2e8f0; border-radius:12px; box-shadow:0 10px 25px rgba(0,0,0,.1); z-index:999; text-align:left;">
@@ -116,9 +116,9 @@
         </div>
     </div>
 
-    <div class="flex items-center gap-3 cursor-pointer hover:bg-slate-50 p-1.5 rounded-xl transition-colors">
-        <div class="w-8 h-8 rounded-full bg-indigo-600 text-white flex items-center justify-center text-[13px] font-bold user-avatar-initial">B</div>
-        <div class="hidden md:flex items-center gap-1.5 text-[13px] font-semibold text-slate-700">
+    <div class="flex items-center gap-2 cursor-pointer hover:bg-slate-50 p-1.5 rounded-xl transition-colors">
+        <div class="w-6 h-6 rounded-full bg-indigo-600 text-white flex items-center justify-center text-[11.5px] font-bold user-avatar-initial">B</div>
+        <div class="hidden md:flex items-center gap-1.5 text-[11.5px] font-semibold text-slate-700">
             <span class="user-display-name">Bhavya Shree D.</span> <i class="fa-solid fa-chevron-down text-[10px] text-slate-400"></i>
         </div>
     </div>
@@ -126,27 +126,27 @@
     </header>
 
         <!-- Top Stats Row -->
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3 mb-4">
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-2 mb-2">
             <!-- Total API Keys -->
-            <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm flex items-center gap-3">
+            <div class="bg-white p-3 rounded-xl border border-slate-200 shadow-sm flex items-center gap-2">
                 <div class="w-12 h-12 rounded-xl bg-purple-50 text-purple-600 flex items-center justify-center text-xl shrink-0">
                     <i class="fa-solid fa-key"></i>
                 </div>
                 <div>
-                    <div class="text-[11px] font-medium text-slate-500 mb-0.5">Total API Keys</div>
+                    <div class="text-[10px] font-medium text-slate-500 mb-0.5">Total API Keys</div>
                     <div id="total-keys" class="text-xl font-bold text-slate-800">--</div>
                     <div class="text-[10px] text-slate-500 font-medium mt-1">Manage your API keys</div>
                 </div>
             </div>
 
             <!-- Requests This Month -->
-            <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm flex items-center justify-between relative overflow-hidden">
-                <div class="flex items-center gap-3 z-10">
+            <div class="bg-white p-3 rounded-xl border border-slate-200 shadow-sm flex items-center justify-between relative overflow-hidden">
+                <div class="flex items-center gap-2 z-10">
                     <div class="w-12 h-12 rounded-xl bg-emerald-50 text-emerald-500 flex items-center justify-center text-xl shrink-0">
                         <i class="fa-regular fa-shield-check"></i>
                     </div>
                     <div>
-                        <div class="text-[11px] font-medium text-slate-500 mb-0.5">Requests This Month</div>
+                        <div class="text-[10px] font-medium text-slate-500 mb-0.5">Requests This Month</div>
                         <div id="total-keys" class="text-xl font-bold text-slate-800">--</div>
                         <div class="text-[10px] text-emerald-500 font-medium mt-1 flex items-center gap-1">
                             <i class="fa-solid fa-arrow-up"></i> 18.2% vs last month
@@ -169,10 +169,10 @@
                 </div>
 
                 <!-- Recent API Activity -->
-                <div class="bg-white rounded-2xl border border-slate-200 shadow-sm p-5">
-                    <h3 class="font-bold text-slate-800 text-[13px] mb-4">Recent API Activity</h3>
+                <div class="bg-white rounded-2xl border border-slate-200 shadow-sm p-3">
+                    <h3 class="font-bold text-slate-800 text-[11.5px] mb-2">Recent API Activity</h3>
                     
-                    <div class="overflow-x-auto mb-4">
+                    <div class="overflow-x-auto mb-2">
                         <table class="w-full text-left">
                             <thead>
                                 <tr class="text-[10px] font-semibold text-slate-500 uppercase tracking-wider border-b border-slate-100">
@@ -184,7 +184,7 @@
                                     <th class="pb-3 pl-4">IP Address</th>
                                 </tr>
                             </thead>
-                            <tbody id="activity-table" class="divide-y divide-slate-100 text-[13px]">
+                            <tbody id="activity-table" class="divide-y divide-slate-100 text-[11.5px]">
                         <tr>
                             <td colspan="10" class="px-4 py-8 text-center text-slate-500">
                                 No data available
@@ -193,59 +193,59 @@
                     </tbody>
                         </table>
                     </div>
-                    <a href="#" class="text-[11px] font-semibold text-indigo-600 hover:text-indigo-700 flex items-center gap-1">View all activity <i class="fa-solid fa-arrow-right"></i></a>
+                    <a href="#" class="text-[10px] font-semibold text-indigo-600 hover:text-indigo-700 flex items-center gap-1">View all activity <i class="fa-solid fa-arrow-right"></i></a>
                 </div>
 
             </div>
 
             <!-- Right Column (Quick Access & Endpoints) -->
-            <div class="w-full xl:w-[340px] flex flex-col gap-5 shrink-0">
+            <div class="w-full xl:w-[340px] flex flex-col gap-2 shrink-0">
                 
                 <!-- Quick Access -->
-                <div class="bg-white rounded-2xl border border-slate-200 shadow-sm p-5">
-                    <h3 class="font-bold text-slate-800 text-[13px] mb-4">Quick Access</h3>
+                <div class="bg-white rounded-2xl border border-slate-200 shadow-sm p-3">
+                    <h3 class="font-bold text-slate-800 text-[11.5px] mb-2">Quick Access</h3>
                     <div class="space-y-4">
                         
-                        <a href="#" class="flex items-center gap-3 p-2 -mx-2 rounded-lg hover:bg-slate-50 transition-colors group">
-                            <div class="w-9 h-9 rounded-lg bg-purple-50 text-purple-500 flex items-center justify-center shrink-0">
+                        <a href="#" class="flex items-center gap-2 p-2 -mx-2 rounded-lg hover:bg-slate-50 transition-colors group">
+                            <div class="w-7 h-7 rounded-lg bg-purple-50 text-purple-500 flex items-center justify-center shrink-0">
                                 <i class="fa-regular fa-file-lines"></i>
                             </div>
                             <div class="flex-1">
-                                <div class="text-[13px] font-semibold text-slate-800">API Documentation</div>
-                                <div class="text-[11px] text-slate-500">View full API reference</div>
+                                <div class="text-[11.5px] font-semibold text-slate-800">API Documentation</div>
+                                <div class="text-[10px] text-slate-500">View full API reference</div>
                             </div>
                             <i class="fa-solid fa-arrow-up-right-from-square text-[10px] text-slate-400 group-hover:text-indigo-500"></i>
                         </a>
 
-                        <a href="#" class="flex items-center gap-3 p-2 -mx-2 rounded-lg hover:bg-slate-50 transition-colors group">
-                            <div class="w-9 h-9 rounded-lg bg-blue-50 text-blue-500 flex items-center justify-center shrink-0">
+                        <a href="#" class="flex items-center gap-2 p-2 -mx-2 rounded-lg hover:bg-slate-50 transition-colors group">
+                            <div class="w-7 h-7 rounded-lg bg-blue-50 text-blue-500 flex items-center justify-center shrink-0">
                                 <i class="fa-solid fa-code"></i>
                             </div>
                             <div class="flex-1">
-                                <div class="text-[13px] font-semibold text-slate-800">Code Examples</div>
-                                <div class="text-[11px] text-slate-500">See integration examples</div>
+                                <div class="text-[11.5px] font-semibold text-slate-800">Code Examples</div>
+                                <div class="text-[10px] text-slate-500">See integration examples</div>
                             </div>
                             <i class="fa-solid fa-arrow-up-right-from-square text-[10px] text-slate-400 group-hover:text-indigo-500"></i>
                         </a>
 
-                        <a href="#" class="flex items-center gap-3 p-2 -mx-2 rounded-lg hover:bg-slate-50 transition-colors group">
-                            <div class="w-9 h-9 rounded-lg bg-orange-50 text-orange-500 flex items-center justify-center shrink-0">
+                        <a href="#" class="flex items-center gap-2 p-2 -mx-2 rounded-lg hover:bg-slate-50 transition-colors group">
+                            <div class="w-7 h-7 rounded-lg bg-orange-50 text-orange-500 flex items-center justify-center shrink-0">
                                 <i class="fa-solid fa-rocket"></i>
                             </div>
                             <div class="flex-1">
-                                <div class="text-[13px] font-semibold text-slate-800">Postman Collection</div>
-                                <div class="text-[11px] text-slate-500">Download Postman collection</div>
+                                <div class="text-[11.5px] font-semibold text-slate-800">Postman Collection</div>
+                                <div class="text-[10px] text-slate-500">Download Postman collection</div>
                             </div>
                             <i class="fa-solid fa-arrow-up-right-from-square text-[10px] text-slate-400 group-hover:text-indigo-500"></i>
                         </a>
 
-                        <a href="#" class="flex items-center gap-3 p-2 -mx-2 rounded-lg hover:bg-slate-50 transition-colors group">
-                            <div class="w-9 h-9 rounded-lg bg-emerald-50 text-emerald-500 flex items-center justify-center shrink-0">
+                        <a href="#" class="flex items-center gap-2 p-2 -mx-2 rounded-lg hover:bg-slate-50 transition-colors group">
+                            <div class="w-7 h-7 rounded-lg bg-emerald-50 text-emerald-500 flex items-center justify-center shrink-0">
                                 <i class="fa-regular fa-circle-check"></i>
                             </div>
                             <div class="flex-1">
-                                <div class="text-[13px] font-semibold text-slate-800">API Status</div>
-                                <div class="text-[11px] text-slate-500">View current API status</div>
+                                <div class="text-[11.5px] font-semibold text-slate-800">API Status</div>
+                                <div class="text-[10px] text-slate-500">View current API status</div>
                             </div>
                             <i class="fa-solid fa-arrow-up-right-from-square text-[10px] text-slate-400 group-hover:text-indigo-500"></i>
                         </a>
@@ -254,32 +254,32 @@
                 </div>
 
                 <!-- Endpoint Information -->
-                <div class="bg-white rounded-2xl border border-slate-200 shadow-sm p-5">
+                <div class="bg-white rounded-2xl border border-slate-200 shadow-sm p-3">
                     <div class="flex items-center gap-2 mb-5">
                         <i class="fa-solid fa-code text-indigo-500"></i>
-                        <h3 class="font-bold text-slate-800 text-[13px]">Endpoint Information</h3>
+                        <h3 class="font-bold text-slate-800 text-[11.5px]">Endpoint Information</h3>
                     </div>
 
                     <div class="space-y-4">
                         <div>
-                            <div class="text-[11px] font-semibold text-slate-700 mb-1">Base URL</div>
-                            <div class="bg-slate-50 border border-slate-100 rounded-lg p-2.5 text-[11px] font-mono text-indigo-600 break-all">
+                            <div class="text-[10px] font-semibold text-slate-700 mb-1">Base URL</div>
+                            <div class="bg-slate-50 border border-slate-100 rounded-lg p-2.5 text-[10px] font-mono text-indigo-600 break-all">
                                 https://api.privguard.ai/v1
                             </div>
                         </div>
 
                         <div>
-                            <div class="text-[11px] font-semibold text-slate-700 mb-1">Authentication</div>
-                            <div class="text-[11px] text-purple-600 font-mono">Bearer Token (API Key)</div>
+                            <div class="text-[10px] font-semibold text-slate-700 mb-1">Authentication</div>
+                            <div class="text-[10px] text-purple-600 font-mono">Bearer Token (API Key)</div>
                         </div>
 
                         <div>
-                            <div class="text-[11px] font-semibold text-slate-700 mb-1">Rate Limits</div>
-                            <div class="text-[11px] text-slate-600"><span class="font-semibold text-indigo-600">1,000</span> requests per minute</div>
+                            <div class="text-[10px] font-semibold text-slate-700 mb-1">Rate Limits</div>
+                            <div class="text-[10px] text-slate-600"><span class="font-semibold text-indigo-600">1,000</span> requests per minute</div>
                         </div>
 
                         <div>
-                            <div class="text-[11px] font-semibold text-slate-700 mb-2">Supported Formats</div>
+                            <div class="text-[10px] font-semibold text-slate-700 mb-2">Supported Formats</div>
                             <div class="flex flex-wrap gap-2">
                                 <span class="px-2 py-1 bg-purple-50 text-purple-600 rounded text-[10px] font-mono font-bold">JSON</span>
                                 <span class="px-2 py-1 bg-purple-50 text-purple-600 rounded text-[10px] font-mono font-bold">multipart/form-data</span>
@@ -370,12 +370,12 @@ html.dark-mode .dark-btn { border-color: #d1d5db; }
                 const methodColor = a.method === 'GET' ? 'text-blue-600' : 'text-purple-600';
                 return 
                     <tr class="hover:bg-slate-50 transition-colors">
-                        <td class="py-3 pr-4 text-slate-500 text-[11px]"></td>
-                        <td class="py-3 px-4 font-mono text-[11px] text-slate-700"></td>
+                        <td class="py-3 pr-4 text-slate-500 text-[10px]"></td>
+                        <td class="py-3 px-4 font-mono text-[10px] text-slate-700"></td>
                         <td class="py-3 px-4 text-center"><span class="font-mono text-[10px] font-bold "></span></td>
-                        <td class="py-3 px-4 text-center"><span class="px-2 py-1 rounded text-[11px] font-semibold "></span></td>
-                        <td class="py-3 px-4 text-center text-[11px] text-slate-500"></td>
-                        <td class="py-3 pl-4 text-[11px] font-mono text-slate-500"></td>
+                        <td class="py-3 px-4 text-center"><span class="px-2 py-1 rounded text-[10px] font-semibold "></span></td>
+                        <td class="py-3 px-4 text-center text-[10px] text-slate-500"></td>
+                        <td class="py-3 pl-4 text-[10px] font-mono text-slate-500"></td>
                     </tr>
                 ;
             }).join('');
@@ -406,12 +406,12 @@ html.dark-mode .dark-btn { border-color: #d1d5db; }
                 const methodColor = a.method === 'GET' ? 'text-blue-600' : 'text-purple-600';
                 return 
                     <tr class="hover:bg-slate-50 transition-colors">
-                        <td class="py-3 pr-4 text-slate-500 text-[11px]"></td>
-                        <td class="py-3 px-4 font-mono text-[11px] text-slate-700"></td>
+                        <td class="py-3 pr-4 text-slate-500 text-[10px]"></td>
+                        <td class="py-3 px-4 font-mono text-[10px] text-slate-700"></td>
                         <td class="py-3 px-4 text-center"><span class="font-mono text-[10px] font-bold "></span></td>
-                        <td class="py-3 px-4 text-center"><span class="px-2 py-1 rounded text-[11px] font-semibold "></span></td>
-                        <td class="py-3 px-4 text-center text-[11px] text-slate-500"></td>
-                        <td class="py-3 pl-4 text-[11px] font-mono text-slate-500"></td>
+                        <td class="py-3 px-4 text-center"><span class="px-2 py-1 rounded text-[10px] font-semibold "></span></td>
+                        <td class="py-3 px-4 text-center text-[10px] text-slate-500"></td>
+                        <td class="py-3 pl-4 text-[10px] font-mono text-slate-500"></td>
                     </tr>
                 ;
             }).join('');
