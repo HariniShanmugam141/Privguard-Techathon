@@ -558,12 +558,15 @@ onAuthStateChanged(auth, (user) => {
 const pwdBtn = document.getElementById('btn-change-password');
 if(pwdBtn) {
     pwdBtn.addEventListener('click', () => {
-        if(currentUserEmail) {
+        // Fallback to the input field if the auth state hasn't loaded or session was cleared
+        const emailToReset = currentUserEmail || (auth.currentUser ? auth.currentUser.email : null) || document.getElementById('setting-email').value;
+        
+        if(emailToReset) {
             pwdBtn.textContent = "Sending...";
             pwdBtn.disabled = true;
-            sendPasswordResetEmail(auth, currentUserEmail)
+            sendPasswordResetEmail(auth, emailToReset)
                 .then(() => {
-                    showToast("Password reset email sent!");
+                    showToast("Password reset email sent to " + emailToReset + "!");
                     pwdBtn.textContent = "Change Password";
                     pwdBtn.disabled = false;
                 })
@@ -573,7 +576,7 @@ if(pwdBtn) {
                     pwdBtn.disabled = false;
                 });
         } else {
-            showToast("Please log in to change your password.");
+            showToast("No email address found to reset.");
         }
     });
 }
