@@ -158,7 +158,7 @@
                     </div>
                     <div class="relative border border-slate-200 rounded-2xl focus-within:border-indigo-600 focus-within:ring-[1.5px] focus-within:ring-indigo-600 transition-all bg-white flex flex-col justify-center h-[44px] pl-[48px] pr-4 shadow-sm hover:border-slate-300">
                         <label class="text-[11px] font-semibold text-slate-600 mb-0.5 mt-1 block">Full Name</label>
-                        <input type="text" placeholder="Enter your full name" class="w-full bg-transparent border-none outline-none text-[13px] text-slate-900 placeholder:text-slate-400 font-medium p-0 focus:ring-0">
+                        <input type="text" id="fullName" placeholder="Enter your full name" required class="w-full bg-transparent border-none outline-none text-[13px] text-slate-900 placeholder:text-slate-400 font-medium p-0 focus:ring-0">
                     </div>
                 </div>
 
@@ -169,7 +169,7 @@
                     </div>
                     <div class="relative border border-slate-200 rounded-2xl focus-within:border-indigo-600 focus-within:ring-[1.5px] focus-within:ring-indigo-600 transition-all bg-white flex flex-col justify-center h-[44px] pl-[48px] pr-4 shadow-sm hover:border-slate-300">
                         <label class="text-[11px] font-semibold text-slate-600 mb-0.5 mt-1 block">Email Address</label>
-                        <input type="email" placeholder="you@example.com" class="w-full bg-transparent border-none outline-none text-[13px] text-slate-900 placeholder:text-slate-400 font-medium p-0 focus:ring-0">
+                        <input type="email" id="email" placeholder="you@example.com" required class="w-full bg-transparent border-none outline-none text-[13px] text-slate-900 placeholder:text-slate-400 font-medium p-0 focus:ring-0">
                     </div>
                 </div>
 
@@ -180,7 +180,7 @@
                     </div>
                     <div class="relative border border-slate-200 rounded-2xl focus-within:border-indigo-600 focus-within:ring-[1.5px] focus-within:ring-indigo-600 transition-all bg-white flex flex-col justify-center h-[44px] pl-[48px] pr-4 shadow-sm hover:border-slate-300">
                         <label class="text-[11px] font-semibold text-slate-600 mb-0.5 mt-1 block">Phone Number</label>
-                        <input type="tel" placeholder="+91 98765 43210" class="w-full bg-transparent border-none outline-none text-[13px] text-slate-900 placeholder:text-slate-400 font-medium p-0 focus:ring-0">
+                        <input type="tel" id="phone" placeholder="+91 98765 43210" required class="w-full bg-transparent border-none outline-none text-[13px] text-slate-900 placeholder:text-slate-400 font-medium p-0 focus:ring-0">
                     </div>
                 </div>
 
@@ -191,7 +191,7 @@
                     </div>
                     <div class="relative border border-slate-200 rounded-2xl focus-within:border-indigo-600 focus-within:ring-[1.5px] focus-within:ring-indigo-600 transition-all bg-white flex flex-col justify-center h-[44px] pl-[48px] pr-12 shadow-sm hover:border-slate-300">
                         <label class="text-[11px] font-semibold text-slate-600 mb-0.5 mt-1 block">Password</label>
-                        <input type="password" id="pwInput" placeholder="Create a strong password" class="w-full bg-transparent border-none outline-none text-[13px] text-slate-900 placeholder:text-slate-400 font-medium p-0 focus:ring-0">
+                        <input type="password" id="pwInput" placeholder="Create a strong password" required class="w-full bg-transparent border-none outline-none text-[13px] text-slate-900 placeholder:text-slate-400 font-medium p-0 focus:ring-0">
                     </div>
                     <button type="button" onclick="togglePw()" class="absolute inset-y-0 right-0 flex items-center pr-5 text-slate-400 hover:text-slate-600 transition-colors z-10">
                         <i class="fa-regular fa-eye-slash text-[17px]" id="pwIcon"></i>
@@ -249,6 +249,59 @@
                 ico.className = 'fa-regular fa-eye-slash text-[17px]';
             }
         }
+    </script>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
+        import { getAuth, createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-auth.js";
+        import { getDatabase, ref, set } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-database.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyBW4lyiQuw9qQdGjmVThwooXCX76MCSLWM",
+            authDomain: "privguard-ai-28efd.firebaseapp.com",
+            databaseURL: "https://privguard-ai-28efd-default-rtdb.firebaseio.com/",
+            projectId: "privguard-ai-28efd",
+            storageBucket: "privguard-ai-28efd.firebasestorage.app",
+            messagingSenderId: "391276997350",
+            appId: "1:391276997350:web:b0de8e030293f1ddcae927"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const database = getDatabase(app);
+
+        const form = document.getElementById('signupForm');
+        form.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const fullName = document.getElementById('fullName').value;
+            const email = document.getElementById('email').value;
+            const phone = document.getElementById('phone').value;
+            const password = document.getElementById('pwInput').value;
+
+            const btn = form.querySelector('button[type="submit"]');
+            const originalText = btn.innerHTML;
+            btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Creating...';
+            btn.disabled = true;
+
+            createUserWithEmailAndPassword(auth, email, password)
+                .then((userCredential) => {
+                    const user = userCredential.user;
+                    // Save to Realtime Database
+                    set(ref(database, 'users/' + user.uid), {
+                        fullName: fullName,
+                        email: email,
+                        phone: phone,
+                        createdAt: new Date().toISOString()
+                    }).then(() => {
+                        window.location.href = '/dashboard';
+                    });
+                })
+                .catch((error) => {
+                    alert(error.message);
+                    btn.innerHTML = originalText;
+                    btn.disabled = false;
+                });
+        });
     </script>
 </body>
 </html>
