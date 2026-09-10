@@ -633,6 +633,9 @@ if FASTAPI_AVAILABLE:
     # ==========================================
 
     @app.get("/", response_class=HTMLResponse)
+    def serve_root():
+        return FileResponse("signup.html")
+
     @app.get("/dashboard", response_class=HTMLResponse)
     def serve_dashboard():
         return FileResponse("index.html")
