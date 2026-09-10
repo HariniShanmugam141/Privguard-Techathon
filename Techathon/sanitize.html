@@ -789,6 +789,11 @@ function switchTab(tab) {
         if(sanTitle) sanTitle.innerText = "Sanitized Document (Redacted)";
         if(sanIcon) sanIcon.className = "fa-regular fa-shield-check text-emerald-500";
         
+        const step1 = document.getElementById('text-1');
+        if(step1) step1.innerText = "Document Upload";
+        const step5 = document.getElementById('text-5');
+        if(step5) step5.innerText = "Image Recognition & Redaction";
+        
         if(origDownload) origDownload.classList.remove('hidden');
         if(sanDownload) sanDownload.classList.remove('hidden');
         if(arrowInd) arrowInd.classList.remove('hidden');
@@ -808,6 +813,11 @@ function switchTab(tab) {
         if(origIcon) origIcon.className = "fa-regular fa-file-lines text-indigo-500";
         if(sanTitle) sanTitle.innerText = "Sanitized Text";
         if(sanIcon) sanIcon.className = "fa-regular fa-shield-check text-emerald-500";
+        
+        const step1 = document.getElementById('text-1');
+        if(step1) step1.innerText = "Text Entered";
+        const step5 = document.getElementById('text-5');
+        if(step5) step5.innerText = "Text Analysis & Redaction";
         
         if(origDownload) origDownload.classList.add('hidden');
         if(sanDownload) sanDownload.classList.add('hidden');
