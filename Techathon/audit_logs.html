@@ -34,14 +34,11 @@ tr.row-in{animation:fadeIn .2s ease;}@keyframes fadeIn{from{opacity:0;transform:
 <main class="flex-1 flex flex-col h-full overflow-y-auto custom-scrollbar p-6 md:p-8">
   <header class="flex justify-between items-center mb-6">
     <div class="flex items-center gap-3"><div class="w-8 h-8 rounded-full bg-indigo-100 text-indigo-600 flex items-center justify-center"><i class="fa-solid fa-clipboard-list"></i></div><div><h2 class="text-2xl font-bold text-slate-900 leading-tight">Audit Logs</h2><p class="text-sm text-slate-500 mt-0.5">Track all activities and actions performed in your account</p></div></div>
-    <div class="flex items-center gap-3">
-    <button onclick="toggleTheme()" class="flex items-center gap-2 px-4 py-2 bg-white border border-slate-200 rounded-lg text-sm font-medium hover:bg-slate-50 shadow-sm transition-colors dark-btn">
-        <i class="fa-regular fa-sun" id="theme-icon"></i> <span id="theme-text">Light</span>
-    </button>
+    <div class="flex items-center gap-4">
     <div style="position:relative;">
-        <button onclick="toggleGlobalNotif()" class="relative p-2 bg-white border border-slate-200 rounded-lg text-slate-600 hover:bg-slate-50 w-10 h-10 flex items-center justify-center shadow-sm transition-colors dark-btn">
-            <i class="fa-regular fa-bell"></i>
-            <span id="g-notif-badge" style="display:none;" class="absolute top-1 right-1 w-2.5 h-2.5 bg-red-500 rounded-full border-2 border-white"></span>
+        <button onclick="toggleGlobalNotif()" class="relative w-9 h-9 rounded-full bg-slate-50 flex items-center justify-center text-slate-500 hover:bg-slate-100 transition-colors">
+            <i class="fa-regular fa-bell text-sm"></i>
+            <span id="g-notif-badge" style="display:none;" class="absolute top-1 right-1 w-2 h-2 bg-red-500 rounded-full border-2 border-white"></span>
         </button>
         <div id="g-notif-panel" style="display:none; position:absolute; top:calc(100% + 8px); right:0; width:280px; background:white; border:1px solid #e2e8f0; border-radius:12px; box-shadow:0 10px 25px rgba(0,0,0,.1); z-index:999; text-align:left;">
             <div style="padding:10px 14px;font-size:13px;font-weight:700;color:#374151;border-bottom:1px solid #f1f5f9;">Notifications</div>
@@ -50,9 +47,13 @@ tr.row-in{animation:fadeIn .2s ease;}@keyframes fadeIn{from{opacity:0;transform:
             </div>
         </div>
     </div>
-    <button onclick="exportGlobalCSV()" class="flex items-center gap-2 px-4 py-2 bg-indigo-600 text-white rounded-lg text-sm font-medium hover:bg-indigo-700 shadow-sm transition-colors">
-        <i class="fa-solid fa-download"></i> Export Report
-    </button>
+
+    <div class="flex items-center gap-3 cursor-pointer hover:bg-slate-50 p-1.5 rounded-xl transition-colors">
+        <div class="w-8 h-8 rounded-full bg-indigo-600 text-white flex items-center justify-center text-sm font-bold user-avatar-initial">B</div>
+        <div class="hidden md:flex items-center gap-1.5 text-sm font-semibold text-slate-700">
+            <span class="user-display-name">Bhavya Shree D.</span> <i class="fa-solid fa-chevron-down text-[10px] text-slate-400"></i>
+        </div>
+    </div>
 </div>
     </header>
   <!-- Stats Cards -->
