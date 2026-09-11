@@ -229,10 +229,10 @@
 
                     <!-- Bottom Buttons -->
                     <div class="flex justify-between items-center mt-5">
-                        <button onclick="toggleCustomizeMenu()" class="px-6 py-1.5.5 bg-indigo-50 text-indigo-700 border border-indigo-200 rounded-lg text-[11.5px] font-bold shadow-sm hover:bg-indigo-100 flex items-center gap-2 transition-colors">
+                        <button onclick="toggleCustomizeMenu()" class="px-6 py-2.5 bg-indigo-50 text-indigo-700 border border-indigo-200 rounded-lg text-sm font-bold shadow-sm hover:bg-indigo-100 flex items-center gap-2 transition-colors">
                             <i class="fa-solid fa-gear"></i> Customize
                         </button>
-                        <button onclick="document.getElementById('fileInput').click()" class="px-8 py-1.5.5 bg-indigo-600 text-white rounded-lg text-[11.5px] font-bold shadow-md hover:bg-indigo-700 flex items-center gap-2 transition-colors">
+                        <button onclick="document.getElementById('fileInput').click()" class="px-8 py-2.5 bg-indigo-600 text-white rounded-lg text-sm font-bold shadow-md hover:bg-indigo-700 flex items-center gap-2 transition-colors">
                             <i class="fa-solid fa-play"></i> Process Document
                         </button>
                     </div>
@@ -879,6 +879,16 @@ async function processText() {
 
     btn.disabled = true;
     btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Processing...';
+    
+    // Always show pipeline at the start of processing
+    const pipelinePanel = document.getElementById('pipeline-panel');
+    if (pipelinePanel) pipelinePanel.classList.remove('hidden');
+    
+    const origHeader = document.getElementById('original-doc-header');
+    if (origHeader) origHeader.classList.remove('hidden');
+    
+    const arrowInd = document.getElementById('arrow-indicator');
+    if (arrowInd) arrowInd.classList.remove('hidden');
 
     // Reset pipeline steps
     for (let i = 1; i <= 7; i++) {
@@ -1063,6 +1073,16 @@ document.addEventListener('DOMContentLoaded', () => {
         
         browseBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Processing...';
         browseBtn.disabled = true;
+        
+        // Always show pipeline at the start of processing
+        const pipelinePanel = document.getElementById('pipeline-panel');
+        if (pipelinePanel) pipelinePanel.classList.remove('hidden');
+        
+        const origHeader = document.getElementById('original-doc-header');
+        if (origHeader) origHeader.classList.remove('hidden');
+        
+        const arrowInd = document.getElementById('arrow-indicator');
+        if (arrowInd) arrowInd.classList.remove('hidden');
         
         const formData = new FormData();
         for (let i = 0; i < e.target.files.length; i++) {
