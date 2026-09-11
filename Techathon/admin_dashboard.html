@@ -298,7 +298,7 @@
                 // Set total users to a minimum of 4 as requested, otherwise use active_users
                 document.getElementById('stat-users').textContent = Math.max(4, auditData.active_users || 0);
                 document.getElementById('stat-docs').textContent = (reportData.total_documents || 0).toLocaleString();
-                document.getElementById('stat-api').textContent = (auditData.total_activities || 0).toLocaleString();
+                
 
                 // 2. Process Line Chart Data (Last 7 days)
                 const last7Days = [];
