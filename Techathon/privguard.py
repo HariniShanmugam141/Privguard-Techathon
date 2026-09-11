@@ -1,4 +1,4 @@
-﻿import sys
+import sys
 import os
 import re
 import io
@@ -1065,6 +1065,7 @@ if FASTAPI_AVAILABLE:
         strategy: Optional[str] = "redact"
         profile: Optional[str] = None
         custom_keywords: Optional[List[str]] = []
+        exact_matches: Optional[List[str]] = []
 
     @app.post("/sanitize/text")
     async def sanitize_text(req: TextSanitizeRequest):
@@ -1072,30 +1073,30 @@ if FASTAPI_AVAILABLE:
         strat = req.strategy.lower() if req.strategy else DEFAULT_STRATEGY
         raw   = req.text
         kw    = req.custom_keywords
+        exact = req.exact_matches
 
-        pii_entities = detect_pii(raw, prof, kw)
+        pii_entities = detect_pii(raw, prof, kw, exact)
 
         # Apply replacements: replace each matched PII value in original text
         redacted = raw
         # Sort by length descending to avoid partial replacements
-        for ent_text, label in sorted(pii_entities, key=lambda x: -len(x[0])):
+        sorted_entities = sorted(pii_entities, key=lambda x: len(x[0]), reverse=True)
+        for ent_text, label in sorted_entities:
             replacement = get_masked_replacement(ent_text, label, strat)
-            # Case insensitive replacement for custom keywords to ensure all variations are masked
-            if label == "CUSTOM_KEYWORD":
-                pattern = re.compile(re.escape(ent_text), re.IGNORECASE)
-                redacted = pattern.sub(replacement, redacted)
-            else:
-                redacted = redacted.replace(ent_text, replacement)
+            # Basic string replace (case-insensitive would be better but keeping it simple)
+            import re
+            pattern = re.compile(re.escape(ent_text), re.IGNORECASE)
+            redacted = pattern.sub(replacement, redacted)
 
-        entities_summary = {}
-        for _, label in pii_entities:
-            entities_summary[label] = entities_summary.get(label, 0) + 1
+        # Build summary
+        counts = {}
+        for _, l in pii_entities:
+            counts[l] = counts.get(l, 0) + 1
 
         return {
             "status": "success",
-            "redacted_text": redacted,
-            "entities_summary": entities_summary,
-            "pii_found_count": len(pii_entities)
+            "sanitized_text": redacted,
+            "entities_summary": counts
         }
 
     @app.post("/sanitize/text/preview")
@@ -1103,8 +1104,9 @@ if FASTAPI_AVAILABLE:
         prof  = req.profile.upper() if req.profile else active_profile
         raw   = req.text
         kw    = req.custom_keywords
+        exact = req.exact_matches
 
-        pii_entities = detect_pii(raw, prof, kw)
+        pii_entities = detect_pii(raw, prof, kw, exact)
 
         # Wrap identified text in span tags for the interactive preview
         # We need a safe way to replace without destroying previous HTML tags, so we'll use a placeholder system.

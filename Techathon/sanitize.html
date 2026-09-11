@@ -909,6 +909,10 @@ async function processText() {
         const customKeywordsRaw = customKeywordsEl ? customKeywordsEl.value : '';
         const custom_keywords = customKeywordsRaw.split(',').map(s => s.trim()).filter(s => s);
 
+        const exactDetailsEl = document.getElementById('exact-details');
+        const exactDetailsRaw = exactDetailsEl ? exactDetailsEl.value : '';
+        const exact_matches = exactDetailsRaw.split(',').map(s => s.trim()).filter(s => s);
+
         const isInteractiveToggle = document.getElementById('interactive-review-toggle');
         const isInteractive = isInteractiveToggle && isInteractiveToggle.checked;
         const endpoint = isInteractive ? '/sanitize/text/preview' : '/sanitize/text';
@@ -916,7 +920,7 @@ async function processText() {
         const res  = await fetch(endpoint, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ text, strategy: 'redact', profile: 'HIPAA', custom_keywords })
+            body: JSON.stringify({ text, strategy: 'redact', profile: 'HIPAA', custom_keywords, exact_matches })
         });
         const data = await res.json();
 
@@ -1072,6 +1076,11 @@ document.addEventListener('DOMContentLoaded', () => {
         const customKeywordsEl = document.getElementById('custom-keywords');
         if (customKeywordsEl && customKeywordsEl.value.trim() !== '') {
             formData.append('custom_keywords', customKeywordsEl.value);
+        }
+
+        const exactDetailsEl = document.getElementById('exact-details');
+        if (exactDetailsEl && exactDetailsEl.value.trim() !== '') {
+            formData.append('exact_matches', exactDetailsEl.value);
         }
         
         window.currentDocumentFormData = formData;
