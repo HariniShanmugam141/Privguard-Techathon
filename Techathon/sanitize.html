@@ -222,7 +222,7 @@
                             <i id="dropzone-icon" class="fa-solid fa-arrow-up text-xl"></i>
                         </div>
                         <h3 id="dropzone-title" class="text-lg font-bold text-slate-800 mb-1">Drag & Drop your file here</h3>
-                        <p id="dropzone-desc" class="text-[11.5px] text-slate-500 mb-5">Supports PDF, PNG, JPG, CSV up to 50MB</p>
+                        <p id="dropzone-desc" class="text-[11.5px] text-slate-500 mb-5">Supports PDF, PNG, JPG up to 50MB</p>
                         <button id="browse-btn" class="px-6 py-1.5 bg-indigo-600 text-white rounded-lg text-[11.5px] font-bold shadow hover:bg-indigo-700 flex items-center gap-2 z-10">
                             <i class="fa-regular fa-folder-open"></i> Browse Files
                         </button>
@@ -468,10 +468,6 @@
                                     <i class="fa-solid fa-ban text-[11.5px]"></i>
                                 </div>
                                 <h3 class="font-bold text-slate-800 text-[11.5px]">Custom Keyword Blacklist</h3>
-                                <button onclick="document.getElementById('csvDictInput').click()" class="ml-auto text-[9px] bg-slate-100 hover:bg-slate-200 text-slate-600 font-semibold py-1 px-2 rounded flex items-center gap-1 transition-colors" title="Upload CSV Dictionary">
-                                    <i class="fa-solid fa-file-csv"></i> Upload CSV
-                                </button>
-                                <input type="file" id="csvDictInput" accept=".csv" class="hidden" onchange="handleCsvDictUpload(event)">
                             </div>
                             <p class="text-[10px] text-slate-600 leading-relaxed mb-2 flex-1">
                                 Define company-specific sensitive words, project names, or internal IDs to automatically redact. Separate entries with commas.
@@ -605,33 +601,7 @@
 
 <script>
 
-// Handle CSV Dictionary Upload
-function handleCsvDictUpload(event) {
-    const file = event.target.files[0];
-    if (!file) return;
-    
-    const reader = new FileReader();
-    reader.onload = function(e) {
-        const text = e.target.result;
-        // Split by newlines and commas to extract all words
-        const words = text.split(/[
 
-,]+/).map(w => w.trim()).filter(w => w.length > 0);
-        
-        const textarea = document.getElementById('custom-keywords');
-        let currentWords = textarea.value.split(',').map(w => w.trim()).filter(w => w.length > 0);
-        
-        // Merge and deduplicate
-        const merged = [...new Set([...currentWords, ...words])];
-        textarea.value = merged.join(', ');
-        
-        alert(Successfully imported  + words.length +  keywords from CSV!);
-        
-        // Reset input so the same file can be uploaded again if needed
-        event.target.value = '';
-    };
-    reader.readAsText(file);
-}
 
 // ==========================================
 // ── UI Toggle Functions ────────────────────────────────────
@@ -1415,7 +1385,7 @@ window.selectedFiles = null;
             // Reset Dropzone UI
             window.selectedFiles = null;
             document.getElementById('dropzone-title').textContent = 'Drag & Drop your file here';
-            document.getElementById('dropzone-desc').textContent = 'Supports PDF, PNG, JPG, CSV up to 50MB';
+            document.getElementById('dropzone-desc').textContent = 'Supports PDF, PNG, JPG up to 50MB';
             document.getElementById('dropzone-icon').className = 'fa-solid fa-arrow-up text-xl';
             document.getElementById('dropzone-icon-container').className = 'w-14 h-14 bg-indigo-600 rounded-full flex items-center justify-center text-white mb-2 shadow-md transition-colors';
 
@@ -1431,7 +1401,7 @@ window.selectedFiles = null;
         fileInput.id = 'hidden-file-input';
         fileInput.multiple = true;
         fileInput.style.display = 'none';
-        fileInput.accept = '.pdf,.png,.jpg,.jpeg,.csv';
+        fileInput.accept = '.pdf,.png,.jpg,.jpeg';
         browseBtn.parentNode.insertBefore(fileInput, browseBtn.nextSibling);
         
         // When clicking dropzone, we want to click fileInput
