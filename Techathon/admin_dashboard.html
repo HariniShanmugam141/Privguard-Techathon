@@ -96,7 +96,7 @@
                         </div>
                         <div>
                             <p class="text-sm font-medium text-slate-500">Total Users</p>
-                            <h3 class="text-2xl font-bold text-slate-900 mt-0.5">248</h3>
+                            <h3 id="stat-users" class="text-2xl font-bold text-slate-900 mt-0.5">248</h3>
                         </div>
                     </div>
                     <div class="flex items-center gap-2 mt-4">
@@ -112,7 +112,7 @@
                         </div>
                         <div>
                             <p class="text-sm font-medium text-slate-500">Documents Processed</p>
-                            <h3 class="text-2xl font-bold text-slate-900 mt-0.5">12,842</h3>
+                            <h3 id="stat-docs" class="text-2xl font-bold text-slate-900 mt-0.5">12,842</h3>
                         </div>
                     </div>
                     <div class="flex items-center gap-2 mt-4">
@@ -128,7 +128,7 @@
                         </div>
                         <div>
                             <p class="text-sm font-medium text-slate-500">API Requests Today</p>
-                            <h3 class="text-2xl font-bold text-slate-900 mt-0.5">5,391</h3>
+                            <h3 id="stat-api" class="text-2xl font-bold text-slate-900 mt-0.5">5,391</h3>
                         </div>
                     </div>
                     <div class="flex items-center gap-2 mt-4">
@@ -164,7 +164,7 @@
                         <div class="h-32 w-32 relative">
                             <canvas id="donutChart"></canvas>
                             <div class="absolute inset-0 flex flex-col items-center justify-center mt-1">
-                                <span class="text-2xl font-bold text-slate-800 leading-tight">68%</span>
+                                <span id="donut-center-pct" class="text-2xl font-bold text-slate-800 leading-tight">0%</span>
                                 <span class="text-[10px] font-medium text-slate-400">Active</span>
                             </div>
                         </div>
@@ -172,19 +172,19 @@
                     <div class="space-y-3">
                         <div class="flex justify-between items-center text-xs">
                             <div class="flex items-center gap-2"><div class="w-2 h-2 rounded-full bg-indigo-600"></div> <span class="text-slate-600 font-medium">GDPR</span></div>
-                            <span class="font-bold text-slate-700">42%</span>
+                            <span id="leg-gdpr" class="font-bold text-slate-700">0%</span>
                         </div>
                         <div class="flex justify-between items-center text-xs">
                             <div class="flex items-center gap-2"><div class="w-2 h-2 rounded-full bg-blue-500"></div> <span class="text-slate-600 font-medium">HIPAA</span></div>
-                            <span class="font-bold text-slate-700">26%</span>
+                            <span id="leg-hipaa" class="font-bold text-slate-700">0%</span>
                         </div>
                         <div class="flex justify-between items-center text-xs">
                             <div class="flex items-center gap-2"><div class="w-2 h-2 rounded-full bg-emerald-400"></div> <span class="text-slate-600 font-medium">Custom</span></div>
-                            <span class="font-bold text-slate-700">18%</span>
+                            <span id="leg-custom" class="font-bold text-slate-700">0%</span>
                         </div>
                         <div class="flex justify-between items-center text-xs">
                             <div class="flex items-center gap-2"><div class="w-2 h-2 rounded-full bg-slate-300"></div> <span class="text-slate-600 font-medium">Others</span></div>
-                            <span class="font-bold text-slate-700">14%</span>
+                            <span id="leg-others" class="font-bold text-slate-700">0%</span>
                         </div>
                     </div>
                 </div>
@@ -257,7 +257,7 @@
                                 <th class="pb-3 font-semibold text-right">Status</th>
                             </tr>
                         </thead>
-                        <tbody class="text-xs text-slate-600 font-medium">
+                        <tbody id="activity-table" class="text-xs text-slate-600 font-medium">
                             <tr class="border-b border-slate-50 hover:bg-slate-50 transition-colors">
                                 <td class="py-3">Sep 2, 10:24 AM</td>
                                 <td class="py-3 flex items-center gap-2"><div class="w-6 h-6 rounded-full bg-indigo-50 text-indigo-600 flex items-center justify-center text-[10px]"><i class="fa-regular fa-user"></i></div> Sarah Johnson</td>
@@ -345,81 +345,175 @@
     </main>
 
     <script>
-        // Line Chart setup
-        const lineCtx = document.getElementById('lineChart').getContext('2d');
-        const gradientLine = lineCtx.createLinearGradient(0, 0, 0, 250);
-        gradientLine.addColorStop(0, 'rgba(79, 70, 229, 0.2)');
-        gradientLine.addColorStop(1, 'rgba(79, 70, 229, 0)');
+        async function loadDashboardData() {
+            try {
+                // Fetch data from backend
+                const [reportRes, auditRes, logsRes] = await Promise.all([
+                    fetch('/reports/summary'),
+                    fetch('/audit/stats'),
+                    fetch('/audit/logs?per_page=50')
+                ]);
+                
+                const reportData = await reportRes.json();
+                const auditData = await auditRes.json();
+                const logsData = await logsRes.json();
 
-        new Chart(lineCtx, {
-            type: 'line',
-            data: {
-                labels: ['Aug 27', 'Aug 28', 'Aug 29', 'Aug 30', 'Aug 31', 'Sep 1', 'Sep 2'],
-                datasets: [{
-                    label: 'Documents Processed',
-                    data: [1500, 2600, 4800, 3600, 5200, 4600, 7200],
-                    borderColor: '#4f46e5',
-                    backgroundColor: gradientLine,
-                    borderWidth: 2,
-                    pointBackgroundColor: '#fff',
-                    pointBorderColor: '#4f46e5',
-                    pointBorderWidth: 2,
-                    pointRadius: 4,
-                    pointHoverRadius: 6,
-                    fill: true,
-                    tension: 0.4
-                }]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                plugins: { legend: { display: false } },
-                scales: {
-                    y: { 
-                        beginAtZero: true, 
-                        max: 8000, 
-                        ticks: { 
-                            callback: function(value) { return value === 0 ? '0' : (value/1000) + 'K'; }, 
-                            font: {size: 11, family: 'Inter'}, 
-                            color: '#94a3b8',
-                            padding: 10
-                        },
-                        grid: { color: '#f1f5f9' },
-                        border: { display: false }
-                    },
-                    x: {
-                        ticks: { font: {size: 11, family: 'Inter'}, color: '#94a3b8', padding: 10 },
-                        grid: { display: false },
-                        border: { display: false }
+                // 1. Update Metric Cards
+                // Set total users to a minimum of 4 as requested, otherwise use active_users
+                document.getElementById('stat-users').textContent = Math.max(4, auditData.active_users || 0);
+                document.getElementById('stat-docs').textContent = (reportData.total_documents || 0).toLocaleString();
+                document.getElementById('stat-api').textContent = (auditData.total_activities || 0).toLocaleString();
+
+                // 2. Process Line Chart Data (Last 7 days)
+                const last7Days = [];
+                const docCounts = [0, 0, 0, 0, 0, 0, 0];
+                const today = new Date();
+                for(let i=6; i>=0; i--) {
+                    const d = new Date(today);
+                    d.setDate(d.getDate() - i);
+                    last7Days.push(d.toLocaleDateString('en-US', {month: 'short', day: 'numeric'}));
+                }
+
+                (logsData.logs || []).forEach(log => {
+                    const logDate = new Date(log.timestamp).toLocaleDateString('en-US', {month: 'short', day: 'numeric'});
+                    const idx = last7Days.indexOf(logDate);
+                    if (idx !== -1) {
+                        docCounts[idx]++;
                     }
-                },
-                interaction: {
-                    intersect: false,
-                    mode: 'index',
-                },
-            }
-        });
+                });
 
-        // Donut Chart setup
-        const donutCtx = document.getElementById('donutChart').getContext('2d');
-        new Chart(donutCtx, {
-            type: 'doughnut',
-            data: {
-                labels: ['GDPR', 'HIPAA', 'Custom', 'Others'],
-                datasets: [{
-                    data: [42, 26, 18, 14],
-                    backgroundColor: ['#4f46e5', '#3b82f6', '#34d399', '#cbd5e1'],
-                    borderWidth: 0,
-                    hoverOffset: 4,
-                    cutout: '75%'
-                }]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                plugins: { legend: { display: false }, tooltip: { enabled: true } }
+                // Render Line Chart
+                const lineCtx = document.getElementById('lineChart').getContext('2d');
+                const gradientLine = lineCtx.createLinearGradient(0, 0, 0, 250);
+                gradientLine.addColorStop(0, 'rgba(79, 70, 229, 0.2)');
+                gradientLine.addColorStop(1, 'rgba(79, 70, 229, 0)');
+
+                new Chart(lineCtx, {
+                    type: 'line',
+                    data: {
+                        labels: last7Days,
+                        datasets: [{
+                            label: 'Platform Activity',
+                            data: docCounts,
+                            borderColor: '#4f46e5',
+                            backgroundColor: gradientLine,
+                            borderWidth: 2,
+                            pointBackgroundColor: '#fff',
+                            pointBorderColor: '#4f46e5',
+                            pointBorderWidth: 2,
+                            pointRadius: 4,
+                            pointHoverRadius: 6,
+                            fill: true,
+                            tension: 0.4
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: { legend: { display: false } },
+                        scales: {
+                            y: { 
+                                beginAtZero: true, 
+                                ticks: { 
+                                    font: {size: 11, family: 'Inter'}, 
+                                    color: '#94a3b8',
+                                    padding: 10
+                                },
+                                grid: { color: '#f1f5f9' },
+                                border: { display: false }
+                            },
+                            x: {
+                                ticks: { font: {size: 11, family: 'Inter'}, color: '#94a3b8', padding: 10 },
+                                grid: { display: false },
+                                border: { display: false }
+                            }
+                        },
+                        interaction: {
+                            intersect: false,
+                            mode: 'index',
+                        },
+                    }
+                });
+
+                // 3. Process Donut Chart Data
+                const byProfile = reportData.by_profile || {};
+                const gdpr = byProfile['GDPR'] || 0;
+                const hipaa = byProfile['HIPAA'] || 0;
+                const custom = byProfile['CUSTOM'] || 0;
+                const others = (byProfile['NONE'] || 0) + (byProfile['UNKNOWN'] || 0);
+                const totalProf = gdpr + hipaa + custom + others;
+
+                const getPct = (val) => totalProf > 0 ? Math.round((val / totalProf) * 100) : 0;
+                const pGdpr = getPct(gdpr);
+                const pHipaa = getPct(hipaa);
+                const pCustom = getPct(custom);
+                const pOthers = getPct(others);
+
+                document.getElementById('leg-gdpr').textContent = pGdpr + '%';
+                document.getElementById('leg-hipaa').textContent = pHipaa + '%';
+                document.getElementById('leg-custom').textContent = pCustom + '%';
+                document.getElementById('leg-others').textContent = pOthers + '%';
+                
+                const activePct = Math.round(reportData.success_rate || 0);
+                document.getElementById('donut-center-pct').textContent = activePct + '%';
+
+                const donutCtx = document.getElementById('donutChart').getContext('2d');
+                new Chart(donutCtx, {
+                    type: 'doughnut',
+                    data: {
+                        labels: ['GDPR', 'HIPAA', 'Custom', 'Others'],
+                        datasets: [{
+                            data: [pGdpr, pHipaa, pCustom, pOthers],
+                            backgroundColor: ['#4f46e5', '#3b82f6', '#34d399', '#cbd5e1'],
+                            borderWidth: 0,
+                            hoverOffset: 4,
+                            cutout: '75%'
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: { legend: { display: false }, tooltip: { enabled: true } }
+                    }
+                });
+
+                // 4. Update Recent Activity Table
+                const tbody = document.getElementById('activity-table');
+                tbody.innerHTML = '';
+                
+                const displayLogs = (logsData.logs || []).slice(0, 4);
+                if(displayLogs.length === 0) {
+                    tbody.innerHTML = '<tr><td colspan="5" class="py-4 text-center text-slate-400">No recent activity found.</td></tr>';
+                } else {
+                    displayLogs.forEach(log => {
+                        const tr = document.createElement('tr');
+                        tr.className = "border-b border-slate-50 hover:bg-slate-50 transition-colors";
+                        
+                        const time = new Date(log.timestamp).toLocaleDateString('en-US', {month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit'});
+                        const user = log.user || 'System';
+                        const action = log.action || 'Unknown';
+                        const resource = log.file_name || log.details || '-';
+                        const statusClass = (log.status || '').toLowerCase() === 'success' ? 'bg-emerald-50 text-emerald-600' : 'bg-red-50 text-red-600';
+                        const statusText = log.status || 'Success';
+
+                        tr.innerHTML = `
+                            <td class="py-3">${time}</td>
+                            <td class="py-3 flex items-center gap-2"><div class="w-6 h-6 rounded-full bg-indigo-50 text-indigo-600 flex items-center justify-center text-[10px]"><i class="fa-regular fa-user"></i></div> ${user}</td>
+                            <td class="py-3">${action}</td>
+                            <td class="py-3">${resource}</td>
+                            <td class="py-3 text-right"><span class="px-2 py-1 rounded ${statusClass} font-semibold text-[10px] capitalize">${statusText}</span></td>
+                        `;
+                        tbody.appendChild(tr);
+                    });
+                }
+                
+            } catch (err) {
+                console.error("Failed to load dashboard data:", err);
             }
-        });
+        }
+
+        // Initialize dashboard when DOM is ready
+        document.addEventListener('DOMContentLoaded', loadDashboardData);
     </script>
 </body>
 </html>
