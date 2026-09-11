@@ -217,7 +217,7 @@
                 <!-- Upload Tab Content -->
                 <div id="panel-upload" class="flex flex-col flex-1 p-3">
                     <!-- Dropzone Area -->
-                    <div id="dropzone" class="flex-1 flex flex-col items-center justify-center border-dashed border-2 border-slate-300 rounded-xl bg-slate-50 hover:bg-slate-100 transition-colors cursor-pointer py-10" onclick="document.querySelector('input[type=file]').click()">
+                    <div id="dropzone" class="flex-1 flex flex-col items-center justify-center border-dashed border-2 border-slate-300 rounded-xl bg-slate-50 hover:bg-slate-100 transition-colors cursor-pointer py-10" onclick="document.getElementById('hidden-file-input').click()">
                         <div id="dropzone-icon-container" class="w-14 h-14 bg-indigo-600 rounded-full flex items-center justify-center text-white mb-2 shadow-md transition-colors">
                             <i id="dropzone-icon" class="fa-solid fa-arrow-up text-xl"></i>
                         </div>
@@ -1104,20 +1104,7 @@ async function processText() {
     }
 }
 
-document.addEventListener('DOMContentLoaded', () => {
-    const browseBtn = document.getElementById('browse-btn');
-    if (!browseBtn) return;
-    
-    const fileInput = document.createElement('input');
-    fileInput.type = 'file';
-    fileInput.multiple = true;
-    fileInput.style.display = 'none';
-    browseBtn.parentNode.insertBefore(fileInput, browseBtn.nextSibling);
-    
-    browseBtn.addEventListener('click', () => fileInput.click());
-    
-    
-    window.selectedFiles = null;
+window.selectedFiles = null;
     
     function updateDropzoneUI(file) {
         document.getElementById('dropzone-title').textContent = file.name;
@@ -1423,7 +1410,7 @@ document.addEventListener('DOMContentLoaded', () => {
             
             browseBtn.innerHTML = '<i class="fa-regular fa-folder-open"></i> Browse Files';
             browseBtn.disabled = false;
-            fileInput.value = ''; // Reset file input so uploading another document works properly
+            document.getElementById('hidden-file-input').value = ''; // Reset file input so uploading another document works properly
             
             // Reset Dropzone UI
             window.selectedFiles = null;
@@ -1441,13 +1428,14 @@ document.addEventListener('DOMContentLoaded', () => {
         
         const fileInput = document.createElement('input');
         fileInput.type = 'file';
+        fileInput.id = 'hidden-file-input';
         fileInput.multiple = true;
         fileInput.style.display = 'none';
         fileInput.accept = '.pdf,.png,.jpg,.jpeg,.csv';
         browseBtn.parentNode.insertBefore(fileInput, browseBtn.nextSibling);
         
         // When clicking dropzone, we want to click fileInput
-        // The dropzone has onclick="document.querySelector('input[type=file]').click()" which works.
+        // The dropzone has onclick="document.getElementById('hidden-file-input').click()" which works.
         // We also want browseBtn to click fileInput
         browseBtn.addEventListener('click', (e) => { e.stopPropagation(); fileInput.click(); });
         
