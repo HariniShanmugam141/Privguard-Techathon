@@ -217,13 +217,13 @@
                 <!-- Upload Tab Content -->
                 <div id="panel-upload" class="flex flex-col flex-1 p-3">
                     <!-- Dropzone Area -->
-                    <div class="flex-1 flex flex-col items-center justify-center border-dashed border-2 border-slate-300 rounded-xl bg-slate-50 hover:bg-slate-100 transition-colors cursor-pointer py-10" onclick="document.getElementById('fileInput').click()">
-                        <div class="w-14 h-14 bg-indigo-600 rounded-full flex items-center justify-center text-white mb-2 shadow-md">
-                            <i class="fa-solid fa-arrow-up text-xl"></i>
+                    <div id="dropzone" class="flex-1 flex flex-col items-center justify-center border-dashed border-2 border-slate-300 rounded-xl bg-slate-50 hover:bg-slate-100 transition-colors cursor-pointer py-10" onclick="document.querySelector('input[type=file]').click()">
+                        <div id="dropzone-icon-container" class="w-14 h-14 bg-indigo-600 rounded-full flex items-center justify-center text-white mb-2 shadow-md transition-colors">
+                            <i id="dropzone-icon" class="fa-solid fa-arrow-up text-xl"></i>
                         </div>
-                        <h3 class="text-lg font-bold text-slate-800 mb-1">Drag & Drop your file here</h3>
-                        <p class="text-[11.5px] text-slate-500 mb-5">Supports PDF, PNG, JPG, CSV up to 50MB</p>
-                        <button class="px-6 py-1.5 bg-indigo-600 text-white rounded-lg text-[11.5px] font-bold shadow hover:bg-indigo-700 flex items-center gap-2">
+                        <h3 id="dropzone-title" class="text-lg font-bold text-slate-800 mb-1">Drag & Drop your file here</h3>
+                        <p id="dropzone-desc" class="text-[11.5px] text-slate-500 mb-5">Supports PDF, PNG, JPG, CSV up to 50MB</p>
+                        <button id="browse-btn" class="px-6 py-1.5 bg-indigo-600 text-white rounded-lg text-[11.5px] font-bold shadow hover:bg-indigo-700 flex items-center gap-2 z-10">
                             <i class="fa-regular fa-folder-open"></i> Browse Files
                         </button>
                     </div>
@@ -233,7 +233,7 @@
                         <button onclick="toggleCustomizeMenu()" class="px-6 py-2.5 bg-indigo-50 text-indigo-700 border border-indigo-200 rounded-lg text-sm font-bold shadow-sm hover:bg-indigo-100 flex items-center gap-2 transition-colors">
                             <i class="fa-solid fa-gear"></i> Customize
                         </button>
-                        <button onclick="document.getElementById('fileInput').click()" class="px-8 py-2.5 bg-indigo-600 text-white rounded-lg text-sm font-bold shadow-md hover:bg-indigo-700 flex items-center gap-2 transition-colors">
+                        <button onclick="processSelectedDocument()" class="px-8 py-2.5 bg-indigo-600 text-white rounded-lg text-sm font-bold shadow-md hover:bg-indigo-700 flex items-center gap-2 transition-colors">
                             <i class="fa-solid fa-play"></i> Process Document
                         </button>
                     </div>
@@ -614,7 +614,8 @@ function handleCsvDictUpload(event) {
     reader.onload = function(e) {
         const text = e.target.result;
         // Split by newlines and commas to extract all words
-        const words = text.split(/[
+        const words = text.split(/[
+
 ,]+/).map(w => w.trim()).filter(w => w.length > 0);
         
         const textarea = document.getElementById('custom-keywords');
@@ -1104,7 +1105,7 @@ async function processText() {
 }
 
 document.addEventListener('DOMContentLoaded', () => {
-    const browseBtn = Array.from(document.querySelectorAll('button')).find(el => el.textContent.includes('Browse Files'));
+    const browseBtn = document.getElementById('browse-btn');
     if (!browseBtn) return;
     
     const fileInput = document.createElement('input');
@@ -1115,8 +1116,30 @@ document.addEventListener('DOMContentLoaded', () => {
     
     browseBtn.addEventListener('click', () => fileInput.click());
     
-    fileInput.addEventListener('change', async (e) => {
-        if (!e.target.files.length) return;
+    
+    window.selectedFiles = null;
+    
+    function updateDropzoneUI(file) {
+        document.getElementById('dropzone-title').textContent = file.name;
+        document.getElementById('dropzone-desc').textContent = (file.size / 1024 / 1024).toFixed(2) + ' MB';
+        document.getElementById('dropzone-icon').className = 'fa-solid fa-file-check text-xl';
+        document.getElementById('dropzone-icon-container').className = 'w-14 h-14 bg-emerald-500 rounded-full flex items-center justify-center text-white mb-2 shadow-md transition-colors';
+        const browseBtn = document.getElementById('browse-btn');
+        if (browseBtn) {
+            browseBtn.innerHTML = '<i class="fa-solid fa-pen"></i> Change File';
+        }
+    }
+
+    async function processSelectedDocument() {
+        if (!window.selectedFiles || !window.selectedFiles.length) {
+            alert("Please select or drop a file first.");
+            return;
+        }
+        
+        const browseBtn = document.getElementById('browse-btn');
+        // The original logic assumes browseBtn exists
+
+        if (!window.selectedFiles.length) return;
         
         browseBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Processing...';
         browseBtn.disabled = true;
@@ -1132,8 +1155,8 @@ document.addEventListener('DOMContentLoaded', () => {
         if (arrowInd) arrowInd.classList.remove('hidden');
         
         const formData = new FormData();
-        for (let i = 0; i < e.target.files.length; i++) {
-            formData.append('files', e.target.files[i]);
+        for (let i = 0; i < window.selectedFiles.length; i++) {
+            formData.append('files', window.selectedFiles[i]);
         }
         
         // Set masking strategy to redact directly
@@ -1397,13 +1420,67 @@ document.addEventListener('DOMContentLoaded', () => {
             console.error(err);
             alert('Failed to connect to backend.');
         } finally {
+            
             browseBtn.innerHTML = '<i class="fa-regular fa-folder-open"></i> Browse Files';
             browseBtn.disabled = false;
             fileInput.value = ''; // Reset file input so uploading another document works properly
+            
+            // Reset Dropzone UI
+            window.selectedFiles = null;
+            document.getElementById('dropzone-title').textContent = 'Drag & Drop your file here';
+            document.getElementById('dropzone-desc').textContent = 'Supports PDF, PNG, JPG, CSV up to 50MB';
+            document.getElementById('dropzone-icon').className = 'fa-solid fa-arrow-up text-xl';
+            document.getElementById('dropzone-icon-container').className = 'w-14 h-14 bg-indigo-600 rounded-full flex items-center justify-center text-white mb-2 shadow-md transition-colors';
+
+        }
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+        const browseBtn = document.getElementById('browse-btn');
+        if (!browseBtn) return;
+        
+        const fileInput = document.createElement('input');
+        fileInput.type = 'file';
+        fileInput.multiple = true;
+        fileInput.style.display = 'none';
+        fileInput.accept = '.pdf,.png,.jpg,.jpeg,.csv';
+        browseBtn.parentNode.insertBefore(fileInput, browseBtn.nextSibling);
+        
+        // When clicking dropzone, we want to click fileInput
+        // The dropzone has onclick="document.querySelector('input[type=file]').click()" which works.
+        // We also want browseBtn to click fileInput
+        browseBtn.addEventListener('click', (e) => { e.stopPropagation(); fileInput.click(); });
+        
+        fileInput.addEventListener('change', (e) => {
+            if (e.target.files.length) {
+                window.selectedFiles = e.target.files;
+                updateDropzoneUI(window.selectedFiles[0]);
+            }
+        });
+
+        // Drag and drop logic
+        const dropzone = document.getElementById('dropzone');
+        if (dropzone) {
+            dropzone.addEventListener('dragover', (e) => {
+                e.preventDefault();
+                dropzone.classList.add('border-indigo-500', 'bg-indigo-50');
+            });
+            dropzone.addEventListener('dragleave', (e) => {
+                e.preventDefault();
+                dropzone.classList.remove('border-indigo-500', 'bg-indigo-50');
+            });
+            dropzone.addEventListener('drop', (e) => {
+                e.preventDefault();
+                dropzone.classList.remove('border-indigo-500', 'bg-indigo-50');
+                if (e.dataTransfer.files.length) {
+                    window.selectedFiles = e.dataTransfer.files;
+                    updateDropzoneUI(window.selectedFiles[0]);
+                }
+            });
         }
     });
-});
-</script>
+    </script>
+
 
 <style>
 html.dark-mode { filter: invert(1) hue-rotate(180deg); background-color: #000; }
