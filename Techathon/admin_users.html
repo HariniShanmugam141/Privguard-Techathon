@@ -31,16 +31,16 @@
         </div>
         
         <nav class="flex-1 px-4 space-y-1.5 overflow-y-auto mt-2">
-            <a href="admin_dashboard.html" class="sidebar-link">
-                <i class="fa-solid fa-home w-5 text-center text-slate-500"></i> Platform Overview
+            <a href="admin_dashboard.html" class="sidebar-link active">
+                <i class="fa-solid fa-home w-5 text-center text-indigo-600"></i> Platform Overview
             </a>
-            <a href="admin_users.html" class="sidebar-link active">
-                <i class="fa-solid fa-user-group w-5 text-center text-indigo-600"></i> User Management
+            <a href="admin_users.html" class="sidebar-link">
+                <i class="fa-solid fa-user-group w-5 text-center text-slate-500"></i> User Management
             </a>
             <a href="audit_logs.html" class="sidebar-link">
                 <i class="fa-solid fa-clipboard-check w-5 text-center text-slate-500"></i> Global Audit Logs
             </a>
-            <a href="#" class="sidebar-link">
+            <a href="admin_support_tickets.html" class="sidebar-link">
                 <i class="fa-solid fa-ticket w-5 text-center text-slate-500"></i> Support Tickets
             </a>
         </nav>
@@ -83,265 +83,200 @@
             </div>
         </header>
 
+        
         <!-- Content Scrollable -->
         <div class="flex-1 overflow-y-auto p-8">
             
-            <!-- Top Stats -->
-            <div class="grid grid-cols-3 gap-6 mb-6">
-                <!-- Stat 1 -->
-                <div class="card flex flex-col justify-between shadow-sm">
-                    <div class="flex items-center gap-4 mb-4">
-                        <div class="w-12 h-12 rounded-full bg-indigo-50 text-indigo-600 flex items-center justify-center text-xl">
-                            <i class="fa-solid fa-users"></i>
-                        </div>
-                        <div>
-                            <p class="text-sm font-medium text-slate-500">Total Users</p>
-                            <h3 class="text-2xl font-bold text-slate-900 mt-0.5">248</h3>
-                        </div>
+            <!-- Sub Header -->
+            <div class="flex items-center justify-between mb-8">
+                <div class="flex items-center gap-4">
+                    <div class="w-12 h-12 bg-indigo-50 text-indigo-600 rounded-2xl flex items-center justify-center text-xl shadow-inner">
+                        <i class="fa-solid fa-user-group"></i>
                     </div>
-                    <div class="flex items-center gap-2 mt-4">
-                        <span class="text-emerald-500 text-sm font-semibold flex items-center gap-1"><i class="fa-solid fa-arrow-up text-xs"></i> 12%</span>
-                        <span class="text-xs text-slate-400">vs. last 7 days</span>
+                    <div>
+                        <h2 class="text-2xl font-bold text-slate-900">User Management</h2>
+                        <p class="text-sm text-slate-500 mt-0.5">View, manage and control access for all users in your organization.</p>
                     </div>
                 </div>
-                <!-- Stat 2 -->
-                <div class="card flex flex-col justify-between shadow-sm">
-                    <div class="flex items-center gap-4 mb-4">
-                        <div class="w-12 h-12 rounded-full bg-indigo-50 text-indigo-600 flex items-center justify-center text-xl">
-                            <i class="fa-regular fa-file-lines"></i>
-                        </div>
-                        <div>
-                            <p class="text-sm font-medium text-slate-500">Documents Processed</p>
-                            <h3 class="text-2xl font-bold text-slate-900 mt-0.5">12,842</h3>
-                        </div>
-                    </div>
-                    <div class="flex items-center gap-2 mt-4">
-                        <span class="text-emerald-500 text-sm font-semibold flex items-center gap-1"><i class="fa-solid fa-arrow-up text-xs"></i> 18%</span>
-                        <span class="text-xs text-slate-400">vs. last 7 days</span>
+                <button class="px-5 py-2.5 bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl text-sm font-semibold transition-colors shadow-sm flex items-center gap-2">
+                    <i class="fa-solid fa-plus text-xs"></i> Add New User
+                </button>
+            </div>
+            
+            <!-- Metrics Cards -->
+            <div class="grid grid-cols-4 gap-6 mb-8">
+                <!-- Total Users -->
+                <div class="card shadow-sm flex items-center gap-4">
+                    <div class="w-12 h-12 rounded-full bg-indigo-50 text-indigo-600 flex items-center justify-center text-xl shrink-0"><i class="fa-solid fa-user-group"></i></div>
+                    <div class="flex-1">
+                        <h3 class="text-xs font-semibold text-slate-500 mb-1">Total Users</h3>
+                        <div class="text-2xl font-bold text-slate-900 mb-1">248</div>
+                        <div class="text-[10px] font-medium text-slate-400 flex items-center gap-1"><span class="text-emerald-500 font-bold"><i class="fa-solid fa-arrow-up"></i> 12%</span> vs. last 7 days</div>
                     </div>
                 </div>
-                <!-- Stat 3 -->
-                <div class="card flex flex-col justify-between shadow-sm">
-                    <div class="flex items-center gap-4 mb-4">
-                        <div class="w-12 h-12 rounded-full bg-indigo-50 text-indigo-600 flex items-center justify-center text-xl">
-                            <i class="fa-solid fa-code-branch"></i>
-                        </div>
-                        <div>
-                            <p class="text-sm font-medium text-slate-500">API Requests Today</p>
-                            <h3 class="text-2xl font-bold text-slate-900 mt-0.5">5,391</h3>
-                        </div>
+                <!-- Active Users -->
+                <div class="card shadow-sm flex items-center gap-4">
+                    <div class="w-12 h-12 rounded-full bg-blue-50 text-blue-500 flex items-center justify-center text-xl shrink-0"><i class="fa-solid fa-user"></i></div>
+                    <div class="flex-1">
+                        <h3 class="text-xs font-semibold text-slate-500 mb-1">Active Users</h3>
+                        <div class="text-2xl font-bold text-slate-900 mb-1">231</div>
+                        <div class="text-[10px] font-medium text-slate-400 flex items-center gap-1"><span class="text-emerald-500 font-bold"><i class="fa-solid fa-arrow-up"></i> 10%</span> vs. last 7 days</div>
                     </div>
-                    <div class="flex items-center gap-2 mt-4">
-                        <span class="text-emerald-500 text-sm font-semibold flex items-center gap-1"><i class="fa-solid fa-arrow-up text-xs"></i> 24%</span>
-                        <span class="text-xs text-slate-400">vs. yesterday</span>
+                </div>
+                <!-- Inactive Users -->
+                <div class="card shadow-sm flex items-center gap-4">
+                    <div class="w-12 h-12 rounded-full bg-slate-100 text-slate-400 flex items-center justify-center text-xl shrink-0"><i class="fa-solid fa-bell-slash"></i></div>
+                    <div class="flex-1">
+                        <h3 class="text-xs font-semibold text-slate-500 mb-1">Inactive Users</h3>
+                        <div class="text-2xl font-bold text-slate-900 mb-1">17</div>
+                        <div class="text-[10px] font-medium text-slate-400 flex items-center gap-1"><span class="text-red-500 font-bold"><i class="fa-solid fa-arrow-down"></i> 6%</span> vs. last 7 days</div>
+                    </div>
+                </div>
+                <!-- Admins -->
+                <div class="card shadow-sm flex items-center gap-4">
+                    <div class="w-12 h-12 rounded-full bg-indigo-50 text-indigo-600 flex items-center justify-center text-xl shrink-0"><i class="fa-solid fa-user-shield"></i></div>
+                    <div class="flex-1">
+                        <h3 class="text-xs font-semibold text-slate-500 mb-1">Admins</h3>
+                        <div class="text-2xl font-bold text-slate-900 mb-1">12</div>
+                        <div class="text-[10px] font-medium text-slate-400 flex items-center gap-1"><span class="text-emerald-500 font-bold"><i class="fa-solid fa-arrow-up"></i> 20%</span> vs. last 7 days</div>
                     </div>
                 </div>
             </div>
 
-            <!-- Middle Row -->
-            <div class="flex gap-6 mb-6">
-                
-                <!-- Line Chart -->
-                <div class="card flex-[2] shadow-sm">
-                    <div class="flex justify-between items-center mb-6">
-                        <div>
-                            <h3 class="font-bold text-slate-900">Platform Activity Overview</h3>
-                            <p class="text-xs text-slate-500 mt-1">Total documents processed over the last 7 days</p>
-                        </div>
-                        <select class="px-3 py-1.5 border border-slate-200 rounded-lg text-xs font-semibold text-slate-600 bg-white">
-                            <option>Last 7 days</option>
-                        </select>
+            <!-- Table Section -->
+            <div class="card shadow-sm p-0 overflow-hidden">
+                <div class="p-5 border-b border-slate-100 flex justify-between items-center bg-white">
+                    <div>
+                        <h2 class="text-lg font-bold text-slate-900">Users</h2>
+                        <p class="text-xs text-slate-500 mt-0.5">Manage user accounts, roles and access permissions.</p>
                     </div>
-                    <div class="h-[250px] w-full">
-                        <canvas id="lineChart"></canvas>
-                    </div>
-                </div>
-
-                <!-- Donut Chart -->
-                <div class="card flex-1 shadow-sm">
-                    <h3 class="font-bold text-slate-900 mb-6">Compliance Usage</h3>
-                    <div class="flex flex-col items-center justify-center relative mb-8 mt-4">
-                        <div class="h-32 w-32 relative">
-                            <canvas id="donutChart"></canvas>
-                            <div class="absolute inset-0 flex flex-col items-center justify-center mt-1">
-                                <span class="text-2xl font-bold text-slate-800 leading-tight">68%</span>
-                                <span class="text-[10px] font-medium text-slate-400">Active</span>
-                            </div>
+                    <div class="flex items-center gap-3">
+                        <div class="relative">
+                            <i class="fa-solid fa-magnifying-glass absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-[11px]"></i>
+                            <input type="text" placeholder="Search by name, email or role..." class="pl-8 pr-4 py-2 border border-slate-200 rounded-lg text-xs w-64 focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 text-slate-600 bg-slate-50">
                         </div>
-                    </div>
-                    <div class="space-y-3">
-                        <div class="flex justify-between items-center text-xs">
-                            <div class="flex items-center gap-2"><div class="w-2 h-2 rounded-full bg-indigo-600"></div> <span class="text-slate-600 font-medium">GDPR</span></div>
-                            <span class="font-bold text-slate-700">42%</span>
-                        </div>
-                        <div class="flex justify-between items-center text-xs">
-                            <div class="flex items-center gap-2"><div class="w-2 h-2 rounded-full bg-blue-500"></div> <span class="text-slate-600 font-medium">HIPAA</span></div>
-                            <span class="font-bold text-slate-700">26%</span>
-                        </div>
-                        <div class="flex justify-between items-center text-xs">
-                            <div class="flex items-center gap-2"><div class="w-2 h-2 rounded-full bg-emerald-400"></div> <span class="text-slate-600 font-medium">Custom</span></div>
-                            <span class="font-bold text-slate-700">18%</span>
-                        </div>
-                        <div class="flex justify-between items-center text-xs">
-                            <div class="flex items-center gap-2"><div class="w-2 h-2 rounded-full bg-slate-300"></div> <span class="text-slate-600 font-medium">Others</span></div>
-                            <span class="font-bold text-slate-700">14%</span>
-                        </div>
+                        <button class="px-4 py-2 border border-slate-200 rounded-lg text-xs font-semibold text-slate-600 bg-white hover:bg-slate-50 flex items-center gap-2 transition-colors">
+                            All Roles <i class="fa-solid fa-chevron-down text-[10px] text-slate-400"></i>
+                        </button>
                     </div>
                 </div>
-
-                <!-- Right Side Widgets -->
-                <div class="flex-1 flex flex-col gap-6">
-                    <!-- Keep Data Safe -->
-                    <div class="card bg-indigo-50/50 border-indigo-100 flex-1 flex flex-col justify-center relative overflow-hidden shadow-sm">
-                        <div class="absolute -right-4 -top-4 w-32 h-32 bg-white opacity-60 rounded-full blur-2xl pointer-events-none"></div>
-                        <div class="w-12 h-12 bg-indigo-600 rounded-xl flex items-center justify-center text-white mb-4 shadow-lg shadow-indigo-200 relative z-10">
-                            <i class="fa-solid fa-shield text-xl"></i>
-                        </div>
-                        <h3 class="font-bold text-slate-900 mb-2 relative z-10 text-lg">Keep Data Safe</h3>
-                        <p class="text-xs text-slate-600 mb-4 leading-relaxed relative z-10">PrivGuard AI helps organizations detect, redact and protect sensitive information across all their documents and systems.</p>
-                        <a href="#" class="text-xs font-bold text-indigo-600 hover:underline relative z-10 flex items-center gap-1">Learn more <i class="fa-solid fa-arrow-right text-[10px]"></i></a>
-                    </div>
-                    
-                    <!-- Quick Actions -->
-                    <div class="card flex-1 shadow-sm">
-                        <h3 class="font-bold text-slate-900 mb-4">Quick Actions</h3>
-                        <div class="grid grid-cols-2 gap-3">
-                            <a href="#" class="flex items-center justify-between p-3 rounded-xl bg-indigo-50 border border-indigo-100 hover:bg-indigo-100 transition-colors group">
-                                <div class="flex items-center gap-3">
-                                    <div class="w-8 h-8 rounded-full bg-indigo-200 text-indigo-700 flex items-center justify-center"><i class="fa-solid fa-users text-xs"></i></div>
-                                    <span class="text-[11px] font-semibold text-indigo-900">Manage Users</span>
-                                </div>
-                                <i class="fa-solid fa-arrow-right text-[10px] text-indigo-400 group-hover:translate-x-0.5 transition-transform"></i>
-                            </a>
-                            <a href="#" class="flex items-center justify-between p-3 rounded-xl bg-emerald-50 border border-emerald-100 hover:bg-emerald-100 transition-colors group">
-                                <div class="flex items-center gap-3">
-                                    <div class="w-8 h-8 rounded-full bg-emerald-200 text-emerald-700 flex items-center justify-center"><i class="fa-solid fa-shield-cat text-xs"></i></div>
-                                    <span class="text-[11px] font-semibold text-emerald-900">View Audit Logs</span>
-                                </div>
-                                <i class="fa-solid fa-arrow-right text-[10px] text-emerald-400 group-hover:translate-x-0.5 transition-transform"></i>
-                            </a>
-                            <a href="#" class="flex items-center justify-between p-3 rounded-xl bg-pink-50 border border-pink-100 hover:bg-pink-100 transition-colors group">
-                                <div class="flex items-center gap-3">
-                                    <div class="w-8 h-8 rounded-full bg-pink-200 text-pink-700 flex items-center justify-center"><i class="fa-solid fa-check text-xs"></i></div>
-                                    <span class="text-[11px] font-semibold text-pink-900">Configure Policies</span>
-                                </div>
-                                <i class="fa-solid fa-arrow-right text-[10px] text-pink-400 group-hover:translate-x-0.5 transition-transform"></i>
-                            </a>
-                            <a href="#" class="flex items-center justify-between p-3 rounded-xl bg-orange-50 border border-orange-100 hover:bg-orange-100 transition-colors group">
-                                <div class="flex items-center gap-3">
-                                    <div class="w-8 h-8 rounded-full bg-orange-200 text-orange-700 flex items-center justify-center"><i class="fa-solid fa-ticket text-xs"></i></div>
-                                    <span class="text-[11px] font-semibold text-orange-900">Support Tickets</span>
-                                </div>
-                                <i class="fa-solid fa-arrow-right text-[10px] text-orange-400 group-hover:translate-x-0.5 transition-transform"></i>
-                            </a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Bottom Row -->
-            <div class="flex gap-6">
-                <!-- Recent Activity Table -->
-                <div class="card flex-[2] shadow-sm">
-                    <div class="flex justify-between items-center mb-6">
-                        <h3 class="font-bold text-slate-900">Recent Platform Activity</h3>
-                        <a href="#" class="text-xs text-indigo-600 font-semibold hover:underline flex items-center gap-1">View All Logs <i class="fa-solid fa-arrow-right text-[10px]"></i></a>
-                    </div>
+                <div class="overflow-x-auto">
                     <table class="w-full text-left border-collapse">
                         <thead>
-                            <tr class="text-[11px] text-slate-400 uppercase tracking-wider border-b border-slate-100">
-                                <th class="pb-3 font-semibold">Time</th>
-                                <th class="pb-3 font-semibold">User</th>
-                                <th class="pb-3 font-semibold">Action</th>
-                                <th class="pb-3 font-semibold">Resource</th>
-                                <th class="pb-3 font-semibold text-right">Status</th>
+                            <tr class="bg-slate-50/50 border-b border-slate-100">
+                                <th class="px-5 py-3 text-[10px] font-bold text-slate-500 uppercase tracking-wider w-1/4">Name</th>
+                                <th class="px-5 py-3 text-[10px] font-bold text-slate-500 uppercase tracking-wider">Email</th>
+                                <th class="px-5 py-3 text-[10px] font-bold text-slate-500 uppercase tracking-wider">Role</th>
+                                <th class="px-5 py-3 text-[10px] font-bold text-slate-500 uppercase tracking-wider">Status</th>
+                                <th class="px-5 py-3 text-[10px] font-bold text-slate-500 uppercase tracking-wider">Last Login</th>
+                                <th class="px-5 py-3 text-[10px] font-bold text-slate-500 uppercase tracking-wider text-right">Actions</th>
                             </tr>
                         </thead>
-                        <tbody class="text-xs text-slate-600 font-medium">
-                            <tr class="border-b border-slate-50 hover:bg-slate-50 transition-colors">
-                                <td class="py-3">Sep 2, 10:24 AM</td>
-                                <td class="py-3 flex items-center gap-2"><div class="w-6 h-6 rounded-full bg-indigo-50 text-indigo-600 flex items-center justify-center text-[10px]"><i class="fa-regular fa-user"></i></div> Sarah Johnson</td>
-                                <td class="py-3">Redact Document</td>
-                                <td class="py-3">employee_data.pdf</td>
-                                <td class="py-3 text-right"><span class="px-2 py-1 rounded bg-emerald-50 text-emerald-600 font-semibold text-[10px]">Success</span></td>
+                        <tbody class="text-xs text-slate-600 divide-y divide-slate-50">
+                            <!-- User 1 -->
+                            <tr class="hover:bg-slate-50/60 transition-colors">
+                                <td class="px-5 py-3 flex items-center gap-3">
+                                    <div class="w-8 h-8 rounded-full bg-indigo-100 text-indigo-700 flex items-center justify-center font-bold text-xs shrink-0">AS</div>
+                                    <div class="font-semibold text-slate-800">Alice Smith</div>
+                                </td>
+                                <td class="px-5 py-3 text-slate-500">alice.smith@company.com</td>
+                                <td class="px-5 py-3"><span class="px-2.5 py-1 rounded-full bg-indigo-50 text-indigo-600 font-semibold text-[10px]">Admin</span></td>
+                                <td class="px-5 py-3"><span class="flex items-center gap-1.5"><span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span><span class="text-emerald-600 font-semibold text-[11px]">Active</span></span></td>
+                                <td class="px-5 py-3 text-slate-500">Sep 11, 2025  09:32 AM</td>
+                                <td class="px-5 py-3 text-right">
+                                    <div class="flex items-center justify-end gap-1">
+                                        <button class="w-7 h-7 rounded bg-slate-50 text-slate-400 hover:text-indigo-600 hover:bg-indigo-50 flex items-center justify-center transition-colors"><i class="fa-solid fa-pencil text-[10px]"></i></button>
+                                        <button class="w-7 h-7 rounded bg-slate-50 text-slate-400 hover:text-slate-600 hover:bg-slate-100 flex items-center justify-center transition-colors"><i class="fa-solid fa-ellipsis-vertical text-[10px]"></i></button>
+                                    </div>
+                                </td>
                             </tr>
-                            <tr class="border-b border-slate-50 hover:bg-slate-50 transition-colors">
-                                <td class="py-3">Sep 2, 09:17 AM</td>
-                                <td class="py-3 flex items-center gap-2"><div class="w-6 h-6 rounded-full bg-indigo-50 text-indigo-600 flex items-center justify-center text-[10px]"><i class="fa-regular fa-user"></i></div> Mike Chen</td>
-                                <td class="py-3">View Report</td>
-                                <td class="py-3">audit_report.pdf</td>
-                                <td class="py-3 text-right"><span class="px-2 py-1 rounded bg-emerald-50 text-emerald-600 font-semibold text-[10px]">Success</span></td>
+                            <!-- User 2 -->
+                            <tr class="hover:bg-slate-50/60 transition-colors">
+                                <td class="px-5 py-3 flex items-center gap-3">
+                                    <div class="w-8 h-8 rounded-full bg-blue-100 text-blue-700 flex items-center justify-center font-bold text-xs shrink-0">RJ</div>
+                                    <div class="font-semibold text-slate-800">Rahul Joshi</div>
+                                </td>
+                                <td class="px-5 py-3 text-slate-500">rahul.joshi@company.com</td>
+                                <td class="px-5 py-3"><span class="px-2.5 py-1 rounded-full bg-blue-50 text-blue-600 font-semibold text-[10px]">User</span></td>
+                                <td class="px-5 py-3"><span class="flex items-center gap-1.5"><span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span><span class="text-emerald-600 font-semibold text-[11px]">Active</span></span></td>
+                                <td class="px-5 py-3 text-slate-500">Sep 11, 2025  08:17 AM</td>
+                                <td class="px-5 py-3 text-right">
+                                    <div class="flex items-center justify-end gap-1">
+                                        <button class="w-7 h-7 rounded bg-slate-50 text-slate-400 hover:text-indigo-600 hover:bg-indigo-50 flex items-center justify-center transition-colors"><i class="fa-solid fa-pencil text-[10px]"></i></button>
+                                        <button class="w-7 h-7 rounded bg-slate-50 text-slate-400 hover:text-slate-600 hover:bg-slate-100 flex items-center justify-center transition-colors"><i class="fa-solid fa-ellipsis-vertical text-[10px]"></i></button>
+                                    </div>
+                                </td>
                             </tr>
-                            <tr class="border-b border-slate-50 hover:bg-slate-50 transition-colors">
-                                <td class="py-3">Sep 2, 08:42 AM</td>
-                                <td class="py-3 flex items-center gap-2"><div class="w-6 h-6 rounded-full bg-indigo-50 text-indigo-600 flex items-center justify-center text-[10px]"><i class="fa-regular fa-user"></i></div> Priya Sharma</td>
-                                <td class="py-3">Update Policy</td>
-                                <td class="py-3">HIPAA Profile</td>
-                                <td class="py-3 text-right"><span class="px-2 py-1 rounded bg-emerald-50 text-emerald-600 font-semibold text-[10px]">Success</span></td>
+                            <!-- User 3 -->
+                            <tr class="hover:bg-slate-50/60 transition-colors">
+                                <td class="px-5 py-3 flex items-center gap-3">
+                                    <div class="w-8 h-8 rounded-full bg-emerald-100 text-emerald-700 flex items-center justify-center font-bold text-xs shrink-0">PK</div>
+                                    <div class="font-semibold text-slate-800">Priya Kumar</div>
+                                </td>
+                                <td class="px-5 py-3 text-slate-500">priya.kumar@company.com</td>
+                                <td class="px-5 py-3"><span class="px-2.5 py-1 rounded-full bg-blue-50 text-blue-600 font-semibold text-[10px]">User</span></td>
+                                <td class="px-5 py-3"><span class="flex items-center gap-1.5"><span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span><span class="text-emerald-600 font-semibold text-[11px]">Active</span></span></td>
+                                <td class="px-5 py-3 text-slate-500">Sep 10, 2025  06:45 PM</td>
+                                <td class="px-5 py-3 text-right">
+                                    <div class="flex items-center justify-end gap-1">
+                                        <button class="w-7 h-7 rounded bg-slate-50 text-slate-400 hover:text-indigo-600 hover:bg-indigo-50 flex items-center justify-center transition-colors"><i class="fa-solid fa-pencil text-[10px]"></i></button>
+                                        <button class="w-7 h-7 rounded bg-slate-50 text-slate-400 hover:text-slate-600 hover:bg-slate-100 flex items-center justify-center transition-colors"><i class="fa-solid fa-ellipsis-vertical text-[10px]"></i></button>
+                                    </div>
+                                </td>
                             </tr>
-                            <tr class="border-b border-slate-50 hover:bg-slate-50 transition-colors">
-                                <td class="py-3">Sep 2, 08:15 AM</td>
-                                <td class="py-3 flex items-center gap-2"><div class="w-6 h-6 rounded-full bg-indigo-50 text-indigo-600 flex items-center justify-center text-[10px]"><i class="fa-regular fa-user"></i></div> James Wilson</td>
-                                <td class="py-3">Login</td>
-                                <td class="py-3">Web Portal</td>
-                                <td class="py-3 text-right"><span class="px-2 py-1 rounded bg-emerald-50 text-emerald-600 font-semibold text-[10px]">Success</span></td>
+                            <!-- User 4 -->
+                            <tr class="hover:bg-slate-50/60 transition-colors opacity-70">
+                                <td class="px-5 py-3 flex items-center gap-3">
+                                    <div class="w-8 h-8 rounded-full bg-orange-100 text-orange-700 flex items-center justify-center font-bold text-xs shrink-0">MT</div>
+                                    <div class="font-semibold text-slate-800">Manish Tiwari</div>
+                                </td>
+                                <td class="px-5 py-3 text-slate-500">manish.tiwari@company.com</td>
+                                <td class="px-5 py-3"><span class="px-2.5 py-1 rounded-full bg-orange-50 text-orange-600 font-semibold text-[10px]">Moderator</span></td>
+                                <td class="px-5 py-3"><span class="flex items-center gap-1.5"><span class="w-1.5 h-1.5 rounded-full bg-slate-300"></span><span class="text-slate-500 font-semibold text-[11px]">Inactive</span></span></td>
+                                <td class="px-5 py-3 text-slate-400">Sep 09, 2025  11:22 AM</td>
+                                <td class="px-5 py-3 text-right">
+                                    <div class="flex items-center justify-end gap-1">
+                                        <button class="w-7 h-7 rounded bg-slate-50 text-slate-400 hover:text-indigo-600 hover:bg-indigo-50 flex items-center justify-center transition-colors"><i class="fa-solid fa-pencil text-[10px]"></i></button>
+                                        <button class="w-7 h-7 rounded bg-slate-50 text-slate-400 hover:text-slate-600 hover:bg-slate-100 flex items-center justify-center transition-colors"><i class="fa-solid fa-ellipsis-vertical text-[10px]"></i></button>
+                                    </div>
+                                </td>
                             </tr>
-                            <tr class="hover:bg-slate-50 transition-colors">
-                                <td class="py-3">Sep 2, 07:53 AM</td>
-                                <td class="py-3 flex items-center gap-2"><div class="w-6 h-6 rounded-full bg-indigo-50 text-indigo-600 flex items-center justify-center text-[10px]"><i class="fa-regular fa-user"></i></div> Anita Desai</td>
-                                <td class="py-3">Redact Document</td>
-                                <td class="py-3">contract.pdf</td>
-                                <td class="py-3 text-right"><span class="px-2 py-1 rounded bg-emerald-50 text-emerald-600 font-semibold text-[10px]">Success</span></td>
+                            <!-- User 5 -->
+                            <tr class="hover:bg-slate-50/60 transition-colors">
+                                <td class="px-5 py-3 flex items-center gap-3">
+                                    <div class="w-8 h-8 rounded-full bg-purple-100 text-purple-700 flex items-center justify-center font-bold text-xs shrink-0">SD</div>
+                                    <div class="font-semibold text-slate-800">Sneha Desai</div>
+                                </td>
+                                <td class="px-5 py-3 text-slate-500">sneha.desai@company.com</td>
+                                <td class="px-5 py-3"><span class="px-2.5 py-1 rounded-full bg-blue-50 text-blue-600 font-semibold text-[10px]">User</span></td>
+                                <td class="px-5 py-3"><span class="flex items-center gap-1.5"><span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span><span class="text-emerald-600 font-semibold text-[11px]">Active</span></span></td>
+                                <td class="px-5 py-3 text-slate-500">Sep 11, 2025  07:58 AM</td>
+                                <td class="px-5 py-3 text-right">
+                                    <div class="flex items-center justify-end gap-1">
+                                        <button class="w-7 h-7 rounded bg-slate-50 text-slate-400 hover:text-indigo-600 hover:bg-indigo-50 flex items-center justify-center transition-colors"><i class="fa-solid fa-pencil text-[10px]"></i></button>
+                                        <button class="w-7 h-7 rounded bg-slate-50 text-slate-400 hover:text-slate-600 hover:bg-slate-100 flex items-center justify-center transition-colors"><i class="fa-solid fa-ellipsis-vertical text-[10px]"></i></button>
+                                    </div>
+                                </td>
                             </tr>
                         </tbody>
                     </table>
                 </div>
-
-                <!-- Recent Support Tickets -->
-                <div class="card flex-1 shadow-sm">
-                    <div class="flex justify-between items-center mb-6">
-                        <h3 class="font-bold text-slate-900">Recent Support Tickets</h3>
-                        <a href="#" class="text-xs text-indigo-600 font-semibold hover:underline flex items-center gap-1">View All <i class="fa-solid fa-arrow-right text-[10px]"></i></a>
-                    </div>
-                    <div class="space-y-4">
-                        <div class="flex items-start gap-3 p-3.5 rounded-xl border border-slate-100 bg-white shadow-sm hover:shadow-md transition-shadow cursor-pointer">
-                            <div class="w-8 h-8 rounded-full bg-pink-50 text-pink-500 flex items-center justify-center shrink-0 mt-0.5"><i class="fa-solid fa-bug text-xs"></i></div>
-                            <div class="flex-1">
-                                <div class="flex justify-between items-start mb-1">
-                                    <h4 class="font-semibold text-sm text-slate-800">Bug Report</h4>
-                                    <span class="text-[10px] text-slate-400 font-medium">2h ago</span>
-                                </div>
-                                <p class="text-[11px] text-slate-500 mb-2 truncate max-w-[180px]">Redaction not working for PDF files</p>
-                                <span class="px-2 py-0.5 rounded bg-indigo-50 text-indigo-600 text-[10px] font-bold">New</span>
-                            </div>
-                        </div>
-                        <div class="flex items-start gap-3 p-3.5 rounded-xl border border-slate-100 bg-white shadow-sm hover:shadow-md transition-shadow cursor-pointer">
-                            <div class="w-8 h-8 rounded-full bg-blue-50 text-blue-500 flex items-center justify-center shrink-0 mt-0.5"><i class="fa-solid fa-comment-dots text-xs"></i></div>
-                            <div class="flex-1">
-                                <div class="flex justify-between items-start mb-1">
-                                    <h4 class="font-semibold text-sm text-slate-800">New Query</h4>
-                                    <span class="text-[10px] text-slate-400 font-medium">4h ago</span>
-                                </div>
-                                <p class="text-[11px] text-slate-500 mb-2 truncate max-w-[180px]">How to enable HIPAA profile?</p>
-                                <span class="px-2 py-0.5 rounded bg-cyan-50 text-cyan-600 text-[10px] font-bold">In Progress</span>
-                            </div>
-                        </div>
-                        <div class="flex items-start gap-3 p-3.5 rounded-xl border border-slate-100 bg-white shadow-sm hover:shadow-md transition-shadow cursor-pointer">
-                            <div class="w-8 h-8 rounded-full bg-orange-50 text-orange-500 flex items-center justify-center shrink-0 mt-0.5"><i class="fa-solid fa-lightbulb text-xs"></i></div>
-                            <div class="flex-1">
-                                <div class="flex justify-between items-start mb-1">
-                                    <h4 class="font-semibold text-sm text-slate-800">Feedback</h4>
-                                    <span class="text-[10px] text-slate-400 font-medium">6h ago</span>
-                                </div>
-                                <p class="text-[11px] text-slate-500 mb-2 truncate max-w-[180px]">Great platform! Very helpful.</p>
-                                <span class="px-2 py-0.5 rounded bg-emerald-50 text-emerald-600 text-[10px] font-bold">Resolved</span>
-                            </div>
-                        </div>
+                <div class="p-4 border-t border-slate-100 flex items-center justify-between bg-white text-[11px] text-slate-500">
+                    <div>Showing 1-5 of 248 users</div>
+                    <div class="flex items-center gap-1">
+                        <button class="w-6 h-6 flex items-center justify-center rounded border border-slate-200 text-slate-400 hover:bg-slate-50 transition-colors"><i class="fa-solid fa-chevron-left text-[9px]"></i></button>
+                        <button class="w-6 h-6 flex items-center justify-center rounded bg-indigo-600 text-white font-semibold">1</button>
+                        <button class="w-6 h-6 flex items-center justify-center rounded hover:bg-slate-50 font-medium transition-colors">2</button>
+                        <button class="w-6 h-6 flex items-center justify-center rounded hover:bg-slate-50 font-medium transition-colors">3</button>
+                        <button class="w-6 h-6 flex items-center justify-center rounded hover:bg-slate-50 font-medium transition-colors">4</button>
+                        <button class="w-6 h-6 flex items-center justify-center rounded hover:bg-slate-50 font-medium transition-colors">5</button>
+                        <button class="w-6 h-6 flex items-center justify-center rounded border border-slate-200 text-slate-600 hover:bg-slate-50 transition-colors"><i class="fa-solid fa-chevron-right text-[9px]"></i></button>
                     </div>
                 </div>
             </div>
             
         </div>
+
     </main>
 
     
