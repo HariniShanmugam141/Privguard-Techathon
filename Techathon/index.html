@@ -46,6 +46,7 @@ body{background:#f5f6fa;font-family:"Inter",sans-serif;}
     <a href="audit_logs.html" class="sidebar-link "><i class="fa-solid fa-clipboard-list" style="width:18px;text-align:center;"></i> Audit Logs</a>
     <a href="reports.html" class="sidebar-link "><i class="fa-solid fa-chart-pie" style="width:18px;text-align:center;"></i> Reports</a>
     <a href="settings.html" class="sidebar-link "><i class="fa-solid fa-gear" style="width:18px;text-align:center;"></i> Settings</a>
+    <a href="feedback.html" class="sidebar-link "><i class="fa-regular fa-comment-dots" style="width:18px;text-align:center;"></i> Feedback</a>
   </nav>
   <div style="padding:16px 12px;display:flex;flex-direction:column;gap:10px;">
     <button onclick="localStorage.clear(); window.location.href='login.html';" style="width:100%;display:flex;align-items:center;justify-content:center;gap:8px;padding:12px;background:#fef2f2;color:#ef4444;border:1px solid #fee2e2;border-radius:12px;font-size:13px;font-weight:600;cursor:pointer;transition:all 0.2s;" onmouseover="this.style.background='#fee2e2'" onmouseout="this.style.background='#fef2f2'">
@@ -276,13 +277,13 @@ async function loadRecentDocs(){
   try{
     const d=await(await fetch("/history/records?page=1&per_page=6")).json();
     const container=document.getElementById("recent-docs");
-    if(!d.records||!d.records.length){container.innerHTML="<div style='padding:24px;text-align:center;font-size:13px;color:#94a3b8;'>No documents yet. <a href=\"sanitize.html\" style=\"color:#6366f1;font-weight:600;\">Redact your first document</a></div>";return;}
+    if(!d.records||!d.records.length){container.innerHTML="<div style='padding:24px;text-align:center;font-size:13px;color:#94a3b8;'>No documents yet. <a href="sanitize.html" style="color:#6366f1;font-weight:600;">Redact your first document</a></div>";return;}
     container.innerHTML=d.records.map(r=>{
       const dt=fmtAgo(r.timestamp);
       const profBadge={"HIPAA":"badge-hipaa","GDPR":"badge-gdpr","PCI-DSS":"badge-pci","CUSTOM":"badge-custom"}[r.compliance_profile]||"badge-hipaa";
       const statusBadge=r.deleted?"<span class='status-deleted'><i class='fa-solid fa-xmark'></i> Deleted</span>":"<span class='status-protected'><i class='fa-solid fa-check'></i> Protected</span>";
       const typeIcon=r.file_type==="pdf"?"fa-regular fa-file-pdf text-red-400":r.file_type==="jpg"||r.file_type==="jpeg"||r.file_type==="png"?"fa-regular fa-image text-sky-400":"fa-regular fa-file text-slate-400";
-      return "<div class='row-hover' style='display:flex;align-items:center;padding:10px 20px;gap:10px;'><i class='fa-solid "+typeIcon+"' style='font-size:18px;width:22px;flex-shrink:0;'></i><div style='flex:1;min-width:0;'><div style='font-size:13px;font-weight:600;color:#0f172a;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;'>"+esc(r.file_name)+"</div></div><span class='"+profBadge+"'>"+esc(r.compliance_profile)+"</span>"+statusBadge+"<span style='font-size:12px;color:#94a3b8;width:70px;text-align:right;flex-shrink:0;'>"+dt+"</span><button onclick=\"markViewed('"+r.id+"')\" style='font-size:12px;font-weight:600;color:#6366f1;background:none;border:none;cursor:pointer;flex-shrink:0;'>View</button></div>";
+      return "<div class='row-hover' style='display:flex;align-items:center;padding:10px 20px;gap:10px;'><i class='fa-solid "+typeIcon+"' style='font-size:18px;width:22px;flex-shrink:0;'></i><div style='flex:1;min-width:0;'><div style='font-size:13px;font-weight:600;color:#0f172a;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;'>"+esc(r.file_name)+"</div></div><span class='"+profBadge+"'>"+esc(r.compliance_profile)+"</span>"+statusBadge+"<span style='font-size:12px;color:#94a3b8;width:70px;text-align:right;flex-shrink:0;'>"+dt+"</span><button onclick="markViewed('"+r.id+"')" style='font-size:12px;font-weight:600;color:#6366f1;background:none;border:none;cursor:pointer;flex-shrink:0;'>View</button></div>";
     }).join("");
     loadAttentionItems(d.records);
   }catch(e){document.getElementById("recent-docs").innerHTML="<div style='padding:16px;text-align:center;color:#ef4444;font-size:13px;'>Failed to load</div>";}
