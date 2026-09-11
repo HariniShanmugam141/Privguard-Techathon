@@ -135,42 +135,51 @@
 
 
     <!-- RIGHT SIDE -->
-    <div class="flex-1 flex flex-col overflow-y-auto bg-white relative">
-        <!-- Top Nav -->
-        <div class="px-6 pt-6 pb-2 md:px-10 md:py-4 flex justify-end items-center text-[13px] absolute top-0 right-0 w-full z-10">
-            <span class="text-slate-500 font-medium">New here?</span>
-            <a href="signup.html" class="ml-2 font-bold text-indigo-600 hover:text-indigo-700 transition-colors">
-                Create an account
-            </a>
-        </div>
-
-        <!-- Form Container -->
-        <div class="flex-1 flex flex-col justify-center max-w-[440px] mx-auto w-full px-6 py-1 mt-0">
+    <div class="flex-1 flex items-center justify-center overflow-y-auto bg-slate-50 relative p-8">
+        
+        <!-- Form Card -->
+        <div class="bg-white w-full max-w-[540px] rounded-3xl shadow-xl shadow-slate-200/50 p-8 sm:p-10 relative">
             
-            <h2 class="text-[24px] font-bold text-slate-900 mb-2">Welcome Back!</h2>
-            <p class="text-[13px] text-slate-500 mb-3 max-w-[340px] leading-relaxed">Sign in to your PrivGuard AI account</p>
+            <!-- Top Nav -->
+            <div class="absolute top-8 right-10 text-[13px]">
+                <span class="text-slate-500 font-medium">New here?</span>
+                <a href="signup.html" class="ml-1 font-bold text-indigo-600 hover:text-indigo-700 transition-colors">
+                    Create an account
+                </a>
+            </div>
 
-            <form id="loginForm" class="space-y-2">
+            <!-- Header -->
+            <div class="flex items-center gap-4 mb-6 mt-2">
+                <div class="w-14 h-14 rounded-2xl bg-indigo-50 text-indigo-600 flex items-center justify-center shrink-0">
+                    <i class="fa-solid fa-shield-halved text-2xl"></i>
+                </div>
+                <div>
+                    <h2 class="text-[26px] font-bold text-slate-900 leading-tight">Welcome Back!</h2>
+                    <p class="text-[14px] text-slate-500 font-medium mt-0.5">Sign in to your PrivGuard AI account</p>
+                </div>
+            </div>
+
+            <form id="loginForm" class="space-y-4">
                 
                 <!-- Email -->
                 <div>
-                    <label class="block text-[13px] font-bold text-slate-700 mb-2">Email Address</label>
+                    <label class="block text-[13px] font-bold text-slate-800 mb-1.5">Email Address</label>
                     <div class="relative group">
                         <div class="absolute inset-y-0 left-0 flex items-center pl-4 pointer-events-none text-slate-400 group-focus-within:text-indigo-600 transition-colors z-10">
                             <i class="fa-regular fa-envelope text-[14px]"></i>
                         </div>
-                        <input type="email" id="email" placeholder="you@example.com" required class="w-full bg-white border border-slate-200 rounded-xl focus:border-indigo-600 focus:ring-[1.5px] focus:ring-indigo-600 transition-all text-[13px] text-slate-900 placeholder:text-slate-400 font-medium h-[44px] pl-[44px] pr-4 shadow-sm hover:border-slate-300 outline-none">
+                        <input type="email" id="email" placeholder="you@example.com" required class="w-full bg-white border border-slate-200 rounded-xl focus:border-indigo-600 focus:ring-[1.5px] focus:ring-indigo-600 transition-all text-[14px] text-slate-900 placeholder:text-slate-400 font-medium h-[48px] pl-[44px] pr-4 shadow-sm hover:border-slate-300 outline-none">
                     </div>
                 </div>
 
                 <!-- Password -->
                 <div>
-                    <label class="block text-[13px] font-bold text-slate-700 mb-2">Password</label>
+                    <label class="block text-[13px] font-bold text-slate-800 mb-1.5">Password</label>
                     <div class="relative group">
                         <div class="absolute inset-y-0 left-0 flex items-center pl-4 pointer-events-none text-slate-400 group-focus-within:text-indigo-600 transition-colors z-10">
                             <i class="fa-regular fa-lock text-[14px]"></i>
                         </div>
-                        <input type="password" id="pwInput" placeholder="Enter your password" required class="w-full bg-white border border-slate-200 rounded-xl focus:border-indigo-600 focus:ring-[1.5px] focus:ring-indigo-600 transition-all text-[13px] text-slate-900 placeholder:text-slate-400 font-medium h-[44px] pl-[44px] pr-12 shadow-sm hover:border-slate-300 outline-none">
+                        <input type="password" id="pwInput" placeholder="Enter your password" required class="w-full bg-white border border-slate-200 rounded-xl focus:border-indigo-600 focus:ring-[1.5px] focus:ring-indigo-600 transition-all text-[14px] text-slate-900 placeholder:text-slate-400 font-medium h-[48px] pl-[44px] pr-12 shadow-sm hover:border-slate-300 outline-none">
                         <button type="button" onclick="togglePw()" class="absolute inset-y-0 right-0 flex items-center pr-4 text-slate-400 hover:text-slate-600 transition-colors z-10">
                             <i class="fa-regular fa-eye-slash text-[14px]" id="pwIcon"></i>
                         </button>
@@ -178,36 +187,36 @@
                 </div>
 
                 <!-- Remember Me & Forgot Password -->
-                <div class="flex items-center justify-between py-1">
+                <div class="flex items-center justify-between py-2">
                     <label class="flex items-center gap-2 cursor-pointer">
                         <input type="checkbox" class="w-4 h-4 rounded border-slate-300 text-indigo-600 focus:ring-indigo-600 focus:ring-offset-0">
-                        <span class="text-[13px] text-slate-500 font-medium">Remember me</span>
+                        <span class="text-[13px] text-slate-600 font-medium">Remember me</span>
                     </label>
-                    <a href="#" class="text-[13px] font-semibold text-indigo-600 hover:text-indigo-700 hover:underline">Forgot password?</a>
+                    <a href="#" class="text-[13px] font-bold text-indigo-600 hover:text-indigo-700 hover:underline">Forgot password?</a>
                 </div>
 
                 <!-- Submit -->
-                <button type="submit" class="w-full bg-indigo-600 text-white font-semibold rounded-xl h-[44px] mt-3 flex items-center justify-center gap-2 hover:bg-indigo-700 focus:ring-4 focus:ring-indigo-600/20 transition-all shadow-lg shadow-indigo-600/20 text-[13px]">
-                    Sign In <i class="fa-solid fa-arrow-right text-xs"></i>
+                <button type="submit" class="w-full bg-indigo-600 text-white font-semibold rounded-xl h-[48px] mt-2 flex items-center justify-center gap-2 hover:bg-indigo-700 focus:ring-4 focus:ring-indigo-600/20 transition-all shadow-lg shadow-indigo-600/20 text-[14px]">
+                    Sign In <i class="fa-solid fa-arrow-right text-[12px]"></i>
                 </button>
 
                 <!-- Divider -->
-                <div class="flex items-center justify-center gap-4 py-1 mt-3">
-                    <div class="h-[1px] bg-slate-200 flex-1"></div>
+                <div class="flex items-center justify-center gap-4 py-2 mt-4">
+                    <div class="h-[1px] bg-slate-100 flex-1"></div>
                     <span class="text-[11px] font-bold text-slate-400 uppercase tracking-wider">OR</span>
-                    <div class="h-[1px] bg-slate-200 flex-1"></div>
+                    <div class="h-[1px] bg-slate-100 flex-1"></div>
                 </div>
 
                 <!-- Google Auth -->
-                <button type="button" id="btn-google" class="w-full bg-white border border-slate-200 text-slate-700 font-bold rounded-xl h-[44px] flex items-center justify-center gap-3 hover:bg-slate-50 transition-all shadow-sm text-[13px]">
+                <button type="button" id="btn-google" class="w-full bg-white border border-slate-200 text-slate-700 font-bold rounded-xl h-[48px] flex items-center justify-center gap-3 hover:bg-slate-50 transition-all shadow-sm text-[14px]">
                     <img src="https://www.svgrepo.com/show/475656/google-color.svg" alt="Google" class="w-5 h-5">
                     Continue with Google
                 </button>
 
             </form>
 
-            <p class="text-center text-[12px] text-slate-500 font-medium mt-3">
-                By signing in, you agree to our <a href="#" class="text-indigo-600 font-semibold hover:underline">Terms of Service</a> and <a href="#" class="text-indigo-600 font-semibold hover:underline">Privacy Policy</a>.
+            <p class="text-center text-[12px] text-slate-500 font-medium mt-6">
+                By signing in, you agree to our <a href="#" class="text-indigo-600 font-bold hover:underline">Terms of Service</a> and <a href="#" class="text-indigo-600 font-bold hover:underline">Privacy Policy</a>.
             </p>
         </div>
     </div>
