@@ -681,6 +681,27 @@ if FASTAPI_AVAILABLE:
         raise HTTPException(status_code=404, detail="Page not found")
 
     # ==========================================
+    # USERS ROUTES
+    # ==========================================
+
+    @app.get("/api/users")
+    def get_users():
+        return {
+            "users": [
+                {"name": "Alice Smith", "email": "alice.smith@company.com", "role": "Admin", "status": "Active", "last_login": "Sep 11, 2025  09:32 AM", "initials": "AS"},
+                {"name": "Rahul Joshi", "email": "rahul.joshi@company.com", "role": "User", "status": "Active", "last_login": "Sep 11, 2025  08:17 AM", "initials": "RJ"},
+                {"name": "Priya Kumar", "email": "priya.kumar@company.com", "role": "User", "status": "Active", "last_login": "Sep 10, 2025  06:45 PM", "initials": "PK"},
+                {"name": "Manish Tiwari", "email": "manish.tiwari@company.com", "role": "Moderator", "status": "Inactive", "last_login": "Sep 09, 2025  11:22 AM", "initials": "MT"},
+                {"name": "Sneha Desai", "email": "sneha.desai@company.com", "role": "User", "status": "Active", "last_login": "Sep 11, 2025  07:58 AM", "initials": "SD"}
+            ],
+            "stats": {
+                "total": 248,
+                "active": 231,
+                "inactive": 17
+            }
+        }
+
+    # ==========================================
     # PROFILE ROUTES
     # ==========================================
 

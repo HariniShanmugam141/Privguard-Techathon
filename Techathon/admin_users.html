@@ -110,7 +110,7 @@
                     <div class="w-12 h-12 rounded-full bg-indigo-50 text-indigo-600 flex items-center justify-center text-xl shrink-0"><i class="fa-solid fa-user-group"></i></div>
                     <div class="flex-1">
                         <h3 class="text-xs font-semibold text-slate-500 mb-1">Total Users</h3>
-                        <div class="text-2xl font-bold text-slate-900 mb-1">248</div>
+                        <div id="stat-total" class="text-2xl font-bold text-slate-900 mb-1">...</div>
                         <div class="text-[10px] font-medium text-slate-400 flex items-center gap-1"><span class="text-emerald-500 font-bold"><i class="fa-solid fa-arrow-up"></i> 12%</span> vs. last 7 days</div>
                     </div>
                 </div>
@@ -119,7 +119,7 @@
                     <div class="w-12 h-12 rounded-full bg-blue-50 text-blue-500 flex items-center justify-center text-xl shrink-0"><i class="fa-solid fa-user"></i></div>
                     <div class="flex-1">
                         <h3 class="text-xs font-semibold text-slate-500 mb-1">Active Users</h3>
-                        <div class="text-2xl font-bold text-slate-900 mb-1">231</div>
+                        <div id="stat-active" class="text-2xl font-bold text-slate-900 mb-1">...</div>
                         <div class="text-[10px] font-medium text-slate-400 flex items-center gap-1"><span class="text-emerald-500 font-bold"><i class="fa-solid fa-arrow-up"></i> 10%</span> vs. last 7 days</div>
                     </div>
                 </div>
@@ -128,7 +128,7 @@
                     <div class="w-12 h-12 rounded-full bg-slate-100 text-slate-400 flex items-center justify-center text-xl shrink-0"><i class="fa-solid fa-bell-slash"></i></div>
                     <div class="flex-1">
                         <h3 class="text-xs font-semibold text-slate-500 mb-1">Inactive Users</h3>
-                        <div class="text-2xl font-bold text-slate-900 mb-1">17</div>
+                        <div id="stat-inactive" class="text-2xl font-bold text-slate-900 mb-1">...</div>
                         <div class="text-[10px] font-medium text-slate-400 flex items-center gap-1"><span class="text-red-500 font-bold"><i class="fa-solid fa-arrow-down"></i> 6%</span> vs. last 7 days</div>
                     </div>
                 </div>
@@ -164,93 +164,7 @@
                                 <th class="px-5 py-3 text-[10px] font-bold text-slate-500 uppercase tracking-wider text-right">Actions</th>
                             </tr>
                         </thead>
-                        <tbody class="text-xs text-slate-600 divide-y divide-slate-50">
-                            <!-- User 1 -->
-                            <tr class="hover:bg-slate-50/60 transition-colors">
-                                <td class="px-5 py-3 flex items-center gap-3">
-                                    <div class="w-8 h-8 rounded-full bg-indigo-100 text-indigo-700 flex items-center justify-center font-bold text-xs shrink-0">AS</div>
-                                    <div class="font-semibold text-slate-800">Alice Smith</div>
-                                </td>
-                                <td class="px-5 py-3 text-slate-500">alice.smith@company.com</td>
-                                <td class="px-5 py-3"><span class="px-2.5 py-1 rounded-full bg-indigo-50 text-indigo-600 font-semibold text-[10px]">Admin</span></td>
-                                <td class="px-5 py-3"><span class="flex items-center gap-1.5"><span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span><span class="text-emerald-600 font-semibold text-[11px]">Active</span></span></td>
-                                <td class="px-5 py-3 text-slate-500">Sep 11, 2025  09:32 AM</td>
-                                <td class="px-5 py-3 text-right">
-                                    <div class="flex items-center justify-end gap-1">
-                                        <button class="w-7 h-7 rounded bg-slate-50 text-slate-400 hover:text-indigo-600 hover:bg-indigo-50 flex items-center justify-center transition-colors"><i class="fa-solid fa-pencil text-[10px]"></i></button>
-                                        <button class="w-7 h-7 rounded bg-slate-50 text-slate-400 hover:text-slate-600 hover:bg-slate-100 flex items-center justify-center transition-colors"><i class="fa-solid fa-ellipsis-vertical text-[10px]"></i></button>
-                                    </div>
-                                </td>
-                            </tr>
-                            <!-- User 2 -->
-                            <tr class="hover:bg-slate-50/60 transition-colors">
-                                <td class="px-5 py-3 flex items-center gap-3">
-                                    <div class="w-8 h-8 rounded-full bg-blue-100 text-blue-700 flex items-center justify-center font-bold text-xs shrink-0">RJ</div>
-                                    <div class="font-semibold text-slate-800">Rahul Joshi</div>
-                                </td>
-                                <td class="px-5 py-3 text-slate-500">rahul.joshi@company.com</td>
-                                <td class="px-5 py-3"><span class="px-2.5 py-1 rounded-full bg-blue-50 text-blue-600 font-semibold text-[10px]">User</span></td>
-                                <td class="px-5 py-3"><span class="flex items-center gap-1.5"><span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span><span class="text-emerald-600 font-semibold text-[11px]">Active</span></span></td>
-                                <td class="px-5 py-3 text-slate-500">Sep 11, 2025  08:17 AM</td>
-                                <td class="px-5 py-3 text-right">
-                                    <div class="flex items-center justify-end gap-1">
-                                        <button class="w-7 h-7 rounded bg-slate-50 text-slate-400 hover:text-indigo-600 hover:bg-indigo-50 flex items-center justify-center transition-colors"><i class="fa-solid fa-pencil text-[10px]"></i></button>
-                                        <button class="w-7 h-7 rounded bg-slate-50 text-slate-400 hover:text-slate-600 hover:bg-slate-100 flex items-center justify-center transition-colors"><i class="fa-solid fa-ellipsis-vertical text-[10px]"></i></button>
-                                    </div>
-                                </td>
-                            </tr>
-                            <!-- User 3 -->
-                            <tr class="hover:bg-slate-50/60 transition-colors">
-                                <td class="px-5 py-3 flex items-center gap-3">
-                                    <div class="w-8 h-8 rounded-full bg-emerald-100 text-emerald-700 flex items-center justify-center font-bold text-xs shrink-0">PK</div>
-                                    <div class="font-semibold text-slate-800">Priya Kumar</div>
-                                </td>
-                                <td class="px-5 py-3 text-slate-500">priya.kumar@company.com</td>
-                                <td class="px-5 py-3"><span class="px-2.5 py-1 rounded-full bg-blue-50 text-blue-600 font-semibold text-[10px]">User</span></td>
-                                <td class="px-5 py-3"><span class="flex items-center gap-1.5"><span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span><span class="text-emerald-600 font-semibold text-[11px]">Active</span></span></td>
-                                <td class="px-5 py-3 text-slate-500">Sep 10, 2025  06:45 PM</td>
-                                <td class="px-5 py-3 text-right">
-                                    <div class="flex items-center justify-end gap-1">
-                                        <button class="w-7 h-7 rounded bg-slate-50 text-slate-400 hover:text-indigo-600 hover:bg-indigo-50 flex items-center justify-center transition-colors"><i class="fa-solid fa-pencil text-[10px]"></i></button>
-                                        <button class="w-7 h-7 rounded bg-slate-50 text-slate-400 hover:text-slate-600 hover:bg-slate-100 flex items-center justify-center transition-colors"><i class="fa-solid fa-ellipsis-vertical text-[10px]"></i></button>
-                                    </div>
-                                </td>
-                            </tr>
-                            <!-- User 4 -->
-                            <tr class="hover:bg-slate-50/60 transition-colors opacity-70">
-                                <td class="px-5 py-3 flex items-center gap-3">
-                                    <div class="w-8 h-8 rounded-full bg-orange-100 text-orange-700 flex items-center justify-center font-bold text-xs shrink-0">MT</div>
-                                    <div class="font-semibold text-slate-800">Manish Tiwari</div>
-                                </td>
-                                <td class="px-5 py-3 text-slate-500">manish.tiwari@company.com</td>
-                                <td class="px-5 py-3"><span class="px-2.5 py-1 rounded-full bg-orange-50 text-orange-600 font-semibold text-[10px]">Moderator</span></td>
-                                <td class="px-5 py-3"><span class="flex items-center gap-1.5"><span class="w-1.5 h-1.5 rounded-full bg-slate-300"></span><span class="text-slate-500 font-semibold text-[11px]">Inactive</span></span></td>
-                                <td class="px-5 py-3 text-slate-400">Sep 09, 2025  11:22 AM</td>
-                                <td class="px-5 py-3 text-right">
-                                    <div class="flex items-center justify-end gap-1">
-                                        <button class="w-7 h-7 rounded bg-slate-50 text-slate-400 hover:text-indigo-600 hover:bg-indigo-50 flex items-center justify-center transition-colors"><i class="fa-solid fa-pencil text-[10px]"></i></button>
-                                        <button class="w-7 h-7 rounded bg-slate-50 text-slate-400 hover:text-slate-600 hover:bg-slate-100 flex items-center justify-center transition-colors"><i class="fa-solid fa-ellipsis-vertical text-[10px]"></i></button>
-                                    </div>
-                                </td>
-                            </tr>
-                            <!-- User 5 -->
-                            <tr class="hover:bg-slate-50/60 transition-colors">
-                                <td class="px-5 py-3 flex items-center gap-3">
-                                    <div class="w-8 h-8 rounded-full bg-purple-100 text-purple-700 flex items-center justify-center font-bold text-xs shrink-0">SD</div>
-                                    <div class="font-semibold text-slate-800">Sneha Desai</div>
-                                </td>
-                                <td class="px-5 py-3 text-slate-500">sneha.desai@company.com</td>
-                                <td class="px-5 py-3"><span class="px-2.5 py-1 rounded-full bg-blue-50 text-blue-600 font-semibold text-[10px]">User</span></td>
-                                <td class="px-5 py-3"><span class="flex items-center gap-1.5"><span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span><span class="text-emerald-600 font-semibold text-[11px]">Active</span></span></td>
-                                <td class="px-5 py-3 text-slate-500">Sep 11, 2025  07:58 AM</td>
-                                <td class="px-5 py-3 text-right">
-                                    <div class="flex items-center justify-end gap-1">
-                                        <button class="w-7 h-7 rounded bg-slate-50 text-slate-400 hover:text-indigo-600 hover:bg-indigo-50 flex items-center justify-center transition-colors"><i class="fa-solid fa-pencil text-[10px]"></i></button>
-                                        <button class="w-7 h-7 rounded bg-slate-50 text-slate-400 hover:text-slate-600 hover:bg-slate-100 flex items-center justify-center transition-colors"><i class="fa-solid fa-ellipsis-vertical text-[10px]"></i></button>
-                                    </div>
-                                </td>
-                            </tr>
-                        </tbody>
+                        <tbody id="users-table-body" class="text-xs text-slate-600 divide-y divide-slate-50"></tbody>
                     </table>
                 </div>
                 <div class="p-4 border-t border-slate-100 flex items-center justify-between bg-white text-[11px] text-slate-500">
@@ -272,5 +186,62 @@
     </main>
 
     
+
+    <script>
+        document.addEventListener('DOMContentLoaded', async () => {
+            try {
+                const res = await fetch('/api/users');
+                const data = await res.json();
+                
+                // Update stats
+                document.getElementById('stat-total').textContent = data.stats.total;
+                document.getElementById('stat-active').textContent = data.stats.active;
+                document.getElementById('stat-inactive').textContent = data.stats.inactive;
+                
+                // Populate table
+                const tbody = document.getElementById('users-table-body');
+                data.users.forEach(user => {
+                    const tr = document.createElement('tr');
+                    tr.className = 'hover:bg-slate-50/60 transition-colors' + (user.status === 'Inactive' ? ' opacity-70' : '');
+                    
+                    let roleStyle = 'bg-blue-50 text-blue-600';
+                    if (user.role === 'Admin') roleStyle = 'bg-indigo-50 text-indigo-600';
+                    if (user.role === 'Moderator') roleStyle = 'bg-orange-50 text-orange-600';
+                    
+                    let statusHtml = `<span class="flex items-center gap-1.5"><span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span><span class="text-emerald-600 font-semibold text-[11px]">Active</span></span>`;
+                    if (user.status === 'Inactive') {
+                        statusHtml = `<span class="flex items-center gap-1.5"><span class="w-1.5 h-1.5 rounded-full bg-slate-300"></span><span class="text-slate-500 font-semibold text-[11px]">Inactive</span></span>`;
+                    }
+                    
+                    let initialsStyle = 'bg-indigo-100 text-indigo-700';
+                    if (user.role === 'Moderator') initialsStyle = 'bg-orange-100 text-orange-700';
+                    if (user.role === 'User' && user.status === 'Active') initialsStyle = 'bg-emerald-100 text-emerald-700';
+                    if (user.name === 'Sneha Desai') initialsStyle = 'bg-purple-100 text-purple-700';
+                    
+                    tr.innerHTML = `
+                        <td class="px-5 py-3 flex items-center gap-3">
+                            <div class="w-8 h-8 rounded-full ${initialsStyle} flex items-center justify-center font-bold text-xs shrink-0">${user.initials}</div>
+                            <div class="font-semibold text-slate-800">${user.name}</div>
+                        </td>
+                        <td class="px-5 py-3 text-slate-500">${user.email}</td>
+                        <td class="px-5 py-3"><span class="px-2.5 py-1 rounded-full ${roleStyle} font-semibold text-[10px]">${user.role}</span></td>
+                        <td class="px-5 py-3">${statusHtml}</td>
+                        <td class="px-5 py-3 text-slate-500">${user.last_login}</td>
+                        <td class="px-5 py-3 text-right">
+                            <div class="flex items-center justify-end gap-1">
+                                <button class="w-7 h-7 rounded bg-slate-50 text-slate-400 hover:text-indigo-600 hover:bg-indigo-50 flex items-center justify-center transition-colors"><i class="fa-solid fa-pencil text-[10px]"></i></button>
+                                <button class="w-7 h-7 rounded bg-slate-50 text-slate-400 hover:text-slate-600 hover:bg-slate-100 flex items-center justify-center transition-colors"><i class="fa-solid fa-ellipsis-vertical text-[10px]"></i></button>
+                            </div>
+                        </td>
+                    `;
+                    tbody.appendChild(tr);
+                });
+                
+            } catch (err) {
+                console.error("Error loading users data:", err);
+            }
+        });
+    </script>
 </body>
+
 </html>
