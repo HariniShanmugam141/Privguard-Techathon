@@ -605,25 +605,12 @@
 
 // ==========================================
 // ── UI Toggle Functions ────────────────────────────────────
-async function toggleCustomizeMenu() {
-    try {
-        const res = await fetch('/profiles');
-        const data = await res.json();
-        const activeProfile = data.active_profile || 'HIPAA';
-        
-        if (activeProfile !== 'CUSTOM') {
-            alert('Please select the CUSTOM profile in the dashboard first to use advanced customization.');
-            return;
-        }
-        
-        let modal = document.getElementById('customize-modal');
-        if (modal.classList.contains('hidden')) {
-            modal.classList.remove('hidden');
-        } else {
-            modal.classList.add('hidden');
-        }
-    } catch (e) {
-        alert('Could not verify active profile. Please try again later.');
+function toggleCustomizeMenu() {
+    let modal = document.getElementById('customize-modal');
+    if (modal.classList.contains('hidden')) {
+        modal.classList.remove('hidden');
+    } else {
+        modal.classList.add('hidden');
     }
 }
 
