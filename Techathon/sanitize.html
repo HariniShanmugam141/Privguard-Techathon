@@ -600,12 +600,25 @@
 
 <script>
 // ── UI Toggle Functions ────────────────────────────────────
-function toggleCustomizeMenu() {
-    let modal = document.getElementById('customize-modal');
-    if (modal.classList.contains('hidden')) {
-        modal.classList.remove('hidden');
-    } else {
-        modal.classList.add('hidden');
+async function toggleCustomizeMenu() {
+    try {
+        const res = await fetch('/profiles');
+        const data = await res.json();
+        const activeProfile = data.active_profile || 'HIPAA';
+        
+        if (activeProfile !== 'CUSTOM') {
+            alert('Please select the CUSTOM profile in the dashboard first to use advanced customization.');
+            return;
+        }
+        
+        let modal = document.getElementById('customize-modal');
+        if (modal.classList.contains('hidden')) {
+            modal.classList.remove('hidden');
+        } else {
+            modal.classList.add('hidden');
+        }
+    } catch (e) {
+        alert('Could not verify active profile. Please try again later.');
     }
 }
 
@@ -930,7 +943,7 @@ async function processText() {
         const res  = await fetch(endpoint, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ text, strategy: 'redact', profile: 'HIPAA', custom_keywords, exact_matches })
+            body: JSON.stringify({ text, strategy: 'redact', custom_keywords, exact_matches })
         });
         const data = await res.json();
 
